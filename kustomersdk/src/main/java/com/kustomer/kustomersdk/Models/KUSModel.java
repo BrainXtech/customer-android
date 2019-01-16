@@ -60,6 +60,7 @@ public class KUSModel implements Comparable<KUSModel>, Serializable {
         return true;
     }
 
+    @NonNull
     @Override
     public String toString() {
         //Missing %p (this)

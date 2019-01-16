@@ -1,5 +1,6 @@
 package com.kustomer.kustomersdk.Adapters;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -45,8 +46,9 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         mListener = listener;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         if (viewType == USER_VIEW)
             return new UserMessageViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.kus_item_user_view_holder, parent, false));
@@ -57,7 +59,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if (holder.getItemViewType() == END_VIEW)
             return;
 

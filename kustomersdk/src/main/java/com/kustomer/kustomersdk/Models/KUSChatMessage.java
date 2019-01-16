@@ -119,6 +119,7 @@ public class KUSChatMessage extends KUSModel {
         return "chat_message";
     }
 
+    @NonNull
     @Override
     public String toString() {
         //Missing %p (this)

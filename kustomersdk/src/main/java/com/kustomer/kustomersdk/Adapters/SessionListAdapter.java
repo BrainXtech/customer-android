@@ -1,5 +1,6 @@
 package com.kustomer.kustomersdk.Adapters;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -41,8 +42,9 @@ public class SessionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
         recyclerViewWeakReference = new WeakReference<>(recyclerView);
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         if(viewType == SESSION_VIEW_TYPE)
             return new SessionViewHolder(LayoutInflater.from(parent.getContext())
@@ -53,7 +55,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(position < mChatSessionsDataSource.getSize())
             ((SessionViewHolder)holder).onBind((KUSChatSession) mChatSessionsDataSource.get(position),mUserSession, mListener);
     }
@@ -68,7 +70,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
-    public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
+    public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
 
         // No need to call onDetach for dummy items

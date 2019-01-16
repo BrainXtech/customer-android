@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.Adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -31,14 +32,15 @@ public class KUSMLSelectedValueListAdapter extends RecyclerView.Adapter<Recycler
         this.context = context;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new KUSSelectedValueViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.kus_ml_selected_value_view_holder, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(selectedValuesStack.size() == 0){
             ((KUSSelectedValueViewHolder) holder).onBind( position,
                     context.getResources().getString(R.string.com_kustomer_please_select_an_item),

@@ -77,6 +77,7 @@ public class KUSChatSession extends KUSModel implements Serializable {
         return new KUSChatSession(messageJSON);
     }
 
+    @NonNull
     @Override
     public String toString() {
         //Missing %p (this)

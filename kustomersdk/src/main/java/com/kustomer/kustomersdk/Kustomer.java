@@ -3,6 +3,7 @@ package com.kustomer.kustomersdk;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.text.emoji.EmojiCompat;
 import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 import android.util.Base64;
@@ -180,7 +181,7 @@ public class Kustomer {
         return new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
                     @Override
-                    public Response intercept(Interceptor.Chain chain) throws IOException {
+                    public Response intercept(@NonNull Interceptor.Chain chain) throws IOException {
                         Request originalRequest = chain.request(); //Current Request
                         Request requestWithToken = null; //The request with the access token which we will use if we have one instead of the original
                         requestWithToken = originalRequest.newBuilder()
