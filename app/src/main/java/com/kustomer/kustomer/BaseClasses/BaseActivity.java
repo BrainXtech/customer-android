@@ -71,7 +71,8 @@ public class BaseActivity extends AppCompatActivity implements NetworkStateRecei
         setSupportActionBar(toolbar);
         if (!title.isEmpty())
             setTitle(title);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(enabled);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(enabled);
     }
 
     protected void showSnackBar(View view, int textId, int colorId) {

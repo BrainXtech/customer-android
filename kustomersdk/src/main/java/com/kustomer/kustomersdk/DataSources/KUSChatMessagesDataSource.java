@@ -844,21 +844,23 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         KUSFormQuestion vcFormQuestion = getNextVCFormQuestion(vcFormQuestionIndex, previousChannel);
 
         JSONObject attributes = new JSONObject();
-        try {
-            attributes.put("body", vcFormQuestion.getPrompt());
-            attributes.put("direction", "out");
-            attributes.put("createdAt", KUSDate.stringFromDate(createdAt));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
         JSONObject messageJSON = new JSONObject();
-        try {
-            messageJSON.put("type", "chat_message");
-            messageJSON.put("id", vcFormQuestion.getId());
-            messageJSON.put("attributes", attributes);
-        } catch (JSONException e) {
-            e.printStackTrace();
+        if (vcFormQuestion != null) {
+            try {
+                attributes.put("body", vcFormQuestion.getPrompt());
+                attributes.put("direction", "out");
+                attributes.put("createdAt", KUSDate.stringFromDate(createdAt));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                messageJSON.put("type", "chat_message");
+                messageJSON.put("id", vcFormQuestion.getId());
+                messageJSON.put("attributes", attributes);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
 
         try {

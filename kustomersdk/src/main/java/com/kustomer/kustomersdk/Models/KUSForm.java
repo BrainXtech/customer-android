@@ -15,7 +15,7 @@ import java.util.List;
  * Created by Junaid on 1/20/2018.
  */
 
-public class KUSForm extends KUSModel{
+public class KUSForm extends KUSModel {
 
     // region Properties
     private List<KUSFormQuestion> questions;
@@ -25,18 +25,18 @@ public class KUSForm extends KUSModel{
     public KUSForm(JSONObject jsonObject) throws KUSInvalidJsonException {
         super(jsonObject);
 
-        questions = getQuestionsFromJsonArray(JsonHelper.arrayFromKeyPath(jsonObject,"attributes.questions"));
+        questions = getQuestionsFromJsonArray(JsonHelper.arrayFromKeyPath(jsonObject, "attributes.questions"));
     }
 
-    public String modelType(){
+    public String modelType() {
         return "form";
     }
     //endregion
 
     //region Public Methods
-    public boolean containsEmailQuestion(){
+    public boolean containsEmailQuestion() {
 
-        if(questions != null) {
+        if (questions != null) {
             for (KUSFormQuestion question : questions) {
                 if (question.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_CUSTOMER_EMAIL)
                     return true;
@@ -48,7 +48,9 @@ public class KUSForm extends KUSModel{
     //endregion
 
     //region Static Methods
-    private static List<KUSFormQuestion> getQuestionsFromJsonArray(JSONArray jsonArray){
+    private static List<KUSFormQuestion> getQuestionsFromJsonArray(JSONArray jsonArray) {
+        if (jsonArray == null)
+            return null;
 
         ArrayList<KUSFormQuestion> objects = new ArrayList<>();
 

@@ -121,8 +121,6 @@ public class KUSChatSession extends KUSModel implements Serializable {
             if (lastMessageAt != null)
                 laterLastMessageAt = chatMessage.getCreatedAt().after(lastMessageAt) ?
                         chatMessage.getCreatedAt() : lastMessageAt;
-            else
-                lastMessageAt = null;
         } else
             laterLastMessageAt = lastMessageAt;
 

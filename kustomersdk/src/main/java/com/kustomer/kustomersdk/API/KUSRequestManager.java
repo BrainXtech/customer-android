@@ -139,6 +139,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
 
     }
 
+    @SuppressWarnings("ConstantConditions")
     public void performRequestType(final KUSRequestType type,
                                    final URL url,
                                    final HashMap<String, Object> params,
@@ -317,8 +318,8 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
 
         for (String field : fieldKeys) {
             String value = uploadFields.get(field);
-
-            builder.addFormDataPart(field, value);
+            if (value != null)
+                builder.addFormDataPart(field, value);
         }
 
         builder.addFormDataPart("file", filename, RequestBody.create(MediaType.parse("image/jpeg"), imageBytes));

@@ -166,11 +166,11 @@ public class Kustomer {
         getSharedInstance().mSetFormId(formId);
     }
 
-    public static int getOpenConversationsCount(){
+    public static int getOpenConversationsCount() {
         return getSharedInstance().mGetOpenConversationsCount();
     }
 
-    public static void hideNewConversationButtonInClosedChat(Boolean status){
+    public static void hideNewConversationButtonInClosedChat(Boolean status) {
         getSharedInstance().mHideNewConversationButtonInClosedChat(status);
     }
     //endregion
@@ -187,7 +187,8 @@ public class Kustomer {
                                 .addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY, getSharedInstance().getUserSession().getTrackingTokenDataSource().getCurrentTrackingToken())
                                 .build();
                         Response response = chain.proceed((requestWithToken != null ? requestWithToken : originalRequest)); //proceed with the request and get the response
-                        if (response != null && response.code() != HttpURLConnection.HTTP_OK) {
+                        if (response != null && response.body() != null &&
+                                response.code() != HttpURLConnection.HTTP_OK) {
                             response.body().close();
                         }
                         return response;
@@ -330,11 +331,11 @@ public class Kustomer {
         userSession.getSharedPreferences().setFormId(formId);
     }
 
-    private int mGetOpenConversationsCount(){
+    private int mGetOpenConversationsCount() {
         return getUserSession().getSharedPreferences().getOpenChatSessionsCount();
     }
 
-    private void mHideNewConversationButtonInClosedChat(Boolean status){
+    private void mHideNewConversationButtonInClosedChat(Boolean status) {
         getUserSession().getSharedPreferences().setShouldHideConversationButton(status);
     }
     //endregion

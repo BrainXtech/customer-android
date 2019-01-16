@@ -218,9 +218,11 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
                             @Override
                             public void onEvent(String channelName, String eventName, String data) {
                                 JSONObject jsonObject = JsonHelper.stringToJson(data);
-
                                 final List<KUSModel> chatMessages = JsonHelper.kusChatModelsFromJSON(
                                         Kustomer.getContext(), JsonHelper.jsonObjectFromKeyPath(jsonObject, "data"));
+
+                                if (chatMessages == null || chatMessages.isEmpty())
+                                    return;
 
                                 final KUSChatMessage chatMessage = (KUSChatMessage) chatMessages.get(0);
                                 final KUSChatMessagesDataSource messagesDataSource = userSession.get().chatMessageDataSourceForSessionId(chatMessage.getSessionId());
