@@ -1,10 +1,6 @@
 package com.kustomer.kustomersdk.Models;
 
-import android.graphics.Bitmap;
-
 import org.json.JSONArray;
-
-import java.util.List;
 
 /**
  * Created by Junaid on 3/22/2018.

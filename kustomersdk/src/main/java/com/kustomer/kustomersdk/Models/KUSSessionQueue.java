@@ -11,8 +11,8 @@ public class KUSSessionQueue extends KUSModel {
 
     //region Properties
     private Date enteredAt;
-    private Integer estimatedWaitTimeSeconds;
-    private Integer latestWaitTimeSeconds;
+    private int estimatedWaitTimeSeconds;
+    private int latestWaitTimeSeconds;
     private String name;
     //endregion
 
@@ -20,16 +20,16 @@ public class KUSSessionQueue extends KUSModel {
     public KUSSessionQueue(JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
-        enteredAt = JsonHelper.dateFromKeyPath(json,"attributes.enteredAt");
-        estimatedWaitTimeSeconds = JsonHelper.integerFromKeyPath(json,"attributes.estimatedWaitTimeSeconds");
-        latestWaitTimeSeconds = JsonHelper.integerFromKeyPath(json,"attributes.latestWaitTimeSeconds");
-        name = JsonHelper.stringFromKeyPath(json,"attributes.name");
+        enteredAt = JsonHelper.dateFromKeyPath(json, "attributes.enteredAt");
+        estimatedWaitTimeSeconds = JsonHelper.integerFromKeyPath(json, "attributes.estimatedWaitTimeSeconds");
+        latestWaitTimeSeconds = JsonHelper.integerFromKeyPath(json, "attributes.latestWaitTimeSeconds");
+        name = JsonHelper.stringFromKeyPath(json, "attributes.name");
 
     }
     //endregion
 
     //region Class methods
-    public String modelType(){
+    public String modelType() {
         return "session_queue";
     }
     //endregion

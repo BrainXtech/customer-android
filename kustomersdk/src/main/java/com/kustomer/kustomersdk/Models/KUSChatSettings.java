@@ -10,7 +10,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 /**
  * Created by Junaid on 1/20/2018.
@@ -23,7 +22,7 @@ public class KUSChatSettings extends KUSModel implements Serializable {
     private String greeting;
     private String activeFormId;
     private String pusherAccessKey;
-    private Boolean enabled;
+    private boolean enabled;
 
     private KUSBusinessHoursAvailability availability;
     private String offHoursImageUrl;
@@ -33,17 +32,17 @@ public class KUSChatSettings extends KUSModel implements Serializable {
     private String customWaitMessage;
     private Integer timeOut;
     private Integer promptDelay;
-    private Boolean hideWaitOption;
+    private boolean hideWaitOption;
     private ArrayList<String> followUpChannels;
-    private Boolean useDynamicWaitMessage;
-    private Boolean markDoneAfterTimeout;
-    private Boolean volumeControlEnabled;
-    private Boolean closableChat;
-    private Boolean singleSessionChat;
-    private Boolean noHistory;
+    private boolean useDynamicWaitMessage;
+    private boolean markDoneAfterTimeout;
+    private boolean volumeControlEnabled;
+    private boolean closableChat;
+    private boolean singleSessionChat;
+    private boolean noHistory;
 
     private KUSVolumeControlMode volumeControlMode;
-    private Integer upfrontWaitThreshold;
+    private int upfrontWaitThreshold;
     //endregion
 
     //region Initializer
@@ -71,12 +70,12 @@ public class KUSChatSettings extends KUSModel implements Serializable {
         markDoneAfterTimeout = JsonHelper.boolFromKeyPath(json, "attributes.volumeControl.markDoneAfterTimeout");
         volumeControlEnabled = JsonHelper.boolFromKeyPath(json, "attributes.volumeControl.enabled");
 
-        offHoursMessage = JsonHelper.stringFromKeyPath(json,"attributes.offhoursMessage");
-        offHoursImageUrl = JsonHelper.stringFromKeyPath(json,"attributes.offhoursImageUrl");
-        availability = getKUSBusinessHoursAvailabilityFromString(JsonHelper.stringFromKeyPath(json,"attributes.offhoursDisplay"));
+        offHoursMessage = JsonHelper.stringFromKeyPath(json, "attributes.offhoursMessage");
+        offHoursImageUrl = JsonHelper.stringFromKeyPath(json, "attributes.offhoursImageUrl");
+        availability = getKUSBusinessHoursAvailabilityFromString(JsonHelper.stringFromKeyPath(json, "attributes.offhoursDisplay"));
 
-        volumeControlMode = KUSVolumeControlModeFromString(JsonHelper.stringFromKeyPath(json,"attributes.volumeControl.mode"));
-        upfrontWaitThreshold = JsonHelper.integerFromKeyPath(json,"attributes.volumeControl.upfrontWaitThreshold");
+        volumeControlMode = KUSVolumeControlModeFromString(JsonHelper.stringFromKeyPath(json, "attributes.volumeControl.mode"));
+        upfrontWaitThreshold = JsonHelper.integerFromKeyPath(json, "attributes.volumeControl.upfrontWaitThreshold");
     }
 
     @Override
@@ -86,14 +85,14 @@ public class KUSChatSettings extends KUSModel implements Serializable {
     //endregion
 
     //region Private Methods
-    private KUSVolumeControlMode KUSVolumeControlModeFromString(String string){
+    private KUSVolumeControlMode KUSVolumeControlModeFromString(String string) {
 
-        if(string == null)
+        if (string == null)
             return KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_UNKNOWN;
 
-        if(string.equals("upfront")){
+        if (string.equals("upfront")) {
             return KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_UPFRONT;
-        }else if (string.equals("delayed")){
+        } else if (string.equals("delayed")) {
             return KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_DELAYED;
         }
 
@@ -108,7 +107,7 @@ public class KUSChatSettings extends KUSModel implements Serializable {
     }
 
     private static KUSBusinessHoursAvailability getKUSBusinessHoursAvailabilityFromString(String string) {
-        if(string == null)
+        if (string == null)
             return KUSBusinessHoursAvailability.KUS_BUSINESS_HOURS_AVAILABILITY_HIDE_CHAT;
 
         switch (string) {
@@ -144,8 +143,8 @@ public class KUSChatSettings extends KUSModel implements Serializable {
         return pusherAccessKey;
     }
 
-    public Boolean getEnabled() {
-        return enabled != null ? enabled : false;
+    public boolean getEnabled() {
+        return enabled;
     }
 
     public String getCustomWaitMessage() {
@@ -160,56 +159,56 @@ public class KUSChatSettings extends KUSModel implements Serializable {
         return promptDelay;
     }
 
-    public Boolean isHideWaitOption() {
-        return hideWaitOption != null ? hideWaitOption : false;
+    public boolean isHideWaitOption() {
+        return hideWaitOption;
     }
 
     public ArrayList<String> getFollowUpChannels() {
         return followUpChannels;
     }
 
-    public Boolean isUseDynamicWaitMessage() {
-        return useDynamicWaitMessage != null ? useDynamicWaitMessage : false;
+    public boolean isUseDynamicWaitMessage() {
+        return useDynamicWaitMessage;
     }
 
     public Boolean isMarkDoneAfterTimeout() {
-        return markDoneAfterTimeout != null ? markDoneAfterTimeout : false;
+        return markDoneAfterTimeout;
     }
 
-    public Boolean isVolumeControlEnabled() {
-        return volumeControlEnabled != null ? volumeControlEnabled : false;
+    public boolean isVolumeControlEnabled() {
+        return volumeControlEnabled;
     }
 
     public String getWaitMessage() {
         return waitMessage;
     }
 
-    public Boolean getHideWaitOption() {
-        return hideWaitOption != null ? hideWaitOption : false;
+    public boolean getHideWaitOption() {
+        return hideWaitOption;
     }
 
-    public Boolean getUseDynamicWaitMessage() {
-        return useDynamicWaitMessage != null ? useDynamicWaitMessage : false;
+    public boolean getUseDynamicWaitMessage() {
+        return useDynamicWaitMessage;
     }
 
-    public Boolean getMarkDoneAfterTimeout() {
-        return markDoneAfterTimeout != null ? markDoneAfterTimeout : false;
+    public boolean getMarkDoneAfterTimeout() {
+        return markDoneAfterTimeout;
     }
 
-    public Boolean getVolumeControlEnabled() {
-        return volumeControlEnabled != null ? volumeControlEnabled : false;
+    public boolean getVolumeControlEnabled() {
+        return volumeControlEnabled;
     }
 
-    public Boolean getClosableChat() {
-        return closableChat != null ? closableChat : false;
+    public boolean getClosableChat() {
+        return closableChat;
     }
 
-    public Boolean getSingleSessionChat() {
-        return singleSessionChat != null ? singleSessionChat : false;
+    public boolean getSingleSessionChat() {
+        return singleSessionChat;
     }
 
-    public Boolean getNoHistory() {
-        return noHistory != null ? noHistory : false;
+    public boolean getNoHistory() {
+        return noHistory;
     }
 
     public KUSBusinessHoursAvailability getAvailability() {

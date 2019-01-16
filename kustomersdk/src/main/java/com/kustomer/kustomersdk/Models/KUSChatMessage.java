@@ -9,7 +9,6 @@ import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Kustomer;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 import com.kustomer.kustomersdk.Utils.KUSConstants;
-import com.kustomer.kustomersdk.Utils.KUSUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,20 +16,13 @@ import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
-
-import static com.kustomer.kustomersdk.Utils.JsonHelper.arrayListFromKeyPath;
-import static com.kustomer.kustomersdk.Utils.JsonHelper.dateFromKeyPath;
-import static com.kustomer.kustomersdk.Utils.JsonHelper.stringFromKeyPath;
 
 /**
  * Created by Junaid on 1/20/2018.
  */
-
 
 
 public class KUSChatMessage extends KUSModel {
@@ -53,7 +45,7 @@ public class KUSChatMessage extends KUSModel {
     //endregion
 
     //region Initializer
-    public KUSChatMessage(){
+    public KUSChatMessage() {
 
     }
 
@@ -61,25 +53,28 @@ public class KUSChatMessage extends KUSModel {
         this(json, KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_TEXT, null);
     }
 
-    public KUSChatMessage(JSONObject json, KUSChatMessageType type, URL imageUrl) throws KUSInvalidJsonException {
+    public KUSChatMessage(JSONObject json, KUSChatMessageType type, URL imageUrl)
+            throws KUSInvalidJsonException {
         super(json);
 
         state = KUSChatMessageState.KUS_CHAT_MESSAGE_STATE_SENT;
-        trackingId = stringFromKeyPath(json,"attributes.trackingId");
-        body = stringFromKeyPath(json,"attributes.body");
+        trackingId = JsonHelper.stringFromKeyPath(json, "attributes.trackingId");
+        body = JsonHelper.stringFromKeyPath(json, "attributes.body");
         this.type = type;
         this.imageUrl = imageUrl;
 
-        JSONArray attachmentArray = JsonHelper.arrayFromKeyPath(json,"relationships.attachments.data");
+        JSONArray attachmentArray = JsonHelper.arrayFromKeyPath(json,
+                "relationships.attachments.data");
 
-        if(attachmentArray != null)
-            this.attachmentIds = arrayListFromJsonArray(attachmentArray,"id");
+        if (attachmentArray != null)
+            this.attachmentIds = arrayListFromJsonArray(attachmentArray, "id");
 
-        this.createdAt = dateFromKeyPath(json,"attributes.createdAt");
-        this.importedAt = dateFromKeyPath(json,"attributes.importedAt");
-        this.direction = KUSChatMessageDirectionFromString(stringFromKeyPath(json,"attributes.direction"));
-        this.sentById = stringFromKeyPath(json, "relationships.sentBy.data.id");
-        this.campaignId = stringFromKeyPath(json, "relationships.campaign.data.id");
+        this.createdAt = JsonHelper.dateFromKeyPath(json, "attributes.createdAt");
+        this.importedAt = JsonHelper.dateFromKeyPath(json, "attributes.importedAt");
+        this.direction = KUSChatMessageDirectionFromString(JsonHelper.stringFromKeyPath(json,
+                "attributes.direction"));
+        this.sentById = JsonHelper.stringFromKeyPath(json, "relationships.sentBy.data.id");
+        this.campaignId = JsonHelper.stringFromKeyPath(json, "relationships.campaign.data.id");
     }
 
     //endregion
@@ -100,7 +95,7 @@ public class KUSChatMessage extends KUSModel {
 
     private static KUSChatMessageDirection KUSChatMessageDirectionFromString(String str) {
 
-        if(str == null)
+        if (str == null)
             return null;
 
         return str.equalsIgnoreCase("in")
@@ -108,7 +103,8 @@ public class KUSChatMessage extends KUSModel {
                 : KUSChatMessageDirection.KUS_CHAT_MESSAGE_DIRECTION_OUT;
     }
 
-    public static URL attachmentUrlForMessageId(String messageId, String attachmentId) throws MalformedURLException {
+    public static URL attachmentUrlForMessageId(String messageId, String attachmentId)
+            throws MalformedURLException {
         String imageUrlString = String.format(KUSConstants.URL.ATTACHMENT_ENDPOINT,
                 Kustomer.getSharedInstance().getUserSession().getOrgName(),
                 Kustomer.hostDomain(),
@@ -119,43 +115,44 @@ public class KUSChatMessage extends KUSModel {
     }
 
     @Override
-    public String modelType(){
+    public String modelType() {
         return "chat_message";
     }
 
     @Override
     public String toString() {
         //Missing %p (this)
-        return String.format("<%s : oid: %s; body: %s>",this.getClass(),this.getId(),this.body);
+        return String.format("<%s : oid: %s; body: %s>", this.getClass(), this.getId(), this.body);
     }
 
     @Override
     public boolean equals(Object obj) {
 
-        if(obj == this)
+        if (obj == this)
             return true;
-        if(!obj.getClass().equals(this.getClass()))
+        if (!obj.getClass().equals(this.getClass()))
             return false;
 
         KUSChatMessage chatMessage = (KUSChatMessage) obj;
 
-        if(chatMessage.state != this.state)
+        if (chatMessage.state != this.state)
             return false;
-        if(chatMessage.direction != this.direction)
+        if (chatMessage.direction != this.direction)
             return false;
-        if(chatMessage.type != this.type)
+        if (chatMessage.type != this.type)
             return false;
-        if(chatMessage.attachmentIds != null && this.attachmentIds!=null && !chatMessage.attachmentIds.equals(this.attachmentIds))
+        if (chatMessage.attachmentIds != null && this.attachmentIds != null
+                && !chatMessage.attachmentIds.equals(this.attachmentIds))
             return false;
-        if(chatMessage.attachmentIds == null || this.attachmentIds == null)
+        if (chatMessage.attachmentIds == null || this.attachmentIds == null)
             return false;
-        if(!chatMessage.getId().equals(this.getId()))
+        if (!chatMessage.getId().equals(this.getId()))
             return false;
-        if(!chatMessage.createdAt.equals(this.createdAt))
+        if (!chatMessage.createdAt.equals(this.createdAt))
             return false;
-        if(chatMessage.importedAt != null && !chatMessage.importedAt.equals(this.importedAt))
+        if (chatMessage.importedAt != null && !chatMessage.importedAt.equals(this.importedAt))
             return false;
-        if(!chatMessage.body.equals(this.body))
+        if (!chatMessage.body.equals(this.body))
             return false;
 
         return true;
@@ -174,7 +171,7 @@ public class KUSChatMessage extends KUSModel {
     private List<String> arrayListFromJsonArray(JSONArray array, String id) {
         List<String> list = new ArrayList<>();
 
-        for(int i = 0 ; i<array.length() ; i++){
+        for (int i = 0; i < array.length(); i++) {
             try {
                 JSONObject jsonObject = array.getJSONObject(i);
                 list.add(jsonObject.getString(id));

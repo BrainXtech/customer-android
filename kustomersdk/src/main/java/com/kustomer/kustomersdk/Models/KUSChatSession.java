@@ -2,7 +2,6 @@ package com.kustomer.kustomersdk.Models;
 
 import android.support.annotation.NonNull;
 
-import com.google.gson.annotations.SerializedName;
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.DataSources.KUSChatMessagesDataSource;
 import com.kustomer.kustomersdk.Helpers.KUSDate;
@@ -16,10 +15,6 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-
-import static com.kustomer.kustomersdk.Utils.JsonHelper.dateFromKeyPath;
-import static com.kustomer.kustomersdk.Utils.JsonHelper.stringFromKeyPath;
 
 /**
  * Created by Junaid on 1/20/2018.
@@ -44,13 +39,13 @@ public class KUSChatSession extends KUSModel implements Serializable {
     public KUSChatSession(JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
-        preview = stringFromKeyPath(json, "attributes.preview");
-        trackingId = stringFromKeyPath(json, "attributes.trackingId");
+        preview = JsonHelper.stringFromKeyPath(json, "attributes.preview");
+        trackingId = JsonHelper.stringFromKeyPath(json, "attributes.trackingId");
 
-        createdAt = dateFromKeyPath(json, "attributes.createdAt");
-        lastSeenAt = dateFromKeyPath(json, "attributes.lastSeenAt");
-        lastMessageAt = dateFromKeyPath(json, "attributes.lastMessageAt");
-        lockedAt = dateFromKeyPath(json, "attributes.lockedAt");
+        createdAt = JsonHelper.dateFromKeyPath(json, "attributes.createdAt");
+        lastSeenAt = JsonHelper.dateFromKeyPath(json, "attributes.lastSeenAt");
+        lastMessageAt = JsonHelper.dateFromKeyPath(json, "attributes.lastMessageAt");
+        lockedAt = JsonHelper.dateFromKeyPath(json, "attributes.lockedAt");
     }
     //endregion
 

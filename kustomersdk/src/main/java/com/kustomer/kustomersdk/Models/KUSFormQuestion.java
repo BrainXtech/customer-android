@@ -22,7 +22,7 @@ public class KUSFormQuestion extends KUSModel {
     private List<String> values;
     private KUSFormQuestionType type;
     private KUSFormQuestionProperty property;
-    private Boolean skipIfSatisfied;
+    private boolean skipIfSatisfied;
     private KUSMLFormValue mlFormValues;
     //endregion
 
@@ -135,8 +135,8 @@ public class KUSFormQuestion extends KUSModel {
         return values;
     }
 
-    public Boolean getSkipIfSatisfied() {
-        return skipIfSatisfied != null ? skipIfSatisfied : false;
+    public boolean getSkipIfSatisfied() {
+        return skipIfSatisfied;
     }
 
     public KUSMLFormValue getMlFormValues() {

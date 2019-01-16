@@ -9,7 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 
 import static com.kustomer.kustomersdk.Utils.JsonHelper.stringFromKeyPath;
 

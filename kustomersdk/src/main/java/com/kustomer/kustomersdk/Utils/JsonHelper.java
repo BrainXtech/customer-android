@@ -104,7 +104,7 @@ public class JsonHelper {
         }
     }
 
-    public static Boolean boolFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static boolean boolFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -112,11 +112,11 @@ public class JsonHelper {
             }
             return keys.length > 0 ? jsonObject.getBoolean(keys[keys.length - 1]) : jsonObject.getBoolean(keyPath);
         } catch (Exception e) {
-            return null;
+            return false;
         }
     }
 
-    public static Integer integerFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static int integerFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -128,7 +128,7 @@ public class JsonHelper {
         }
     }
 
-    public static Double doubleFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static double doubleFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {

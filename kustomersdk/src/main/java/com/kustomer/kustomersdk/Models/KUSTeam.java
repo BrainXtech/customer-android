@@ -1,20 +1,13 @@
 package com.kustomer.kustomersdk.Models;
 
-import android.content.Intent;
-import android.text.Html;
-
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.UnsupportedEncodingException;
-import java.math.BigInteger;
-import java.net.URLDecoder;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
-import java.util.Scanner;
 
 /**
  * Created by Junaid on 1/20/2018.

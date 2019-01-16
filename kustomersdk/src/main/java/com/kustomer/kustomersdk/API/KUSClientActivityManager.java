@@ -135,7 +135,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
                     .getChatSettingsDataSource()
                     .getObject();
 
-            if (settings == null || settings.getNoHistory() == null || !settings.getNoHistory()) {
+            if (settings == null || !settings.getNoHistory()) {
                 currentPageStartTime = (double) Calendar.getInstance().getTimeInMillis() / 1000;
                 requestClientActivityWithCurrentPageSeconds(0.0);
             }
@@ -168,7 +168,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
                     KUSChatSettings settings = (KUSChatSettings) userSession.get()
                             .getChatSettingsDataSource()
                             .getObject();
-                    if (settings == null || settings.getNoHistory() == null || !settings.getNoHistory()) {
+                    if (settings == null || !settings.getNoHistory()) {
                         currentPageStartTime = (double) Calendar.getInstance().getTimeInMillis() / 1000;
                         requestClientActivityWithCurrentPageSeconds(0.0);
                     }

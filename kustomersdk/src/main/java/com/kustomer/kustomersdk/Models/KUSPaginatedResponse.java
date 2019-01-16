@@ -11,9 +11,6 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.kustomer.kustomersdk.Utils.JsonHelper.integerFromKeyPath;
-import static com.kustomer.kustomersdk.Utils.JsonHelper.stringFromKeyPath;
-
 /**
  * Created by Junaid on 1/20/2018.
  */
@@ -22,8 +19,8 @@ public class KUSPaginatedResponse {
 
     //region Properties
     private List<KUSModel> objects;
-    private Integer page;
-    private Integer pageSize;
+    private int page;
+    private int pageSize;
 
     private String selfPath;
     private String firstPath;
@@ -38,34 +35,34 @@ public class KUSPaginatedResponse {
 
     public KUSPaginatedResponse(JSONObject json, KUSPaginatedDataSource dataSource) throws JSONException, KUSInvalidJsonException {
 
-        if(json == null)
+        if (json == null)
             return;
 
         Object data = json.get("data");
         boolean dataIsArray = data.getClass().equals(JSONArray.class);
         boolean dataIsJsonObject = data.getClass().equals(JSONObject.class);
 
-        if(!dataIsArray && !dataIsJsonObject)
-            throw  new KUSInvalidJsonException("Json Format for \"data\" is invalid.");
+        if (!dataIsArray && !dataIsJsonObject)
+            throw new KUSInvalidJsonException("Json Format for \"data\" is invalid.");
 
         ArrayList<KUSModel> objects = new ArrayList<>();
 
-        if(dataIsArray){
+        if (dataIsArray) {
             JSONArray array = (JSONArray) json.get("data");
-            for (int i = 0; i<array.length();i++){
+            for (int i = 0; i < array.length(); i++) {
                 JSONObject jsonObject = array.getJSONObject(i);
 
                 List<KUSModel> models = dataSource.objectsFromJSON(jsonObject);
-                if(models != null) {
+                if (models != null) {
                     for (int j = models.size() - 1; j >= 0; j--) {
                         objects.add(models.get(j));
                     }
                 }
             }
-        }else{
+        } else {
             List<KUSModel> models = dataSource.objectsFromJSON(json);
 
-            if(models != null) {
+            if (models != null) {
                 for (int j = models.size() - 1; j >= 0; j--) {
                     objects.add(models.get(j));
                 }
@@ -74,16 +71,15 @@ public class KUSPaginatedResponse {
 
         this.objects = objects;
 
-        page = integerFromKeyPath(json,"meta.page");
+        page = JsonHelper.integerFromKeyPath(json, "meta.page");
 
-        Integer a= integerFromKeyPath(json,"meta.pageSize");
-        if(a!= null)
-            pageSize = Math.max(a,objects.size());
+        int a = JsonHelper.integerFromKeyPath(json, "meta.pageSize");
+        pageSize = Math.max(a, objects.size());
 
-        selfPath = stringFromKeyPath(json,"links.self");
-        firstPath = stringFromKeyPath(json,"links.first");
-        prevPath = stringFromKeyPath(json,"links.prev");
-        nextPath = stringFromKeyPath(json,"links.next");
+        selfPath = JsonHelper.stringFromKeyPath(json, "links.self");
+        firstPath = JsonHelper.stringFromKeyPath(json, "links.first");
+        prevPath = JsonHelper.stringFromKeyPath(json, "links.prev");
+        nextPath = JsonHelper.stringFromKeyPath(json, "links.next");
     }
 
     //region Accessors
@@ -96,7 +92,7 @@ public class KUSPaginatedResponse {
         this.objects = objects;
     }
 
-    public Integer getPage() {
+    public int getPage() {
         return page;
     }
 
@@ -104,7 +100,7 @@ public class KUSPaginatedResponse {
         this.page = page;
     }
 
-    public Integer getPageSize() {
+    public int getPageSize() {
         return pageSize;
     }
 

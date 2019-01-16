@@ -1,6 +1,5 @@
 package com.kustomer.kustomersdk.Models;
 
-
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
@@ -18,7 +17,7 @@ public class KUSClientActivity extends KUSModel {
     private List<Double> intervals;
     private String currentPage;
     private String previousPage;
-    private Double currentPageSeconds;
+    private double currentPageSeconds;
     private Date createdAt;
     //endregion
 
@@ -26,19 +25,19 @@ public class KUSClientActivity extends KUSModel {
     public KUSClientActivity(JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
-        JSONArray intervalsArray = JsonHelper.arrayFromKeyPath(json,"attributes.intervals");
+        JSONArray intervalsArray = JsonHelper.arrayFromKeyPath(json, "attributes.intervals");
 
-        if(intervalsArray != null)
-            this.intervals = arrayListFromJsonArray(intervalsArray,"seconds");
+        if (intervalsArray != null)
+            this.intervals = arrayListFromJsonArray(intervalsArray, "seconds");
 
-        currentPage = JsonHelper.stringFromKeyPath(json,"attributes.currentPage");
-        previousPage = JsonHelper.stringFromKeyPath(json,"attributes.previousPage");
-        currentPageSeconds = JsonHelper.doubleFromKeyPath(json,"attributes.currentPageSeconds");
-        createdAt = JsonHelper.dateFromKeyPath(json,"attributes.createdAt");
+        currentPage = JsonHelper.stringFromKeyPath(json, "attributes.currentPage");
+        previousPage = JsonHelper.stringFromKeyPath(json, "attributes.previousPage");
+        currentPageSeconds = JsonHelper.doubleFromKeyPath(json, "attributes.currentPageSeconds");
+        createdAt = JsonHelper.dateFromKeyPath(json, "attributes.createdAt");
     }
 
     @Override
-    public String modelType(){
+    public String modelType() {
         return "client_activity";
     }
     //endregion
@@ -47,7 +46,7 @@ public class KUSClientActivity extends KUSModel {
     private List<Double> arrayListFromJsonArray(JSONArray array, String id) {
         List<Double> list = new ArrayList<>();
 
-        for(int i = 0 ; i<array.length() ; i++){
+        for (int i = 0; i < array.length(); i++) {
             try {
                 JSONObject jsonObject = array.getJSONObject(i);
                 list.add(jsonObject.getDouble(id));
@@ -86,7 +85,7 @@ public class KUSClientActivity extends KUSModel {
         this.previousPage = previousPage;
     }
 
-    public Double getCurrentPageSeconds() {
+    public double getCurrentPageSeconds() {
         return currentPageSeconds;
     }
 

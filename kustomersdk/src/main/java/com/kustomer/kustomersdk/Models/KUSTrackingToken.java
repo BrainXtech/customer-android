@@ -1,14 +1,9 @@
 package com.kustomer.kustomersdk.Models;
 
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
+import com.kustomer.kustomersdk.Utils.JsonHelper;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
-
-import static com.kustomer.kustomersdk.Utils.JsonHelper.boolFromKeyPath;
-import static com.kustomer.kustomersdk.Utils.JsonHelper.stringFromKeyPath;
 
 /**
  * Created by Junaid on 1/20/2018.
@@ -19,19 +14,18 @@ public class KUSTrackingToken extends KUSModel {
     //region Properties
     private String trackingId;
     private String token;
-    private Boolean verified;
+    private boolean verified;
     //endregion
 
     //region Initializer
-    public KUSTrackingToken (JSONObject json) throws KUSInvalidJsonException {
+    public KUSTrackingToken(JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
-        trackingId = stringFromKeyPath(json, "attributes.trackingId");
-        token = stringFromKeyPath(json, "attributes.token");
-        verified = boolFromKeyPath(json, "attributes.verified");
+        trackingId = JsonHelper.stringFromKeyPath(json, "attributes.trackingId");
+        token = JsonHelper.stringFromKeyPath(json, "attributes.token");
+        verified = JsonHelper.boolFromKeyPath(json, "attributes.verified");
     }
     //endregion
-
 
     public String modelType() {
         return "tracking_token";
@@ -55,8 +49,8 @@ public class KUSTrackingToken extends KUSModel {
         this.token = token;
     }
 
-    public Boolean getVerified() {
-        return verified != null ? verified : false;
+    public boolean getVerified() {
+        return verified;
     }
 
     public void setVerified(Boolean verified) {
