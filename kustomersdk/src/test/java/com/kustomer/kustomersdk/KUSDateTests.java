@@ -1,13 +1,7 @@
 package com.kustomer.kustomersdk;
 
-import com.kustomer.kustomersdk.API.KUSRequestManager;
-import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Helpers.KUSDate;
-import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
-import com.kustomer.kustomersdk.Models.KUSChatSettings;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
@@ -15,11 +9,7 @@ import org.robolectric.annotation.Config;
 
 import java.util.Date;
 
-import static com.kustomer.kustomersdk.KustomerTestConstants.KUS_TEST_ORG_ID;
-import static com.kustomer.kustomersdk.KustomerTestConstants.KUS_TEST_ORG_NAME;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

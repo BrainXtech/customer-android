@@ -253,14 +253,14 @@ public class JsonHelper {
         if(chatMessages.size() == 0)
             chatMessages.add(standardChatMessage);
         else{
-            JSONObject previousJSON = null;
+            JSONObject previousJSON;
             try {
 
                 previousJSON = new JSONObject(jsonObject.toString());
                 previousJSON.put("id",String.format(Locale.getDefault(),
                         "%s_%d",standardChatMessage.getId(),lastId));
 
-                String previousText = body.substring(lastLocation,body.length());
+                String previousText = body.substring(lastLocation);
                 previousText = previousText.trim();
                 if(previousText.length() > 0){
                     try {

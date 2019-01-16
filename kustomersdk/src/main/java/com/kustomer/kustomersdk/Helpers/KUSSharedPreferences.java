@@ -2,11 +2,8 @@ package com.kustomer.kustomersdk.Helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.v4.content.ContextCompat;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
-
-import java.util.UUID;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -22,7 +19,7 @@ public class KUSSharedPreferences {
     private static final String FORM_ID_PREFERENCE = "form_id_pref";
     private static final String OPEN_CHAT_SESSIONS_COUNT = "open_chat_session_count_pref";
     private static final String SHOULD_HIDE_CONVERSATION_BUTTON = "should_hide_conversation_button_pref";
-    private SharedPreferences sharedPref = null;
+    private SharedPreferences sharedPref;
     //endregion
 
     //region Initializer

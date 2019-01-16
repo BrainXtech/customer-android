@@ -30,7 +30,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final int SESSION_VIEW_TYPE = 0;
     private final int DUMMY_VIEW_TYPE = 1;
 
-    private WeakReference<RecyclerView> recyclerViewWeakReference = null;
+    private WeakReference<RecyclerView> recyclerViewWeakReference;
     //endregion
 
     //region LifeCycle

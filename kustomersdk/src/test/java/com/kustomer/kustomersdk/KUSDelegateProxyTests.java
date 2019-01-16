@@ -4,7 +4,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 
 import com.kustomer.kustomersdk.DataSources.KUSDelegateProxy;
-import com.kustomer.kustomersdk.Helpers.KUSDate;
 import com.kustomer.kustomersdk.Interfaces.KUSKustomerListener;
 
 import org.junit.Before;
@@ -14,9 +13,6 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import java.util.Date;
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 

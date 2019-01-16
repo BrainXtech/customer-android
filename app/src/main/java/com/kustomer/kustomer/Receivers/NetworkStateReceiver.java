@@ -58,9 +58,9 @@ public class NetworkStateReceiver extends BroadcastReceiver {
 
     //region interface
     public interface NetworkStateReceiverListener {
-        public void networkAvailable();
+        void networkAvailable();
 
-        public void networkUnavailable();
+        void networkUnavailable();
     }
     //endregion
 }

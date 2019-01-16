@@ -6,9 +6,6 @@ import android.support.v4.app.FragmentManager;
 import android.view.View;
 import android.widget.ProgressBar;
 
-
-import java.util.List;
-
 public class BaseFragment extends Fragment {
 
     //region properties

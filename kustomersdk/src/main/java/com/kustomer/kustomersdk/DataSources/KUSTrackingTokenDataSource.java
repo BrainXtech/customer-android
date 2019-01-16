@@ -6,7 +6,6 @@ import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Helpers.KUSSharedPreferences;
 import com.kustomer.kustomersdk.Interfaces.KUSObjectDataSourceListener;
 import com.kustomer.kustomersdk.Interfaces.KUSRequestCompletionListener;
-import com.kustomer.kustomersdk.Kustomer;
 import com.kustomer.kustomersdk.Models.KUSModel;
 import com.kustomer.kustomersdk.Models.KUSTrackingToken;
 import com.kustomer.kustomersdk.Utils.KUSConstants;

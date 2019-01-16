@@ -6,7 +6,6 @@ import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Interfaces.KUSRequestCompletionListener;
 import com.kustomer.kustomersdk.Models.KUSClientActivity;
 import com.kustomer.kustomersdk.Models.KUSModel;
-import com.kustomer.kustomersdk.Models.KUSUser;
 import com.kustomer.kustomersdk.Utils.KUSConstants;
 
 import org.json.JSONObject;

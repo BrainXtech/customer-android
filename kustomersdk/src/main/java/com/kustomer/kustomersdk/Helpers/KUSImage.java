@@ -93,7 +93,7 @@ public class KUSImage {
 
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.WHITE); // Text Color
-        paint.setTextSize((int)textSize*scale);// Text Size
+        paint.setTextSize(textSize *scale);// Text Size
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)); // Text Overlapping Pattern
 
@@ -213,7 +213,7 @@ public class KUSImage {
         int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
                 ExifInterface.ORIENTATION_UNDEFINED);
 
-        Bitmap rotatedBitmap = null;
+        Bitmap rotatedBitmap;
         switch(orientation) {
 
             case ExifInterface.ORIENTATION_ROTATE_90:

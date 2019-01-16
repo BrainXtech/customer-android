@@ -16,7 +16,6 @@ import com.kustomer.kustomersdk.Interfaces.KUSPaginatedDataSourceListener;
 import com.kustomer.kustomersdk.Interfaces.KUSRequestCompletionListener;
 import com.kustomer.kustomersdk.Kustomer;
 import com.kustomer.kustomersdk.Models.KUSChatSession;
-import com.kustomer.kustomersdk.Models.KUSClientActivity;
 import com.kustomer.kustomersdk.Models.KUSCustomerDescription;
 import com.kustomer.kustomersdk.Models.KUSModel;
 import com.kustomer.kustomersdk.Models.KUSTrackingToken;

@@ -6,7 +6,6 @@ import android.content.Intent;
 
 import com.kustomer.kustomersdk.Activities.KUSSessionsActivity;
 import com.kustomer.kustomersdk.Interfaces.KUSKustomerListener;
-import com.kustomer.kustomersdk.Kustomer;
 
 /**
  * Created by Junaid on 1/20/2018.

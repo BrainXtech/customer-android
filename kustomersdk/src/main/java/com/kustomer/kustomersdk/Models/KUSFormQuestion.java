@@ -37,7 +37,7 @@ public class KUSFormQuestion extends KUSModel {
         property = KUSFormQuestionPropertyFromString(JsonHelper.stringFromKeyPath(json, "property"));
 
         if (property == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_MLV) {
-            JSONObject tempJson = null;
+            JSONObject tempJson;
 
             try {
                 JSONObject valueMeta = JsonHelper.jsonObjectFromKeyPath(json, "valueMeta");

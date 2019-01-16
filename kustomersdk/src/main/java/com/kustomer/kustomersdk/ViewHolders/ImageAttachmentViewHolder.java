@@ -1,6 +1,5 @@
 package com.kustomer.kustomersdk.ViewHolders;
 
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,11 +7,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.kustomer.kustomersdk.R2;
-
-import java.io.File;
-import java.io.IOException;
-
-import static android.provider.MediaStore.Images.Media.getBitmap;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -1,6 +1,5 @@
 package com.kustomer.kustomersdk.Views;
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.annotation.Nullable;
@@ -144,7 +143,7 @@ public class KUSOptionsPickerView extends LinearLayout implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        int indexOfButton = optionButtons.indexOf((TextView)view);
+        int indexOfButton = optionButtons.indexOf(view);
         if(indexOfButton >= 0){
             String option = options.get(indexOfButton);
             if(listener != null)

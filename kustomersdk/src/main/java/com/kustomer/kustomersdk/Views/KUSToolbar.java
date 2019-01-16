@@ -29,9 +29,6 @@ import com.kustomer.kustomersdk.Models.KUSUser;
 import com.kustomer.kustomersdk.R;
 import com.kustomer.kustomersdk.Utils.KUSUtils;
 
-import java.util.ArrayList;
-import java.util.Locale;
-
 /**
  * Created by Junaid on 1/30/2018.
  */
@@ -441,7 +438,7 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener, 
             @Override
             public void run() {
                 if (dataSource == chatMessagesDataSource) {
-                    kusMultipleAvatarsView.setUserIds((ArrayList<String>) chatMessagesDataSource.getOtherUserIds());
+                    kusMultipleAvatarsView.setUserIds(chatMessagesDataSource.getOtherUserIds());
                     updateTextLabel();
                 } else if (dataSource == userSession.getChatSessionsDataSource()) {
                     updateBackButtonBadge();

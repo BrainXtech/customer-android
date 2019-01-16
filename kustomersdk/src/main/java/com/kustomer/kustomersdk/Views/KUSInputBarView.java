@@ -194,7 +194,6 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
                     if (bitmap != null)
                         images.add(KUSImage.getScaledImage(bitmap, MAX_BITMAP_PIXELS));
 
-                    bitmap = null;
                 } else {
                     try {
                         Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContext().getContentResolver(), Uri.parse(uri));
@@ -208,7 +207,6 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
                         if (bitmap != null)
                             images.add(KUSImage.getScaledImage(bitmap, MAX_BITMAP_PIXELS));
 
-                        bitmap = null;
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

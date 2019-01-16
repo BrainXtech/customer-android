@@ -903,7 +903,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
     @Override
     public void onChatMessageImageClicked(KUSChatMessage chatMessage) {
-        int startingIndex = 0;
+        int startingIndex;
 
         List<String> imageURIs = new ArrayList<>();
 

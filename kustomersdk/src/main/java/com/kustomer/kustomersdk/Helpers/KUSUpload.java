@@ -1,10 +1,7 @@
 package com.kustomer.kustomersdk.Helpers;
 
 import android.graphics.Bitmap;
-import android.support.annotation.NonNull;
 
-import com.facebook.imagepipeline.cache.BitmapMemoryCacheFactory;
-import com.kustomer.kustomersdk.API.KUSRequestManager;
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Enums.KUSRequestType;
 import com.kustomer.kustomersdk.Interfaces.KUSImageUploadListener;
@@ -13,30 +10,14 @@ import com.kustomer.kustomersdk.Models.KUSChatAttachment;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 import com.kustomer.kustomersdk.Utils.KUSConstants;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-import okhttp3.logging.HttpLoggingInterceptor;
 
 /**
  * Created by Junaid on 1/20/2018.

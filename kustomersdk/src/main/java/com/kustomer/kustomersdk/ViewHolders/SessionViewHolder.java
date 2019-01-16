@@ -177,7 +177,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
         //Unread count (number of messages > the lastSeenAt)
         Date sessionLastSeenAt = mUserSession.getChatSessionsDataSource().lastSeenAtForSessionId(mChatSession.getId());
 
-        int unreadCount = 0;
+        int unreadCount;
         unreadCount = chatMessagesDataSource.unreadCountAfterDate(sessionLastSeenAt);
 
         if (unreadCount > 0) {

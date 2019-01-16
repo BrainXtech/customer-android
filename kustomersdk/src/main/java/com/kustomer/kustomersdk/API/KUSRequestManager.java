@@ -55,7 +55,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     private String baseUrlString;
     private WeakReference<KUSUserSession> userSession;
 
-    HashMap<String, String> genericHTTPHeaderValues = null;
+    HashMap<String, String> genericHTTPHeaderValues;
     private ArrayList<KUSTrackingTokenListener> pendingTrackingTokenListeners = null;
     //endregion
 
@@ -186,8 +186,8 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
                 .build();
 
         HttpUrl httpUrl = HttpUrl.parse(url.toString());
-        HttpUrl.Builder httpBuilder = null;
-        Request request = null;
+        HttpUrl.Builder httpBuilder;
+        Request request;
 
         if (httpUrl != null) {
             httpBuilder = httpUrl.newBuilder();
@@ -236,7 +236,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
                     }
                 }
 
-                RequestBody reqbody = null;
+                RequestBody reqbody;
                 requestBuilder.addHeader("Content-Type", "application/json");
                 //Tracking token can be null but we need to define the request type
                 if (bytes != null) {

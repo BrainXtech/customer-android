@@ -2,8 +2,6 @@ package com.kustomer.kustomersdk.Helpers;
 
 import android.widget.TextView;
 
-import org.commonmark.parser.Parser;
-
 import java.util.regex.Pattern;
 
 import ru.noties.markwon.Markwon;

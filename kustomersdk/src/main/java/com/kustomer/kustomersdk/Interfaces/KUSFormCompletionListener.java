@@ -1,6 +1,5 @@
 package com.kustomer.kustomersdk.Interfaces;
 
-import com.kustomer.kustomersdk.Models.KUSChatMessage;
 import com.kustomer.kustomersdk.Models.KUSChatSession;
 import com.kustomer.kustomersdk.Models.KUSModel;
 

@@ -67,7 +67,7 @@ public class BaseActivity extends AppCompatActivity implements NetworkStateRecei
     }
 
     private void setupToolbar(String title, int toolbarId, boolean enabled) {
-        toolbar = (Toolbar) findViewById(toolbarId);
+        toolbar = findViewById(toolbarId);
         setSupportActionBar(toolbar);
         if (!title.isEmpty())
             setTitle(title);

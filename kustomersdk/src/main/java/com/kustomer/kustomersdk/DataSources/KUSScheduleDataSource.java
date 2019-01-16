@@ -8,7 +8,6 @@ import com.kustomer.kustomersdk.Models.KUSChatSettings;
 import com.kustomer.kustomersdk.Models.KUSHoliday;
 import com.kustomer.kustomersdk.Models.KUSModel;
 import com.kustomer.kustomersdk.Models.KUSSchedule;
-import com.kustomer.kustomersdk.Models.KUSTrackingToken;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 import com.kustomer.kustomersdk.Utils.KUSConstants;
 

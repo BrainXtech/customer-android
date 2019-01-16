@@ -1,8 +1,6 @@
 package com.kustomer.kustomersdk;
 
-import com.kustomer.kustomersdk.API.KUSRequestManager;
 import com.kustomer.kustomersdk.API.KUSUserSession;
-import com.kustomer.kustomersdk.Helpers.KUSLog;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -11,11 +9,7 @@ import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
-import java.net.URL;
-
 import static com.kustomer.kustomersdk.KustomerTestConstants.KUS_TEST_API_KEY;
-import static com.kustomer.kustomersdk.KustomerTestConstants.KUS_TEST_ORG_ID;
-import static com.kustomer.kustomersdk.KustomerTestConstants.KUS_TEST_ORG_NAME;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.fail;

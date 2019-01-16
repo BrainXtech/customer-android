@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.kustomer.kustomersdk.Models.KUSMLNode;
 import com.kustomer.kustomersdk.R;
 import com.kustomer.kustomersdk.R2;
 

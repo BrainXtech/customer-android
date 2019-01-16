@@ -1,7 +1,6 @@
 package com.kustomer.kustomersdk;
 
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
-import com.kustomer.kustomersdk.Models.KUSChatSettings;
 import com.kustomer.kustomersdk.Models.KUSClientActivity;
 
 import org.json.JSONArray;

@@ -12,9 +12,6 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-import com.kustomer.kustomersdk.Activities.KUSChatActivity;
-import com.kustomer.kustomersdk.R;
-
 import java.io.File;
 import java.util.List;
 

@@ -155,7 +155,7 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
             getContext().getTheme().resolveAttribute(R.attr.kus_company_image, typedValue, true);
             int drawableRes = typedValue.resourceId;
 
-            Drawable companyAvatarImage = null;
+            Drawable companyAvatarImage;
 
             companyAvatarImage = getContext().getResources().getDrawable(drawableRes);
             if(this.userId == null && companyAvatarImage != null){

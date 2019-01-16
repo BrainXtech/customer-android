@@ -19,7 +19,6 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.HashMap;
-import java.util.Locale;
 
 /**
  * Created by Junaid on 1/20/2018.

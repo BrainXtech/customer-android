@@ -183,7 +183,7 @@ public class Kustomer {
                     @Override
                     public Response intercept(@NonNull Interceptor.Chain chain) throws IOException {
                         Request originalRequest = chain.request(); //Current Request
-                        Request requestWithToken = null; //The request with the access token which we will use if we have one instead of the original
+                        Request requestWithToken; //The request with the access token which we will use if we have one instead of the original
                         requestWithToken = originalRequest.newBuilder()
                                 .addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY, getSharedInstance().getUserSession().getTrackingTokenDataSource().getCurrentTrackingToken())
                                 .build();
@@ -298,7 +298,7 @@ public class Kustomer {
         if (apiKeyParts.length <= 2)
             throw new AssertionError("Kustomer API key has unexpected format");
 
-        JSONObject tokenPayload = null;
+        JSONObject tokenPayload;
         try {
             tokenPayload = jsonFromBase64EncodedJsonString(apiKeyParts[1]);
             this.apiKey = apiKey;

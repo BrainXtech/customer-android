@@ -1,29 +1,19 @@
 package com.kustomer.kustomersdk;
 
-import android.app.PendingIntent;
-import android.content.Context;
-
 import com.kustomer.kustomersdk.API.KUSRequestManager;
 import com.kustomer.kustomersdk.API.KUSUserSession;
-import com.kustomer.kustomersdk.DataSources.KUSDelegateProxy;
-import com.kustomer.kustomersdk.Interfaces.KUSKustomerListener;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
-import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import java.net.URL;
 
-import static com.kustomer.kustomersdk.KustomerTestConstants.KUS_TEST_API_KEY;
-import static com.kustomer.kustomersdk.KustomerTestConstants.KUS_TEST_ORG_NAME;
 import static com.kustomer.kustomersdk.KustomerTestConstants.KUS_TEST_ORG_ID;
+import static com.kustomer.kustomersdk.KustomerTestConstants.KUS_TEST_ORG_NAME;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
