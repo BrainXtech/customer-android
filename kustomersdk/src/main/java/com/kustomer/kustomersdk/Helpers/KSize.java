@@ -18,7 +18,6 @@ package com.kustomer.kustomersdk.Helpers;
  * limitations under the License.
  */
 
-import static android.support.v4.util.Preconditions.checkNotNull;
 
 /**
  * Immutable class for describing width and height dimensions in pixels.
@@ -27,7 +26,7 @@ public final class KSize {
     /**
      * Create a new immutable KSize instance.
      *
-     * @param width The width of the size, in pixels
+     * @param width  The width of the size, in pixels
      * @param height The height of the size, in pixels
      */
     public KSize(int width, int height) {
@@ -37,6 +36,7 @@ public final class KSize {
 
     /**
      * Get the width of the size (in pixels).
+     *
      * @return width
      */
     public int getWidth() {
@@ -45,6 +45,7 @@ public final class KSize {
 
     /**
      * Get the height of the size (in pixels).
+     *
      * @return height
      */
     public int getHeight() {
@@ -116,15 +117,15 @@ public final class KSize {
      *
      * @param string the string representation of a size value.
      * @return the size value represented by {@code string}.
-     *
      * @throws NumberFormatException if {@code string} cannot be parsed
-     * as a size value.
-     * @throws NullPointerException if {@code string} was {@code null}
+     *                               as a size value.
+     * @throws NullPointerException  if {@code string} was {@code null}
      */
     public static KSize parseSize(String string)
             throws NumberFormatException {
-        checkNotNull(string, "string must not be null");
-
+        if (string == null) {
+            throw new NullPointerException("string must not be null");
+        }
         int sep_ix = string.indexOf('*');
         if (sep_ix < 0) {
             sep_ix = string.indexOf('x');

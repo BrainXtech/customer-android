@@ -320,7 +320,6 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener, 
 
         this.sessionId = sessionId;
 
-
         if (chatMessagesDataSource != null) {
 
             if (chatMessagesDataSource.getSessionQueuePollingManager() != null)
@@ -331,25 +330,25 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener, 
 
         chatMessagesDataSource = userSession.getChatMessagesDataSources().get(sessionId);
 
-        if (chatMessagesDataSource == null)
-            return;
+        if (chatMessagesDataSource != null) {
 
-        chatMessagesDataSource.addListener(this);
-        if (chatMessagesDataSource.getSessionQueuePollingManager() != null)
-            chatMessagesDataSource.getSessionQueuePollingManager().addListener(this);
+            chatMessagesDataSource.addListener(this);
+            if (chatMessagesDataSource.getSessionQueuePollingManager() != null)
+                chatMessagesDataSource.getSessionQueuePollingManager().addListener(this);
 
-        kusMultipleAvatarsView.setUserIds(chatMessagesDataSource.getOtherUserIds());
+            kusMultipleAvatarsView.setUserIds(chatMessagesDataSource.getOtherUserIds());
 
-        boolean isVolumeControlPollingActive = chatMessagesDataSource.getSessionQueuePollingManager() != null
-                && chatMessagesDataSource.getSessionQueuePollingManager().getPollingStarted()
-                && !chatMessagesDataSource.getSessionQueuePollingManager().getPollingCanceled();
+            boolean isVolumeControlPollingActive = chatMessagesDataSource.getSessionQueuePollingManager() != null
+                    && chatMessagesDataSource.getSessionQueuePollingManager().getPollingStarted()
+                    && !chatMessagesDataSource.getSessionQueuePollingManager().getPollingCanceled();
 
-        if (isVolumeControlPollingActive) {
-            KUSSessionQueue sessionQueue = chatMessagesDataSource.getSessionQueuePollingManager().getSessionQueue();
+            if (isVolumeControlPollingActive) {
+                KUSSessionQueue sessionQueue = chatMessagesDataSource.getSessionQueuePollingManager().getSessionQueue();
 
-            if (sessionQueue != null)
-                waitingMessage = KUSDate.humanReadableUpfrontVolumeControlWaitingTimeFromSeconds(
-                        getContext(), sessionQueue.getEstimatedWaitTimeSeconds());
+                if (sessionQueue != null)
+                    waitingMessage = KUSDate.humanReadableUpfrontVolumeControlWaitingTimeFromSeconds(
+                            getContext(), sessionQueue.getEstimatedWaitTimeSeconds());
+            }
         }
 
         updateTextLabel();

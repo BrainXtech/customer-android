@@ -49,10 +49,10 @@ public class KUSForm extends KUSModel {
 
     //region Static Methods
     private static List<KUSFormQuestion> getQuestionsFromJsonArray(JSONArray jsonArray) {
-        if (jsonArray == null)
-            return null;
-
         ArrayList<KUSFormQuestion> objects = new ArrayList<>();
+
+        if (jsonArray == null)
+            return objects;
 
         for (int i = 0; i < jsonArray.length(); i++) {
             try {

@@ -59,13 +59,13 @@ public class KUSMultipleAvatarsView extends FrameLayout {
     //endregion
 
     //region Public Methods
-    public void initWithUserSession(KUSUserSession userSession){
+    public void initWithUserSession(KUSUserSession userSession) {
         this.userSession = userSession;
         rebuildAvatarViews();
     }
 
-    public void setUserIds(List<String> userIds){
-        if(this.userIds != null && this.userIds.equals(userIds))
+    public void setUserIds(List<String> userIds) {
+        if (this.userIds != null && this.userIds.equals(userIds))
             return;
 
         this.userIds = userIds;
@@ -74,18 +74,18 @@ public class KUSMultipleAvatarsView extends FrameLayout {
     //endregion
 
     //region Private Methods
-    void setMaximumAvatarsToDisplay(int maximumAvatarsToDisplay){
-        this.maximumAvatarsToDisplay = Math.max(maximumAvatarsToDisplay,1);
+    void setMaximumAvatarsToDisplay(int maximumAvatarsToDisplay) {
+        this.maximumAvatarsToDisplay = Math.max(maximumAvatarsToDisplay, 1);
         rebuildAvatarViews();
     }
 
-    void rebuildAvatarViews(){
+    void rebuildAvatarViews() {
 
         int marginCounter = 0;
-        if(userSession == null)
+        if (userSession == null)
             return;
 
-        if(avatarImageViews != null) {
+        if (avatarImageViews != null) {
             for (KUSAvatarImageView avatarImageView : avatarImageViews)
                 removeView(avatarImageView);
         }
@@ -93,7 +93,7 @@ public class KUSMultipleAvatarsView extends FrameLayout {
         ArrayList<KUSAvatarImageView> avatarImageViews = new ArrayList<>();
 
 
-        if(userIds != null) {
+        if (userIds != null) {
             for (int i = 0; i < Math.min(userIds.size(), maximumAvatarsToDisplay); i++) {
                 String userId = userIds.get(i);
                 KUSAvatarImageView userAvatarView = new KUSAvatarImageView(getContext());
@@ -104,21 +104,21 @@ public class KUSMultipleAvatarsView extends FrameLayout {
             }
         }
 
-        if(avatarImageViews.size() < maximumAvatarsToDisplay){
+        if (avatarImageViews.size() < maximumAvatarsToDisplay) {
             KUSAvatarImageView companyAvatarView = new KUSAvatarImageView(getContext());
             companyAvatarView.setStrokeWidth(STROKE_WIDTH_IN_DP);
             companyAvatarView.initWithUserSession(userSession);
             avatarImageViews.add(companyAvatarView);
         }
 
-        for(int i = avatarImageViews.size()-1 ; i>=0; i--){
+        for (int i = avatarImageViews.size() - 1; i >= 0; i--) {
             KUSAvatarImageView avatarImageView = avatarImageViews.get(i);
             LayoutParams avatarLayoutParams = new LayoutParams(
-                    (int)KUSUtils.dipToPixels(getContext(),AVATAR_SIZE_IN_DP),
-                    (int)KUSUtils.dipToPixels(getContext(),AVATAR_SIZE_IN_DP),Gravity.END);
+                    (int) KUSUtils.dipToPixels(getContext(), AVATAR_SIZE_IN_DP),
+                    (int) KUSUtils.dipToPixels(getContext(), AVATAR_SIZE_IN_DP), Gravity.END);
 
-            avatarLayoutParams.setMarginEnd((int)KUSUtils.dipToPixels(getContext(),
-                    AVATAR_SIZE_IN_DP/2) * marginCounter);
+            avatarLayoutParams.setMarginEnd((int) KUSUtils.dipToPixels(getContext(),
+                    (float) AVATAR_SIZE_IN_DP / 2) * marginCounter);
 
             avatarImageView.setLayoutParams(avatarLayoutParams);
             addView(avatarImageView);

@@ -335,7 +335,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
                 if (response.body() != null) {
                     boolean twoHundred = response.code() >= 200 && response.code() < 300;
 

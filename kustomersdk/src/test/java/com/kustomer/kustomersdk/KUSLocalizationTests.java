@@ -15,6 +15,8 @@ import org.robolectric.annotation.Config;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest= Config.NONE)
@@ -39,7 +41,7 @@ public class KUSLocalizationTests {
         KUSLocalization.getSharedInstance().setUserLocale( new Locale("en"));
         KUSLocalization.getSharedInstance().updateKustomerLocaleWithFallback(mContext);
         KUSLocalization.getSharedInstance().updateConfig(mContext);
-        assertEquals(true, KUSLocalization.getSharedInstance().isLTR());
+        assertTrue(KUSLocalization.getSharedInstance().isLTR());
 
     }
 
@@ -47,7 +49,7 @@ public class KUSLocalizationTests {
     @Config(qualifiers="ur")
     @Test
     public void testUrduRTL(){
-        assertEquals(false, KUSLocalization.getSharedInstance().isLTR());
+        assertFalse(KUSLocalization.getSharedInstance().isLTR());
     }
 
     @Test

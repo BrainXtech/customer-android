@@ -197,7 +197,7 @@ public class JsonHelper {
         standardChatMessage.setBody(body);
 
         //The markdown url pattern we want to detect
-        String imagePattern = "!\\[.*\\]\\(.*\\)";
+        String imagePattern = "!\\[.*]\\(.*\\)";
         List<KUSModel> chatMessages = new ArrayList<>();
 
         Pattern regex = Pattern.compile(imagePattern);

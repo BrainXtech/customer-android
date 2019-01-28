@@ -75,7 +75,7 @@ public class KUSOptionsPickerView extends LinearLayout implements View.OnClickLi
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        if(maxHeight != -1) {
+        if (maxHeight != -1) {
             heightMeasureSpec = MeasureSpec.makeMeasureSpec(maxHeight, MeasureSpec.AT_MOST);
         }
 
@@ -85,13 +85,13 @@ public class KUSOptionsPickerView extends LinearLayout implements View.OnClickLi
     //endregion
 
     //region Public Methods
-    public void setMaxHeight(int px){
+    public void setMaxHeight(int px) {
         maxHeight = px;
     }
 
-    public void setOptions(List<String> options){
+    public void setOptions(List<String> options) {
         this.options = options;
-        if(options.size() > 0)
+        if (options.size() > 0)
             progressBar.setVisibility(INVISIBLE);
         else
             progressBar.setVisibility(VISIBLE);
@@ -99,16 +99,17 @@ public class KUSOptionsPickerView extends LinearLayout implements View.OnClickLi
         rebuildOptionButtons();
     }
 
-    public void setListener(KUSOptionPickerViewListener listener){
+    public void setListener(KUSOptionPickerViewListener listener) {
         this.listener = listener;
     }
-    public List<String> getOptions(){
+
+    public List<String> getOptions() {
         return options;
     }
     //endregion
 
     //region Private Methods
-    private void rebuildOptionButtons(){
+    private void rebuildOptionButtons() {
         flowLayout.removeAllViews();
         LinearLayout.LayoutParams vlp = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
@@ -116,18 +117,18 @@ public class KUSOptionsPickerView extends LinearLayout implements View.OnClickLi
         );
 
         ArrayList<TextView> optionButtons = new ArrayList<>();
-        if(options != null) {
-            for (String option : options){
+        if (options != null) {
+            for (String option : options) {
                 AppCompatTextView textView = new AppCompatTextView(getContext());
-                TextViewCompat.setTextAppearance(textView,R.style.KUSOptionPickerTextAppearance);
+                TextViewCompat.setTextAppearance(textView, R.style.KUSOptionPickerTextAppearance);
                 textView.setLayoutParams(vlp);
                 textView.setText(option);
                 textView.setBackgroundResource(R.drawable.kus_shape_option_view_background);
-                textView.setTextColor(ContextCompat.getColor(getContext(),R.color.kusOptionPickerButtonTextColor));
+                textView.setTextColor(ContextCompat.getColor(getContext(), R.color.kusOptionPickerButtonTextColor));
                 textView.setEllipsize(TextUtils.TruncateAt.MIDDLE);
                 textView.setSingleLine(true);
                 textView.setGravity(Gravity.CENTER);
-                textView.setMinWidth((int) KUSUtils.dipToPixels(getContext(),MIN_BUTTON_WIDTH_IN_DP));
+                textView.setMinWidth((int) KUSUtils.dipToPixels(getContext(), MIN_BUTTON_WIDTH_IN_DP));
                 textView.setOnClickListener(this);
 
                 optionButtons.add(textView);
@@ -143,10 +144,10 @@ public class KUSOptionsPickerView extends LinearLayout implements View.OnClickLi
 
     @Override
     public void onClick(View view) {
-        int indexOfButton = optionButtons.indexOf(view);
-        if(indexOfButton >= 0){
+        int indexOfButton = optionButtons.indexOf((TextView) view);
+        if (indexOfButton >= 0) {
             String option = options.get(indexOfButton);
-            if(listener != null)
+            if (listener != null)
                 listener.optionPickerOnOptionSelected(option);
         }
     }

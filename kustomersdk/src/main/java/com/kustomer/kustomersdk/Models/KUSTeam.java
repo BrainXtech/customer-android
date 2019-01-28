@@ -18,7 +18,7 @@ public class KUSTeam extends KUSModel {
     //region Properties
     private String emoji;
     public String displayName;
-    public String icon;
+    private String icon;
     //endregion
 
     //region LifeCycleMethods

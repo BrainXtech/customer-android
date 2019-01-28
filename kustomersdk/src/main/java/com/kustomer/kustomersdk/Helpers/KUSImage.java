@@ -32,13 +32,13 @@ public class KUSImage {
     //endreigon
 
     //region Resource Method
-    public static Bitmap bitmapFromId(Context mContext, int id){
+    public static Bitmap bitmapFromId(Context mContext, int id) {
         return BitmapFactory.decodeResource(mContext.getResources(), id);
     }
     //endregion
 
     //region Public Methods
-    private static Bitmap circularImage(KSize size, int color, int strokeColor, int strokeWidth){
+    private static Bitmap circularImage(KSize size, int color, int strokeColor, int strokeWidth) {
         Bitmap dstBitmap = Bitmap.createBitmap(
                 size.getWidth(), // Width
                 size.getHeight(), // Height
@@ -54,15 +54,15 @@ public class KUSImage {
         paint.setAntiAlias(true);
 
         // Calculate the available radius of canvas
-        int radius = Math.min(canvas.getWidth(),canvas.getHeight()/2);
+        int radius = Math.min(canvas.getWidth(), canvas.getHeight() / 2);
 
-        if(strokeWidth > 0) {
+        if (strokeWidth > 0) {
             paint.setColor(strokeColor);
 
             // Set a pixels value to padding around the circle
             canvas.drawCircle(
-                    canvas.getWidth() / 2, // cx
-                    canvas.getHeight() / 2, // cy
+                    (float) canvas.getWidth() / 2, // cx
+                    (float) canvas.getHeight() / 2, // cy
                     radius, // Radius
                     paint // Paint
             );
@@ -70,8 +70,8 @@ public class KUSImage {
 
         paint.setColor(color);
         canvas.drawCircle(
-                canvas.getWidth() / 2, // cx
-                canvas.getHeight() / 2, // cy
+                (float) canvas.getWidth() / 2, // cx
+                (float) canvas.getHeight() / 2, // cy
                 radius - strokeWidth, // Radius
                 paint // Paint
         );
@@ -80,11 +80,10 @@ public class KUSImage {
 
     }
 
-    private static Bitmap getBitmapWithText(Context mContext, KSize size, int color, int strokeColor, int strokeWidth, String text, int textSize){
+    private static Bitmap getBitmapWithText(Context mContext, KSize size, int color, int strokeColor, int strokeWidth, String text, int textSize) {
 
 
-
-        Bitmap src = circularImage(size,color, strokeColor, strokeWidth);
+        Bitmap src = circularImage(size, color, strokeColor, strokeWidth);
 
         Resources resources = mContext.getResources();
         float scale = resources.getDisplayMetrics().density;
@@ -93,7 +92,7 @@ public class KUSImage {
 
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.WHITE); // Text Color
-        paint.setTextSize(textSize *scale);// Text Size
+        paint.setTextSize(textSize * scale);// Text Size
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)); // Text Overlapping Pattern
 
@@ -101,7 +100,7 @@ public class KUSImage {
         paint.getTextBounds(text, 0, text.length(), bounds);
 
         int x = (canvas.getWidth() / 2);
-        int y = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2)) ;
+        int y = (int) ((canvas.getHeight() / 2) - ((paint.descent() + paint.ascent()) / 2));
 
         canvas.drawText(text, x, y, paint);
 
@@ -109,16 +108,16 @@ public class KUSImage {
         return src;
     }
 
-    public static Bitmap defaultAvatarBitmapForName(Context context, KSize size, String name, int strokeWidth, int fontSize){
+    public static Bitmap defaultAvatarBitmapForName(Context context, KSize size, String name, int strokeWidth, int fontSize) {
         Bitmap bitmap = new KUSCache().getBitmapFromMemCache(name + "w:" + strokeWidth);
-        if(bitmap != null)
+        if (bitmap != null)
             return bitmap;
 
         List<String> initials = initialsForName(name);
 
         int letterSum = 0;
         StringBuilder text = new StringBuilder();
-        for(String initial : initials){
+        for (String initial : initials) {
             letterSum += initial.charAt(0);
             text.append(initial);
         }
@@ -127,38 +126,38 @@ public class KUSImage {
         bitmap = getBitmapWithText(
                 context,
                 size,
-                ContextCompat.getColor(context,getDefaultNameColors().get(colorIndex)),
-                ContextCompat.getColor(context,R.color.kusToolbarBackgroundColor),
+                ContextCompat.getColor(context, getDefaultNameColors().get(colorIndex)),
+                ContextCompat.getColor(context, R.color.kusToolbarBackgroundColor),
                 strokeWidth,
                 text.toString(),
                 fontSize);
 
-        if(bitmap != null)
-            new KUSCache().addBitmapToMemoryCache(name + "w:" + strokeWidth,bitmap);
+        if (bitmap != null)
+            new KUSCache().addBitmapToMemoryCache(name + "w:" + strokeWidth, bitmap);
 
         return bitmap;
     }
     //endregion
 
     //region Private Methods
-    private static List<String> initialsForName(String name){
+    private static List<String> initialsForName(String name) {
         int maximumInitialsCount = 3;
 
         String[] words = name.trim().split(" ");
         List<String> initials = new ArrayList<>();
 
-        for(String word : words){
+        for (String word : words) {
 
-            if(word.length() > 0) {
+            if (word.length() > 0) {
                 String firstLetter = String.valueOf(word.toUpperCase().charAt(0));
                 initials.add(firstLetter);
             }
-            if(initials.size() >= maximumInitialsCount)
+            if (initials.size() >= maximumInitialsCount)
                 break;
 
         }
 
-        if(initials.size()>0)
+        if (initials.size() > 0)
             return initials;
 
         initials.add("*");
@@ -166,8 +165,8 @@ public class KUSImage {
         return initials;
     }
 
-    private static List<Integer> getDefaultNameColors(){
-        if(defaultNameColors == null) {
+    private static List<Integer> getDefaultNameColors() {
+        if (defaultNameColors == null) {
             defaultNameColors = new ArrayList<>();
             defaultNameColors.add(R.color.kusDefaultNameColor1);
             defaultNameColors.add(R.color.kusDefaultNameColor2);
@@ -180,8 +179,8 @@ public class KUSImage {
         return defaultNameColors;
     }
 
-    static byte[] getByteArrayFromBitmap(Bitmap bitmap){
-        if(bitmap != null) {
+    static byte[] getByteArrayFromBitmap(Bitmap bitmap) {
+        if (bitmap != null) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
             return stream.toByteArray();
@@ -195,8 +194,8 @@ public class KUSImage {
         int srcWidth = bitmap.getWidth();
         int srcHeight = bitmap.getHeight();
 
-        float imagePixelCount =  srcWidth * srcHeight;
-        float scaleDown = (float) Math.min(Math.sqrt(maxPixelCount/imagePixelCount),1.0);
+        float imagePixelCount = srcWidth * srcHeight;
+        float scaleDown = (float) Math.min(Math.sqrt(maxPixelCount / imagePixelCount), 1.0);
 
         if (scaleDown < 1) {
             Matrix matrix = new Matrix();
@@ -214,7 +213,7 @@ public class KUSImage {
                 ExifInterface.ORIENTATION_UNDEFINED);
 
         Bitmap rotatedBitmap;
-        switch(orientation) {
+        switch (orientation) {
 
             case ExifInterface.ORIENTATION_ROTATE_90:
                 rotatedBitmap = rotateImage(bitmap, 90);
