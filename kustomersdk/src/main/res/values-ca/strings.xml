@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">El vostre temps d\'espera esperat és</string>
     <string name="com_kustomer_second">segon</string>
     <string name="com_kustomer_seconds">segons</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Ho sentim, però ningú ha quedat disponible en el moment que esperàvem. Seleccioneu un mètode de contacte alternatiu perquè seguiu amb vosaltres ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Ho sentim, però ningú ha quedat disponible en el moment que esperàvem. Seleccioneu un mètode de contacte alternatiu perquè seguiu amb vosaltres …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">El nostre temps d\'espera actual és aproximadament</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Podeu optar per esperar el següent agent disponible o seleccionar una alternativa\", tu.</string>
     <string name="com_kustomer_volume_control_email_question">Molt bé, quin és el millor correu electrònic per arribar-hi?</string>

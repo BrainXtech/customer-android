@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Ожидаемое время ожидания</string>
     <string name="com_kustomer_second">второй</string>
     <string name="com_kustomer_seconds">секунд</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Извините, похоже, что никто не стал доступен в то время, которое мы ожидали. Пожалуйста, выберите альтернативный метод контакта для нас, чтобы следить за вами ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Извините, похоже, что никто не стал доступен в то время, которое мы ожидали. Пожалуйста, выберите альтернативный метод контакта для нас, чтобы следить за вами …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Наше текущее время ожидания приблизительно</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Вы можете подождать следующего доступного агента или выбрать альтернативу\",ледить за вами.</string>
     <string name="com_kustomer_volume_control_email_question">Замечательно, что для вас самое лучшее письмо?</string>

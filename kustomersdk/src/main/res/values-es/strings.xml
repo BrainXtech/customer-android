@@ -5,7 +5,7 @@
     <string name="com_kustomer_hour">hora</string>
     <string name="com_kustomer_minute">minuto</string>
     <string name="com_kustomer_weeks">semanas</string>
-    <string name="com_kustomer_days">dias</string>
+    <string name="com_kustomer_days">días</string>
     <string name="com_kustomer_hours">horas</string>
     <string name="com_kustomer_minutes">minutos</string>
     <string name="com_kustomer_just_now">Justo ahora</string>
@@ -32,7 +32,7 @@
     <string name="com_kustomer_camera_permission_denied">El permiso de la cámara está denegado.</string>
     <string name="com_kustomer_storage_permission_denied">Se niega el permiso de almacenamiento.</string>
     <string name="com_kustomer_authorities">autoridad</string>
-    <string name="com_kustomer_share_via">Compartir via</string>
+    <string name="com_kustomer_share_via">Compartir vía</string>
     <string name="com_kustomer_please_provide_storage_permission">Proporcione permiso de almacenamiento para esta aplicación</string>
     <string name="com_kustomer_dismiss">Despedir</string>
     <string name="com_kustomer_closed">CERRADO</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Su tiempo de espera esperado es</string>
     <string name="com_kustomer_second">segundo</string>
     <string name="com_kustomer_seconds">segundos</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Lo sentimos, parece que nadie ha estado disponible en el tiempo que esperábamos. Por favor seleccione un método de contacto alternativo para que podamos seguir con usted ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Lo sentimos, parece que nadie ha estado disponible en el tiempo que esperábamos. Por favor seleccione un método de contacto alternativo para que podamos seguir con usted …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Nuestro tiempo de espera actual es de aproximadamente</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Puede elegir esperar al siguiente agente disponible o seleccionar una alternativa\",os hacer un seguimiento con usted.</string>
     <string name="com_kustomer_volume_control_email_question">Genial, ¿cuál es el mejor correo electrónico para contactarte?</string>

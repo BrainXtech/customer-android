@@ -49,7 +49,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Koha juaj e pritshme e pritjes është</string>
     <string name="com_kustomer_second">i dytë</string>
     <string name="com_kustomer_seconds">sekonda</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Na vjen keq, duket sikur askush nuk është vënë në dispozicion në kohën që prisnim. Ju lutemi zgjidhni një metodë alternative të kontaktit për ne për të ndjekur me ju ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Na vjen keq, duket sikur askush nuk është vënë në dispozicion në kohën që prisnim. Ju lutemi zgjidhni një metodë alternative të kontaktit për ne për të ndjekur me ju …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Koha aktuale e pritjes është afërsisht</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Ju mund të zgjidhni të prisni agjentin tjetër në dispozicion ose zgjidhni një alternativë\",ërcjellim me ju.</string>
     <string name="com_kustomer_volume_control_email_question">E madhe, cila është e-mailja më e mirë për të arritur tek ju?</string>

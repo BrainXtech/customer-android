@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <string name="com_kustomer_week">ہفتے</string>
+    <string name="com_kustomer_day">دن</string>
+    <string name="com_kustomer_hour">گھنٹہ</string>
+    <string name="com_kustomer_minute">منٹ</string>
+    <string name="com_kustomer_weeks">ہفتے</string>
+    <string name="com_kustomer_days">دن</string>
+    <string name="com_kustomer_hours">گھنٹے</string>
+    <string name="com_kustomer_minutes">منٹ</string>
+    <string name="com_kustomer_just_now">ابھی ابھی</string>
+    <string name="com_kustomer_ago">پہلے</string>
+
     <string name="com_kustomer_processing">پروسیسنگ…</string>
     <string name="com_kustomer_no_internet_connection">کوئی انٹرنیٹ کنکشن نہیں</string>
     <string name="com_kustomer_chat_screen">چیٹ کی سکرین</string>
@@ -8,12 +20,13 @@
     <string name="com_kustomer_please_provide_a_message_body">براہ کرم ایک پیغام کا جسم فراہم کریں</string>
     <string name="com_kustomer_something_went_wrong_please_try_again">کچھ غلط ہو گیا. دوبارہ کوشش کریں.</string>
     <string name="com_kustomer_chat_with">کے ساتھ چیٹ کریں</string>
+    <string name="com_kustomer_authorities">حکام</string>
 
-    <string name="com_kustomer_just_now">ابھی ابھی</string>
     <string name="com_kustomer_try_again">دوبارہ کوشش کریں</string>
     <string name="com_kustomer_no_internet_message">انٹرنیٹ کنکشن آف لائن ہونے لگتا ہے.</string>
 
     <string name="com_kustomer_type_a_message...">ایک پیغام ٹائپ کریں …</string>
+    <string name="com_kustomer_Loading...">لوڈنگ…</string>
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">جواب مت چھوڑیں ای میل کے ذریعہ اطلاع دیں</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_new_conversation">نئی بات چیت</string>
@@ -43,7 +56,7 @@
     <string name="com_kustomer_seconds">سیکنڈ</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">ہمارے موجودہ انتظار کا وقت تقریبا ہے</string>
     <string name="com_kustomer_volume_control_email_question">بہت اچھا، آپ کو پہنچنے کا بہترین ای میل کیا ہے؟</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">افسوس، ایسا لگتا ہے جیسے ہم امید کرتے وقت کسی کو بھی دستیاب نہیں ہوا ہے. براہ کرم ہمارے ساتھ پیروی کرنے کے لئے ایک متبادل رابطہ کا طریقہ منتخب کریں ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">افسوس، ایسا لگتا ہے جیسے ہم امید کرتے وقت کسی کو بھی دستیاب نہیں ہوا ہے. براہ کرم ہمارے ساتھ پیروی کرنے کے لئے ایک متبادل رابطہ کا طریقہ منتخب کریں …</string>
     <string name="com_kustomer_volume_control_phone_question">بہت اچھا، آپ کو پہنچنے کے لئے بہترین فون نمبر کیا ہے؟</string>
     <string name="com_kustomer_volume_control_thankyou_response">شکریہ ہم جلد ہی آپ کو واپس ملیں گے.</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">آپ اگلے دستیاب ایجنٹ کے انتظار کا انتخاب کرسکتے ہیں یا آپ کے ساتھ تعقیب کرنے کے لئے ہمارے لئے ایک متبادل رابطہ کا طریقہ منتخب کریں.</string>

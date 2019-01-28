@@ -2,6 +2,7 @@
 
 <com.kustomer.kustomersdk.Views.KUSOptionsPickerView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -25,7 +26,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:indeterminateTint="@color/kusColorLightGrey" />
+                android:indeterminateTint="@color/kusColorLightGrey"
+                tools:ignore="UnusedAttribute" />
     
             <com.nex3z.flowlayout.FlowLayout
                 xmlns:app="http://schemas.android.com/apk/res-auto"

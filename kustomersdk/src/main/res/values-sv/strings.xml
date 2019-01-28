@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Din väntade väntetid är</string>
     <string name="com_kustomer_second">andra</string>
     <string name="com_kustomer_seconds">sekunder</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Tyvärr ser det ut att ingen har blivit tillgänglig under den tid vi förväntade oss. Var god välj en alternativ kontaktmetod för att följa upp med dig ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Tyvärr ser det ut att ingen har blivit tillgänglig under den tid vi förväntade oss. Var god välj en alternativ kontaktmetod för att följa upp med dig …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Vår nuvarande väntetid är ungefär</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Du kan välja att vänta på nästa tillgängliga agent eller välj ett alternativ\",p med dig.</string>
     <string name="com_kustomer_volume_control_email_question">Bra, vad är den bästa e-postadressen för att nå dig på?</string>

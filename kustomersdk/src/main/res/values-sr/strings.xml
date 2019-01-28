@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Ваше очекивано време чекања је</string>
     <string name="com_kustomer_second">друго</string>
     <string name="com_kustomer_seconds">секунде</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Извините, изгледа да нико није постао доступан у времену које смо очекивали. Молимо вас да изаберете алтернативни контакт метод за нас са нама ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Извините, изгледа да нико није постао доступан у времену које смо очекивали. Молимо вас да изаберете алтернативни контакт метод за нас са нама …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Наш тренутни тренутак чекања је приближно</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Можете одабрати да сачекате следећег расположивог агента или изаберете алтернативу</string>
     <string name="com_kustomer_volume_control_email_question">Одлично, у чему је најбољи емаил за који сте дошли?</string>

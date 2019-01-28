@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">A várható várakozási idő</string>
     <string name="com_kustomer_second">második</string>
     <string name="com_kustomer_seconds">másodperc</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Sajnálom, úgy tűnik, hogy senki sem érkezett a várt időpontban. Kérjük, válasszon ki egy alternatív kapcsolattartási módszert, hogy követhessünk veled ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Sajnálom, úgy tűnik, hogy senki sem érkezett a várt időpontban. Kérjük, válasszon ki egy alternatív kapcsolattartási módszert, hogy követhessünk veled …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Jelenlegi várakozásunk közelítőleg nagy</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Kiválaszthatja, hogy megvárja a következő rendelkezésre álló ügynököt, vagy válasszon alternatívát\",övesse veled.</string>
     <string name="com_kustomer_volume_control_email_question">Nagyszerű, mi a legjobb e-mail, amivel elérheted?</string>

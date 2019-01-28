@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Din forventede ventetid er</string>
     <string name="com_kustomer_second">sekund</string>
     <string name="com_kustomer_seconds">sekunder</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Beklager, det ser ud til, at ingen er blevet tilgængelige på den tid, vi forventede. Vælg venligst en alternativ kontaktmetode til at følge op med dig ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Beklager, det ser ud til, at ingen er blevet tilgængelige på den tid, vi forventede. Vælg venligst en alternativ kontaktmetode til at følge op med dig …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Vores nuværende ventetid er ca.</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Du kan vælge at vente på den næste tilgængelige agent eller vælge et alternativ\", med dig.</string>
     <string name="com_kustomer_volume_control_email_question">Great, hvad er den bedste e-mail for at nå dig på?</string>

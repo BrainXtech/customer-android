@@ -18,7 +18,8 @@
         android:contentInsetStart="0dp"
         app:contentInsetLeft="0dp"
         app:contentInsetStart="0dp"
-        app:popupTheme="@style/KUSAppTheme.PopupOverlay">
+        app:popupTheme="@style/KUSAppTheme.PopupOverlay"
+        tools:ignore="UnusedAttribute">
 
 
         <RelativeLayout

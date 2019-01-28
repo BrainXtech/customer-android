@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,129 +8,122 @@
 
     <include layout="@layout/kus_app_bar_layout" />
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
+            android:layout_height="wrap_content"
+            android:background="@color/kusChatListBackground"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/kusChatListBackground"
-                android:orientation="vertical">
-
-                <android.support.v7.widget.AppCompatButton
-                    android:id="@+id/btnEndChat"
-                    style="@style/KUSEndChatButtonAppearance"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:layout_margin="8dp"
-                    android:background="@drawable/kus_end_button_background"
-                    android:minHeight="0dp"
-                    android:minWidth="0dp"
-                    android:padding="8dp"
-                    android:text="@string/com_kustomer_end_chat"
-                    android:textColor="@color/kusEndChatButtonTextColor"
-                    android:textSize="13sp"
-                    android:visibility="gone" />
-            </LinearLayout>
-
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1">
-
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/rvMessages"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="bottom"
-                    android:background="@color/kusChatListBackground" />
-
-                <ImageView
-                    android:id="@+id/ivNonBusinessHours"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="fitCenter"
-                    tools:ignore="ContentDescription"
-                    android:visibility="gone"/>
-            </FrameLayout>
-
-            <FrameLayout
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btnEndChat"
+                style="@style/KUSEndChatButtonAppearance"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <include
-                    android:id="@+id/kusInputBarView"
-                    layout="@layout/kus_input_bar_layout"
-                    android:visibility="visible" />
-
-                <include
-                    android:id="@+id/mlFormValuesPicker"
-                    layout="@layout/kus_ml_form_values_picker_layout"
-                    android:visibility="gone"/>
-
-                <include
-                    android:id="@+id/kusOptionPickerView"
-                    layout="@layout/kus_options_picker_layout"
-                    android:visibility="gone" />
-            </FrameLayout>
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tvStartANewConversation"
-                style="@style/KUSStartANewConversationTextAppearance"
-                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/kusStartANewConversationBackgroundColor"
-                android:gravity="center"
-                android:padding="16dp"
-                android:text="@string/com_kustomer_start_a_new_conversation"
-                android:textColor="@color/kusStartANewConversationTextColor"
-                android:textSize="14sp"
-                android:textStyle="bold"
-                android:visibility="gone" />
-
-            <android.support.v7.widget.AppCompatTextView
-                android:id="@+id/tvClosedChat"
-                style="@style/KUSClosedTextAppearance"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/kusClosedBackgroundColor"
-                android:gravity="center"
+                android:layout_gravity="end"
+                android:layout_margin="8dp"
+                android:background="@drawable/kus_end_button_background"
+                android:minWidth="0dp"
+                android:minHeight="0dp"
                 android:padding="8dp"
-                android:text="@string/com_kustomer_thank_you_we_will_follow_up_on_your_request"
-                android:textColor="@color/kusClosedChatTextColor"
-                android:textSize="14sp"
+                android:text="@string/com_kustomer_end_chat"
+                android:textColor="@color/kusEndChatButtonTextColor"
+                android:textSize="13sp"
                 android:visibility="gone" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="16dp"
-                android:background="@color/kusColorLightGrey"
-                android:orientation="vertical">
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/kusColorLightGrey" />
-
-                <TextView
-                    android:id="@+id/tvFooter"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:gravity="center"
-                    android:text="Messaging by Kustomer"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
         </LinearLayout>
 
-    </RelativeLayout>
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
 
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/rvMessages"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="bottom"
+                android:background="@color/kusChatListBackground" />
+
+            <ImageView
+                android:id="@+id/ivNonBusinessHours"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitCenter"
+                android:visibility="gone"
+                tools:ignore="ContentDescription" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/kusInputBarView"
+                layout="@layout/kus_input_bar_layout"
+                android:visibility="visible" />
+
+            <include
+                android:id="@+id/mlFormValuesPicker"
+                layout="@layout/kus_ml_form_values_picker_layout"
+                android:visibility="gone" />
+
+            <include
+                android:id="@+id/kusOptionPickerView"
+                layout="@layout/kus_options_picker_layout"
+                android:visibility="gone" />
+        </FrameLayout>
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvStartANewConversation"
+            style="@style/KUSStartANewConversationTextAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/kusStartANewConversationBackgroundColor"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="@string/com_kustomer_start_a_new_conversation"
+            android:textColor="@color/kusStartANewConversationTextColor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <android.support.v7.widget.AppCompatTextView
+            android:id="@+id/tvClosedChat"
+            style="@style/KUSClosedTextAppearance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/kusClosedBackgroundColor"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="@string/com_kustomer_thank_you_we_will_follow_up_on_your_request"
+            android:textColor="@color/kusClosedChatTextColor"
+            android:textSize="14sp"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="16dp"
+            android:background="@color/kusColorLightGrey"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/kusColorLightGrey" />
+
+            <TextView
+                android:id="@+id/tvFooter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="@string/com_kustomer_messaging_by_kustomer"
+                android:textSize="10sp"
+                tools:ignore="SmallSp" />
+        </LinearLayout>
+
+    </LinearLayout>
 </LinearLayout>
