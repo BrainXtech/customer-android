@@ -36,28 +36,28 @@ public class KUSUpload {
     //endregion
 
     //region Public Methods
-    public void uploadImages(final List<Bitmap> images, KUSUserSession userSession, final KUSImageUploadListener listener){
-
-        if(images == null || images.size() == 0){
-            if(listener != null){
-                listener.onCompletion(null,new ArrayList<KUSChatAttachment>());
+    public void uploadImages(final List<Bitmap> images, KUSUserSession userSession,
+                             final KUSImageUploadListener listener) {
+        if (images == null || images.size() == 0) {
+            if (listener != null) {
+                listener.onCompletion(null, new ArrayList<KUSChatAttachment>());
             }
             return;
         }
 
         attachments = new ArrayList<>(images.size());
 
-        while(attachments.size() < images.size())
+        while (attachments.size() < images.size())
             attachments.add(null);
 
-        for(int i = 0; i<images.size(); i++){
+        for (int i = 0; i < images.size(); i++) {
             Bitmap bitmap = images.get(i);
 
             final int index = i;
             uploadImage(bitmap, userSession, new ImageUploadListener() {
                 @Override
                 public void onUploadComplete(Error error, KUSChatAttachment attachment) {
-                    uploadCompleted(index,error,attachment,listener,images);
+                    uploadCompleted(index, error, attachment, listener, images);
                 }
             });
         }
@@ -67,48 +67,49 @@ public class KUSUpload {
 
     //region Private Method
     private void uploadCompleted(int index, Error error, KUSChatAttachment attachment,
-                                 KUSImageUploadListener listener, List<Bitmap> images){
-        if(error != null){
-            if(listener != null && !sendingComplete){
+                                 KUSImageUploadListener listener, List<Bitmap> images) {
+        if (error != null) {
+            if (listener != null && !sendingComplete) {
                 sendingComplete = true;
-                listener.onCompletion(error,null);
+                listener.onCompletion(error, null);
             }
 
             return;
         }
 
         uploadedCount++;
-        attachments.set(index,attachment);
-        if(uploadedCount == images.size()){
-            if(listener !=null && !sendingComplete){
+        attachments.set(index, attachment);
+        if (uploadedCount == images.size()) {
+            if (listener != null && !sendingComplete) {
                 sendingComplete = true;
                 listener.onCompletion(null, attachments);
             }
         }
     }
 
-    private void uploadImage(Bitmap image, final KUSUserSession userSession, final ImageUploadListener listener){
-
-        if(image != null) {
+    private void uploadImage(Bitmap image, final KUSUserSession userSession,
+                             final ImageUploadListener listener) {
+        if (image != null) {
             final byte[] imageBytes = KUSImage.getByteArrayFromBitmap(image);
             final String filename = String.format("%s.jpg", UUID.randomUUID().toString());
+
+            final int imageBytesLength = imageBytes == null ? 0 : imageBytes.length;
 
             userSession.getRequestManager().performRequestType(
                     KUSRequestType.KUS_REQUEST_TYPE_POST,
                     KUSConstants.URL.CHAT_ATTACHMENT_ENDPOINT,
                     new HashMap<String, Object>() {{
                         put("name", filename);
-                        put("contentLength", imageBytes.length);
+                        put("contentLength", imageBytesLength);
                         put("contentType", "image/jpeg");
                     }},
                     true,
                     new KUSRequestCompletionListener() {
                         @Override
                         public void onCompletion(Error error, JSONObject response) {
-
-                            if(error != null){
-                                if(listener != null){
-                                    listener.onUploadComplete(error,null);
+                            if (error != null) {
+                                if (listener != null) {
+                                    listener.onUploadComplete(error, null);
                                 }
 
                                 return;
@@ -116,15 +117,17 @@ public class KUSUpload {
 
                             final KUSChatAttachment chatAttachment;
                             try {
-                                chatAttachment = new KUSChatAttachment(JsonHelper.jsonObjectFromKeyPath(response,"data"));
+                                chatAttachment = new KUSChatAttachment(JsonHelper
+                                        .jsonObjectFromKeyPath(response, "data"));
                             } catch (KUSInvalidJsonException e) {
                                 return;
                             }
 
                             try {
-                                URL uploadURL = new URL(JsonHelper.stringFromKeyPath(response,"meta.upload.url"));
-                                HashMap<String, String> uploadFields =
-                                        JsonHelper.hashMapFromKeyPath(response,"meta.upload.fields");
+                                URL uploadURL = new URL(JsonHelper
+                                        .stringFromKeyPath(response, "meta.upload.url"));
+                                HashMap<String, String> uploadFields = JsonHelper
+                                        .hashMapFromKeyPath(response, "meta.upload.fields");
 
                                 userSession.getRequestManager().uploadImageOnS3(uploadURL,
                                         filename,
@@ -133,18 +136,17 @@ public class KUSUpload {
                                         new KUSRequestCompletionListener() {
                                             @Override
                                             public void onCompletion(Error error, JSONObject response) {
-                                                if(error != null){
-                                                    if(listener != null)
+                                                if (error != null) {
+                                                    if (listener != null)
                                                         listener.onUploadComplete(error, null);
 
                                                     return;
                                                 }
 
-                                                if(listener != null)
-                                                    listener.onUploadComplete(null,chatAttachment);
+                                                if (listener != null)
+                                                    listener.onUploadComplete(null, chatAttachment);
                                             }
                                         });
-
 
                             } catch (MalformedURLException e) {
                                 e.printStackTrace();
@@ -156,11 +158,10 @@ public class KUSUpload {
         }
     }
 
-
     //endregion
 
     //region Interface
-    public interface ImageUploadListener{
+    public interface ImageUploadListener {
         void onUploadComplete(Error error, KUSChatAttachment attachment);
     }
     //endregion

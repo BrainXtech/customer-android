@@ -2,6 +2,7 @@ package com.kustomer.kustomersdk.Helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.annotation.NonNull;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 
@@ -23,7 +24,7 @@ public class KUSSharedPreferences {
     //endregion
 
     //region Initializer
-    public KUSSharedPreferences(Context context, KUSUserSession userSession) {
+    public KUSSharedPreferences(@NonNull Context context, @NonNull KUSUserSession userSession) {
         String suiteName = userSession.getOrgName() + "_" + PREFERENCE_FILE_KEY;
         sharedPref = context.getSharedPreferences(
                 suiteName, MODE_PRIVATE);

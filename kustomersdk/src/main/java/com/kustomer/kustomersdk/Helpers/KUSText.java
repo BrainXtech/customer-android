@@ -1,5 +1,6 @@
 package com.kustomer.kustomersdk.Helpers;
 
+import android.support.annotation.NonNull;
 import android.widget.TextView;
 
 import java.util.regex.Pattern;
@@ -20,7 +21,7 @@ public class KUSText {
     //endregion
 
     //region Public Methods
-    public static void setMarkDownText(TextView textView, String text) {
+    public static void setMarkDownText(@NonNull TextView textView, String text) {
 
         String msg = formatText(text);
         SpannableTheme theme = SpannableTheme.builderWithDefaults(textView.getContext())
@@ -80,13 +81,13 @@ public class KUSText {
     }
 
     public static boolean isValidEmail(String email) {
-        if (email.length() == 0)
+        if (email == null || email.length() == 0)
             return false;
         return Pattern.compile(EMAIL_REGEX).matcher(email).matches();
     }
 
     public static boolean isValidPhone(String phoneNo) {
-        if (phoneNo.length() == 0)
+        if (phoneNo == null || phoneNo.length() == 0)
             return false;
         return Pattern.compile(PHONE_REGEX).matcher(phoneNo).matches();
     }

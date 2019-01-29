@@ -6,7 +6,5 @@ package com.kustomer.kustomersdk.Interfaces;
 
 public interface KUSChatAvailableListener {
     void onSuccess(boolean enabled);
-
     void onFailure();
-
 }

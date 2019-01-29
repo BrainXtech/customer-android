@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.Utils;
 
 import android.content.Context;
+import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -32,6 +33,7 @@ import java.util.regex.Pattern;
 
 public class JsonHelper {
 
+    @Nullable
     public static URL urlFromKeyPath(JSONObject jsonObject, String keyPath) {
         String value = stringFromKeyPath(jsonObject, keyPath);
 
@@ -46,7 +48,8 @@ public class JsonHelper {
         return null;
     }
 
-    public static String stringFromKeyPath(JSONObject jsonObject, String keyPath){
+    @Nullable
+    public static String stringFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -60,6 +63,7 @@ public class JsonHelper {
         }
     }
 
+    @Nullable
     public static JSONArray arrayFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
@@ -72,6 +76,7 @@ public class JsonHelper {
         }
     }
 
+    @Nullable
     public static ArrayList<String> arrayListFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             Gson googleJson = new Gson();
@@ -81,14 +86,16 @@ public class JsonHelper {
             }
             JSONArray jsonArray = keys.length > 0 ? jsonObject.getJSONArray(keys[keys.length - 1]) : jsonObject.getJSONArray(keyPath);
 
-            Type listType = new TypeToken<ArrayList<String>>(){}.getType();
+            Type listType = new TypeToken<ArrayList<String>>() {
+            }.getType();
             return googleJson.fromJson(jsonArray.toString(), listType);
         } catch (Exception e) {
             return null;
         }
     }
 
-    public static HashMap<String,String> hashMapFromKeyPath(JSONObject jsonObject, String keyPath) {
+    @Nullable
+    public static HashMap<String, String> hashMapFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             Gson googleJson = new Gson();
             String[] keys = keyPath.split("[.]");
@@ -97,7 +104,8 @@ public class JsonHelper {
             }
             JSONObject jsonObject1 = keys.length > 0 ? jsonObject.getJSONObject(keys[keys.length - 1]) : jsonObject.getJSONObject(keyPath);
 
-            Type hashMapType = new TypeToken<HashMap<String,String>>(){}.getType();
+            Type hashMapType = new TypeToken<HashMap<String, String>>() {
+            }.getType();
             return googleJson.fromJson(jsonObject1.toString(), hashMapType);
         } catch (Exception e) {
             return null;
@@ -140,6 +148,7 @@ public class JsonHelper {
         }
     }
 
+    @Nullable
     public static Date dateFromKeyPath(JSONObject jsonObject, String keyPath) {
 
         try {
@@ -156,7 +165,8 @@ public class JsonHelper {
         }
     }
 
-    public static JSONObject jsonObjectFromKeyPath(JSONObject json, String keyPath){
+    @Nullable
+    public static JSONObject jsonObjectFromKeyPath(JSONObject json, String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -168,7 +178,8 @@ public class JsonHelper {
         }
     }
 
-    public static JSONObject stringToJson(String jsonString){
+    @Nullable
+    public static JSONObject stringToJson(String jsonString) {
         try {
             return new JSONObject(jsonString);
         } catch (JSONException e) {
@@ -178,8 +189,9 @@ public class JsonHelper {
         return null;
     }
 
+    @Nullable
     public static List<KUSModel> kusChatModelsFromJSON(Context context, JSONObject jsonObject) {
-        if(jsonObject == null)
+        if (jsonObject == null)
             return null;
 
         KUSChatMessage standardChatMessage = null;
@@ -190,7 +202,7 @@ public class JsonHelper {
             e.printStackTrace();
         }
 
-        if(standardChatMessage == null)
+        if (standardChatMessage == null)
             return new ArrayList<>();
 
         String body = KUSUtils.KUSUnescapeBackslashesFromString(standardChatMessage.getBody());
@@ -207,21 +219,21 @@ public class JsonHelper {
 
         Matcher matcher = regex.matcher(body);
 
-        while(matcher.find()){
+        while (matcher.find()) {
 
             Matcher urlMatcher = Pattern.compile(KUSConstants.Pattern.URL_PATTERN).matcher(matcher.group());
 
-            if(urlMatcher.find()){
+            if (urlMatcher.find()) {
                 String matchedText = KUSUtils.KUSUnescapeBackslashesFromString(urlMatcher.group());
                 try {
                     URL matchedURL = new URL(matchedText);
                     JSONObject previousJSON = new JSONObject(jsonObject.toString());
-                    previousJSON.put("id",String.format(Locale.getDefault(),
-                            "%s_%d",standardChatMessage.getId(),lastId));
+                    previousJSON.put("id", String.format(Locale.getDefault(),
+                            "%s_%d", standardChatMessage.getId(), lastId));
 
-                    String previousText = body.substring(lastLocation,matcher.start());
+                    String previousText = body.substring(lastLocation, matcher.start());
                     previousText = previousText.trim();
-                    if(previousText.length() > 0){
+                    if (previousText.length() > 0) {
                         try {
                             KUSChatMessage previousChatMessage = new KUSChatMessage(previousJSON);
                             previousChatMessage.setBody(previousText);
@@ -233,10 +245,10 @@ public class JsonHelper {
                     }
 
                     JSONObject imageJSON = new JSONObject(jsonObject.toString());
-                    imageJSON.put("id",String.format(Locale.getDefault(),
-                            "%s_%d",standardChatMessage.getId(),lastId));
+                    imageJSON.put("id", String.format(Locale.getDefault(),
+                            "%s_%d", standardChatMessage.getId(), lastId));
                     KUSChatMessage imageMessage = new KUSChatMessage(imageJSON,
-                            KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE,matchedURL);
+                            KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE, matchedURL);
                     imageMessage.setBody(matchedText);
                     chatMessages.add(imageMessage);
                     lastId++;
@@ -250,19 +262,19 @@ public class JsonHelper {
 
         }
 
-        if(chatMessages.size() == 0)
+        if (chatMessages.size() == 0)
             chatMessages.add(standardChatMessage);
-        else{
+        else {
             JSONObject previousJSON;
             try {
 
                 previousJSON = new JSONObject(jsonObject.toString());
-                previousJSON.put("id",String.format(Locale.getDefault(),
-                        "%s_%d",standardChatMessage.getId(),lastId));
+                previousJSON.put("id", String.format(Locale.getDefault(),
+                        "%s_%d", standardChatMessage.getId(), lastId));
 
                 String previousText = body.substring(lastLocation);
                 previousText = previousText.trim();
-                if(previousText.length() > 0){
+                if (previousText.length() > 0) {
                     try {
                         KUSChatMessage previousMessage = new KUSChatMessage(previousJSON);
                         previousMessage.setBody(previousText);
@@ -278,7 +290,7 @@ public class JsonHelper {
             }
         }
 
-        if(standardChatMessage.getAttachmentIds() != null) {
+        if (standardChatMessage.getAttachmentIds() != null) {
             for (Object id : standardChatMessage.getAttachmentIds()) {
                 String attachmentId = (String) id;
                 try {

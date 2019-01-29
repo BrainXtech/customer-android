@@ -11,6 +11,8 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.media.ExifInterface;
 import android.support.v4.content.ContextCompat;
 
@@ -32,13 +34,13 @@ public class KUSImage {
     //endreigon
 
     //region Resource Method
-    public static Bitmap bitmapFromId(Context mContext, int id) {
+    public static Bitmap bitmapFromId(@NonNull Context mContext, int id) {
         return BitmapFactory.decodeResource(mContext.getResources(), id);
     }
     //endregion
 
     //region Public Methods
-    private static Bitmap circularImage(KSize size, int color, int strokeColor, int strokeWidth) {
+    private static Bitmap circularImage(@NonNull KSize size, int color, int strokeColor, int strokeWidth) {
         Bitmap dstBitmap = Bitmap.createBitmap(
                 size.getWidth(), // Width
                 size.getHeight(), // Height
@@ -80,9 +82,8 @@ public class KUSImage {
 
     }
 
-    private static Bitmap getBitmapWithText(Context mContext, KSize size, int color, int strokeColor, int strokeWidth, String text, int textSize) {
-
-
+    private static Bitmap getBitmapWithText(@NonNull Context mContext, KSize size, int color,
+                                            int strokeColor, int strokeWidth, String text, int textSize) {
         Bitmap src = circularImage(size, color, strokeColor, strokeWidth);
 
         Resources resources = mContext.getResources();
@@ -104,17 +105,17 @@ public class KUSImage {
 
         canvas.drawText(text, x, y, paint);
 
-
         return src;
     }
 
-    public static Bitmap defaultAvatarBitmapForName(Context context, KSize size, String name, int strokeWidth, int fontSize) {
+    public static Bitmap defaultAvatarBitmapForName(Context context, KSize size, String name,
+                                                    int strokeWidth, int fontSize) {
         Bitmap bitmap = new KUSCache().getBitmapFromMemCache(name + "w:" + strokeWidth);
+
         if (bitmap != null)
             return bitmap;
 
         List<String> initials = initialsForName(name);
-
         int letterSum = 0;
         StringBuilder text = new StringBuilder();
         for (String initial : initials) {
@@ -140,28 +141,25 @@ public class KUSImage {
     //endregion
 
     //region Private Methods
-    private static List<String> initialsForName(String name) {
+    private static List<String> initialsForName(@NonNull String name) {
         int maximumInitialsCount = 3;
 
         String[] words = name.trim().split(" ");
         List<String> initials = new ArrayList<>();
 
         for (String word : words) {
-
             if (word.length() > 0) {
                 String firstLetter = String.valueOf(word.toUpperCase().charAt(0));
                 initials.add(firstLetter);
             }
             if (initials.size() >= maximumInitialsCount)
                 break;
-
         }
 
         if (initials.size() > 0)
             return initials;
 
         initials.add("*");
-
         return initials;
     }
 
@@ -179,6 +177,7 @@ public class KUSImage {
         return defaultNameColors;
     }
 
+    @Nullable
     static byte[] getByteArrayFromBitmap(Bitmap bitmap) {
         if (bitmap != null) {
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -189,7 +188,8 @@ public class KUSImage {
         return null;
     }
 
-    public static Bitmap getScaledImage(Bitmap bitmap, int maxPixelCount) throws OutOfMemoryError {
+    public static Bitmap getScaledImage(@NonNull Bitmap bitmap, int maxPixelCount)
+            throws OutOfMemoryError {
 
         int srcWidth = bitmap.getWidth();
         int srcHeight = bitmap.getHeight();
@@ -201,7 +201,8 @@ public class KUSImage {
             Matrix matrix = new Matrix();
             matrix.postScale(scaleDown, scaleDown);
 
-            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
+            return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(),
+                    matrix, true);
         } else {
             return bitmap;
         }
