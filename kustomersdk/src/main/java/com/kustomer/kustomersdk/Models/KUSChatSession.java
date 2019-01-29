@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.DataSources.KUSChatMessagesDataSource;
@@ -23,12 +24,18 @@ import java.util.Date;
 public class KUSChatSession extends KUSModel implements Serializable {
 
     //region Properties
+    @Nullable
     private String preview;
+    @Nullable
     private String trackingId;
 
+    @Nullable
     private Date createdAt;
+    @Nullable
     private Date lastSeenAt;
+    @Nullable
     private Date lastMessageAt;
+    @Nullable
     private Date lockedAt;
     //endregion
 
@@ -139,6 +146,12 @@ public class KUSChatSession extends KUSModel implements Serializable {
             return -1;
         else if (this.lockedAt != null)
             return 1;
+        else if (this.createdAt == null && chatSession.createdAt == null)
+            date = 0;
+        else if (this.createdAt == null)
+            date = 1;
+        else if (chatSession.createdAt == null)
+            date = -1;
         else
             date = chatSession.createdAt.compareTo(this.createdAt);
 
@@ -153,50 +166,56 @@ public class KUSChatSession extends KUSModel implements Serializable {
     //endregion
 
     //region Accessors
+    @Nullable
     public String getPreview() {
         return preview;
     }
 
-    public void setPreview(String preview) {
+    public void setPreview(@Nullable String preview) {
         this.preview = preview;
     }
 
+    @Nullable
     public String getTrackingId() {
         return trackingId;
     }
 
-    public void setTrackingId(String trackingId) {
+    public void setTrackingId(@Nullable String trackingId) {
         this.trackingId = trackingId;
     }
 
+    @Nullable
     public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(@Nullable Date createdAt) {
         this.createdAt = createdAt;
     }
 
+    @Nullable
     public Date getLastSeenAt() {
         return lastSeenAt;
     }
 
-    public void setLastSeenAt(Date lastSeenAt) {
+    public void setLastSeenAt(@Nullable Date lastSeenAt) {
         this.lastSeenAt = lastSeenAt;
     }
 
+    @Nullable
     public Date getLastMessageAt() {
         return lastMessageAt;
     }
 
-    public void setLastMessageAt(Date lastMessageAt) {
+    public void setLastMessageAt(@Nullable Date lastMessageAt) {
         this.lastMessageAt = lastMessageAt;
     }
 
-    public void setLockedAt(Date lockedAt) {
+    public void setLockedAt(@Nullable Date lockedAt) {
         this.lockedAt = lockedAt;
     }
 
+    @Nullable
     public Date getLockedAt() {
         return lockedAt;
     }

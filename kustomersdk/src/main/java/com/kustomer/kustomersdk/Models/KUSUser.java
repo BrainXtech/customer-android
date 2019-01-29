@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
@@ -13,29 +15,33 @@ import java.net.URL;
 
 public class KUSUser extends KUSModel {
     //region Properties
+    @Nullable
     private String displayName;
+    @Nullable
     private URL avatarURL;
     //endregion
 
     //region Initializer
     public KUSUser(JSONObject json) throws KUSInvalidJsonException {
         super(json);
-        displayName = JsonHelper.stringFromKeyPath(json,"attributes.displayName");
-        avatarURL = JsonHelper.urlFromKeyPath(json,"attributes.avatarUrl");
+        displayName = JsonHelper.stringFromKeyPath(json, "attributes.displayName");
+        avatarURL = JsonHelper.urlFromKeyPath(json, "attributes.avatarUrl");
     }
 
     @Override
-    public String modelType(){
+    public String modelType() {
         return "user";
     }
     //endregion
 
     //region Accessors
 
+    @Nullable
     public String getDisplayName() {
         return displayName;
     }
 
+    @Nullable
     public URL getAvatarURL() {
         return avatarURL;
     }

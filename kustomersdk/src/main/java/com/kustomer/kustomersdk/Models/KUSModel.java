@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 
@@ -20,25 +21,30 @@ public class KUSModel implements Comparable<KUSModel>, Serializable {
 
     //region Properties
     private String id;
+    @Nullable
     private String orgId;
+    @Nullable
     private String customerId;
+    @Nullable
     private String sessionId;
+    @Nullable
     private String originalJSON;
     //endregion
 
     //region Initializer
-    public KUSModel(){}
+    public KUSModel() {
+    }
 
     public KUSModel(JSONObject json) throws KUSInvalidJsonException {
         //Reject any objects  where the model type doesn't match, if enforced
-        String type = stringFromKeyPath(json,"type");
+        String type = stringFromKeyPath(json, "type");
         String classType = modelType();
 
         if (enforcesModelType() && (type == null || !type.equals(classType)))
             throw new KUSInvalidJsonException("Model Type not matched.");
 
         //Make sure there is an object id
-        String objectId = stringFromKeyPath(json,"id");
+        String objectId = stringFromKeyPath(json, "id");
         if (objectId == null)
             throw new KUSInvalidJsonException("Object Id not found.");
 
@@ -71,7 +77,7 @@ public class KUSModel implements Comparable<KUSModel>, Serializable {
         return this.id.hashCode();
     }
 
-    public void addIncludedWithJSON(JSONArray jsonArray){
+    public void addIncludedWithJSON(JSONArray jsonArray) {
         // TODO: Need to rethink how can we improve this function
     }
 
@@ -79,7 +85,7 @@ public class KUSModel implements Comparable<KUSModel>, Serializable {
 
     @Override
     public int compareTo(@NonNull KUSModel kusModel) {
-        if(kusModel.id != null)
+        if (kusModel.id != null)
             return kusModel.id.compareTo(this.id);
         else
             return -1;
@@ -93,9 +99,9 @@ public class KUSModel implements Comparable<KUSModel>, Serializable {
 
         KUSModel kus = (KUSModel) obj;
         return kus.id.equals(this.id)
-                && kus.orgId.equals(this.orgId)
-                && kus.customerId.equals(this.customerId)
-                && kus.sessionId.equals(this.sessionId);
+                && kus.orgId != null && kus.orgId.equals(this.orgId)
+                && kus.customerId != null && kus.customerId.equals(this.customerId)
+                && kus.sessionId != null && kus.sessionId.equals(this.sessionId);
     }
     //endregion
 
@@ -109,27 +115,30 @@ public class KUSModel implements Comparable<KUSModel>, Serializable {
         this.id = id;
     }
 
+    @Nullable
     public String getOrgId() {
         return orgId;
     }
 
-    public void setOrgId(String orgId) {
+    public void setOrgId(@Nullable String orgId) {
         this.orgId = orgId;
     }
 
+    @Nullable
     public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(@Nullable String customerId) {
         this.customerId = customerId;
     }
 
+    @Nullable
     public String getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(String sessionId) {
+    public void setSessionId(@Nullable String sessionId) {
         this.sessionId = sessionId;
     }
 

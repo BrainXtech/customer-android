@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Enums.KUSFormQuestionProperty;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
@@ -18,6 +20,8 @@ import java.util.List;
 public class KUSForm extends KUSModel {
 
     // region Properties
+
+    @Nullable
     private List<KUSFormQuestion> questions;
     //endregion
 
@@ -70,6 +74,7 @@ public class KUSForm extends KUSModel {
 
     //region Accessors
 
+    @Nullable
     public List<KUSFormQuestion> getQuestions() {
         return questions;
     }

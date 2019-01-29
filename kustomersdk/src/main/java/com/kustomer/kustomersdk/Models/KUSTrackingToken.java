@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
@@ -12,7 +14,9 @@ import org.json.JSONObject;
 public class KUSTrackingToken extends KUSModel {
 
     //region Properties
+    @Nullable
     private String trackingId;
+    @Nullable
     private String token;
     private boolean verified;
     //endregion
@@ -33,19 +37,21 @@ public class KUSTrackingToken extends KUSModel {
 
     //region Accessors
 
+    @Nullable
     public String getTrackingId() {
         return trackingId;
     }
 
-    public void setTrackingId(String trackingId) {
+    public void setTrackingId(@Nullable String trackingId) {
         this.trackingId = trackingId;
     }
 
+    @Nullable
     public String getToken() {
         return token;
     }
 
-    public void setToken(String token) {
+    public void setToken(@Nullable String token) {
         this.token = token;
     }
 

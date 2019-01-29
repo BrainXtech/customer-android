@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
@@ -14,10 +16,14 @@ import java.util.List;
 public class KUSClientActivity extends KUSModel {
 
     //region Properties
+    @Nullable
     private List<Double> intervals;
+    @Nullable
     private String currentPage;
+    @Nullable
     private String previousPage;
     private double currentPageSeconds;
+    @Nullable
     private Date createdAt;
     //endregion
 
@@ -61,27 +67,30 @@ public class KUSClientActivity extends KUSModel {
 
     //region Getters & Setters
 
+    @Nullable
     public List<Double> getIntervals() {
         return intervals;
     }
 
-    public void setIntervals(List<Double> intervals) {
+    public void setIntervals(@Nullable List<Double> intervals) {
         this.intervals = intervals;
     }
 
+    @Nullable
     public String getCurrentPage() {
         return currentPage;
     }
 
-    public void setCurrentPage(String currentPage) {
+    public void setCurrentPage(@Nullable String currentPage) {
         this.currentPage = currentPage;
     }
 
+    @Nullable
     public String getPreviousPage() {
         return previousPage;
     }
 
-    public void setPreviousPage(String previousPage) {
+    public void setPreviousPage(@Nullable String previousPage) {
         this.previousPage = previousPage;
     }
 
@@ -93,11 +102,12 @@ public class KUSClientActivity extends KUSModel {
         this.currentPageSeconds = currentPageSeconds;
     }
 
+    @Nullable
     public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(@Nullable Date createdAt) {
         this.createdAt = createdAt;
     }
 

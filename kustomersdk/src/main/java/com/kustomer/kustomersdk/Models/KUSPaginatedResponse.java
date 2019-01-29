@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.DataSources.KUSPaginatedDataSource;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
@@ -22,9 +24,13 @@ public class KUSPaginatedResponse {
     private int page;
     private int pageSize;
 
+    @Nullable
     private String selfPath;
+    @Nullable
     private String firstPath;
+    @Nullable
     private String prevPath;
+    @Nullable
     private String nextPath;
     //endregion
 
@@ -33,8 +39,8 @@ public class KUSPaginatedResponse {
 
     }
 
-    public KUSPaginatedResponse(JSONObject json, KUSPaginatedDataSource dataSource) throws JSONException, KUSInvalidJsonException {
-
+    public KUSPaginatedResponse(JSONObject json, KUSPaginatedDataSource dataSource)
+            throws JSONException, KUSInvalidJsonException {
         if (json == null)
             return;
 
@@ -108,35 +114,39 @@ public class KUSPaginatedResponse {
         this.pageSize = pageSize;
     }
 
+    @Nullable
     public String getSelfPath() {
         return selfPath;
     }
 
-    public void setSelfPath(String selfPath) {
+    public void setSelfPath(@Nullable String selfPath) {
         this.selfPath = selfPath;
     }
 
+    @Nullable
     public String getFirstPath() {
         return firstPath;
     }
 
-    public void setFirstPath(String firstPath) {
+    public void setFirstPath(@Nullable String firstPath) {
         this.firstPath = firstPath;
     }
 
+    @Nullable
     public String getPrevPath() {
         return prevPath;
     }
 
-    public void setPrevPath(String prevPath) {
+    public void setPrevPath(@Nullable String prevPath) {
         this.prevPath = prevPath;
     }
 
+    @Nullable
     public String getNextPath() {
         return nextPath;
     }
 
-    public void setNextPath(String nextPath) {
+    public void setNextPath(@Nullable String nextPath) {
         this.nextPath = nextPath;
     }
 

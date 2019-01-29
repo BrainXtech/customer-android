@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Enums.KUSFormQuestionProperty;
 import com.kustomer.kustomersdk.Enums.KUSFormQuestionType;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -17,12 +19,19 @@ import java.util.List;
 public class KUSFormQuestion extends KUSModel {
 
     //region Properties
+    @Nullable
     private String name;
+    @Nullable
     private String prompt;
+    @Nullable
     private List<String> values;
+    @Nullable
     private KUSFormQuestionType type;
+
     private KUSFormQuestionProperty property;
     private boolean skipIfSatisfied;
+
+    @Nullable
     private KUSMLFormValue mlFormValues;
     //endregion
 
@@ -119,18 +128,22 @@ public class KUSFormQuestion extends KUSModel {
         return property;
     }
 
+    @Nullable
     public KUSFormQuestionType getType() {
         return type;
     }
 
+    @Nullable
     public String getPrompt() {
         return prompt;
     }
 
+    @Nullable
     public String getName() {
         return name;
     }
 
+    @Nullable
     public List<String> getValues() {
         return values;
     }
@@ -139,6 +152,7 @@ public class KUSFormQuestion extends KUSModel {
         return skipIfSatisfied;
     }
 
+    @Nullable
     public KUSMLFormValue getMlFormValues() {
         return mlFormValues;
     }

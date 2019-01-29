@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
@@ -10,9 +12,13 @@ import java.util.Date;
 public class KUSHoliday extends KUSModel {
 
     //region Properties
+    @Nullable
     private String name;
+    @Nullable
     private Date startDate;
+    @Nullable
     private Date endDate;
+
     private boolean enabled;
     //endregion
 
@@ -20,29 +26,32 @@ public class KUSHoliday extends KUSModel {
     public KUSHoliday(JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
-        name = JsonHelper.stringFromKeyPath(json,"attributes.name");
-        startDate = JsonHelper.dateFromKeyPath(json,"attributes.startDate");
-        endDate = JsonHelper.dateFromKeyPath(json,"attributes.endDate");
-        enabled = JsonHelper.boolFromKeyPath(json,"attributes.enabled");
+        name = JsonHelper.stringFromKeyPath(json, "attributes.name");
+        startDate = JsonHelper.dateFromKeyPath(json, "attributes.startDate");
+        endDate = JsonHelper.dateFromKeyPath(json, "attributes.endDate");
+        enabled = JsonHelper.boolFromKeyPath(json, "attributes.enabled");
     }
     //endregion
 
     //region Class methods
-    public String modelType(){
+    public String modelType() {
         return "holiday";
     }
     //endregion
 
     //region Accessors
 
+    @Nullable
     public String getName() {
         return name;
     }
 
+    @Nullable
     public Date getStartDate() {
         return startDate;
     }
 
+    @Nullable
     public Date getEndDate() {
         return endDate;
     }

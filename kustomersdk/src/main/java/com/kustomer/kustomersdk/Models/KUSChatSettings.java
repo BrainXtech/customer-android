@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Enums.KUSBusinessHoursAvailability;
 import com.kustomer.kustomersdk.Enums.KUSVolumeControlMode;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -17,23 +19,36 @@ import java.util.ArrayList;
 
 public class KUSChatSettings extends KUSModel implements Serializable {
     //region Properties
+    @Nullable
     private String teamName;
+    @Nullable
     private URL teamIconURL;
+    @Nullable
     private String greeting;
+    @Nullable
     private String activeFormId;
+    @Nullable
     private String pusherAccessKey;
     private boolean enabled;
 
+    @Nullable
     private KUSBusinessHoursAvailability availability;
+    @Nullable
     private String offHoursImageUrl;
+    @Nullable
     private String offHoursMessage;
-
+    @Nullable
     private String waitMessage;
+    @Nullable
     private String customWaitMessage;
-    private Integer timeOut;
-    private Integer promptDelay;
+
+    private int timeOut;
+    private int promptDelay;
     private boolean hideWaitOption;
+
+    @Nullable
     private ArrayList<String> followUpChannels;
+
     private boolean useDynamicWaitMessage;
     private boolean markDoneAfterTimeout;
     private boolean volumeControlEnabled;
@@ -99,6 +114,7 @@ public class KUSChatSettings extends KUSModel implements Serializable {
         return KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_UNKNOWN;
     }
 
+    @Nullable
     private String stringSanitizedReply(String autoReply) {
         if (autoReply != null)
             return autoReply.trim().length() > 0 ? autoReply.trim() : null;
@@ -123,22 +139,27 @@ public class KUSChatSettings extends KUSModel implements Serializable {
 
     //region Accessors
 
+    @Nullable
     public String getTeamName() {
         return teamName;
     }
 
+    @Nullable
     public URL getTeamIconURL() {
         return teamIconURL;
     }
 
+    @Nullable
     public String getGreeting() {
         return greeting;
     }
 
+    @Nullable
     public String getActiveFormId() {
         return activeFormId;
     }
 
+    @Nullable
     public String getPusherAccessKey() {
         return pusherAccessKey;
     }
@@ -147,6 +168,7 @@ public class KUSChatSettings extends KUSModel implements Serializable {
         return enabled;
     }
 
+    @Nullable
     public String getCustomWaitMessage() {
         return customWaitMessage;
     }
@@ -163,6 +185,7 @@ public class KUSChatSettings extends KUSModel implements Serializable {
         return hideWaitOption;
     }
 
+    @Nullable
     public ArrayList<String> getFollowUpChannels() {
         return followUpChannels;
     }
@@ -179,6 +202,7 @@ public class KUSChatSettings extends KUSModel implements Serializable {
         return volumeControlEnabled;
     }
 
+    @Nullable
     public String getWaitMessage() {
         return waitMessage;
     }
@@ -211,14 +235,17 @@ public class KUSChatSettings extends KUSModel implements Serializable {
         return noHistory;
     }
 
+    @Nullable
     public KUSBusinessHoursAvailability getAvailability() {
         return availability;
     }
 
+    @Nullable
     public String getOffHoursImageUrl() {
         return offHoursImageUrl;
     }
 
+    @Nullable
     public String getOffHoursMessage() {
         return offHoursMessage;
     }

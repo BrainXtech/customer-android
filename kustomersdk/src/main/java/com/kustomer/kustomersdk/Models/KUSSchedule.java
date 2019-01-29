@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
@@ -11,8 +13,11 @@ import java.util.ArrayList;
 
 public class KUSSchedule extends KUSModel {
     //region Properties
+    @Nullable
     private String name;
+    @Nullable
     private JSONObject hours;
+    @Nullable
     private String timezone;
     private boolean enabled;
 
@@ -55,14 +60,17 @@ public class KUSSchedule extends KUSModel {
 
     //region Accessors
 
+    @Nullable
     public String getName() {
         return name;
     }
 
+    @Nullable
     public JSONObject getHours() {
         return hours;
     }
 
+    @Nullable
     public String getTimezone() {
         return timezone;
     }

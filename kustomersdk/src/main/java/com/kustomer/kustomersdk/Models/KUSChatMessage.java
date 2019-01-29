@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Enums.KUSChatMessageDirection;
 import com.kustomer.kustomersdk.Enums.KUSChatMessageState;
@@ -19,6 +20,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Junaid on 1/20/2018.
@@ -28,19 +30,30 @@ import java.util.List;
 public class KUSChatMessage extends KUSModel {
 
     //region Properties
+    @Nullable
     private String trackingId;
+    @Nullable
     private String body;
+    @Nullable
     private URL imageUrl;
+    @Nullable
     private List attachmentIds;
 
+    @Nullable
     private Date createdAt;
+    @Nullable
     private Date importedAt;
+    @Nullable
     private KUSChatMessageDirection direction;
+    @Nullable
     private String sentById;
+    @Nullable
     private String campaignId;
-
+    @Nullable
     private KUSChatMessageType type;
+    @Nullable
     private KUSChatMessageState state;
+    @Nullable
     private String value;
     //endregion
 
@@ -53,7 +66,7 @@ public class KUSChatMessage extends KUSModel {
         this(json, KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_TEXT, null);
     }
 
-    public KUSChatMessage(JSONObject json, KUSChatMessageType type, URL imageUrl)
+    public KUSChatMessage(JSONObject json, @Nullable KUSChatMessageType type, @Nullable URL imageUrl)
             throws KUSInvalidJsonException {
         super(json);
 
@@ -93,8 +106,8 @@ public class KUSChatMessage extends KUSModel {
                 && (message1.sentById != null && message1.sentById.equalsIgnoreCase(message2.sentById));
     }
 
+    @Nullable
     private static KUSChatMessageDirection KUSChatMessageDirectionFromString(String str) {
-
         if (str == null)
             return null;
 
@@ -103,6 +116,7 @@ public class KUSChatMessage extends KUSModel {
                 : KUSChatMessageDirection.KUS_CHAT_MESSAGE_DIRECTION_OUT;
     }
 
+    @NonNull
     public static URL attachmentUrlForMessageId(String messageId, String attachmentId)
             throws MalformedURLException {
         String imageUrlString = String.format(KUSConstants.URL.ATTACHMENT_ENDPOINT,
@@ -149,11 +163,11 @@ public class KUSChatMessage extends KUSModel {
             return false;
         if (!chatMessage.getId().equals(this.getId()))
             return false;
-        if (!chatMessage.createdAt.equals(this.createdAt))
+        if (!Objects.equals(chatMessage.createdAt, this.createdAt))
             return false;
         if (chatMessage.importedAt != null && !chatMessage.importedAt.equals(this.importedAt))
             return false;
-        if (!chatMessage.body.equals(this.body))
+        if (!Objects.equals(chatMessage.body, this.body))
             return false;
 
         return true;
@@ -162,7 +176,17 @@ public class KUSChatMessage extends KUSModel {
     @Override
     public int compareTo(@NonNull KUSModel kusModel) {
         KUSChatMessage message = (KUSChatMessage) kusModel;
-        int date = message.createdAt.compareTo(this.createdAt);
+
+        int date;
+        if (this.createdAt == null && message.createdAt == null)
+            date = 0;
+        else if (this.createdAt == null)
+            date = 1;
+        else if (message.createdAt == null)
+            date = -1;
+        else
+            date = message.createdAt.compareTo(this.createdAt);
+
         int parent = super.compareTo(kusModel);
         return date == 0 ? parent : date;
     }
@@ -187,30 +211,34 @@ public class KUSChatMessage extends KUSModel {
 
     //region Accessors
 
+    @Nullable
     public String getTrackingId() {
         return trackingId;
     }
 
-    public void setTrackingId(String trackingId) {
+    public void setTrackingId(@Nullable String trackingId) {
         this.trackingId = trackingId;
     }
 
+    @Nullable
     public String getBody() {
         return body;
     }
 
-    public void setBody(String body) {
+    public void setBody(@Nullable String body) {
         this.body = body;
     }
 
+    @Nullable
     public URL getImageUrl() {
         return imageUrl;
     }
 
-    public void setImageUrl(URL imageUrl) {
+    public void setImageUrl(@Nullable URL imageUrl) {
         this.imageUrl = imageUrl;
     }
 
+    @Nullable
     public List getAttachmentIds() {
         return attachmentIds;
     }
@@ -219,62 +247,70 @@ public class KUSChatMessage extends KUSModel {
         this.attachmentIds = attachmentIds;
     }
 
+    @Nullable
     public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(@Nullable Date createdAt) {
         this.createdAt = createdAt;
     }
 
+    @Nullable
     public Date getImportedAt() {
         return importedAt;
     }
 
-    public void setImportedAt(Date importedAt) {
+    public void setImportedAt(@Nullable Date importedAt) {
         this.importedAt = importedAt;
     }
 
+    @Nullable
     public KUSChatMessageDirection getDirection() {
         return direction;
     }
 
-    public void setDirection(KUSChatMessageDirection direction) {
+    public void setDirection(@Nullable KUSChatMessageDirection direction) {
         this.direction = direction;
     }
 
+    @Nullable
     public String getSentById() {
         return sentById;
     }
 
-    public void setSentById(String sentById) {
+    public void setSentById(@Nullable String sentById) {
         this.sentById = sentById;
     }
 
+    @Nullable
     public KUSChatMessageType getType() {
         return type;
     }
 
-    public void setType(KUSChatMessageType type) {
+    public void setType(@Nullable KUSChatMessageType type) {
         this.type = type;
     }
 
+    @Nullable
     public KUSChatMessageState getState() {
         return state;
     }
 
-    public void setState(KUSChatMessageState state) {
+    public void setState(@Nullable KUSChatMessageState state) {
         this.state = state;
     }
 
+    @Nullable
     public String getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(@Nullable String value) {
         this.value = value;
     }
 
+    @Nullable
     public String getCampaignId() {
         return campaignId;
     }
