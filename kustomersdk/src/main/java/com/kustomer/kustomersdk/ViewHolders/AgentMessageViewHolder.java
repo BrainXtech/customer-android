@@ -56,27 +56,30 @@ public class AgentMessageViewHolder extends RecyclerView.ViewHolder {
     //region Initializer
     public AgentMessageViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this,itemView);
+        ButterKnife.bind(this, itemView);
     }
     //endregion
 
     //region Methods
     public void onBind(final KUSChatMessage chatMessage, KUSUserSession userSession, boolean showAvatar,
-                       boolean showDate, final MessageListAdapter.ChatMessageItemListener mListener){
+                       boolean showDate, final MessageListAdapter.ChatMessageItemListener mListener) {
 
-        if(chatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_TEXT){
+        if (chatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_TEXT) {
             tvMessage.setVisibility(View.VISIBLE);
             attachmentLayout.setVisibility(View.GONE);
-            KUSText.setMarkDownText(tvMessage,chatMessage.getBody().trim());
-        }else if(chatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE){
+            if (chatMessage.getBody() != null)
+                KUSText.setMarkDownText(tvMessage, chatMessage.getBody().trim());
+            else
+                tvMessage.setText("");
+        } else if (chatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE) {
             tvMessage.setVisibility(View.GONE);
             attachmentLayout.setVisibility(View.VISIBLE);
 
-            updateImageForMessage(chatMessage,mListener);
+            updateImageForMessage(chatMessage, mListener);
         }
 
         imageLayout.removeAllViews();
-        if(showAvatar) {
+        if (showAvatar) {
             KUSAvatarImageView avatarImageView = new KUSAvatarImageView(itemView.getContext());
             avatarImageView.setFontSize(16);
             avatarImageView.setDrawableSize(40);
@@ -94,50 +97,55 @@ public class AgentMessageViewHolder extends RecyclerView.ViewHolder {
             imageLayout.addView(avatarImageView);
         }
 
-        if(showDate){
+        if (showDate) {
             tvDate.setVisibility(View.VISIBLE);
             tvDate.setText(KUSDate.messageTimeStampTextFromDate(chatMessage.getCreatedAt()));
-        }else {
+        } else {
             tvDate.setText("");
             tvDate.setVisibility(View.GONE);
         }
-
     }
 
     private void updateImageForMessage(final KUSChatMessage chatMessage,
-                                       final MessageListAdapter.ChatMessageItemListener mListener){
+                                       final MessageListAdapter.ChatMessageItemListener mListener) {
+        if (chatMessage.getImageUrl() != null) {
+            progressBarImage.setVisibility(View.VISIBLE);
+            Glide.with(itemView)
+                    .setDefaultRequestOptions(
+                            RequestOptions.errorOf(R.drawable.kus_ic_error_outline_red_33dp))
+                    .load(chatMessage.getImageUrl().toString())
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                    Target<Drawable> target, boolean isFirstResource) {
+                            imageLoadedSuccessfully = false;
+                            ivAttachmentImage.setScaleType(ImageView.ScaleType.CENTER);
+                            progressBarImage.setVisibility(View.GONE);
+                            return false;
+                        }
 
-
-        progressBarImage.setVisibility(View.VISIBLE);
-
-        Glide.with(itemView)
-                .setDefaultRequestOptions(RequestOptions.errorOf(R.drawable.kus_ic_error_outline_red_33dp))
-                .load(chatMessage.getImageUrl().toString())
-                .listener(new RequestListener<Drawable>() {
-                    @Override
-                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                        imageLoadedSuccessfully = false;
-                        ivAttachmentImage.setScaleType(ImageView.ScaleType.CENTER);
-                        progressBarImage.setVisibility(View.GONE);
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                        imageLoadedSuccessfully = true;
-                        ivAttachmentImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        progressBarImage.setVisibility(View.GONE);
-                        return false;
-                    }
-                })
-                .into(ivAttachmentImage);
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target,
+                                                       DataSource dataSource, boolean isFirstResource) {
+                            imageLoadedSuccessfully = true;
+                            ivAttachmentImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            progressBarImage.setVisibility(View.GONE);
+                            return false;
+                        }
+                    })
+                    .into(ivAttachmentImage);
+        } else {
+            imageLoadedSuccessfully = false;
+            ivAttachmentImage.setScaleType(ImageView.ScaleType.CENTER);
+            progressBarImage.setVisibility(View.GONE);
+        }
 
         ivAttachmentImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!imageLoadedSuccessfully) {
+                if (!imageLoadedSuccessfully) {
                     updateImageForMessage(chatMessage, mListener);
-                }else {
+                } else {
                     mListener.onChatMessageImageClicked(chatMessage);
                 }
             }

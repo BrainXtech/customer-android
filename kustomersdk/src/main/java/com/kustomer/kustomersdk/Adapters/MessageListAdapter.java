@@ -75,7 +75,9 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             mChatMessagesDataSource.fetchNext();
 
         boolean nextMessageOlderThan5Min = nextChatMessage == null ||
-                nextChatMessage.getCreatedAt().getTime() - chatMessage.getCreatedAt().getTime() > K_5_MINUTE;
+                (nextChatMessage.getCreatedAt() != null ? nextChatMessage.getCreatedAt().getTime() : 0)
+                        - (chatMessage.getCreatedAt() != null ? chatMessage.getCreatedAt().getTime() : 0)
+                        > K_5_MINUTE;
 
         if (holder.getItemViewType() == USER_VIEW) {
             ((UserMessageViewHolder) holder).onBind(chatMessage, nextMessageOlderThan5Min, mListener);

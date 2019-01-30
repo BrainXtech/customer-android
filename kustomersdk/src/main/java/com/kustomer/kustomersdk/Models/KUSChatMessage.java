@@ -51,7 +51,6 @@ public class KUSChatMessage extends KUSModel {
     private String campaignId;
     @Nullable
     private KUSChatMessageType type;
-    @Nullable
     private KUSChatMessageState state;
     @Nullable
     private String value;
@@ -292,12 +291,12 @@ public class KUSChatMessage extends KUSModel {
         this.type = type;
     }
 
-    @Nullable
+    @NonNull
     public KUSChatMessageState getState() {
         return state;
     }
 
-    public void setState(@Nullable KUSChatMessageState state) {
+    public void setState(@NonNull KUSChatMessageState state) {
         this.state = state;
     }
 

@@ -421,7 +421,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             return;
         }
 
-        wantsOptionPicker = (currentQuestion != null
+        wantsOptionPicker = (currentQuestion != null && currentQuestion.getValues() != null
                 && currentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_VALUES
                 && currentQuestion.getValues().size() > 0);
 
@@ -509,7 +509,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
     private void updateOptionsPickerOptions() {
         KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource.volumeControlCurrentQuestion();
-        boolean wantsOptionPicker = (vcCurrentQuestion != null
+        boolean wantsOptionPicker = (vcCurrentQuestion != null && vcCurrentQuestion.getValues() != null
                 && vcCurrentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_CUSTOMER_FOLLOW_UP_CHANNEL
                 && vcCurrentQuestion.getValues().size() > 0);
         if (wantsOptionPicker) {
@@ -518,7 +518,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         }
 
         KUSFormQuestion currentQuestion = chatMessagesDataSource.currentQuestion();
-        wantsOptionPicker = (currentQuestion != null
+        wantsOptionPicker = (currentQuestion != null && currentQuestion.getValues() != null
                 && currentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_VALUES
                 && currentQuestion.getValues().size() > 0);
         if (wantsOptionPicker) {
@@ -903,18 +903,23 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
     @Override
     public void onChatMessageImageClicked(KUSChatMessage chatMessage) {
-        int startingIndex;
+        int startingIndex = 0;
 
         List<String> imageURIs = new ArrayList<>();
 
         for (int i = chatMessagesDataSource.getSize() - 1; i >= 0; i--) {
             KUSChatMessage kusChatMessage = (KUSChatMessage) chatMessagesDataSource.get(i);
             if (kusChatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE) {
-                imageURIs.add(kusChatMessage.getImageUrl().toString());
+                if (kusChatMessage.getImageUrl() != null)
+                    imageURIs.add(kusChatMessage.getImageUrl().toString());
+                else
+                    imageURIs.add("");
             }
         }
 
-        startingIndex = imageURIs.indexOf(chatMessage.getImageUrl().toString());
+        if (chatMessage.getImageUrl() != null) {
+            startingIndex = imageURIs.indexOf(chatMessage.getImageUrl().toString());
+        }
 
         new KUSLargeImageViewer(this).showImages(imageURIs, startingIndex);
     }

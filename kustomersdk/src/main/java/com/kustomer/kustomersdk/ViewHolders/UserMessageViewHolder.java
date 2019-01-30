@@ -69,25 +69,28 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
     //region LifeCycle
     public UserMessageViewHolder(View itemView) {
         super(itemView);
-        ButterKnife.bind(this,itemView);
+        ButterKnife.bind(this, itemView);
     }
 
-    public void onBind(final KUSChatMessage chatMessage, boolean showDate, final MessageListAdapter.ChatMessageItemListener listener){
+    public void onBind(final KUSChatMessage chatMessage, boolean showDate, final MessageListAdapter.ChatMessageItemListener listener) {
         this.chatMessage = chatMessage;
         this.mListener = listener;
 
-        if(chatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_TEXT){
+        if (chatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_TEXT) {
             tvMessage.setVisibility(View.VISIBLE);
             attachmentLayout.setVisibility(View.GONE);
-            KUSText.setMarkDownText(tvMessage,chatMessage.getBody().trim());
-        }else if(chatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE){
+            if (chatMessage.getBody() != null) {
+                KUSText.setMarkDownText(tvMessage, chatMessage.getBody().trim());
+            } else
+                tvMessage.setText("");
+        } else if (chatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE) {
             tvMessage.setVisibility(View.GONE);
             attachmentLayout.setVisibility(View.VISIBLE);
 
             updateImageForMessage();
         }
 
-        if(chatMessage.getState() == KUSChatMessageState.KUS_CHAT_MESSAGE_STATE_FAILED){
+        if (chatMessage.getState() == KUSChatMessageState.KUS_CHAT_MESSAGE_STATE_FAILED) {
             retry.setVisibility(View.VISIBLE);
             retry.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -95,14 +98,14 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
                     listener.onChatMessageErrorClicked(chatMessage);
                 }
             });
-        }else{
+        } else {
             retry.setVisibility(View.INVISIBLE);
         }
 
-        if(showDate){
+        if (showDate) {
             tvDate.setVisibility(View.VISIBLE);
             tvDate.setText(KUSDate.messageTimeStampTextFromDate(chatMessage.getCreatedAt()));
-        }else {
+        } else {
             tvDate.setText("");
             tvDate.setVisibility(View.GONE);
         }
@@ -112,26 +115,33 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
     //endregion
 
     //region Private Methods
-    private void updateImageForMessage(){
+    private void updateImageForMessage() {
 
         progressBarImage.setVisibility(View.VISIBLE);
 
-        Bitmap cachedImage = new KUSCache().getBitmapFromMemCache(chatMessage.getImageUrl().toString());
-        if(cachedImage != null){
+        Bitmap cachedImage = null;
+        if (chatMessage.getImageUrl() != null)
+            cachedImage = new KUSCache().getBitmapFromMemCache(chatMessage.getImageUrl().toString());
+        if (cachedImage != null) {
             ivAttachmentImage.setImageBitmap(cachedImage);
             progressBarImage.setVisibility(View.GONE);
             imageLoadedSuccessfully = true;
-        }else {
-            GlideUrl glideUrl = new GlideUrl(chatMessage.getImageUrl().toString(), new LazyHeaders.Builder()
-                    .addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY, Kustomer.getSharedInstance().getUserSession().getTrackingTokenDataSource().getCurrentTrackingToken())
-                    .build());
+        } else {
+            GlideUrl glideUrl = new GlideUrl(chatMessage.getImageUrl() != null
+                    ? chatMessage.getImageUrl().toString() : null,
+                    new LazyHeaders.Builder()
+                            .addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY,
+                                    Kustomer.getSharedInstance().getUserSession()
+                                            .getTrackingTokenDataSource().getCurrentTrackingToken())
+                            .build());
 
             Glide.with(itemView)
                     .setDefaultRequestOptions(RequestOptions.errorOf(R.drawable.kus_ic_error_outline_red_33dp))
                     .load(glideUrl)
                     .listener(new RequestListener<Drawable>() {
                         @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                    Target<Drawable> target, boolean isFirstResource) {
                             imageLoadedSuccessfully = false;
                             ivAttachmentImage.setScaleType(ImageView.ScaleType.CENTER);
                             progressBarImage.setVisibility(View.GONE);
@@ -139,7 +149,8 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
                         }
 
                         @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target,
+                                                       DataSource dataSource, boolean isFirstResource) {
                             imageLoadedSuccessfully = true;
                             ivAttachmentImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
                             progressBarImage.setVisibility(View.GONE);
@@ -152,7 +163,7 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
         ivAttachmentImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!imageLoadedSuccessfully)
+                if (!imageLoadedSuccessfully)
                     updateImageForMessage();
                 else
                     mListener.onChatMessageImageClicked(chatMessage);
@@ -160,31 +171,31 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
         });
     }
 
-    private void updateAlphaForState(){
-        switch (chatMessage.getState()){
+    private void updateAlphaForState() {
+        switch (chatMessage.getState()) {
             case KUS_CHAT_MESSAGE_STATE_SENT:
                 tvMessage.setAlpha(1.0f);
                 attachmentLayout.setAlpha(1.0f);
                 break;
-            case KUS_CHAT_MESSAGE_STATE_SENDING:{
-                long timeElapsed = Calendar.getInstance().getTimeInMillis() - chatMessage.getCreatedAt().getTime();
-                if(timeElapsed >= OPTIMISTIC_SEND_LOADING_DELAY){
+            case KUS_CHAT_MESSAGE_STATE_SENDING: {
+                long timeElapsed = Calendar.getInstance().getTimeInMillis()
+                        - (chatMessage.getCreatedAt() != null ? chatMessage.getCreatedAt().getTime() : 0);
+                if (timeElapsed >= OPTIMISTIC_SEND_LOADING_DELAY) {
                     tvMessage.setAlpha(0.5f);
                     attachmentLayout.setAlpha(0.5f);
-                }else{
+                } else {
                     tvMessage.setAlpha(1.0f);
                     attachmentLayout.setAlpha(1.0f);
 
-                    if(sendingFadingTimer != null)
+                    if (sendingFadingTimer != null)
                         sendingFadingTimer.cancel();
                     sendingFadingTimer = null;
 
                     long timeInterval = OPTIMISTIC_SEND_LOADING_DELAY - timeElapsed;
                     startTimer(timeInterval);
-
                 }
-
-            }   break;
+            }
+            break;
             case KUS_CHAT_MESSAGE_STATE_FAILED:
                 tvMessage.setAlpha(0.5f);
                 attachmentLayout.setAlpha(0.5f);
@@ -194,7 +205,7 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
 
     private void startTimer(long time) {
         try {
-            if(sendingFadingTimer != null) {
+            if (sendingFadingTimer != null) {
                 sendingFadingTimer.cancel();
                 sendingFadingTimer = null;
             }
@@ -212,7 +223,8 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
                 }
             };
             sendingFadingTimer.schedule(doAsynchronousTask, time);
-        }catch (Exception ignore){}
+        } catch (Exception ignore) {
+        }
     }
     //endregion
 

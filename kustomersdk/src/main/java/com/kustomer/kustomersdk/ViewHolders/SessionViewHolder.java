@@ -138,7 +138,8 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
 
         if (responderName == null || responderName.length() == 0) {
             KUSChatSettings chatSettings = (KUSChatSettings) mUserSession.getChatSettingsDataSource().getObject();
-            responderName = chatSettings != null && chatSettings.getTeamName().length() > 0 ?
+            responderName = chatSettings != null && chatSettings.getTeamName() != null
+                    && chatSettings.getTeamName().length() > 0 ?
                     chatSettings.getTeamName() : mUserSession.getOrganizationName();
         }
 
@@ -172,7 +173,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
             sessionDate = latestTextMessage.getCreatedAt() != null ?
                     latestTextMessage.getCreatedAt() : mChatSession.getCreatedAt();
         }
-        tvSessionDate.setText(KUSDate.humanReadableTextFromDate(Kustomer.getContext(),sessionDate));
+        tvSessionDate.setText(KUSDate.humanReadableTextFromDate(Kustomer.getContext(), sessionDate));
 
         //Unread count (number of messages > the lastSeenAt)
         Date sessionLastSeenAt = mUserSession.getChatSessionsDataSource().lastSeenAtForSessionId(mChatSession.getId());

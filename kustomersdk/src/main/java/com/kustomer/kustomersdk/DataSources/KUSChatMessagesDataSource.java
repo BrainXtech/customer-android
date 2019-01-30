@@ -3,6 +3,7 @@ package com.kustomer.kustomersdk.DataSources;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSSessionQueuePollingManager;
 import com.kustomer.kustomersdk.API.KUSUserSession;
@@ -675,6 +676,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
         // Make sure we submit the form if we just inserted a non-response question
         if (!submittingForm && !KUSFormQuestion.KUSFormQuestionRequiresResponse(formQuestion)
+                && form.getQuestions() != null
                 && questionIndex == form.getQuestions().size() - 1 && delayedChatMessageIds.size() == 0)
             submitFormResponses();
 
@@ -691,7 +693,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         for (int i = Math.max(questionIndex + startingOffset, 0); i < form.getQuestions().size(); i++) {
             KUSFormQuestion question = form.getQuestions().get(i);
 
-            Date createdAt = new Date(lastMessage.getCreatedAt().getTime()
+            Date createdAt = new Date((lastMessage.getCreatedAt() != null
+                    ? lastMessage.getCreatedAt().getTime() : (new Date().getTime()))
                     + KUS_CHAT_AUTO_REPLY_DELAY + additionalInsertDelay);
 
             String questionId = String.format("question_%s", question.getId());
@@ -812,7 +815,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
         KUSChatMessage lastMessage = getLatestMessage();
         String previousMessage = lastMessage.getBody();
-        if (vcFormQuestionIndex == 1 && previousMessage.equals("I'll wait")) {
+        if (vcFormQuestionIndex == 1 && previousMessage != null && previousMessage.equals("I'll wait")) {
             endVolumeControlTracking();
 
             // Update Listeners that chat ended
@@ -829,7 +832,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         }
 
         // Ask next question
-        Date createdAt = new Date(lastMessage.getCreatedAt().getTime() + KUS_CHAT_AUTO_REPLY_DELAY);
+        Date createdAt = new Date((lastMessage.getCreatedAt() != null
+                ? lastMessage.getCreatedAt().getTime() : (new Date().getTime())) + KUS_CHAT_AUTO_REPLY_DELAY);
         if (!vcFormActive) {
             long currentDate = (new Date()).getTime();
             if (currentDate + KUS_CHAT_AUTO_REPLY_DELAY > lastMessage.getCreatedAt().getTime()) {
@@ -839,8 +843,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
         vcFormActive = true;
 
-
-        String previousChannel = lastMessage.getBody().toLowerCase();
+        String previousChannel = lastMessage.getBody() != null ? lastMessage.getBody().toLowerCase() : null;
         KUSFormQuestion vcFormQuestion = getNextVCFormQuestion(vcFormQuestionIndex, previousChannel);
 
         JSONObject attributes = new JSONObject();
@@ -958,7 +961,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                 formMessage.put("property", "conversation_replyChannel");
             } else if (i == 1) {
 
-                if (property.toLowerCase().equals("email"))
+                if (property != null && property.toLowerCase().equals("email"))
                     formMessage.put("property", "customer_email");
                 else
                     formMessage.put("property", "customer_phone");
@@ -1045,38 +1048,39 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
         messagesJSON.put(message);
 
-        for (KUSFormQuestion question : form.getQuestions()) {
+        if (form.getQuestions() != null) {
+            for (KUSFormQuestion question : form.getQuestions()) {
+                if (currentMessageIndex < 0)
+                    continue;
 
-            if (currentMessageIndex < 0)
-                continue;
+                KUSChatMessage questionMessage = (KUSChatMessage) get(currentMessageIndex);
+                currentMessageIndex--;
 
-            KUSChatMessage questionMessage = (KUSChatMessage) get(currentMessageIndex);
-            currentMessageIndex--;
+                JSONObject formMessage = new JSONObject();
 
-            JSONObject formMessage = new JSONObject();
-
-            try {
-                formMessage.put("id", question.getId());
-                formMessage.put("prompt", question.getPrompt());
-                formMessage.put("promptAt", KUSDate.stringFromDate(questionMessage.getCreatedAt()));
+                try {
+                    formMessage.put("id", question.getId());
+                    formMessage.put("prompt", question.getPrompt());
+                    formMessage.put("promptAt", KUSDate.stringFromDate(questionMessage.getCreatedAt()));
 
 
-                if (KUSFormQuestion.KUSFormQuestionRequiresResponse(question)) {
+                    if (KUSFormQuestion.KUSFormQuestionRequiresResponse(question)) {
 
-                    if (currentMessageIndex >= 0) {
-                        KUSChatMessage responseMessage = (KUSChatMessage) get(currentMessageIndex);
-                        currentMessageIndex--;
+                        if (currentMessageIndex >= 0) {
+                            KUSChatMessage responseMessage = (KUSChatMessage) get(currentMessageIndex);
+                            currentMessageIndex--;
 
-                        formMessage.put("input", responseMessage.getBody());
-                        formMessage.put("inputAt", KUSDate.stringFromDate(responseMessage.getCreatedAt()));
-                        if (responseMessage.getValue() != null)
-                            formMessage.put("value", responseMessage.getValue());
+                            formMessage.put("input", responseMessage.getBody());
+                            formMessage.put("inputAt", KUSDate.stringFromDate(responseMessage.getCreatedAt()));
+                            if (responseMessage.getValue() != null)
+                                formMessage.put("value", responseMessage.getValue());
+                        }
                     }
+                } catch (JSONException ignore) {
                 }
-            } catch (JSONException ignore) {
-            }
 
-            messagesJSON.put(formMessage);
+                messagesJSON.put(formMessage);
+            }
         }
 
         submittingForm = true;
@@ -1136,7 +1140,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
                         // Set variable for business hours
                         if (!getUserSession().getScheduleDataSource().isActiveBusinessHours()
-                                && form != null && form.getQuestions().size() > 0) {
+                                && form != null && form.getQuestions() != null && form.getQuestions().size() > 0) {
                             nonBusinessHours = true;
                         }
 
@@ -1183,7 +1187,6 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
     }
 
     private void insertDelayedMessage(final KUSChatMessage chatMessage) {
-
         //Sanity Check
         if (chatMessage.getId().length() == 0)
             return;
@@ -1192,7 +1195,10 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         if (findById(chatMessage.getId()) != null)
             return;
 
-        long delay = chatMessage.getCreatedAt().getTime() - Calendar.getInstance().getTime().getTime();
+        long delay = 0;
+        if (chatMessage.getCreatedAt() != null) {
+            delay = chatMessage.getCreatedAt().getTime() - Calendar.getInstance().getTime().getTime();
+        }
         if (delay <= 0) {
             upsertAll(new ArrayList<KUSModel>() {{
                 add(chatMessage);
@@ -1263,7 +1269,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         vcFormActive = false;
     }
 
-    private KUSFormQuestion getNextVCFormQuestion(int index, String previousChannel) {
+    private KUSFormQuestion getNextVCFormQuestion(int index, @Nullable String previousChannel) {
         if (getUserSession() == null)
             return null;
 
@@ -1272,8 +1278,10 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                     .getChatSettingsDataSource().getObject();
 
             List<String> options = new ArrayList<>();
-            for (String option : chatSettings.getFollowUpChannels()) {
-                options.add(option.substring(0, 1).toUpperCase() + option.substring(1).toLowerCase());
+            if (chatSettings.getFollowUpChannels() != null) {
+                for (String option : chatSettings.getFollowUpChannels()) {
+                    options.add(option.substring(0, 1).toUpperCase() + option.substring(1).toLowerCase());
+                }
             }
 
             if (!chatSettings.isHideWaitOption()) {
@@ -1321,7 +1329,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         } else if (index == 1) {
             String property;
             String prompt;
-            if (previousChannel.toLowerCase().equals("email")) {
+            if (previousChannel != null && previousChannel.toLowerCase().equals("email")) {
                 property = "customer_email";
                 prompt = Kustomer.getContext()
                         .getString(R.string.com_kustomer_volume_control_email_question);

@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -30,8 +31,11 @@ public class KUSUtils {
         return displayMetrics.heightPixels;
     }
 
-    static String KUSUnescapeBackslashesFromString(@NonNull String string) {
+    static String KUSUnescapeBackslashesFromString(@Nullable String string) {
         String updatedString = "";
+
+        if (string == null)
+            return updatedString;
 
         int startingIndex = 0;
         for (int i = 0; i < string.length(); i++) {

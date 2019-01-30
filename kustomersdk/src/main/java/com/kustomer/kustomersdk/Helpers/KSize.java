@@ -20,7 +20,6 @@ package com.kustomer.kustomersdk.Helpers;
 
 
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 /**
  * Immutable class for describing width and height dimensions in pixels.
