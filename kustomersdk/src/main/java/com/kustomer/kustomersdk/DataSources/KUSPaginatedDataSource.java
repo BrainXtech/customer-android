@@ -1,5 +1,8 @@
 package com.kustomer.kustomersdk.DataSources;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Enums.KUSRequestType;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -27,14 +30,20 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class KUSPaginatedDataSource {
 
     //region Properties
+    @NonNull
     private List<KUSModel> fetchedModels;
 
+    @NonNull
     private HashMap<String, KUSModel> fetchedModelsById;
 
+    @Nullable
     private KUSPaginatedResponse mostRecentPaginatedResponse;
+    @Nullable
     private KUSPaginatedResponse lastPaginatedResponse;
 
+    @NonNull
     private WeakReference<KUSUserSession> userSession;
+    @NonNull
     protected List<KUSPaginatedDataSourceListener> listeners;
 
     private boolean fetching;
@@ -64,18 +73,20 @@ public class KUSPaginatedDataSource {
         return fetchedModels;
     }
 
+    @Nullable
     public KUSModel findById(String oid) {
         return fetchedModelsById.get(oid);
     }
 
-    public synchronized KUSModel get(int index) {
+    public synchronized KUSModel get(int index) throws IndexOutOfBoundsException {
         return fetchedModels.get(index);
     }
 
-    private int indexOf(KUSModel obj) {
+    private int indexOf(@NonNull KUSModel obj) {
         return indexOfObjectId(obj.getId());
     }
 
+    @Nullable
     synchronized KUSModel getFirst() {
         if (getSize() > 0) {
             return fetchedModels.get(0);
@@ -103,16 +114,16 @@ public class KUSPaginatedDataSource {
         return -1;
     }
 
-    public void addListener(KUSPaginatedDataSourceListener listener) {
-        if(!listeners.contains(listener))
+    public void addListener(@NonNull KUSPaginatedDataSourceListener listener) {
+        if (!listeners.contains(listener))
             listeners.add(listener);
     }
 
-    public void removeListener(KUSPaginatedDataSourceListener listener) {
+    public void removeListener(@NonNull KUSPaginatedDataSourceListener listener) {
         listeners.remove(listener);
     }
 
-    public void removeAllListeners(){
+    public void removeAllListeners() {
         listeners.clear();
     }
 
@@ -153,13 +164,13 @@ public class KUSPaginatedDataSource {
                         try {
                             final KUSPaginatedResponse pageResponse = new KUSPaginatedResponse(response, dataSource);
 
-                            if(requestMarker != KUSPaginatedDataSource.this.requestMarker  )
+                            if (requestMarker != KUSPaginatedDataSource.this.requestMarker)
                                 return;
 
                             KUSPaginatedDataSource.this.requestMarker = null;
                             KUSPaginatedDataSource.this.prependResponse(pageResponse, error);
+                        } catch (JSONException | KUSInvalidJsonException ignore) {
                         }
-                        catch (JSONException | KUSInvalidJsonException ignore) {}
                     }
                 });
 
@@ -167,15 +178,15 @@ public class KUSPaginatedDataSource {
 
     public void fetchNext() {
         URL url = null;
-        if(lastPaginatedResponse != null){
+        if (lastPaginatedResponse != null) {
             url = userSession.get().getRequestManager().urlForEndpoint(lastPaginatedResponse.getNextPath());
-        }else if(mostRecentPaginatedResponse!= null){
-            url  = userSession.get().getRequestManager().urlForEndpoint(mostRecentPaginatedResponse.getNextPath());
+        } else if (mostRecentPaginatedResponse != null) {
+            url = userSession.get().getRequestManager().urlForEndpoint(mostRecentPaginatedResponse.getNextPath());
         }
 
-        if(url == null)
+        if (url == null)
             return;
-        if(fetching)
+        if (fetching)
             return;
 
         fetching = true;
@@ -197,11 +208,11 @@ public class KUSPaginatedDataSource {
                     public void onCompletion(final Error error, JSONObject json) {
                         try {
                             final KUSPaginatedResponse response = new KUSPaginatedResponse(json, model);
-                            if(requestMarker != KUSPaginatedDataSource.this.requestMarker  )
+                            if (requestMarker != KUSPaginatedDataSource.this.requestMarker)
                                 return;
 
                             KUSPaginatedDataSource.this.requestMarker = null;
-                            KUSPaginatedDataSource.this.appendResponse(response,error);
+                            KUSPaginatedDataSource.this.appendResponse(response, error);
 
                         } catch (JSONException | KUSInvalidJsonException e) {
                             e.printStackTrace();
@@ -216,11 +227,12 @@ public class KUSPaginatedDataSource {
         requestMarker = null;
     }
 
+    @Nullable
     public URL getFirstUrl() {
         return null;
     }
 
-    private void appendResponse(KUSPaginatedResponse response, Error error) {
+    private void appendResponse(@Nullable KUSPaginatedResponse response, @Nullable Error error) {
         if (error != null || response == null) {
             fetching = false;
             this.error = error != null ? error : new Error();
@@ -239,7 +251,7 @@ public class KUSPaginatedDataSource {
         notifyAnnouncersOnLoad();
     }
 
-    private void prependResponse(KUSPaginatedResponse response, Error error) {
+    private void prependResponse(@Nullable KUSPaginatedResponse response, @Nullable Error error) {
         if (error != null || response == null) {
             fetching = false;
             this.error = error != null ? error : new Error();
@@ -265,15 +277,15 @@ public class KUSPaginatedDataSource {
         fetchedModels.addAll(temp);
     }
 
-    public boolean isFetched(){
+    public boolean isFetched() {
         return fetched;
     }
 
-    public boolean isFetchedAll(){
+    public boolean isFetchedAll() {
         return fetchedAll;
     }
 
-    public boolean isFetching(){
+    public boolean isFetching() {
         return fetching;
     }
 
@@ -294,7 +306,8 @@ public class KUSPaginatedDataSource {
 
                 try {
                     fetchedModels.remove(index);
-                }catch (IndexOutOfBoundsException ignore){}
+                } catch (IndexOutOfBoundsException ignore) {
+                }
                 fetchedModelsById.remove(obj.getId());
             }
         }
@@ -319,16 +332,18 @@ public class KUSPaginatedDataSource {
                 }
 
                 try {
-                    int existingIndex = indexOf(curObj);
-                    if (existingIndex != -1) {
-                        fetchedModels.remove(existingIndex);
+                    if (curObj != null) {
+                        int existingIndex = indexOf(curObj);
+                        if (existingIndex != -1) {
+                            fetchedModels.remove(existingIndex);
+                        }
                     }
-                }catch (IndexOutOfBoundsException ignore){}
+                } catch (IndexOutOfBoundsException ignore) {
+                }
 
                 fetchedModels.add(obj);
                 fetchedModelsById.put(obj.getId(), obj);
-            }
-            else {
+            } else {
                 didChange = true;
                 fetchedModels.add(obj);
                 fetchedModelsById.put(obj.getId(), obj);
@@ -342,6 +357,7 @@ public class KUSPaginatedDataSource {
         }
     }
 
+    @Nullable
     public List<KUSModel> objectsFromJSON(JSONObject jsonObject) {
 
         ArrayList<KUSModel> arrayList = null;
@@ -353,7 +369,7 @@ public class KUSPaginatedDataSource {
             e.printStackTrace();
         }
 
-        if(model != null) {
+        if (model != null) {
             arrayList = new ArrayList<>();
             arrayList.add(model);
         }
@@ -364,11 +380,12 @@ public class KUSPaginatedDataSource {
 
     //region Accessors
 
+    @Nullable
     public KUSUserSession getUserSession() {
         return userSession.get();
     }
 
-    public void setUserSession(KUSUserSession userSession) {
+    public void setUserSession(@NonNull KUSUserSession userSession) {
         this.userSession = new WeakReference<>(userSession);
     }
 
@@ -377,21 +394,21 @@ public class KUSPaginatedDataSource {
     // region Notifier
     void notifyAnnouncersOnContentChange() {
         for (KUSPaginatedDataSourceListener listener : listeners) {
-            if(listener != null)
+            if (listener != null)
                 listener.onContentChange(this);
         }
     }
 
     void notifyAnnouncersOnError(Error error) {
-        for (KUSPaginatedDataSourceListener listener :  listeners) {
-            if(listener != null)
+        for (KUSPaginatedDataSourceListener listener : listeners) {
+            if (listener != null)
                 listener.onError(this, error);
         }
     }
 
     private void notifyAnnouncersOnLoad() {
-        for (KUSPaginatedDataSourceListener listener :  listeners) {
-            if(listener != null)
+        for (KUSPaginatedDataSourceListener listener : listeners) {
+            if (listener != null)
                 listener.onLoad(this);
         }
     }

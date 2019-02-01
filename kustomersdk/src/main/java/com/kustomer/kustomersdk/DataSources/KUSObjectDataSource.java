@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.DataSources;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Interfaces.KUSObjectDataSourceListener;
@@ -21,7 +23,9 @@ public class KUSObjectDataSource {
     //region Properties
     private boolean fetching;
     private boolean fetched;
+    @Nullable
     private Error error;
+    @Nullable
     private KUSModel object;
 
     private WeakReference<KUSUserSession> userSession;
@@ -133,10 +137,12 @@ public class KUSObjectDataSource {
         return fetched;
     }
 
+    @Nullable
     public Error getError() {
         return error;
     }
 
+    @Nullable
     public KUSModel getObject() {
         return object;
     }

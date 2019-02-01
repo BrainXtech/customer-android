@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.DataSources;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Models.KUSModel;
@@ -20,6 +22,7 @@ import java.util.List;
 public class KUSTeamsDataSource extends KUSPaginatedDataSource {
 
     //region Properties
+
     List<String> teamIds;
     //endregion
 
@@ -35,6 +38,7 @@ public class KUSTeamsDataSource extends KUSPaginatedDataSource {
     //endregion
 
     //region subclass methods
+    @Nullable
     public URL getFirstUrl() {
         if (getUserSession() == null)
             return null;
@@ -48,6 +52,7 @@ public class KUSTeamsDataSource extends KUSPaginatedDataSource {
     }
 
     @Override
+    @Nullable
     public List<KUSModel> objectsFromJSON(JSONObject jsonObject) {
         ArrayList<KUSModel> arrayList = null;
 

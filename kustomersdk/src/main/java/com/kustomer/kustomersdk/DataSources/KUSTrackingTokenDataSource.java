@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.DataSources;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Enums.KUSRequestType;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -26,14 +28,14 @@ public class KUSTrackingTokenDataSource extends KUSObjectDataSource implements K
     //endregion
 
     //region Initializer
-    public KUSTrackingTokenDataSource(KUSUserSession userSession){
+    public KUSTrackingTokenDataSource(KUSUserSession userSession) {
         super(userSession);
         addListener(this);
     }
     //endregion
 
     //region Public Methods
-    public void performRequest(KUSRequestCompletionListener listener){
+    public void performRequest(KUSRequestCompletionListener listener) {
         String endPoint = wantsReset ? KUSConstants.URL.TRACKING_TOKEN_ENDPOINT :
                 KUSConstants.URL.CURRENT_TRACKING_TOKEN_ENDPOINT;
 
@@ -47,10 +49,10 @@ public class KUSTrackingTokenDataSource extends KUSObjectDataSource implements K
                 null,
                 false,
                 getAdditionalHeaders(),
-                listener );
+                listener);
     }
 
-    public void reset(){
+    public void reset() {
         wantsReset = true;
         cancel();
         fetch();
@@ -63,19 +65,18 @@ public class KUSTrackingTokenDataSource extends KUSObjectDataSource implements K
     //endregion
 
     //region Private Methods
-    private HashMap<Object, Object> getAdditionalHeaders(){
+    @Nullable
+    private HashMap<Object, Object> getAdditionalHeaders() {
 
         String currentTrackingToken = getCurrentTrackingToken();
         HashMap<Object, Object> headers = new HashMap<>();
-        if(currentTrackingToken != null) {
+        if (currentTrackingToken != null) {
             headers.put(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY, currentTrackingToken);
             return headers;
-        }
-        else {
+        } else {
 
             KUSSharedPreferences sharedPreferences = getUserSession().getSharedPreferences();
-
-            if(sharedPreferences != null) {
+            if (sharedPreferences != null) {
                 String cachedTrackingToken = sharedPreferences.getTrackingToken();
 
                 if (cachedTrackingToken != null) {
@@ -90,10 +91,11 @@ public class KUSTrackingTokenDataSource extends KUSObjectDataSource implements K
     //endregion
 
     //region Accessors
+    @Nullable
     public String getCurrentTrackingToken() {
         KUSTrackingToken trackingTokenObj = (KUSTrackingToken) getObject();
 
-        if(trackingTokenObj != null)
+        if (trackingTokenObj != null)
             return trackingTokenObj.getToken();
         else
             return null;
@@ -107,7 +109,7 @@ public class KUSTrackingTokenDataSource extends KUSObjectDataSource implements K
         wantsReset = false;
 
         String currentTrackingToken = getCurrentTrackingToken();
-        if(currentTrackingToken != null)
+        if (currentTrackingToken != null)
             getUserSession().getSharedPreferences().setTrackingToken(currentTrackingToken);
     }
 

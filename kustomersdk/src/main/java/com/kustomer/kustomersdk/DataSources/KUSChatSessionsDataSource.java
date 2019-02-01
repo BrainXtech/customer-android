@@ -2,6 +2,7 @@ package com.kustomer.kustomersdk.DataSources;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Enums.KUSRequestType;
@@ -88,6 +89,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
         super.fetchLatest();
     }
 
+    @Nullable
     public URL getFirstUrl() {
         if (getUserSession() == null)
             return null;
@@ -416,6 +418,8 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
     //endregion
 
     //region Helper methods
+
+    @Nullable
     public KUSChatSession getMostRecentSession() {
         Date mostRecentMessageAt = null;
         KUSChatSession mostRecentSession = null;
@@ -438,6 +442,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
         return mostRecentSession != null ? mostRecentSession : (KUSChatSession) getFirst();
     }
 
+    @Nullable
     public KUSChatSession mostRecentNonProactiveCampaignOpenSession() {
         if (getUserSession() == null)
             return (KUSChatSession) getFirst();

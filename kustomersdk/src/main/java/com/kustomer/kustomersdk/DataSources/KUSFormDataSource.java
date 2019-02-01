@@ -2,6 +2,7 @@ package com.kustomer.kustomersdk.DataSources;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -73,6 +74,7 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
         return super.isFetched();
     }
 
+    @Nullable
     public Error getError() {
         Error error = getUserSession().getChatSettingsDataSource().getError();
         return error != null ? error : super.getError();

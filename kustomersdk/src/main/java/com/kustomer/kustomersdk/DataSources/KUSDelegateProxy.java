@@ -3,6 +3,7 @@ package com.kustomer.kustomersdk.DataSources;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Activities.KUSSessionsActivity;
 import com.kustomer.kustomersdk.Interfaces.KUSKustomerListener;
@@ -13,19 +14,20 @@ import com.kustomer.kustomersdk.Interfaces.KUSKustomerListener;
 
 public class KUSDelegateProxy {
     //region Properties
+    @Nullable
     private KUSKustomerListener listener;
     //endregion
 
     //region Methods
-    public boolean shouldDisplayInAppNotification(){
-        if(listener != null)
+    public boolean shouldDisplayInAppNotification() {
+        if (listener != null)
             return listener.kustomerShouldDisplayInAppNotification();
 
         return true;
     }
 
-    public PendingIntent getPendingIntent(Context context){
-        if(listener != null)
+    public PendingIntent getPendingIntent(Context context) {
+        if (listener != null)
             return listener.getPendingIntent(context);
         else {
             Intent intent = new Intent(context, KUSSessionsActivity.class);
@@ -37,11 +39,12 @@ public class KUSDelegateProxy {
 
     //region Accessors & Mutators
 
+    @Nullable
     public KUSKustomerListener getListener() {
         return listener;
     }
 
-    public void setListener(KUSKustomerListener listener) {
+    public void setListener(@Nullable KUSKustomerListener listener) {
         this.listener = listener;
     }
 

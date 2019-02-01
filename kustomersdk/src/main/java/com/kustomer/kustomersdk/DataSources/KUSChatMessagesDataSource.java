@@ -3,6 +3,7 @@ package com.kustomer.kustomersdk.DataSources;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSSessionQueuePollingManager;
@@ -74,6 +75,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
     private String sessionId;
     private boolean createdLocally;
     private KUSForm form;
+    @NonNull
     private Set<String> delayedChatMessageIds;
     private int questionIndex;
     private KUSFormQuestion formQuestion;
@@ -87,12 +89,14 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
     private boolean vcFormEnd;
     private boolean vcChatClosed;
     private boolean isProactiveCampaign;
+    @NonNull
     private ArrayList<KUSModel> temporaryVCMessagesResponses;
 
     private boolean nonBusinessHours;
     private KUSSessionQueuePollingManager sessionQueuePollingManager;
 
     private ArrayList<onCreateSessionListener> onCreateSessionListeners;
+    @NonNull
     private HashMap<String, KUSRetry> messageRetryHashMap;
     //endregion
 
@@ -144,6 +148,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         upsertAll(chatMessages);
     }
 
+    @Nullable
     public KUSChatMessage getLatestMessage() {
         if (getSize() > 0)
             return (KUSChatMessage) get(0);
@@ -151,10 +156,11 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         return null;
     }
 
-    public void addListener(KUSChatMessagesDataSourceListener listener) {
+    public void addListener(@NonNull KUSChatMessagesDataSourceListener listener) {
         super.addListener(listener);
     }
 
+    @Nullable
     public URL getFirstUrl() {
         if (sessionId != null && getUserSession() != null) {
             String endPoint = String.format(KUSConstants.URL.MESSAGES_LIST_ENDPOINT, sessionId);
@@ -163,11 +169,11 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         return null;
     }
 
-    public void sendMessageWithText(String text, List<Bitmap> attachments) {
+    public void sendMessageWithText(String text, @Nullable List<Bitmap> attachments) {
         sendMessageWithText(text, attachments, null);
     }
 
-    public void sendMessageWithText(String text, List<Bitmap> attachments, String value) {
+    public void sendMessageWithText(String text, @Nullable List<Bitmap> attachments, @Nullable String value) {
         if (getUserSession() == null)
             return;
 
@@ -178,7 +184,6 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
             if (attachments != null && attachments.size() > 0)
                 throw new AssertionError("Should not have been able to send attachments without a sessionId");
-
 
             JSONObject attributes = new JSONObject();
             try {
@@ -251,9 +256,10 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         actuallySendMessage(text, attachments);
     }
 
-    public void createSessionIfNecessaryWithTitle(String title, final onCreateSessionListener listener) {
+    public void createSessionIfNecessaryWithTitle(String title, @Nullable final onCreateSessionListener listener) {
         if (sessionId != null) {
-            listener.onComplete(true, null);
+            if (listener != null)
+                listener.onComplete(true, null);
         } else {
             if (onCreateSessionListeners != null) {
                 if (listener != null)
@@ -288,7 +294,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                         sessionQueuePollingManager = new KUSSessionQueuePollingManager(getUserSession(), sessionId);
 
                         //Insert the current messages data source into the userSession's lookup table
-                        getUserSession().getChatMessagesDataSources().put(session.getId(), KUSChatMessagesDataSource.this);
+                        getUserSession().getChatMessagesDataSources().put(session.getId(),
+                                KUSChatMessagesDataSource.this);
 
                         //Notify Listeners
                         for (KUSPaginatedDataSourceListener listener1 : new ArrayList<>(listeners)) {
@@ -382,7 +389,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         }
     }
 
-    public void resendMessage(KUSChatMessage chatMessage) {
+    public void resendMessage(@Nullable KUSChatMessage chatMessage) {
         if (chatMessage != null) {
             KUSRetry retry = messageRetryHashMap.get(chatMessage.getId());
             if (retry instanceof KUSMessageRetry) {
@@ -397,7 +404,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         }
     }
 
-    public void endChat(final String reason, final OnEndChatListener onEndChatListener) {
+    public void endChat(final String reason, @Nullable final OnEndChatListener onEndChatListener) {
         if (getUserSession() == null)
             return;
 
@@ -450,10 +457,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                 if (date != null && message.getCreatedAt().before(date)) {
                     return count;
                 }
-
                 count++;
             }
-
         }
 
         return count;
@@ -488,6 +493,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         return false;
     }
 
+    @Nullable
     public KUSFormQuestion currentQuestion() {
         if (sessionId != null)
             return null;
@@ -498,6 +504,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         return formQuestion;
     }
 
+    @Nullable
     public KUSFormQuestion volumeControlCurrentQuestion() {
         if (getUserSession() == null)
             return null;
@@ -1100,7 +1107,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         actuallySubmitForm(messagesJSON, form.getId(), lastUserChatMessage);
     }
 
-    private void retrySubmittingForm(final KUSFormRetry formRetry) {
+    private void retrySubmittingForm(@NonNull final KUSFormRetry formRetry) {
         if (formRetry.getLastUserChatMessage() != null) {
             removeAll(new ArrayList<KUSModel>() {{
                 add(formRetry.getLastUserChatMessage());
@@ -1186,7 +1193,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         }
     }
 
-    private void insertDelayedMessage(final KUSChatMessage chatMessage) {
+    private void insertDelayedMessage(@NonNull final KUSChatMessage chatMessage) {
         //Sanity Check
         if (chatMessage.getId().length() == 0)
             return;
@@ -1269,6 +1276,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         vcFormActive = false;
     }
 
+    @Nullable
     private KUSFormQuestion getNextVCFormQuestion(int index, @Nullable String previousChannel) {
         if (getUserSession() == null)
             return null;
@@ -1286,7 +1294,6 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
             if (!chatSettings.isHideWaitOption()) {
                 options.add("I'll wait");
-
             }
 
             //volume_control_alternative_method_question
@@ -1307,7 +1314,6 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                 prompt = String.format("%s %s. %s", currentWaitTime, humanReadableTextFromSeconds,
                         upfrontAlternatePrompt);
             }
-
 
             JSONObject formMessage = new JSONObject();
             try {
@@ -1338,8 +1344,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                 prompt = Kustomer.getContext()
                         .getString(R.string.com_kustomer_volume_control_phone_question);
             }
-            JSONObject formMessage = new JSONObject();
 
+            JSONObject formMessage = new JSONObject();
             try {
                 formMessage.put("id", "vc_question_1");
                 formMessage.put("name", "Volume Form 1");
@@ -1423,7 +1429,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
             closeProactiveCampaignIfNecessary();
     }
 
-    private JSONArray getAttachmentIds(List<KUSChatAttachment> attachments) {
+    @Nullable
+    private JSONArray getAttachmentIds(@NonNull List<KUSChatAttachment> attachments) {
 
         if (attachments.size() == 0)
             return null;

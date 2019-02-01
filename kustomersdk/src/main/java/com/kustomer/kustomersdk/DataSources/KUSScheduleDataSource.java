@@ -95,7 +95,6 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
 
             return false;
         }
-
         return true;
     }
     //endregion

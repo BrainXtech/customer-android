@@ -62,7 +62,6 @@ public class KUSChatSettingsDataSource extends KUSObjectDataSource implements Se
                 try {
                     settings = (KUSChatSettings) objectFromJson(
                             JsonHelper.jsonObjectFromKeyPath(response,"data"));
-
                 } catch (KUSInvalidJsonException e) {
                     e.printStackTrace();
                 }
