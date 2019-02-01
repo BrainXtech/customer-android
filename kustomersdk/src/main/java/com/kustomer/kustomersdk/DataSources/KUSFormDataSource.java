@@ -38,9 +38,9 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
 
         String formId = getUserSession().getSharedPreferences().getFormId();
-        if (formId == null)
+        if (formId == null && chatSettings != null)
             formId = chatSettings.getActiveFormId();
-        
+
         getUserSession().getRequestManager().getEndpoint(
                 String.format(KUSConstants.URL.FORMS_ENDPOINT, formId),
                 true,

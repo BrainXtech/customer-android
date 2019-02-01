@@ -280,13 +280,12 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
                                     return;
 
                                 JSONObject jsonObject = JsonHelper.stringToJson(data);
-
                                 List<KUSModel> chatSessions = userSession.get().getChatSessionsDataSource()
                                         .objectsFromJSON(JsonHelper.jsonObjectFromKeyPath(jsonObject, "data"));
 
                                 userSession.get().getChatSessionsDataSource().upsertNewSessions(chatSessions);
 
-                                if (chatSessions.size() > 0) {
+                                if (chatSessions != null && chatSessions.size() > 0) {
                                     KUSChatSettings settings = (KUSChatSettings) userSession.get()
                                             .getChatSettingsDataSource().getObject();
                                     if (settings != null && settings.getSingleSessionChat()) {

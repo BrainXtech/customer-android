@@ -329,7 +329,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         if (settings != null && settings.getClosableChat() && chatSessionId != null) {
             KUSChatSession session = (KUSChatSession) userSession.getChatSessionsDataSource().findById(chatSessionId);
 
-            if (session.getLockedAt() == null && chatMessagesDataSource.isAnyMessageByCurrentUser()) {
+            if (session != null && session.getLockedAt() == null &&
+                    chatMessagesDataSource.isAnyMessageByCurrentUser()) {
 
                 Handler handler = new Handler(Looper.getMainLooper());
                 Runnable runnable = new Runnable() {
@@ -657,9 +658,11 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
         if (isBackToChatButton()) {
             KUSChatSession chatSession = userSession.getChatSessionsDataSource().mostRecentNonProactiveCampaignOpenSession();
-            chatSessionId = chatSession.getId();
-            chatMessagesDataSource = userSession.chatMessageDataSourceForSessionId(chatSessionId);
 
+            if (chatSession != null) {
+                chatSessionId = chatSession.getId();
+                chatMessagesDataSource = userSession.chatMessageDataSourceForSessionId(chatSessionId);
+            }
         } else {
             chatMessagesDataSource = new KUSChatMessagesDataSource(userSession, true);
             chatSessionId = null;
@@ -777,7 +780,9 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
                 shouldShowBackButton = true;
 
                 KUSChatSettings settings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
-                shouldShowBackButton = !settings.getNoHistory();
+                if (settings != null) {
+                    shouldShowBackButton = !settings.getNoHistory();
+                }
 
                 kusToolbar.setShowBackButton(shouldShowBackButton);
                 setupToolbar();

@@ -180,7 +180,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         isProactiveCampaign = !isAnyMessageByCurrentUser();
 
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
-        if (sessionId == null && chatSettings.getActiveFormId() != null) {
+        if (sessionId == null && chatSettings != null && chatSettings.getActiveFormId() != null) {
 
             if (attachments != null && attachments.size() > 0)
                 throw new AssertionError("Should not have been able to send attachments without a sessionId");
@@ -294,8 +294,10 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                         sessionQueuePollingManager = new KUSSessionQueuePollingManager(getUserSession(), sessionId);
 
                         //Insert the current messages data source into the userSession's lookup table
-                        getUserSession().getChatMessagesDataSources().put(session.getId(),
-                                KUSChatMessagesDataSource.this);
+                        if (getUserSession() != null) {
+                            getUserSession().getChatMessagesDataSources().put(session.getId(),
+                                    KUSChatMessagesDataSource.this);
+                        }
 
                         //Notify Listeners
                         for (KUSPaginatedDataSourceListener listener1 : new ArrayList<>(listeners)) {
@@ -516,7 +518,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
             return null;
 
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
-        if (!chatSettings.isVolumeControlEnabled()) {
+        if (chatSettings == null || !chatSettings.isVolumeControlEnabled()) {
             return null;
         }
 
@@ -566,21 +568,20 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
             return;
 
         KUSChatSettings settings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
+        if (settings == null || !settings.getSingleSessionChat()) {
+            return;
+        }
+        HashMap<String, KUSChatMessagesDataSource> chatSessionsHashMap = getUserSession().getChatMessagesDataSources();
+        ArrayList<KUSChatMessagesDataSource> chatSessions = new ArrayList<>(chatSessionsHashMap.values());
 
-        if (settings.getSingleSessionChat()) {
+        for (KUSChatMessagesDataSource chatMessagesDataSource : chatSessions) {
 
-            HashMap<String, KUSChatMessagesDataSource> chatSessionsHashMap = getUserSession().getChatMessagesDataSources();
-            ArrayList<KUSChatMessagesDataSource> chatSessions = new ArrayList<>(chatSessionsHashMap.values());
+            if (!chatMessagesDataSource.isAnyMessageByCurrentUser()) {
 
-            for (KUSChatMessagesDataSource chatMessagesDataSource : chatSessions) {
+                getUserSession().getChatSessionsDataSource()
+                        .updateLastSeenAtForSessionId(chatMessagesDataSource.sessionId, null);
 
-                if (!chatMessagesDataSource.isAnyMessageByCurrentUser()) {
-
-                    getUserSession().getChatSessionsDataSource()
-                            .updateLastSeenAtForSessionId(chatMessagesDataSource.sessionId, null);
-
-                    chatMessagesDataSource.endChat("customer_ended", null);
-                }
+                chatMessagesDataSource.endChat("customer_ended", null);
             }
         }
     }
@@ -759,7 +760,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         }
 
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
-        if (!chatSettings.isVolumeControlEnabled()) {
+        if (chatSettings == null || !chatSettings.isVolumeControlEnabled()) {
             return true;
         }
         if (!vcTrackingDelayCompleted) {
@@ -781,7 +782,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
         // Check that last message is VC form last message
         KUSChatMessage lastMessage = this.getLatestMessage();
-        if (lastMessage.getId().equals("vc_question_2")) {
+        if (lastMessage != null && lastMessage.getId().equals("vc_question_2")) {
             return false;
         }
 
@@ -812,7 +813,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         }
 
         KUSChatSession session = (KUSChatSession) getUserSession().getChatSessionsDataSource().findById(sessionId);
-        if (session.getLockedAt() != null) {
+        if (session != null && session.getLockedAt() != null) {
             endVolumeControlTracking();
 
             // Update Listeners that chat ended
@@ -821,7 +822,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         }
 
         KUSChatMessage lastMessage = getLatestMessage();
-        String previousMessage = lastMessage.getBody();
+        String previousMessage = lastMessage != null ? lastMessage.getBody() : null;
         if (vcFormQuestionIndex == 1 && previousMessage != null && previousMessage.equals("I'll wait")) {
             endVolumeControlTracking();
 
@@ -839,18 +840,20 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         }
 
         // Ask next question
-        Date createdAt = new Date((lastMessage.getCreatedAt() != null
+        Date createdAt = new Date((lastMessage != null && lastMessage.getCreatedAt() != null
                 ? lastMessage.getCreatedAt().getTime() : (new Date().getTime())) + KUS_CHAT_AUTO_REPLY_DELAY);
         if (!vcFormActive) {
             long currentDate = (new Date()).getTime();
-            if (currentDate + KUS_CHAT_AUTO_REPLY_DELAY > lastMessage.getCreatedAt().getTime()) {
+            if (lastMessage == null ||
+                    currentDate + KUS_CHAT_AUTO_REPLY_DELAY > lastMessage.getCreatedAt().getTime()) {
                 createdAt = new Date(currentDate + KUS_CHAT_AUTO_REPLY_DELAY);
             }
         }
 
         vcFormActive = true;
 
-        String previousChannel = lastMessage.getBody() != null ? lastMessage.getBody().toLowerCase() : null;
+        String previousChannel = lastMessage != null && lastMessage.getBody() != null ?
+                lastMessage.getBody().toLowerCase() : null;
         KUSFormQuestion vcFormQuestion = getNextVCFormQuestion(vcFormQuestionIndex, previousChannel);
 
         JSONObject attributes = new JSONObject();
@@ -1240,7 +1243,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         }
 
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
-        if (!chatSettings.isVolumeControlEnabled()) {
+        if (chatSettings == null || !chatSettings.isVolumeControlEnabled()) {
             return;
         }
 
@@ -1286,13 +1289,13 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                     .getChatSettingsDataSource().getObject();
 
             List<String> options = new ArrayList<>();
-            if (chatSettings.getFollowUpChannels() != null) {
+            if (chatSettings != null && chatSettings.getFollowUpChannels() != null) {
                 for (String option : chatSettings.getFollowUpChannels()) {
                     options.add(option.substring(0, 1).toUpperCase() + option.substring(1).toLowerCase());
                 }
             }
 
-            if (!chatSettings.isHideWaitOption()) {
+            if (chatSettings != null && !chatSettings.isHideWaitOption()) {
                 options.add("I'll wait");
             }
 
@@ -1301,7 +1304,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                     .getString(R.string.com_kustomer_volume_control_alternative_method_question);
             KUSSessionQueue sessionQueue = sessionQueuePollingManager.getSessionQueue();
 
-            if (chatSettings.getVolumeControlMode() == KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_UPFRONT
+            if (chatSettings != null
+                    && chatSettings.getVolumeControlMode() == KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_UPFRONT
                     && sessionQueue.getEstimatedWaitTimeSeconds() != 0) {
 
                 String currentWaitTime = Kustomer.getContext()

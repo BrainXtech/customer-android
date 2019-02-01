@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.DataSources;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Enums.KUSRequestType;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -10,6 +12,7 @@ import com.kustomer.kustomersdk.Utils.KUSConstants;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -26,10 +29,10 @@ public class KUSClientActivityDataSource extends KUSObjectDataSource {
 
     //region LifeCycle
     public KUSClientActivityDataSource(KUSUserSession userSession, String previousPageName,
-                                       String currentPageName, Double currentPageSeconds){
+                                       String currentPageName, Double currentPageSeconds) {
         super(userSession);
 
-        if(currentPageName == null)
+        if (currentPageName == null)
             throw new AssertionError("Should not fetch client activity without a current page!");
 
         this.previousPageName = previousPageName;
@@ -39,31 +42,32 @@ public class KUSClientActivityDataSource extends KUSObjectDataSource {
     //endregion
 
     //region Public Methods
-    public List<Double> getIntervals(){
+    public List<Double> getIntervals() {
         KUSClientActivity clientActivity = (KUSClientActivity) getObject();
-        return clientActivity.getIntervals();
+        return clientActivity != null ? clientActivity.getIntervals() : new ArrayList<Double>();
     }
 
-    public Date getCreatedAt(){
+    @Nullable
+    public Date getCreatedAt() {
         KUSClientActivity clientActivity = (KUSClientActivity) getObject();
-        return clientActivity.getCreatedAt();
+        return clientActivity != null ? clientActivity.getCreatedAt() : null;
     }
 
     //endregion
 
     //region SubClass Method
     @Override
-    public void performRequest(KUSRequestCompletionListener completionListener){
-        HashMap<String,Object> params = new HashMap<>();
+    public void performRequest(KUSRequestCompletionListener completionListener) {
+        HashMap<String, Object> params = new HashMap<>();
 
-        if(previousPageName != null){
-            params.put("previousPage",previousPageName);
+        if (previousPageName != null) {
+            params.put("previousPage", previousPageName);
         }
 
-        params.put("currentPage",currentPageName);
-        params.put("currentPageSeconds",currentPageSeconds);
+        params.put("currentPage", currentPageName);
+        params.put("currentPageSeconds", currentPageSeconds);
 
-        if(getUserSession() != null)
+        if (getUserSession() != null)
             getUserSession().getRequestManager().performRequestType(
                     KUSRequestType.KUS_REQUEST_TYPE_POST,
                     KUSConstants.URL.CLIENT_ACTIVITY_ENDPOINT,
