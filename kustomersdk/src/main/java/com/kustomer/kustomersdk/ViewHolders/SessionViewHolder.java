@@ -74,10 +74,13 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
 
         mUserSession.getChatSettingsDataSource().addListener(this);
         chatMessagesDataSource = userSession.chatMessageDataSourceForSessionId(chatSession.getId());
-        chatMessagesDataSource.addListener(this);
-        if (!chatMessagesDataSource.isFetched() && !chatMessagesDataSource.isFetching())
-            chatMessagesDataSource.fetchLatest();
 
+        if (chatMessagesDataSource != null) {
+            chatMessagesDataSource.addListener(this);
+
+            if (!chatMessagesDataSource.isFetched() && !chatMessagesDataSource.isFetching())
+                chatMessagesDataSource.fetchLatest();
+        }
         updateAvatar();
         updateLabels();
 
@@ -90,7 +93,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     }
 
     public void onDetached() {
-        if (mUserSession != null && mUserSession.getChatSettingsDataSource() != null)
+        if (mUserSession != null)
             mUserSession.getChatSettingsDataSource().removeListener(this);
 
         if (userDataSource != null)
@@ -133,7 +136,6 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
         //Title text (from last responder, chat settings or organization name)
         KUSUser firstOtherUser = userDataSource != null ? (KUSUser) userDataSource.getObject() : null;
 
-
         String responderName = firstOtherUser != null ? firstOtherUser.getDisplayName() : null;
 
         if (responderName == null || responderName.length() == 0) {
@@ -144,7 +146,6 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
         }
 
         tvSessionTitle.setText(String.format(itemView.getContext().getString(R.string.com_kustomer_chat_with) + " %s", responderName));
-
 
         //Subtitle text (from last message, or preview text)
         KUSChatMessage latestTextMessage = null;

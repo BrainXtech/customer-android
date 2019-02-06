@@ -79,7 +79,7 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        if(userSession != null && userSession.getChatSettingsDataSource() != null)
+        if(userSession != null)
             userSession.getChatSettingsDataSource().removeListener(this);
 
         if(userDataSource != null)
@@ -174,7 +174,7 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
         }
 
         KUSChatSettings chatSettings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
-        if(userSession.getChatSettingsDataSource() != null && chatSettings == null && !this.userSession.getChatSettingsDataSource().isFetching()){
+        if(chatSettings == null && !this.userSession.getChatSettingsDataSource().isFetching()){
             userSession.getChatSettingsDataSource().fetch();
         }
 

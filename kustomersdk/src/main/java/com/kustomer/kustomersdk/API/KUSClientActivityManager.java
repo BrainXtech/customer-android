@@ -3,6 +3,7 @@ package com.kustomer.kustomersdk.API;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.DataSources.KUSClientActivityDataSource;
 import com.kustomer.kustomersdk.DataSources.KUSObjectDataSource;
@@ -19,10 +20,12 @@ import java.util.TimerTask;
 public class KUSClientActivityManager implements KUSObjectDataSourceListener {
 
     //region Properties
+    @Nullable
     private String currentPageName;
     private WeakReference<KUSUserSession> userSession;
+    @Nullable
     private String previousPageName;
-    private Double currentPageStartTime;
+    private double currentPageStartTime;
     private List<Timer> timers = new ArrayList<>();
     private KUSClientActivityDataSource activityDataSource;
     //endregion
@@ -35,7 +38,6 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
 
     //region Internal Methods
     private void cancelTimers() {
-
         if (timers == null || timers.size() == 0) {
             return;
         }
@@ -46,7 +48,6 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
         for (Timer timer : tempTimers) {
             timer.cancel();
         }
-
     }
 
     private void updateTimers() {
@@ -82,8 +83,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
         requestClientActivityWithCurrentPageSeconds(timeOnCurrentPage());
     }
 
-    private void requestClientActivityWithCurrentPageSeconds(Double currentPageSeconds) {
-
+    private void requestClientActivityWithCurrentPageSeconds(double currentPageSeconds) {
         activityDataSource = new KUSClientActivityDataSource(userSession.get(),
                 previousPageName,
                 currentPageName,
@@ -93,14 +93,13 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
         activityDataSource.fetch();
     }
 
-    @NonNull
-    private Double timeOnCurrentPage() {
+    private double timeOnCurrentPage() {
         long currentTime = Calendar.getInstance().getTimeInMillis() / 1000;
         return (double) Math.round(currentTime - currentPageStartTime);
     }
 
 
-    private void onActivityTimer(Double interval) {
+    private void onActivityTimer(double interval) {
         requestClientActivityWithCurrentPageSeconds(interval);
     }
     //endregion
@@ -129,8 +128,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
             return;
 
         // Check that settings is fetched and no history is not enabled
-        if (userSession.get().getChatSettingsDataSource() != null &&
-                userSession.get().getChatSettingsDataSource().isFetched()) {
+        if (userSession.get() != null && userSession.get().getChatSettingsDataSource().isFetched()) {
             KUSChatSettings settings = (KUSChatSettings) userSession.get()
                     .getChatSettingsDataSource()
                     .getObject();
@@ -145,6 +143,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
         }
     }
 
+    @Nullable
     public String getCurrentPageName() {
         return currentPageName;
     }
@@ -154,7 +153,6 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
     //region Callbacks
     @Override
     public void objectDataSourceOnLoad(final KUSObjectDataSource dataSource) {
-
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override

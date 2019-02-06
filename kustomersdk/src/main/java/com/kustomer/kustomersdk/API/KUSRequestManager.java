@@ -1,10 +1,10 @@
 package com.kustomer.kustomersdk.API;
 
-
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.os.LocaleListCompat;
 
 import com.kustomer.kustomersdk.BuildConfig;
@@ -47,15 +47,16 @@ import static com.kustomer.kustomersdk.Utils.KUSUtils.removeNonASCIIChars;
  * Created by Junaid on 1/20/2018.
  */
 
-
 public class KUSRequestManager implements Serializable, KUSObjectDataSourceListener {
 
-
     //region Properties
+    @NonNull
     private String baseUrlString;
     private WeakReference<KUSUserSession> userSession;
 
+    @NonNull
     HashMap<String, String> genericHTTPHeaderValues;
+    @Nullable
     private ArrayList<KUSTrackingTokenListener> pendingTrackingTokenListeners = null;
     //endregion
 
@@ -63,14 +64,19 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     public KUSRequestManager(KUSUserSession userSession) {
         this.userSession = new WeakReference<>(userSession);
 
-        baseUrlString = String.format("https://%s.api.%s", userSession.getOrgName(), Kustomer.hostDomain());
+        baseUrlString = String.format("https://%s.api.%s", userSession.getOrgName(),
+                Kustomer.hostDomain());
+
         genericHTTPHeaderValues = new HashMap<String, String>() {
             {
                 put(KUSConstants.HeaderKeys.K_KUSTOMER_X_KUSTOMER_KEY, "kustomer");
-                put(KUSConstants.HeaderKeys.K_KUSTOMER_ACCEPT_LANGUAGE_KEY, removeNonASCIIChars(KUSAcceptLanguageHeaderValue()));
-                put(KUSConstants.HeaderKeys.K_KUSTOMER_USER_AGENT_KEY, removeNonASCIIChars(KUSUserAgentHeaderValue()));
+                put(KUSConstants.HeaderKeys.K_KUSTOMER_ACCEPT_LANGUAGE_KEY,
+                        removeNonASCIIChars(KUSAcceptLanguageHeaderValue()));
+                put(KUSConstants.HeaderKeys.K_KUSTOMER_USER_AGENT_KEY,
+                        removeNonASCIIChars(KUSUserAgentHeaderValue()));
                 put(KUSConstants.HeaderKeys.K_KUSTOMER_X_CLIENT_KEY, "customer-android");
-                put(KUSConstants.HeaderKeys.K_KUSTOMER_X_VERSION_KEY, String.format("release-v%s", Kustomer.sdkVersion()));
+                put(KUSConstants.HeaderKeys.K_KUSTOMER_X_VERSION_KEY,
+                        String.format("release-v%s", Kustomer.sdkVersion()));
             }
         };
 
@@ -79,6 +85,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     //endregion
 
     //region URL Methods
+    @Nullable
     public URL urlForEndpoint(String endpoint) {
         String endpointUrlString = String.format("%s%s", baseUrlString, endpoint);
         try {
@@ -91,7 +98,8 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     //endregion
 
     //region Request Methods
-    public void getEndpoint(String endpoint, boolean authenticated, KUSRequestCompletionListener listener) {
+    public void getEndpoint(String endpoint, boolean authenticated,
+                            @Nullable KUSRequestCompletionListener listener) {
         performRequestType(KUSRequestType.KUS_REQUEST_TYPE_GET,
                 endpoint,
                 null,
@@ -101,8 +109,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
 
     public void performRequestType(KUSRequestType type, String endpoint,
                                    HashMap<String, Object> params, boolean authenticated,
-                                   KUSRequestCompletionListener listener) {
-
+                                   @Nullable KUSRequestCompletionListener listener) {
         performRequestType(type,
                 urlForEndpoint(endpoint),
                 params,
@@ -113,8 +120,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     public void performRequestType(KUSRequestType type, URL url,
                                    HashMap<String, Object> params,
                                    boolean authenticated,
-                                   KUSRequestCompletionListener listener) {
-
+                                   @Nullable KUSRequestCompletionListener listener) {
         performRequestType(type,
                 url,
                 params,
@@ -128,7 +134,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
                                    HashMap<String, Object> params,
                                    boolean authenticated,
                                    HashMap additionalHeaders,
-                                   KUSRequestCompletionListener listener) {
+                                   @Nullable KUSRequestCompletionListener listener) {
         performRequestType(type,
                 url,
                 params,
@@ -139,15 +145,13 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
 
     }
 
-    @SuppressWarnings("ConstantConditions")
     public void performRequestType(final KUSRequestType type,
                                    final URL url,
                                    final HashMap<String, Object> params,
                                    final byte[] bodyData,
                                    final boolean authenticated,
                                    final HashMap additionalHeaders,
-                                   final KUSRequestCompletionListener completionListener) {
-
+                                   @Nullable final KUSRequestCompletionListener completionListener) {
         if (authenticated) {
             dispenseTrackingToken(new KUSTrackingTokenListener() {
                 @Override
@@ -156,13 +160,13 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
                         safeComplete(completionListener, error, null);
                     } else {
                         performRequestWithTrackingToken(type, trackingToken, url, params, bodyData,
-                                authenticated, additionalHeaders, completionListener);
+                                true, additionalHeaders, completionListener);
                     }
                 }
             });
         } else {
             performRequestWithTrackingToken(type, null, url, params, bodyData,
-                    authenticated, additionalHeaders, completionListener);
+                    false, additionalHeaders, completionListener);
         }
 
     }
@@ -171,13 +175,12 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     //region Private Methods
     private void performRequestWithTrackingToken(KUSRequestType type,
                                                  String trackingToken,
-                                                 URL url,
+                                                 @NonNull URL url,
                                                  HashMap<String, Object> params,
                                                  byte[] bodyData,
                                                  boolean authenticated,
                                                  HashMap additionalHeaders,
-                                                 final KUSRequestCompletionListener completionListener) {
-
+                                                 @Nullable final KUSRequestCompletionListener completionListener) {
 
 //        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
 //        logging.setLevel(HttpLoggingInterceptor.Level.BASIC);
@@ -252,15 +255,13 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
                     requestBuilder.put(reqbody);
                 else if (type == KUSRequestType.KUS_REQUEST_TYPE_PATCH)
                     requestBuilder.patch(reqbody);
-
             }
 
             if (authenticated && trackingToken != null)
-                requestBuilder.addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY, trackingToken);
-
+                requestBuilder.addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY,
+                        trackingToken);
 
             request = requestBuilder.build();
-
             client.newCall(request).enqueue(new Callback() {
                 @Override
                 public void onFailure(@NonNull Call call, @NonNull IOException e) {
@@ -354,9 +355,11 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
         });
     }
 
-    private void safeComplete(final KUSRequestCompletionListener completionListener, final Error error,
-                              final JSONObject jsonObject) {
-        completionListener.onCompletion(error, jsonObject);
+    private void safeComplete(@Nullable final KUSRequestCompletionListener completionListener,
+                              final Error error, final JSONObject jsonObject) {
+        if (completionListener != null) {
+            completionListener.onCompletion(error, jsonObject);
+        }
     }
 
     private void dispenseTrackingToken(final KUSTrackingTokenListener listener) {
@@ -390,6 +393,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     }
 
 
+    @NonNull
     private static String KUSAcceptLanguageHeaderValue() {
         StringBuilder output = new StringBuilder();
         LocaleListCompat localeList = LocaleListCompat.getDefault();
@@ -404,8 +408,8 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
         return output.toString();
     }
 
+    @NonNull
     private static String KUSUserAgentHeaderValue() {
-
         return String.format(Locale.getDefault(), "%s/%s (%s; android %s;)",
                 BuildConfig.APPLICATION_ID,
                 BuildConfig.VERSION_NAME,

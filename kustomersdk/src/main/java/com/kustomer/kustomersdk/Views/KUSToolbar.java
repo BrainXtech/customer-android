@@ -81,10 +81,10 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener, 
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        if (userSession != null && userSession.getChatSettingsDataSource() != null)
+        if (userSession != null)
             userSession.getChatSettingsDataSource().removeListener(this);
 
-        if (userSession != null && userSession.getChatSessionsDataSource() != null)
+        if (userSession != null)
             userSession.getChatSessionsDataSource().removeListener(this);
 
         if (userDataSource != null)
@@ -461,17 +461,16 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener, 
                 sessionId = mSessionId;
                 chatMessagesDataSource.removeListener(KUSToolbar.this);
                 chatMessagesDataSource = userSession.chatMessageDataSourceForSessionId(sessionId);
-                chatMessagesDataSource.addListener(KUSToolbar.this);
-                kusMultipleAvatarsView.setUserIds(chatMessagesDataSource.getOtherUserIds());
-
+                if (chatMessagesDataSource != null) {
+                    chatMessagesDataSource.addListener(KUSToolbar.this);
+                    kusMultipleAvatarsView.setUserIds(chatMessagesDataSource.getOtherUserIds());
+                }
                 updateTextLabel();
                 updateBackButtonBadge();
 
             }
         };
         handler.post(runnable);
-
-
     }
 
     @Override

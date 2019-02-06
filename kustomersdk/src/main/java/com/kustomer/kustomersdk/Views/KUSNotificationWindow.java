@@ -95,8 +95,8 @@ public class KUSNotificationWindow {
 
         mUserSession = Kustomer.getSharedInstance().getUserSession();
         chatMessagesDataSource = mUserSession.chatMessageDataSourceForSessionId(chatSession.getId());
-        KUSUserDataSource userDataSource = mUserSession
-                .userDataSourceForUserId(chatMessagesDataSource.getFirstOtherUserId());
+        KUSUserDataSource userDataSource = chatMessagesDataSource == null ? null :
+                mUserSession.userDataSourceForUserId(chatMessagesDataSource.getFirstOtherUserId());
 
         KUSUser user = null;
         if (userDataSource != null) {
@@ -107,8 +107,8 @@ public class KUSNotificationWindow {
         }
 
         KUSChatSettings chatSettings = (KUSChatSettings) mUserSession.getChatSettingsDataSource().getObject();
-        if (mUserSession.getChatSettingsDataSource() != null && chatSettings == null
-                && !this.mUserSession.getChatSettingsDataSource().isFetching()) {
+        if (mUserSession != null && chatSettings == null &&
+                !this.mUserSession.getChatSettingsDataSource().isFetching()) {
             mUserSession.getChatSettingsDataSource().fetch();
         }
 

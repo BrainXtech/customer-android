@@ -21,47 +21,68 @@ import static org.junit.Assert.assertNotNull;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest= Config.NONE)
+@Config(manifest = Config.NONE)
 public class KUSRequestManagerTests {
 
     @Test
-    public void testUserSessionCreatesDefaultRequestManager(){
-        KUSUserSession userSession = new KUSUserSession(KUS_TEST_ORG_NAME,KUS_TEST_ORG_ID);
+    public void testUserSessionCreatesDefaultRequestManager() {
+        KUSUserSession userSession = new KUSUserSession(KUS_TEST_ORG_NAME, KUS_TEST_ORG_ID);
         assertNotNull(userSession.getRequestManager());
     }
 
     @Test
-    public void testRequestManagerBaseUrl(){
-        KUSUserSession userSession = new KUSUserSession(KUS_TEST_ORG_NAME,KUS_TEST_ORG_ID);
+    public void testRequestManagerBaseUrl() {
+        KUSUserSession userSession = new KUSUserSession(KUS_TEST_ORG_NAME, KUS_TEST_ORG_ID);
         KUSRequestManager requestManager = new KUSRequestManager(userSession);
         URL baseURL = requestManager.urlForEndpoint("");
-        assertEquals(baseURL.toString(),"https://testOrgName.api.kustomerapp.com");
+        assert baseURL != null;
+        assertEquals(baseURL.toString(), "https://testOrgName.api.kustomerapp.com");
     }
 
     @Test
-    public void testRequestManagerEndpointURLs(){
-        KUSUserSession userSession = new KUSUserSession(KUS_TEST_ORG_NAME,KUS_TEST_ORG_ID);
+    public void testRequestManagerEndpointURLs() {
+        KUSUserSession userSession = new KUSUserSession(KUS_TEST_ORG_NAME, KUS_TEST_ORG_ID);
         KUSRequestManager requestManager = new KUSRequestManager(userSession);
-        assertEquals(requestManager.urlForEndpoint("/c/v1/customers/current").toString()
-                ,"https://testOrgName.api.kustomerapp.com/c/v1/customers/current");
-        assertEquals(requestManager.urlForEndpoint("/c/v1/identity").toString()
-                ,"https://testOrgName.api.kustomerapp.com/c/v1/identity");
-        assertEquals(requestManager.urlForEndpoint("/c/v1/pusher/auth").toString()
-                ,"https://testOrgName.api.kustomerapp.com/c/v1/pusher/auth");
-        assertEquals(requestManager.urlForEndpoint("/c/v1/chat/messages").toString()
-                ,"https://testOrgName.api.kustomerapp.com/c/v1/chat/messages");
-        assertEquals(requestManager.urlForEndpoint("/c/v1/chat/sessions").toString()
-                ,"https://testOrgName.api.kustomerapp.com/c/v1/chat/sessions");
-        assertEquals(requestManager.urlForEndpoint("/c/v1/chat/settings").toString()
-                ,"https://testOrgName.api.kustomerapp.com/c/v1/chat/settings");
-        assertEquals(requestManager.urlForEndpoint("/c/v1/tracking/tokens/current").toString()
-                ,"https://testOrgName.api.kustomerapp.com/c/v1/tracking/tokens/current");
+        URL url = requestManager.urlForEndpoint("/c/v1/customers/current");
+        assert url != null;
+        assertEquals(url.toString(),
+                "https://testOrgName.api.kustomerapp.com/c/v1/customers/current");
+
+        url = requestManager.urlForEndpoint("/c/v1/identity");
+        assert url != null;
+        assertEquals(url.toString()
+                , "https://testOrgName.api.kustomerapp.com/c/v1/identity");
+
+        url = requestManager.urlForEndpoint("/c/v1/pusher/auth");
+        assert url != null;
+        assertEquals(url.toString()
+                , "https://testOrgName.api.kustomerapp.com/c/v1/pusher/auth");
+
+        url = requestManager.urlForEndpoint("/c/v1/chat/messages");
+        assert url != null;
+        assertEquals(url.toString()
+                , "https://testOrgName.api.kustomerapp.com/c/v1/chat/messages");
+
+        url = requestManager.urlForEndpoint("/c/v1/chat/sessions");
+        assert url != null;
+        assertEquals(url.toString()
+                , "https://testOrgName.api.kustomerapp.com/c/v1/chat/sessions");
+
+        url = requestManager.urlForEndpoint("/c/v1/chat/settings");
+        assert url != null;
+        assertEquals(url.toString()
+                , "https://testOrgName.api.kustomerapp.com/c/v1/chat/settings");
+
+        url = requestManager.urlForEndpoint("/c/v1/tracking/tokens/current");
+        assert url != null;
+        assertEquals(url.toString()
+                , "https://testOrgName.api.kustomerapp.com/c/v1/tracking/tokens/current");
     }
 
     @Test
-    public void test100RequestManagerInitPerformance(){
-        KUSUserSession userSession = new KUSUserSession(KUS_TEST_ORG_NAME,KUS_TEST_ORG_ID);
-        for(int i = 0; i<100; i++){
+    public void test100RequestManagerInitPerformance() {
+        KUSUserSession userSession = new KUSUserSession(KUS_TEST_ORG_NAME, KUS_TEST_ORG_ID);
+        for (int i = 0; i < 100; i++) {
             KUSRequestManager requestManager = new KUSRequestManager(userSession);
         }
     }

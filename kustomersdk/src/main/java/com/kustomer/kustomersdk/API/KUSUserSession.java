@@ -1,5 +1,8 @@
 package com.kustomer.kustomersdk.API;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.DataSources.KUSChatMessagesDataSource;
 import com.kustomer.kustomersdk.DataSources.KUSChatSessionsDataSource;
 import com.kustomer.kustomersdk.DataSources.KUSChatSettingsDataSource;
@@ -38,37 +41,48 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
     private String orgName;
     private String organizationName; //UserFacing
 
-
+    @Nullable
     private KUSChatSessionsDataSource chatSessionsDataSource;
+    @Nullable
     private KUSChatSettingsDataSource chatSettingsDataSource;
+    @Nullable
     private KUSTrackingTokenDataSource trackingTokenDataSource;
+    @Nullable
     private KUSFormDataSource formDataSource;
+    @Nullable
     private KUSScheduleDataSource scheduleDataSource;
 
+    @Nullable
     private HashMap<String, KUSUserDataSource> userDataSources;
+    @Nullable
     private HashMap<String, KUSChatMessagesDataSource> chatMessagesDataSources;
 
+    @Nullable
     private KUSRequestManager requestManager;
+    @Nullable
     private KUSPushClient pushClient;
+    @Nullable
     private KUSDelegateProxy delegateProxy;
+    @Nullable
     private KUSClientActivityManager activityManager;
 
+    @Nullable
     private KUSSharedPreferences sharedPreferences;
 
     boolean shouldCaptureEmail;
     //endregion
 
     //region LifeCycle
-    public KUSUserSession(String orgName, String orgId, boolean reset){
+    public KUSUserSession(String orgName, String orgId, boolean reset) {
         this.orgName = orgName;
         this.orgId = orgId;
 
-        if(this.orgName != null && this.orgName.length() > 0) {
-            String firstLetter = this.orgName.substring(0,1).toUpperCase();
+        if (this.orgName != null && this.orgName.length() > 0) {
+            String firstLetter = this.orgName.substring(0, 1).toUpperCase();
             this.organizationName = firstLetter.concat(this.orgName.substring(1));
         }
 
-        if(reset){
+        if (reset) {
             getTrackingTokenDataSource().reset();
             getSharedPreferences().reset();
         }
@@ -77,12 +91,14 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
         getScheduleDataSource().fetch();
         getPushClient();
 
-        chatSessionsDataSource.addListener(this);
-        chatSessionsDataSource.fetchLatest();
+        if (chatSessionsDataSource != null) {
+            chatSessionsDataSource.addListener(this);
+            chatSessionsDataSource.fetchLatest();
+        }
     }
 
-    public KUSUserSession(String orgName, String orgId){
-        this(orgName,orgId,false);
+    public KUSUserSession(String orgName, String orgId) {
+        this(orgName, orgId, false);
     }
 
     //endregion
@@ -90,64 +106,67 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
 
     //region public methods
     public void removeAllListeners() {
-        pushClient.removeAllListeners();
+        if (pushClient != null) {
+            pushClient.removeAllListeners();
+        }
 
-        if(chatSessionsDataSource != null)
+        if (chatSessionsDataSource != null)
             chatSessionsDataSource.removeAllListeners();
 
-        if(chatSettingsDataSource != null)
+        if (chatSettingsDataSource != null)
             chatSettingsDataSource.removeAllListeners();
 
-        if(trackingTokenDataSource != null)
+        if (trackingTokenDataSource != null)
             trackingTokenDataSource.removeAllListeners();
 
-        if(formDataSource != null)
+        if (formDataSource != null)
             formDataSource.removeAllListeners();
 
-        if(userDataSources != null && userDataSources.keySet().size() > 0)
-            for(String key : userDataSources.keySet()){
+        if (userDataSources != null && userDataSources.keySet().size() > 0)
+            for (String key : userDataSources.keySet()) {
                 KUSUserDataSource dataSource = userDataSources.get(key);
 
-                if(dataSource != null)
+                if (dataSource != null)
                     dataSource.removeAllListeners();
             }
 
-        if(chatMessagesDataSources != null && chatMessagesDataSources.keySet().size() > 0)
-            for(String key : chatMessagesDataSources.keySet()) {
+        if (chatMessagesDataSources != null && chatMessagesDataSources.keySet().size() > 0)
+            for (String key : chatMessagesDataSources.keySet()) {
                 KUSChatMessagesDataSource dataSource = chatMessagesDataSources.get(key);
 
-                if(dataSource != null)
+                if (dataSource != null)
                     dataSource.removeAllListeners();
             }
     }
 
-    public KUSChatMessagesDataSource chatMessageDataSourceForSessionId(String sessionId){
-        if(sessionId == null || sessionId.isEmpty())
+    @Nullable
+    public KUSChatMessagesDataSource chatMessageDataSourceForSessionId(String sessionId) {
+        if (sessionId == null || sessionId.isEmpty())
             return null;
 
         KUSChatMessagesDataSource chatMessagesDataSource = getChatMessagesDataSources().get(sessionId);
         if (chatMessagesDataSource == null) {
             chatMessagesDataSource = new KUSChatMessagesDataSource(this, sessionId);
-            chatMessagesDataSources.put(sessionId, chatMessagesDataSource);
+            getChatMessagesDataSources().put(sessionId, chatMessagesDataSource);
         }
         return chatMessagesDataSource;
     }
 
+    @Nullable
     public KUSUserDataSource userDataSourceForUserId(String userId) {
-        if(userId == null || userId.length() == 0 || userId.equals("__team"))
+        if (userId == null || userId.length() == 0 || userId.equals("__team"))
             return null;
 
         KUSUserDataSource userDataSource = getUserDataSources().get(userId);
-        if(userDataSource == null){
-            userDataSource = new KUSUserDataSource(this,userId);
-            getUserDataSources().put(userId,userDataSource);
+        if (userDataSource == null) {
+            userDataSource = new KUSUserDataSource(this, userId);
+            getUserDataSources().put(userId, userDataSource);
         }
 
         return userDataSource;
     }
 
-    public void submitEmail(String emailAddress){
-
+    public void submitEmail(String emailAddress) {
         getSharedPreferences().setDidCaptureEmail(true);
         final WeakReference<KUSUserSession> weakReference = new WeakReference<>(this);
         KUSCustomerDescription customerDescription = new KUSCustomerDescription();
@@ -156,22 +175,26 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
         describeCustomer(customerDescription, new KUSCustomerCompletionListener() {
             @Override
             public void onComplete(boolean success, Error error) {
-                if(error != null || !success){
+                if (error != null || !success) {
                     KUSLog.KUSLogError(String.format("Error submitting email: %s",
                             error != null ? error.toString() : ""));
                     return;
                 }
-
-                weakReference.get().trackingTokenDataSource.fetch();
+                if (weakReference.get() != null) {
+                    KUSTrackingTokenDataSource trackingTokenDataSource = weakReference.get().trackingTokenDataSource;
+                    if (trackingTokenDataSource != null) {
+                        trackingTokenDataSource.fetch();
+                    }
+                }
             }
         });
     }
 
-    public void describeCustomer(KUSCustomerDescription customerDescription, final KUSCustomerCompletionListener listener){
-
+    public void describeCustomer(KUSCustomerDescription customerDescription,
+                                 final KUSCustomerCompletionListener listener) {
         HashMap<String, Object> formData = customerDescription.formData();
 
-        if(formData.size() == 0)
+        if (formData.size() == 0)
             throw new AssertionError("Attempted to describe a customer with no attributes se");
 
         // If email is passed in custom description
@@ -187,7 +210,7 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
                 new KUSRequestCompletionListener() {
                     @Override
                     public void onCompletion(Error error, JSONObject response) {
-                        if(listener != null)
+                        if (listener != null)
                             listener.onComplete(error == null, error);
                     }
                 }
@@ -199,73 +222,83 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
 
     //region Getters
 
+    @NonNull
     public KUSChatSessionsDataSource getChatSessionsDataSource() {
         if (chatSessionsDataSource == null)
             chatSessionsDataSource = new KUSChatSessionsDataSource(this);
         return chatSessionsDataSource;
     }
 
+    @NonNull
     public KUSChatSettingsDataSource getChatSettingsDataSource() {
         if (chatSettingsDataSource == null)
             chatSettingsDataSource = new KUSChatSettingsDataSource(this);
         return chatSettingsDataSource;
     }
 
+    @NonNull
     public KUSTrackingTokenDataSource getTrackingTokenDataSource() {
         if (trackingTokenDataSource == null)
             trackingTokenDataSource = new KUSTrackingTokenDataSource(this);
         return trackingTokenDataSource;
     }
 
+    @NonNull
     public KUSFormDataSource getFormDataSource() {
         if (formDataSource == null)
             formDataSource = new KUSFormDataSource(this);
         return formDataSource;
     }
 
+    @NonNull
     public KUSRequestManager getRequestManager() {
         if (requestManager == null)
             requestManager = new KUSRequestManager(this);
         return requestManager;
     }
 
+    @NonNull
     public KUSPushClient getPushClient() {
         if (pushClient == null)
             pushClient = new KUSPushClient(this);
         return pushClient;
     }
 
-
     public KUSSharedPreferences getSharedPreferences() {
         if (sharedPreferences == null) {
             try {
                 sharedPreferences = new KUSSharedPreferences(Kustomer.getContext(), this);
-            }catch (NullPointerException ignore){}
+            } catch (NullPointerException ignore) {
+            }
         }
         return sharedPreferences;
     }
 
+    @NonNull
     public HashMap<String, KUSUserDataSource> getUserDataSources() {
         if (userDataSources == null)
             userDataSources = new HashMap<>();
         return userDataSources;
     }
 
+    @NonNull
     public HashMap<String, KUSChatMessagesDataSource> getChatMessagesDataSources() {
         if (chatMessagesDataSources == null)
             chatMessagesDataSources = new HashMap<>();
         return chatMessagesDataSources;
     }
 
-    public KUSClientActivityManager getActivityManager(){
-        if(activityManager == null)
+    @NonNull
+    public KUSClientActivityManager getActivityManager() {
+        if (activityManager == null)
             activityManager = new KUSClientActivityManager(this);
 
         return activityManager;
     }
 
+    @NonNull
     public KUSScheduleDataSource getScheduleDataSource() {
-        if(scheduleDataSource == null)
+        if (scheduleDataSource == null)
             scheduleDataSource = new KUSScheduleDataSource(this);
 
         return scheduleDataSource;
@@ -274,8 +307,9 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
 
     //region Accessors
 
+    @NonNull
     public KUSDelegateProxy getDelegateProxy() {
-        if(delegateProxy == null)
+        if (delegateProxy == null)
             delegateProxy = new KUSDelegateProxy();
 
         return delegateProxy;
@@ -311,9 +345,10 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
 
     public boolean isShouldCaptureEmail() {
 
-        KUSTrackingToken trackingToken = (KUSTrackingToken) trackingTokenDataSource.getObject();
-        if(trackingToken != null){
-            if(trackingToken.getVerified()){
+        KUSTrackingToken trackingToken = (KUSTrackingToken) (trackingTokenDataSource != null ?
+                trackingTokenDataSource.getObject() : null);
+        if (trackingToken != null) {
+            if (trackingToken.getVerified()) {
                 return false;
             }
 
@@ -327,15 +362,17 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
     //region Callback
     @Override
     public void onLoad(KUSPaginatedDataSource dataSource) {
-        if(dataSource == chatSessionsDataSource){
+        if (chatSessionsDataSource != null && dataSource == chatSessionsDataSource) {
             chatSessionsDataSource.removeListener(this);
 
-            for(KUSModel model : chatSessionsDataSource.getList()){
+            for (KUSModel model : chatSessionsDataSource.getList()) {
                 KUSChatSession chatSession = (KUSChatSession) model;
                 //Fetch any messages that might contribute to unread count
                 KUSChatMessagesDataSource messagesDataSource = chatMessageDataSourceForSessionId(chatSession.getId());
-                boolean hasUnseen = chatSession.getLastSeenAt() == null || (chatSession.getLastMessageAt() != null && chatSession.getLastMessageAt().after(chatSession.getLastSeenAt()));
-                if(hasUnseen && !messagesDataSource.isFetched())
+                boolean hasUnseen = chatSession.getLastSeenAt() == null
+                        || (chatSession.getLastMessageAt() != null
+                        && chatSession.getLastMessageAt().after(chatSession.getLastSeenAt()));
+                if (messagesDataSource != null && hasUnseen && !messagesDataSource.isFetched())
                     messagesDataSource.fetchLatest();
             }
         }
@@ -354,7 +391,7 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
     //endregion
 
     //region Interface
-    public interface KUSCustomerCompletionListener{
+    public interface KUSCustomerCompletionListener {
         void onComplete(boolean success, Error error);
     }
     //endregion

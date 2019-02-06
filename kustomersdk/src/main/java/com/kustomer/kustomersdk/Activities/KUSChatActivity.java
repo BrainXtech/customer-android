@@ -261,10 +261,12 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             chatMessagesDataSource = new KUSChatMessagesDataSource(userSession, true);
         }
 
-        chatMessagesDataSource.addListener(this);
-        chatMessagesDataSource.fetchLatest();
-        if (!chatMessagesDataSource.isFetched()) {
-            progressDialog.show();
+        if (chatMessagesDataSource != null) {
+            chatMessagesDataSource.addListener(this);
+            chatMessagesDataSource.fetchLatest();
+            if (!chatMessagesDataSource.isFetched()) {
+                progressDialog.show();
+            }
         }
     }
 

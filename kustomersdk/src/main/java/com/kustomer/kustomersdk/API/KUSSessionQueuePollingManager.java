@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.API;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.DataSources.KUSObjectDataSource;
 import com.kustomer.kustomersdk.DataSources.KUSSessionQueueDataSource;
 import com.kustomer.kustomersdk.Interfaces.KUSObjectDataSourceListener;
@@ -17,8 +19,8 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
     //region Properties
     private static final int ONE_MINUTE = 60;
 
-    private Boolean isPollingStarted;
-    private Boolean isPollingCanceled;
+    private boolean isPollingStarted;
+    private boolean isPollingCanceled;
 
     private String sessionId;
     private List<KUSSessionQueuePollingListener> listeners;
@@ -29,13 +31,13 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
     //endregion
 
     //region Initializer
-    public KUSSessionQueuePollingManager(KUSUserSession userSession, String sessionId){
+    public KUSSessionQueuePollingManager(KUSUserSession userSession, String sessionId) {
         this.userSession = new WeakReference<>(userSession);
         this.sessionId = sessionId;
         isPollingStarted = false;
         isPollingCanceled = false;
 
-        sessionQueueDataSource = new KUSSessionQueueDataSource(userSession,sessionId);
+        sessionQueueDataSource = new KUSSessionQueueDataSource(userSession, sessionId);
         sessionQueueDataSource.addListener(this);
 
         listeners = new ArrayList<>();
@@ -43,22 +45,21 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
     //endregion
 
     //region Private Methods
-    private void endTimer(){
-        if(timer != null) {
+    private void endTimer() {
+        if (timer != null) {
             timer.cancel();
             timer = null;
         }
     }
 
-    private void fetchQueueAfterInterval(long interval){
-
+    private void fetchQueueAfterInterval(long interval) {
         endTimer();
 
         timer = new Timer();
         TimerTask doAsyncTask = new TimerTask() {
             @Override
             public void run() {
-                if(!isPollingStarted){
+                if (!isPollingStarted) {
                     isPollingStarted = true;
                     notifyAnnouncersOnPollingStarted();
                 }
@@ -66,19 +67,19 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
                 sessionQueueDataSource.fetch();
             }
         };
-        timer.schedule(doAsyncTask,interval);
+        timer.schedule(doAsyncTask, interval);
     }
 
-    private long getPollingIntervalFromEstimatedWaitTime(int estimatedWaitTimeSeconds){
+    private long getPollingIntervalFromEstimatedWaitTime(int estimatedWaitTimeSeconds) {
         double delay;
 
-        if(estimatedWaitTimeSeconds < ONE_MINUTE){
+        if (estimatedWaitTimeSeconds < ONE_MINUTE) {
             delay = 0.1 * ONE_MINUTE;
-        }else if(estimatedWaitTimeSeconds < 5 * ONE_MINUTE){
+        } else if (estimatedWaitTimeSeconds < 5 * ONE_MINUTE) {
             delay = 0.5 * ONE_MINUTE;
-        }else if(estimatedWaitTimeSeconds < 10 * ONE_MINUTE){
+        } else if (estimatedWaitTimeSeconds < 10 * ONE_MINUTE) {
             delay = ONE_MINUTE;
-        }else {
+        } else {
             delay = 0.1 * estimatedWaitTimeSeconds;
         }
 
@@ -87,57 +88,57 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
 
     private void notifyAnnouncersOnPollingStarted() {
         for (KUSSessionQueuePollingListener listener : new ArrayList<>(listeners)) {
-            if(listener != null)
+            if (listener != null)
                 listener.onPollingStarted(this);
         }
     }
 
     private void notifyAnnouncersOnPollingEnd() {
         for (KUSSessionQueuePollingListener listener : new ArrayList<>(listeners)) {
-            if(listener != null)
+            if (listener != null)
                 listener.onPollingEnd(this);
         }
     }
 
     private void notifyAnnouncersOnPollingUpdated(KUSSessionQueue sessionQueue) {
         for (KUSSessionQueuePollingListener listener : new ArrayList<>(listeners)) {
-            if(listener != null)
-                listener.onSessionQueueUpdated(this,sessionQueue);
+            if (listener != null)
+                listener.onSessionQueueUpdated(this, sessionQueue);
         }
     }
 
     private void notifyAnnouncersOnPollingCanceled() {
         for (KUSSessionQueuePollingListener listener : new ArrayList<>(listeners)) {
-            if(listener != null)
+            if (listener != null)
                 listener.onPollingCanceled(this);
         }
     }
 
     private void notifyAnnouncersOnFailure(Error error) {
         for (KUSSessionQueuePollingListener listener : new ArrayList<>(listeners)) {
-            if(listener != null)
-                listener.onFailure(error,this);
+            if (listener != null)
+                listener.onFailure(error, this);
         }
     }
     //endregion
 
     //region Public Methods
-    public void addListener(KUSSessionQueuePollingListener listener){
-        if(!listeners.contains(listener))
+    public void addListener(@Nullable KUSSessionQueuePollingListener listener) {
+        if (listener != null && !listeners.contains(listener))
             listeners.add(listener);
     }
 
-    public void removeListener(KUSSessionQueuePollingListener listener){
+    public void removeListener(@Nullable KUSSessionQueuePollingListener listener) {
         listeners.remove(listener);
     }
 
-    public void startPolling(){
+    public void startPolling() {
         // Starting Polling After 2 second to avoid race condition
         fetchQueueAfterInterval(2000);
     }
 
-    public void cancelPolling(){
-        if(isPollingStarted){
+    public void cancelPolling() {
+        if (isPollingStarted) {
             isPollingCanceled = true;
             notifyAnnouncersOnPollingCanceled();
 
@@ -145,7 +146,7 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
         }
     }
 
-    public KUSSessionQueue getSessionQueue(){
+    public KUSSessionQueue getSessionQueue() {
         return (KUSSessionQueue) sessionQueueDataSource.getObject();
     }
     //endregion
@@ -153,17 +154,17 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
     //region Callback Listeners
     @Override
     public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
-        if(isPollingCanceled) return;
+        if (isPollingCanceled) return;
 
         KUSSessionQueue sessionQueue = (KUSSessionQueue) dataSource.getObject();
 
-        if(sessionQueue == null) return;
+        if (sessionQueue == null) return;
 
         // Notify all announcers for the updated session queue object
         notifyAnnouncersOnPollingUpdated(sessionQueue);
 
         // Fetch queue object after specific delay if necessary
-        if(sessionQueue.getEstimatedWaitTimeSeconds() == 0){
+        if (sessionQueue.getEstimatedWaitTimeSeconds() == 0) {
             notifyAnnouncersOnPollingEnd();
             endTimer();
             return;
@@ -181,11 +182,11 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
 
     //region Accessors
 
-    public Boolean getPollingStarted() {
+    public boolean getPollingStarted() {
         return isPollingStarted;
     }
 
-    public Boolean getPollingCanceled() {
+    public boolean getPollingCanceled() {
         return isPollingCanceled;
     }
 
