@@ -432,7 +432,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, final JSONObject response) {
+                    public void onCompletion(Error error,@Nullable final JSONObject response) {
                         if (userSession.get() == null)
                             return;
 

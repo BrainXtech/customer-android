@@ -120,7 +120,6 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
 
         avatarImageView.setLayoutParams(avatarLayoutParams);
 
-
         imageLayout.addView(avatarImageView);
     }
 

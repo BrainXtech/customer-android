@@ -209,7 +209,7 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(Error error,@Nullable JSONObject response) {
                         if (listener != null)
                             listener.onComplete(error == null, error);
                     }

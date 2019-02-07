@@ -3,6 +3,8 @@ package com.kustomer.kustomersdk.DataSources;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Enums.KUSRequestType;
@@ -52,11 +54,11 @@ public class KUSChatSettingsDataSource extends KUSObjectDataSource implements Se
         return new KUSChatSettings(jsonObject);
     }
 
-    public void isChatAvailable(final KUSChatAvailableListener listener){
+    public void isChatAvailable(@NonNull final KUSChatAvailableListener listener){
 
         performRequest(new KUSRequestCompletionListener() {
             @Override
-            public void onCompletion(final Error error, JSONObject response) {
+            public void onCompletion(final Error error,@Nullable JSONObject response) {
 
                 KUSChatSettings settings = null;
                 try {

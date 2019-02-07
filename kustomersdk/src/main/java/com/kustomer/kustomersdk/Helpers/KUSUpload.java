@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.Helpers;
 
 import android.graphics.Bitmap;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Enums.KUSRequestType;
@@ -106,7 +107,7 @@ public class KUSUpload {
                     true,
                     new KUSRequestCompletionListener() {
                         @Override
-                        public void onCompletion(Error error, JSONObject response) {
+                        public void onCompletion(Error error,@Nullable JSONObject response) {
                             if (error != null) {
                                 if (listener != null) {
                                     listener.onUploadComplete(error, null);
@@ -135,7 +136,7 @@ public class KUSUpload {
                                         uploadFields,
                                         new KUSRequestCompletionListener() {
                                             @Override
-                                            public void onCompletion(Error error, JSONObject response) {
+                                            public void onCompletion(Error error,@Nullable JSONObject response) {
                                                 if (error != null) {
                                                     if (listener != null)
                                                         listener.onUploadComplete(error, null);

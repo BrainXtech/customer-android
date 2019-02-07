@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Interfaces;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Models.KUSChatSession;
 import com.kustomer.kustomersdk.Models.KUSModel;
 
@@ -10,5 +12,6 @@ import java.util.List;
  */
 
 public interface KUSFormCompletionListener {
-    void onComplete(Error error, KUSChatSession chatSession, List<KUSModel> chatMessages);
+    void onComplete(@Nullable Error error, @Nullable KUSChatSession chatSession,
+                    @Nullable List<KUSModel> chatMessages);
 }

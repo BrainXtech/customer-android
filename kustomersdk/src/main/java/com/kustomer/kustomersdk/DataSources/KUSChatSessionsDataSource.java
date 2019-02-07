@@ -119,7 +119,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
                 KUSConstants.URL.CHAT_SESSIONS_ENDPOINT,
                 params, true, new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(Error error,@Nullable JSONObject response) {
                         if (error != null) {
                             if (listener != null)
                                 listener.onComplete(error, null);
@@ -189,7 +189,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(Error error,@Nullable JSONObject response) {
                         if (error != null && listener != null) {
                             listener.onComplete(error, null);
                             return;
@@ -231,7 +231,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(Error error,@Nullable JSONObject response) {
                         if (error != null) {
                             if (listener != null)
                                 listener.onComplete(error, null, null);
@@ -406,7 +406,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(Error error,@Nullable JSONObject response) {
                         if (getUserSession() == null)
                             return;
 

@@ -105,7 +105,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
     //endregion
 
     //region Public Methods
-    public void setCurrentPageName(String currentPageName) {
+    public void setCurrentPageName(@Nullable String currentPageName) {
 
         if (this.currentPageName != null && this.currentPageName.equals(currentPageName))
             return;

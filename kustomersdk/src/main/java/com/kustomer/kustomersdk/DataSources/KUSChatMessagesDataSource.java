@@ -273,7 +273,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                 creatingSession = true;
                 getUserSession().getChatSessionsDataSource().createSessionWithTitle(title, new KUSChatSessionCompletionListener() {
                     @Override
-                    public void onComplete(Error error, KUSChatSession session) {
+                    public void onComplete(@Nullable Error error, @Nullable KUSChatSession session) {
                         ArrayList<onCreateSessionListener> callbacks = new ArrayList<>(onCreateSessionListeners);
                         onCreateSessionListeners = null;
 
@@ -420,7 +420,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(Error error, @Nullable JSONObject response) {
                         if (getUserSession() == null)
                             return;
 
@@ -624,7 +624,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
         new KUSUpload().uploadImages(imageAttachments, getUserSession(), new KUSImageUploadListener() {
             @Override
-            public void onCompletion(Error error, final List<KUSChatAttachment> attachments) {
+            public void onCompletion(@Nullable Error error, @Nullable final List<KUSChatAttachment> attachments) {
                 if (getUserSession() == null)
                     return;
 
@@ -648,7 +648,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                         true,
                         new KUSRequestCompletionListener() {
                             @Override
-                            public void onCompletion(Error error, JSONObject response) {
+                            public void onCompletion(Error error, @Nullable JSONObject response) {
                                 if (getUserSession() == null)
                                     return;
 
@@ -992,7 +992,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(Error error, @Nullable JSONObject response) {
                         if (getUserSession() == null)
                             return;
 
@@ -1134,7 +1134,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                 formId,
                 new KUSFormCompletionListener() {
                     @Override
-                    public void onComplete(Error error, KUSChatSession chatSession, List<KUSModel> chatMessages) {
+                    public void onComplete(@Nullable Error error, @Nullable KUSChatSession chatSession,
+                                           @Nullable List<KUSModel> chatMessages) {
 
                         if (error != null) {
                             handleError(lastUserChatMessage);
@@ -1434,9 +1435,9 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
     }
 
     @Nullable
-    private JSONArray getAttachmentIds(@NonNull List<KUSChatAttachment> attachments) {
+    private JSONArray getAttachmentIds(@Nullable List<KUSChatAttachment> attachments) {
 
-        if (attachments.size() == 0)
+        if (attachments == null || attachments.size() == 0)
             return null;
 
         JSONArray ids = new JSONArray();

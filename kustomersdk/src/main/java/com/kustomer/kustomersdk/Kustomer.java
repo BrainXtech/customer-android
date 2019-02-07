@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.text.emoji.EmojiCompat;
 import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 import android.util.Base64;
@@ -69,7 +70,7 @@ public class Kustomer {
     //endregion
 
     //region Class Methods
-    public static void init(Context context, String apiKey) throws AssertionError {
+    public static void init(@NonNull Context context, @NonNull String apiKey) throws AssertionError {
         mContext = context.getApplicationContext();
 
         EmojiCompat.Config emojiConfig = new BundledEmojiCompatConfig(mContext);
@@ -95,19 +96,19 @@ public class Kustomer {
         getSharedInstance().mSetListener(listener);
     }
 
-    public static void describeConversation(JSONObject customAttributes) {
+    public static void describeConversation(@NonNull JSONObject customAttributes) {
         getSharedInstance().mDescribeConversation(customAttributes);
     }
 
-    public static void describeNextConversation(JSONObject customAttributes) {
+    public static void describeNextConversation(@NonNull JSONObject customAttributes) {
         getSharedInstance().mDescribeNextConversation(customAttributes);
     }
 
-    public static void describeCustomer(KUSCustomerDescription customerDescription) {
+    public static void describeCustomer(@NonNull KUSCustomerDescription customerDescription) {
         getSharedInstance().mDescribeCustomer(customerDescription);
     }
 
-    public static void identify(String externalToken) {
+    public static void identify(@NonNull String externalToken) {
         getSharedInstance().mIdentify(externalToken);
     }
 
@@ -123,7 +124,7 @@ public class Kustomer {
         return getSharedInstance().mGetUnreadMessageCount();
     }
 
-    public static void isChatAvailable(KUSChatAvailableListener listener) {
+    public static void isChatAvailable(@NonNull KUSChatAvailableListener listener) {
         getSharedInstance().mIsChatAvailable(listener);
     }
 
@@ -155,7 +156,7 @@ public class Kustomer {
         activity.overridePendingTransition(R.anim.kus_slide_left, R.anim.kus_stay);
     }
 
-    public static void setLocale(Locale locale) {
+    public static void setLocale(@NonNull Locale locale) {
         getSharedInstance().mSetLocale(locale);
     }
 
@@ -247,7 +248,7 @@ public class Kustomer {
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(Error error, @Nullable JSONObject response) {
                         instance.get().getTrackingTokenDataSource().fetch();
                     }
                 }
