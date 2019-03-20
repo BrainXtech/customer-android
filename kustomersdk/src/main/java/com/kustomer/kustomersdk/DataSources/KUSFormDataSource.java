@@ -2,6 +2,7 @@ package com.kustomer.kustomersdk.DataSources;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
@@ -23,12 +24,13 @@ import org.json.JSONObject;
 public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectDataSourceListener {
 
     //region LifeCycle
-    public KUSFormDataSource(KUSUserSession userSession) {
+    public KUSFormDataSource(@NonNull KUSUserSession userSession) {
         super(userSession);
         userSession.getChatSettingsDataSource().addListener(this);
     }
 
-    KUSModel objectFromJson(JSONObject jsonObject) throws KUSInvalidJsonException {
+    @NonNull
+    KUSModel objectFromJson(@Nullable JSONObject jsonObject) throws KUSInvalidJsonException {
         return new KUSForm(jsonObject);
     }
     //endregion

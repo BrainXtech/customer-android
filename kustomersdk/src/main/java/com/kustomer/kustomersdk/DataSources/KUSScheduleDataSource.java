@@ -1,5 +1,8 @@
 package com.kustomer.kustomersdk.DataSources;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Enums.KUSBusinessHoursAvailability;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -25,14 +28,15 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
     //endregion
 
     //region Initializer
-    public KUSScheduleDataSource(KUSUserSession userSession){
+    public KUSScheduleDataSource(@NonNull KUSUserSession userSession){
         super(userSession);
     }
     //endregion
 
     //region subclass methods
+    @NonNull
     @Override
-    KUSModel objectFromJson(JSONObject jsonObject) throws KUSInvalidJsonException {
+    KUSModel objectFromJson(@Nullable JSONObject jsonObject) throws KUSInvalidJsonException {
         return new KUSSchedule(jsonObject);
     }
 

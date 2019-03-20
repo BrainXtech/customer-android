@@ -1,5 +1,6 @@
 package com.kustomer.kustomersdk.DataSources;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
@@ -20,16 +21,21 @@ import java.util.List;
 public class KUSClientActivityDataSource extends KUSObjectDataSource {
 
     //region Properties
+    @Nullable
     private List<Double> intervals;
     private Date createdAt;
+    @Nullable
     private String previousPageName;
+    @Nullable
     private String currentPageName;
     double currentPageSeconds;
     //endregion
 
     //region LifeCycle
-    public KUSClientActivityDataSource(KUSUserSession userSession, String previousPageName,
-                                       String currentPageName, double currentPageSeconds) {
+    public KUSClientActivityDataSource(@NonNull KUSUserSession userSession,
+                                       @Nullable String previousPageName,
+                                       @Nullable String currentPageName,
+                                       double currentPageSeconds) {
         super(userSession);
 
         if (currentPageName == null)
@@ -42,6 +48,7 @@ public class KUSClientActivityDataSource extends KUSObjectDataSource {
     //endregion
 
     //region Public Methods
+    @Nullable
     public List<Double> getIntervals() {
         KUSClientActivity clientActivity = (KUSClientActivity) getObject();
         return clientActivity != null ? clientActivity.getIntervals() : new ArrayList<Double>();
@@ -77,15 +84,16 @@ public class KUSClientActivityDataSource extends KUSObjectDataSource {
             );
     }
 
+    @NonNull
     @Override
-    KUSModel objectFromJson(JSONObject jsonObject) throws KUSInvalidJsonException {
+    KUSModel objectFromJson(@Nullable JSONObject jsonObject) throws KUSInvalidJsonException {
         return new KUSClientActivity(jsonObject);
     }
     //endregion
 
     //region Getter & Setter
 
-    public void setIntervals(List<Double> intervals) {
+    public void setIntervals(@Nullable List<Double> intervals) {
         this.intervals = intervals;
     }
 
@@ -93,19 +101,21 @@ public class KUSClientActivityDataSource extends KUSObjectDataSource {
         this.createdAt = createdAt;
     }
 
+    @Nullable
     public String getPreviousPageName() {
         return previousPageName;
     }
 
-    public void setPreviousPageName(String previousPageName) {
+    public void setPreviousPageName(@Nullable String previousPageName) {
         this.previousPageName = previousPageName;
     }
 
+    @Nullable
     public String getCurrentPageName() {
         return currentPageName;
     }
 
-    public void setCurrentPageName(String currentPageName) {
+    public void setCurrentPageName(@Nullable String currentPageName) {
         this.currentPageName = currentPageName;
     }
 

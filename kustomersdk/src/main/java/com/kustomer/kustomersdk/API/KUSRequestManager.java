@@ -61,7 +61,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     //endregion
 
     //region LifeCycle
-    public KUSRequestManager(KUSUserSession userSession) {
+    public KUSRequestManager(@NonNull KUSUserSession userSession) {
         this.userSession = new WeakReference<>(userSession);
 
         baseUrlString = String.format("https://%s.api.%s", userSession.getOrgName(),

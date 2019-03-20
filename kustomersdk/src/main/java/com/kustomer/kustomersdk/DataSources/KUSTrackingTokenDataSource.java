@@ -1,5 +1,6 @@
 package com.kustomer.kustomersdk.DataSources;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
@@ -28,7 +29,7 @@ public class KUSTrackingTokenDataSource extends KUSObjectDataSource implements K
     //endregion
 
     //region Initializer
-    public KUSTrackingTokenDataSource(KUSUserSession userSession) {
+    public KUSTrackingTokenDataSource(@NonNull KUSUserSession userSession) {
         super(userSession);
         addListener(this);
     }
@@ -58,8 +59,9 @@ public class KUSTrackingTokenDataSource extends KUSObjectDataSource implements K
         fetch();
     }
 
+    @NonNull
     @Override
-    KUSModel objectFromJson(JSONObject jsonObject) throws KUSInvalidJsonException {
+    KUSModel objectFromJson(@Nullable JSONObject jsonObject) throws KUSInvalidJsonException {
         return new KUSTrackingToken(jsonObject);
     }
     //endregion

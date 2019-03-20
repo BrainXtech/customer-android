@@ -315,7 +315,7 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
         return delegateProxy;
     }
 
-    public void setDelegateProxy(KUSDelegateProxy delegateProxy) {
+    public void setDelegateProxy(@Nullable KUSDelegateProxy delegateProxy) {
         this.delegateProxy = delegateProxy;
     }
 

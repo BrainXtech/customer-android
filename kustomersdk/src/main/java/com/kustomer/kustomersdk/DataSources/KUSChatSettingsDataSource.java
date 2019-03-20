@@ -30,7 +30,7 @@ public class KUSChatSettingsDataSource extends KUSObjectDataSource implements Se
 
 
     //region Initializer
-    public KUSChatSettingsDataSource(KUSUserSession userSession) {
+    public KUSChatSettingsDataSource(@NonNull KUSUserSession userSession) {
         super(userSession);
     }
     //endregion
@@ -49,8 +49,9 @@ public class KUSChatSettingsDataSource extends KUSObjectDataSource implements Se
                 completionListener);
     }
 
+    @NonNull
     @Override
-    KUSModel objectFromJson(JSONObject jsonObject) throws KUSInvalidJsonException {
+    KUSModel objectFromJson(@Nullable JSONObject jsonObject) throws KUSInvalidJsonException {
         return new KUSChatSettings(jsonObject);
     }
 

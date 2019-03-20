@@ -35,7 +35,10 @@ public class KUSModel implements Comparable<KUSModel>, Serializable {
     public KUSModel() {
     }
 
-    public KUSModel(JSONObject json) throws KUSInvalidJsonException {
+    public KUSModel(@Nullable JSONObject json) throws KUSInvalidJsonException {
+        if (json == null)
+            throw new KUSInvalidJsonException("Json object should not be null.");
+
         //Reject any objects  where the model type doesn't match, if enforced
         String type = stringFromKeyPath(json, "type");
         String classType = modelType();

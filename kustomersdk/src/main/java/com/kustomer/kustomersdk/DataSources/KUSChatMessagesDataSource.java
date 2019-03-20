@@ -72,12 +72,15 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
     private static final int KUS_CHAT_AUTO_REPLY_DELAY = 2 * 1000;
     private static final int MAX_PIXEL_COUNT_FOR_CACHED_IMAGES = 400000;
 
+    @Nullable
     private String sessionId;
     private boolean createdLocally;
+    @Nullable
     private KUSForm form;
     @NonNull
     private Set<String> delayedChatMessageIds;
     private int questionIndex;
+    @Nullable
     private KUSFormQuestion formQuestion;
     private boolean submittingForm = false;
     private boolean creatingSession = false;
@@ -93,8 +96,10 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
     private ArrayList<KUSModel> temporaryVCMessagesResponses;
 
     private boolean nonBusinessHours;
+    @Nullable
     private KUSSessionQueuePollingManager sessionQueuePollingManager;
 
+    @Nullable
     private ArrayList<onCreateSessionListener> onCreateSessionListeners;
     @NonNull
     private HashMap<String, KUSRetry> messageRetryHashMap;
@@ -128,7 +133,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         }
     }
 
-    public KUSChatMessagesDataSource(KUSUserSession userSession, String sessionId) {
+    public KUSChatMessagesDataSource(KUSUserSession userSession, @Nullable String sessionId) {
         this(userSession);
 
         if (sessionId == null || sessionId.isEmpty())
@@ -1058,7 +1063,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
         messagesJSON.put(message);
 
-        if (form.getQuestions() != null) {
+        if (form != null && form.getQuestions() != null) {
             for (KUSFormQuestion question : form.getQuestions()) {
                 if (currentMessageIndex < 0)
                     continue;
@@ -1303,11 +1308,12 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
             //volume_control_alternative_method_question
             String prompt = Kustomer.getContext()
                     .getString(R.string.com_kustomer_volume_control_alternative_method_question);
-            KUSSessionQueue sessionQueue = sessionQueuePollingManager.getSessionQueue();
+            KUSSessionQueue sessionQueue = sessionQueuePollingManager != null ?
+                    sessionQueuePollingManager.getSessionQueue() : null;
 
             if (chatSettings != null
                     && chatSettings.getVolumeControlMode() == KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_UPFRONT
-                    && sessionQueue.getEstimatedWaitTimeSeconds() != 0) {
+                    && sessionQueue != null && sessionQueue.getEstimatedWaitTimeSeconds() != 0) {
 
                 String currentWaitTime = Kustomer.getContext()
                         .getString(R.string.com_kustomer_our_current_wait_time_is_approximately);
@@ -1390,7 +1396,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
     }
 
     @Override
-    public List<KUSModel> objectsFromJSON(JSONObject jsonObject) {
+    public List<KUSModel> objectsFromJSON(@Nullable JSONObject jsonObject) {
         return JsonHelper.kusChatModelsFromJSON(Kustomer.getContext(), jsonObject);
     }
 

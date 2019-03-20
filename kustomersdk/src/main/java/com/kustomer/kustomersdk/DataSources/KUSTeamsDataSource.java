@@ -23,15 +23,17 @@ public class KUSTeamsDataSource extends KUSPaginatedDataSource {
 
     //region Properties
 
-    List<String> teamIds;
+    @Nullable
+    private List<String> teamIds;
     //endregion
 
     //region Initializer
-    public KUSTeamsDataSource(KUSUserSession userSession, List<String> teamIds) {
+    public KUSTeamsDataSource(KUSUserSession userSession, @Nullable List<String> teamIds) {
         super(userSession);
-        this.teamIds = new ArrayList<>(teamIds);
+        this.teamIds = teamIds != null ? new ArrayList<>(teamIds) : null;
     }
 
+    @Nullable
     public List<String> getTeamIds() {
         return teamIds;
     }
@@ -53,7 +55,7 @@ public class KUSTeamsDataSource extends KUSPaginatedDataSource {
 
     @Override
     @Nullable
-    public List<KUSModel> objectsFromJSON(JSONObject jsonObject) {
+    public List<KUSModel> objectsFromJSON(@Nullable JSONObject jsonObject) {
         ArrayList<KUSModel> arrayList = null;
 
         KUSModel model = null;

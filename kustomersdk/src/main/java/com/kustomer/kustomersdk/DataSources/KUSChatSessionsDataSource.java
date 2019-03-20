@@ -2,6 +2,7 @@ package com.kustomer.kustomersdk.DataSources;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
@@ -42,13 +43,16 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
         implements KUSChatMessagesDataSourceListener, KUSObjectDataSourceListener {
 
     //region Properties
+    @Nullable
     private JSONObject pendingCustomChatSessionAttributes;
+    @Nullable
     private JSONObject pendingCustomChatSessionAttributesForNextConversation;
+    @NonNull
     private HashMap<String, Date> localLastSeenAtBySessionId;
     //endregion
 
     //region Initializer
-    public KUSChatSessionsDataSource(KUSUserSession userSession) {
+    public KUSChatSessionsDataSource(@NonNull KUSUserSession userSession) {
         super(userSession);
 
         localLastSeenAtBySessionId = new HashMap<>();
@@ -58,7 +62,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
     }
 
     @Override
-    public List<KUSModel> objectsFromJSON(JSONObject jsonObject) {
+    public List<KUSModel> objectsFromJSON(@Nullable JSONObject jsonObject) {
 
         ArrayList<KUSModel> arrayList = null;
 

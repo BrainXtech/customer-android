@@ -2,6 +2,7 @@ package com.kustomer.kustomersdk.API;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.DataSources.KUSChatMessagesDataSource;
@@ -76,7 +77,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
     //endregion
 
     //region LifeCycle
-    KUSPushClient(KUSUserSession userSession) {
+    KUSPushClient(@NonNull KUSUserSession userSession) {
         this.userSession = new WeakReference<>(userSession);
         shouldConnect = false;
         isPusherTrackingStarted = false;

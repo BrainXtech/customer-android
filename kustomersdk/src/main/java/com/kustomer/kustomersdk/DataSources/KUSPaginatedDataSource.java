@@ -32,15 +32,12 @@ public class KUSPaginatedDataSource {
     //region Properties
     @NonNull
     private List<KUSModel> fetchedModels;
-
     @NonNull
     private HashMap<String, KUSModel> fetchedModelsById;
-
     @Nullable
     private KUSPaginatedResponse mostRecentPaginatedResponse;
     @Nullable
     private KUSPaginatedResponse lastPaginatedResponse;
-
     @NonNull
     private WeakReference<KUSUserSession> userSession;
     @NonNull
@@ -50,8 +47,9 @@ public class KUSPaginatedDataSource {
     private boolean fetched;
     private boolean fetchedAll;
 
+    @Nullable
     private Error error;
-
+    @Nullable
     private Object requestMarker;
     //endregion
 
@@ -69,6 +67,7 @@ public class KUSPaginatedDataSource {
         return fetchedModels.size();
     }
 
+    @NonNull
     public List<KUSModel> getList() {
         return fetchedModels;
     }
@@ -94,7 +93,7 @@ public class KUSPaginatedDataSource {
         return null;
     }
 
-    private int indexOfObjectId(String objectId) {
+    private int indexOfObjectId(@Nullable String objectId) {
         if (objectId == null) {
             return -1;
         }
@@ -289,11 +288,12 @@ public class KUSPaginatedDataSource {
         return fetching;
     }
 
+    @Nullable
     public Error getError() {
         return error;
     }
 
-    public synchronized void removeAll(List<KUSModel> objects) {
+    public synchronized void removeAll(@Nullable List<KUSModel> objects) {
         if (objects == null || objects.size() == 0) {
             return;
         }
@@ -317,7 +317,7 @@ public class KUSPaginatedDataSource {
         }
     }
 
-    public synchronized void upsertAll(List<KUSModel> objects) {
+    public synchronized void upsertAll(@Nullable List<KUSModel> objects) {
         if (objects == null || objects.size() == 0) {
             return;
         }
@@ -358,7 +358,7 @@ public class KUSPaginatedDataSource {
     }
 
     @Nullable
-    public List<KUSModel> objectsFromJSON(JSONObject jsonObject) {
+    public List<KUSModel> objectsFromJSON(@Nullable JSONObject jsonObject) {
 
         ArrayList<KUSModel> arrayList = null;
 

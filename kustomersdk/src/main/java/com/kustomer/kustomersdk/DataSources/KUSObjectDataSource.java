@@ -1,5 +1,6 @@
 package com.kustomer.kustomersdk.DataSources;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
@@ -28,22 +29,25 @@ public class KUSObjectDataSource {
     @Nullable
     private KUSModel object;
 
+    @NonNull
     private WeakReference<KUSUserSession> userSession;
+    @Nullable
     private Object requestMarker;
 
+    @NonNull
     private List<KUSObjectDataSourceListener> listeners;
     //endregion
 
     //region Initializer
-    KUSObjectDataSource(KUSUserSession userSession){
+    KUSObjectDataSource(@NonNull KUSUserSession userSession) {
         this.userSession = new WeakReference<>(userSession);
         listeners = new CopyOnWriteArrayList<>();
     }
     //endregion
 
     //region public Methods
-    public void fetch(){
-        if(fetching){
+    public void fetch() {
+        if (fetching) {
             return;
         }
 
@@ -56,27 +60,28 @@ public class KUSObjectDataSource {
         final WeakReference<KUSObjectDataSource> weakInstance = new WeakReference<>(this);
         performRequest(new KUSRequestCompletionListener() {
             @Override
-            public void onCompletion(Error errorObject,@Nullable JSONObject response) {
-                if(weakInstance.get().requestMarker != requestMarker)
+            public void onCompletion(Error errorObject, @Nullable JSONObject response) {
+                if (weakInstance.get().requestMarker != requestMarker)
                     return;
 
                 KUSObjectDataSource.this.requestMarker = null;
 
                 KUSModel model = null;
                 try {
-                    model = objectFromJson(JsonHelper.jsonObjectFromKeyPath(response,"data"));
-                    model.addIncludedWithJSON(JsonHelper.arrayFromKeyPath(response,"included"));
-                } catch (KUSInvalidJsonException ignore) { }
+                    model = objectFromJson(JsonHelper.jsonObjectFromKeyPath(response, "data"));
+                    model.addIncludedWithJSON(JsonHelper.arrayFromKeyPath(response, "included"));
+                } catch (KUSInvalidJsonException ignore) {
+                }
 
                 fetching = false;
-                if(errorObject != null || model == null){
-                    if(error == null)
+                if (errorObject != null || model == null) {
+                    if (error == null)
                         error = new Error();
                     else
                         error = errorObject;
 
                     notifyAnnouncersOnError(error);
-                }else {
+                } else {
                     object = model;
                     fetched = true;
                     notifyAnnouncersOnLoad();
@@ -86,45 +91,47 @@ public class KUSObjectDataSource {
 
     }
 
-    public void cancel(){
+    public void cancel() {
         fetching = false;
         requestMarker = null;
     }
 
-    public void addListener(KUSObjectDataSourceListener listener){
-        if(!listeners.contains(listener))
+    public void addListener(KUSObjectDataSourceListener listener) {
+        if (!listeners.contains(listener))
             listeners.add(listener);
     }
 
-    public void removeListener(KUSObjectDataSourceListener listener){
+    public void removeListener(KUSObjectDataSourceListener listener) {
         listeners.remove(listener);
     }
 
-    public void removeAllListeners(){
+    public void removeAllListeners() {
         listeners.clear();
     }
     //endregion
 
     //region Private Methods
-    private void notifyAnnouncersOnError(Error error){
-        for(KUSObjectDataSourceListener listener : listeners){
-            listener.objectDataSourceOnError(this,error);
+    private void notifyAnnouncersOnError(Error error) {
+        for (KUSObjectDataSourceListener listener : listeners) {
+            listener.objectDataSourceOnError(this, error);
         }
     }
 
-    private void notifyAnnouncersOnLoad(){
-        for(KUSObjectDataSourceListener listener : listeners){
+    private void notifyAnnouncersOnLoad() {
+        for (KUSObjectDataSourceListener listener : listeners) {
             listener.objectDataSourceOnLoad(this);
         }
     }
     //endregion
 
     //region subclass methods
-    KUSModel objectFromJson(JSONObject jsonObject) throws KUSInvalidJsonException {
+    @NonNull
+    KUSModel objectFromJson(@Nullable JSONObject jsonObject) throws KUSInvalidJsonException {
         return new KUSModel(jsonObject);
     }
 
-    void performRequest(KUSRequestCompletionListener completionListener){}
+    void performRequest(KUSRequestCompletionListener completionListener) {
+    }
     //endregion
 
     //region Accessors
@@ -147,14 +154,17 @@ public class KUSObjectDataSource {
         return object;
     }
 
+    @Nullable
     public KUSUserSession getUserSession() {
         return userSession.get();
     }
 
+    @Nullable
     public Object getRequestMarker() {
         return requestMarker;
     }
 
+    @NonNull
     public List<KUSObjectDataSourceListener> getListeners() {
         return listeners;
     }

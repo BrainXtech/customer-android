@@ -31,7 +31,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
     //endregion
 
     //region LifeCycle
-    public KUSClientActivityManager(KUSUserSession userSession) {
+    public KUSClientActivityManager(@NonNull KUSUserSession userSession) {
         this.userSession = new WeakReference<>(userSession);
     }
     //endregion
