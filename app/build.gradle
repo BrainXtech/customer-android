@@ -3,6 +3,7 @@ apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 28
+    testOptions.unitTests.includeAndroidResources = true
     defaultConfig {
         applicationId "com.kustomer.kustomer"
         minSdkVersion 19
