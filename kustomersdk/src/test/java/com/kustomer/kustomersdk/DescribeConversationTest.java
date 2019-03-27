@@ -77,7 +77,7 @@ public class DescribeConversationTest {
 
         try {
             return new KUSChatSession(chatSessionJson);
-        } catch (KUSInvalidJsonException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
