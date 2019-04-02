@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">อย่าพลาดการตอบสนอง! รับแจ้งทางอีเมลล์:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">พิมพ์ข้อความ …</string>
-    <string name="com_kustomer_Loading...">กำลังโหลด …</string>
+    <string name="com_kustomer_loading...">กำลังโหลด …</string>
     <string name="com_kustomer_ago">มาแล้ว</string>
     <string name="com_kustomer_chat_with">สนทนากับ</string>
     <string name="com_kustomer_processing">กำลังประมวลผล …</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">เวลารอที่คาดไว้คือ</string>
     <string name="com_kustomer_second">ที่สอง</string>
     <string name="com_kustomer_seconds">วินาที</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">ขออภัยดูเหมือนว่าไม่มีใครสามารถใช้งานได้ในเวลาที่เราคาดหวัง โปรดเลือกวิธีการติดต่ออื่นเพื่อให้เราติดตามผลกับคุณ ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">ขออภัยดูเหมือนว่าไม่มีใครสามารถใช้งานได้ในเวลาที่เราคาดหวัง โปรดเลือกวิธีการติดต่ออื่นเพื่อให้เราติดตามผลกับคุณ …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">เวลารอปัจจุบันของเราอยู่ที่ประมาณ</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">คุณสามารถเลือกที่จะรอตัวแทนที่มีอยู่ถัดไปหรือเลือกทางเลือกอื่น</string>
     <string name="com_kustomer_volume_control_email_question">อะไรดีอีเมลที่ดีที่สุดในการติดต่อคุณคืออะไร</string>

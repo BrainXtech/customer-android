@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">არ გამოტოვოთ პასუხი! მიიღეთ შეტყობინება ელფოსტით:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">გაგზავნა გაგზავნა …</string>
-    <string name="com_kustomer_Loading...">ჩატვირთვა…</string>
+    <string name="com_kustomer_loading...">ჩატვირთვა…</string>
     <string name="com_kustomer_ago">წინ</string>
     <string name="com_kustomer_chat_with">ემესიჯო</string>
     <string name="com_kustomer_processing">დამუშავება …</string>

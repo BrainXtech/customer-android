@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Nepraleiskite atsakymo! Gaukite pranešimą elektroniniu paštu:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Įveskite pranešimą …</string>
-    <string name="com_kustomer_Loading...">Kraunasi …</string>
+    <string name="com_kustomer_loading...">Kraunasi …</string>
     <string name="com_kustomer_ago">prieš</string>
     <string name="com_kustomer_chat_with">Kalbėtis su</string>
     <string name="com_kustomer_processing">Apdorojimas…</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Jūsų laukiamas laukimo laikas yra</string>
     <string name="com_kustomer_second">antra</string>
     <string name="com_kustomer_seconds">sekundes</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Atsiprašome, atrodo, kad niekas netapo mūsų tikėtino laiko. Prašome pasirinkti alternatyvų kontaktinį metodą, kad galėtume sekti su jumis ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Atsiprašome, atrodo, kad niekas netapo mūsų tikėtino laiko. Prašome pasirinkti alternatyvų kontaktinį metodą, kad galėtume sekti su jumis …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Mūsų dabartinis laukimo laikas yra maždaug</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Galite pasirinkti palaukti kito turimo agento ar pasirinkti alternatyvą\",e su jumis sekti.</string>
     <string name="com_kustomer_volume_control_email_question">Puiku, koks geriausias el. Laiškas jus pasiekė?</string>

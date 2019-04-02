@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">אל תחמיצו תגובה! קבל הודעה בדוא\"ל:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">הקלד הודעה…</string>
-    <string name="com_kustomer_Loading...">טוען…</string>
+    <string name="com_kustomer_loading...">טוען…</string>
     <string name="com_kustomer_ago">לִפנֵי</string>
     <string name="com_kustomer_chat_with">לשוחח עם</string>
     <string name="com_kustomer_processing">מעבד…</string>
@@ -50,7 +50,7 @@
     <string name="com_kustomer_seconds">ניות</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">מן ההמתנה הנוכחי שלנו הוא כ</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">וכל לבחור להמתין לסוכן הזמין הבא או לבחור חלופה</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">צטערים, נראה שאף אחד לא הפך זמין בזמן שציפינו. בחר שיטת יצירת קשר חלופית עבורנו למעקב איתך ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">צטערים, נראה שאף אחד לא הפך זמין בזמן שציפינו. בחר שיטת יצירת קשר חלופית עבורנו למעקב איתך …</string>
     <string name="com_kustomer_volume_control_email_question">נהדר, מהי כתובת הדוא\\\"ל הטובה ביותר להגיע אליך?</string>
     <string name="com_kustomer_volume_control_phone_question">הדר, מהו מספר הטלפון הטוב ביותר להגיע אליך?</string>
     <string name="com_kustomer_volume_control_thankyou_response">ודה. אנו נחזור אליך בהקדם.</string>

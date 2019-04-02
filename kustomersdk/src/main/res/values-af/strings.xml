@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Moenie \'n reaksie mis nie! Kry kennis per e-pos:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Tik \'n boodskap …</string>
-    <string name="com_kustomer_Loading...">Laai …</string>
+    <string name="com_kustomer_loading...">Laai …</string>
     <string name="com_kustomer_ago">gelede</string>
     <string name="com_kustomer_chat_with">Praat met</string>
     <string name="com_kustomer_processing">Verwerking …</string>

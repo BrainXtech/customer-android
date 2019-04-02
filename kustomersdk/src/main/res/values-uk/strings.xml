@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Не пропустіть відповідь! Отримати сповіщення електронною поштою:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Введіть повідомлення …</string>
-    <string name="com_kustomer_Loading...">Завантаження …</string>
+    <string name="com_kustomer_loading...">Завантаження …</string>
     <string name="com_kustomer_ago">тому назад</string>
     <string name="com_kustomer_chat_with">Говорити з</string>
     <string name="com_kustomer_processing">Обробка …</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Ваш очікуваний час очікування є</string>
     <string name="com_kustomer_second">другий</string>
     <string name="com_kustomer_seconds">секунд</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Вибачте, як ніколи не було доступно в той час, коли ми очікували. Будь-ласка, виберіть альтернативний метод контакту, щоб ми могли піти з вами ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Вибачте, як ніколи не було доступно в той час, коли ми очікували. Будь-ласка, виберіть альтернативний метод контакту, щоб ми могли піти з вами …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Наш поточний час очікування приблизно</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Ви можете вибрати очікування наступного доступного агента або вибрати альтернативу\",іти з вами.</string>
     <string name="com_kustomer_volume_control_email_question">Відмінно, який найкращий лист для вас?</string>

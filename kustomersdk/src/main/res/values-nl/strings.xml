@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Mis geen reactie! Ontvang een melding per e-mail:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Type een bericht…</string>
-    <string name="com_kustomer_Loading...">Bezig met laden…</string>
+    <string name="com_kustomer_loading...">Bezig met laden…</string>
     <string name="com_kustomer_ago">geleden</string>
     <string name="com_kustomer_chat_with">Kletsen met</string>
     <string name="com_kustomer_processing">Verwerken…</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Uw verwachte wachttijd is</string>
     <string name="com_kustomer_second">tweede</string>
     <string name="com_kustomer_seconds">seconden</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Sorry, het lijkt erop dat niemand beschikbaar is gekomen op het moment dat we het verwachtten. Selecteer een alternatieve contactmethode die we kunnen opvolgen ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Sorry, het lijkt erop dat niemand beschikbaar is gekomen op het moment dat we het verwachtten. Selecteer een alternatieve contactmethode die we kunnen opvolgen …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Onze huidige wachttijd is ongeveer</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">U kunt ervoor kiezen om te wachten op de volgende beschikbare agent of een alternatief te selecteren\",olgen.</string>
     <string name="com_kustomer_volume_control_email_question">Geweldig, wat is de beste e-mail om je te bereiken?</string>

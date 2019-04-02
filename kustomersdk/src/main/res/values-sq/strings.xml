@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Mos humbisni një përgjigje! Merrni njoftimin me email:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Shkruaj një mesazh …</string>
-    <string name="com_kustomer_Loading...">Loading …</string>
+    <string name="com_kustomer_loading...">Loading …</string>
     <string name="com_kustomer_ago">më parë</string>
     <string name="com_kustomer_chat_with">Bisedo me</string>
     <string name="com_kustomer_processing">Të përpunimit të …</string>
@@ -49,7 +49,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Koha juaj e pritshme e pritjes është</string>
     <string name="com_kustomer_second">i dytë</string>
     <string name="com_kustomer_seconds">sekonda</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Na vjen keq, duket sikur askush nuk është vënë në dispozicion në kohën që prisnim. Ju lutemi zgjidhni një metodë alternative të kontaktit për ne për të ndjekur me ju ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Na vjen keq, duket sikur askush nuk është vënë në dispozicion në kohën që prisnim. Ju lutemi zgjidhni një metodë alternative të kontaktit për ne për të ndjekur me ju …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Koha aktuale e pritjes është afërsisht</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Ju mund të zgjidhni të prisni agjentin tjetër në dispozicion ose zgjidhni një alternativë\",ërcjellim me ju.</string>
     <string name="com_kustomer_volume_control_email_question">E madhe, cila është e-mailja më e mirë për të arritur tek ju?</string>

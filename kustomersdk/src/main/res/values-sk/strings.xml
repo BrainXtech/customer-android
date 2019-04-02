@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Nenechajte si ujsť odpoveď! Získajte upozornenie e-mailom:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Zadajte správu …</string>
-    <string name="com_kustomer_Loading...">Načítava…</string>
+    <string name="com_kustomer_loading...">Načítava…</string>
     <string name="com_kustomer_ago">pred</string>
     <string name="com_kustomer_chat_with">Chatovať s</string>
     <string name="com_kustomer_processing">Spracovanie …</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Váš očakávaný čas čakania je</string>
     <string name="com_kustomer_second">druhý</string>
     <string name="com_kustomer_seconds">sekundy</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Je nám ľúto, zdá sa, že nikto nebol k dispozícii v čase, ktorý sme očakávali. Vyberte alternatívnu metódu kontaktov, aby sme s vami mohli sledovať ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Je nám ľúto, zdá sa, že nikto nebol k dispozícii v čase, ktorý sme očakávali. Vyberte alternatívnu metódu kontaktov, aby sme s vami mohli sledovať …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Aktuálny čas čakania je približne</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Môžete si vybrať čakanie na ďalší dostupný agent alebo vybrať alternatívu\",li sledovať.</string>
     <string name="com_kustomer_volume_control_email_question">Skvelý, aký je najlepší e-mail na vás?</string>

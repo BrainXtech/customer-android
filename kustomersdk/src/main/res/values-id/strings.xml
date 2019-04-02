@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Jangan lewatkan jawaban! Dapatkan pemberitahuan melalui email:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Ketik pesan…</string>
-    <string name="com_kustomer_Loading...">Pemuatan…</string>
+    <string name="com_kustomer_loading...">Pemuatan…</string>
     <string name="com_kustomer_ago">lalu</string>
     <string name="com_kustomer_chat_with">Chat dengan</string>
     <string name="com_kustomer_processing">Pengolahan…</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Waktu tunggu yang Anda harapkan adalah</string>
     <string name="com_kustomer_second">kedua</string>
     <string name="com_kustomer_seconds">detik</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Maaf, sepertinya belum ada yang tersedia pada saat kami harapkan. Silakan pilih metode kontak alternatif bagi kami untuk menindaklanjutinya dengan Anda ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Maaf, sepertinya belum ada yang tersedia pada saat kami harapkan. Silakan pilih metode kontak alternatif bagi kami untuk menindaklanjutinya dengan Anda …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Waktu tunggu kami saat ini kurang lebih</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Anda dapat memilih untuk menunggu agen berikutnya yang tersedia atau pilih alternatif\",indaklanjuti dengan Anda.</string>
     <string name="com_kustomer_volume_control_email_question">Hebat, apa email terbaik untuk menghubungi Anda di?</string>

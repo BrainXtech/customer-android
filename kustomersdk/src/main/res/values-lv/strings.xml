@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Nepalaidiet garām atbildi! Saņemiet paziņojumu pa e-pastu:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Ierakstiet ziņojumu …</string>
-    <string name="com_kustomer_Loading...">Ielādē …</string>
+    <string name="com_kustomer_loading...">Ielādē …</string>
     <string name="com_kustomer_ago">pirms</string>
     <string name="com_kustomer_chat_with">Čatot ar</string>
     <string name="com_kustomer_processing">Apstrāde …</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Jūsu paredzamais gaidīšanas laiks ir</string>
     <string name="com_kustomer_second">otrais</string>
     <string name="com_kustomer_seconds">sekundes</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Diemžēl šķiet, ka gaidāmajā brīdī neviens nav kļuvis pieejams. Lūdzu, izvēlieties alternatīvu kontaktu metodi, lai mēs varētu jums sekot ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Diemžēl šķiet, ka gaidāmajā brīdī neviens nav kļuvis pieejams. Lūdzu, izvēlieties alternatīvu kontaktu metodi, lai mēs varētu jums sekot …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Mūsu pašreizējais gaidīšanas laiks ir apmēram</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Jūs varat izvēlēties gaidīt nākamo pieejamo aģentu vai izvēlēties alternatīvu\",īdzi jums.</string>
     <string name="com_kustomer_volume_control_email_question">Lieliski, kāds ir labākais e-pasts, lai jūs varētu sazināties?</string>

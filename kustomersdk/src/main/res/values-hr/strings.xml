@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Ne propustite odgovor! Primajte obavijest putem e-pošte:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Upišite poruku …</string>
-    <string name="com_kustomer_Loading...">Učitavam…</string>
+    <string name="com_kustomer_loading...">Učitavam…</string>
     <string name="com_kustomer_ago">prije</string>
     <string name="com_kustomer_chat_with">Razgovor s</string>
     <string name="com_kustomer_processing">Obrada…</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Vaše očekivano vrijeme čekanja je</string>
     <string name="com_kustomer_second">drugi</string>
     <string name="com_kustomer_seconds">sekundi</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Nažalost, izgleda da nitko nije postala dostupan u vrijeme koje smo očekivali. Odaberite alternativni način kontakta kako bismo vas pratili ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Nažalost, izgleda da nitko nije postala dostupan u vrijeme koje smo očekivali. Odaberite alternativni način kontakta kako bismo vas pratili …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Trenutačno vrijeme čekanja iznosi približno</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Možete odabrati čekanje za sljedeće dostupne agente ili odabrati alternativu\",pratili.</string>
     <string name="com_kustomer_volume_control_email_question">Izvrsno, koja je najbolja e-adresa za vas?</string>

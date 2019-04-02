@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Ne manquez pas une réponse! Recevez une notification par email:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Tapez un message …</string>
-    <string name="com_kustomer_Loading...">Chargement…</string>
+    <string name="com_kustomer_loading...">Chargement…</string>
     <string name="com_kustomer_ago">depuis</string>
     <string name="com_kustomer_chat_with">Parler avec</string>
     <string name="com_kustomer_processing">En traitement…</string>

@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Μη χάσετε μια απάντηση! Ενημερώστε μέσω ηλεκτρονικού ταχυδρομείου:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Πληκτρολογήστε ένα μήνυμα …</string>
-    <string name="com_kustomer_Loading...">Φόρτωση…</string>
+    <string name="com_kustomer_loading...">Φόρτωση…</string>
     <string name="com_kustomer_ago">πριν</string>
     <string name="com_kustomer_chat_with">Συζήτηση με</string>
     <string name="com_kustomer_processing">Επεξεργασία…</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Ο αναμενόμενος χρόνος αναμονής σας είναι</string>
     <string name="com_kustomer_second">δεύτερος</string>
     <string name="com_kustomer_seconds">δευτερολέπτων</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Λυπούμαστε, φαίνεται ότι κανείς δεν είναι διαθέσιμος στο χρόνο που περίμενε. Επιλέξτε μια εναλλακτική μέθοδο επαφής για να ακολουθήσουμε μαζί σας ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Λυπούμαστε, φαίνεται ότι κανείς δεν είναι διαθέσιμος στο χρόνο που περίμενε. Επιλέξτε μια εναλλακτική μέθοδο επαφής για να ακολουθήσουμε μαζί σας …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Ο τρέχων χρόνος αναμονής είναι περίπου</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Μπορείτε να επιλέξετε να περιμένετε τον επόμενο διαθέσιμο παράγοντα ή να επιλέξετε μια εναλλακτική λύση\",κοινωνήσουμε μαζί σας.</string>
     <string name="com_kustomer_volume_control_email_question">Μεγάλη, ποιο είναι το καλύτερο ηλεκτρονικό μήνυμα για να σας φτάσω;</string>

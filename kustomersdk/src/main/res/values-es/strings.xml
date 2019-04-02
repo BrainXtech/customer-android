@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">¡No te pierdas una respuesta! Recibe notificaciones por correo electrónico:</string>
     <string name="com_kustomer_email_example">ejemplo@dominio.com</string>
     <string name="com_kustomer_type_a_message...">Escriba un mensaje …</string>
-    <string name="com_kustomer_Loading...">Cargando…</string>
+    <string name="com_kustomer_loading...">Cargando…</string>
     <string name="com_kustomer_ago">hace</string>
     <string name="com_kustomer_chat_with">Chatear con</string>
     <string name="com_kustomer_processing">Tratamiento…</string>
@@ -32,7 +32,7 @@
     <string name="com_kustomer_camera_permission_denied">El permiso de la cámara está denegado.</string>
     <string name="com_kustomer_storage_permission_denied">Se niega el permiso de almacenamiento.</string>
     <string name="com_kustomer_authorities">autoridad</string>
-    <string name="com_kustomer_share_via">Compartir via</string>
+    <string name="com_kustomer_share_via">Compartir vía</string>
     <string name="com_kustomer_please_provide_storage_permission">Proporcione permiso de almacenamiento para esta aplicación</string>
     <string name="com_kustomer_dismiss">Despedir</string>
     <string name="com_kustomer_closed">CERRADO</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Su tiempo de espera esperado es</string>
     <string name="com_kustomer_second">segundo</string>
     <string name="com_kustomer_seconds">segundos</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Lo sentimos, parece que nadie ha estado disponible en el tiempo que esperábamos. Por favor seleccione un método de contacto alternativo para que podamos seguir con usted ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Lo sentimos, parece que nadie ha estado disponible en el tiempo que esperábamos. Por favor seleccione un método de contacto alternativo para que podamos seguir con usted …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Nuestro tiempo de espera actual es de aproximadamente</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Puede elegir esperar al siguiente agente disponible o seleccionar una alternativa\",os hacer un seguimiento con usted.</string>
     <string name="com_kustomer_volume_control_email_question">Genial, ¿cuál es el mejor correo electrónico para contactarte?</string>

@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">No et perdis cap resposta! Rebeu notificacions per correu electrònic:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Escriu un missatge …</string>
-    <string name="com_kustomer_Loading...">S\'està carregant …</string>
+    <string name="com_kustomer_loading...">S\'està carregant …</string>
     <string name="com_kustomer_ago">fa</string>
     <string name="com_kustomer_chat_with">Xatejar amb</string>
     <string name="com_kustomer_processing">S\'està processant …</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">El vostre temps d\'espera esperat és</string>
     <string name="com_kustomer_second">segon</string>
     <string name="com_kustomer_seconds">segons</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Ho sentim, però ningú ha quedat disponible en el moment que esperàvem. Seleccioneu un mètode de contacte alternatiu perquè seguiu amb vosaltres ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Ho sentim, però ningú ha quedat disponible en el moment que esperàvem. Seleccioneu un mètode de contacte alternatiu perquè seguiu amb vosaltres …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">El nostre temps d\'espera actual és aproximadament</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Podeu optar per esperar el següent agent disponible o seleccionar una alternativa\", tu.</string>
     <string name="com_kustomer_volume_control_email_question">Molt bé, quin és el millor correu electrònic per arribar-hi?</string>

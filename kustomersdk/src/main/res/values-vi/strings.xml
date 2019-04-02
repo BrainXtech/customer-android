@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Đừng bỏ lỡ câu trả lời! Nhận thông báo qua email:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Gõ một tin nhắn…</string>
-    <string name="com_kustomer_Loading...">Tải…</string>
+    <string name="com_kustomer_loading...">Tải…</string>
     <string name="com_kustomer_ago">trước đây</string>
     <string name="com_kustomer_chat_with">Trò chuyện với</string>
     <string name="com_kustomer_processing">Chế biến…</string>

@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Älä missaa vastausta! Saat ilmoituksen sähköpostilla:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Kirjoita viesti …</string>
-    <string name="com_kustomer_Loading...">Ladataan…</string>
+    <string name="com_kustomer_loading...">Ladataan…</string>
     <string name="com_kustomer_ago">sitten</string>
     <string name="com_kustomer_chat_with">Jutella</string>
     <string name="com_kustomer_processing">Processing …</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Odotettu odotusaika on</string>
     <string name="com_kustomer_second">toinen</string>
     <string name="com_kustomer_seconds">sekuntia</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Valitettavasti keneltäkään ei ole tullut saatavana odotettua aikaa. Valitse vaihtoehtoinen yhteydenottomenetelmä, jotta voimme seurata kanssasi ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Valitettavasti keneltäkään ei ole tullut saatavana odotettua aikaa. Valitse vaihtoehtoinen yhteydenottomenetelmä, jotta voimme seurata kanssasi …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Nykyinen odotusaika on noin</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Voit valita odottavan seuraavan käytettävissä olevan agentin tai valita vaihtoehdon\",eurata sinua.</string>
     <string name="com_kustomer_volume_control_email_question">Hyvä, mikä on paras sähköpostiosoite tavoittaa sinut?</string>

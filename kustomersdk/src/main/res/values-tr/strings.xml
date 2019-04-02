@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Cevapları kaçırmayın! E-posta ile haberdar olun:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Mesaj yaz …</string>
-    <string name="com_kustomer_Loading...">Yükleniyor…</string>
+    <string name="com_kustomer_loading...">Yükleniyor…</string>
     <string name="com_kustomer_ago">önce</string>
     <string name="com_kustomer_chat_with">İle sohbet et</string>
     <string name="com_kustomer_processing">İşleme…</string>

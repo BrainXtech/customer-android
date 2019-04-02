@@ -1,5 +1,5 @@
 <resources>
-    <string name="com_kustomer_app_name">KustomerSDK</string>
+    <string name="com_kustomer_app_name" translatable="false">KustomerSDK</string>
 
     <string name="com_kustomer_week">week</string>
     <string name="com_kustomer_day">day</string>
@@ -23,7 +23,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Don\'t miss a response! Get notified by email:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Type a message…</string>
-    <string name="com_kustomer_Loading...">Loading…</string>
+    <string name="com_kustomer_loading...">Loading…</string>
 
     <string name="com_kustomer_chat_with">Chat with</string>
     <string name="com_kustomer_processing">Processing…</string>

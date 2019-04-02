@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">لا تفوت الرد! الحصول على إشعار عبر البريد الإلكتروني:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">اكتب رسالة …</string>
-    <string name="com_kustomer_Loading...">جار التحميل…</string>
+    <string name="com_kustomer_loading...">جار التحميل…</string>
     <string name="com_kustomer_ago">منذ</string>
     <string name="com_kustomer_chat_with">الدردشة مع</string>
     <string name="com_kustomer_processing">معالجة…</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">وقت الانتظار المتوقع هو</string>
     <string name="com_kustomer_second">انيا</string>
     <string name="com_kustomer_seconds">واني</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">عذرًا ، يبدو أنه لم يعد أحد متاحًا في الوقت الذي كنا نتوقعه. يرجى تحديد طريقة اتصال بديلة لنا لمتابعة معك ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">عذرًا ، يبدو أنه لم يعد أحد متاحًا في الوقت الذي كنا نتوقعه. يرجى تحديد طريقة اتصال بديلة لنا لمتابعة معك …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">دينا وقت الانتظار الحالي هو تقريبا</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">مكنك اختيار انتظار الوكيل التالي المتاح أو تحديد بديل\", معك.</string>
     <string name="com_kustomer_volume_control_email_question">ائع ، ما أفضل بريد إلكتروني للوصول إليك؟</string>

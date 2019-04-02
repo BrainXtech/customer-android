@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Nie przegap odpowiedzi! Otrzymuj powiadomienia e-mailem:</string>
     <string name="com_kustomer_email_example">przykład@domena.com</string>
     <string name="com_kustomer_type_a_message...">Wpisz wiadomość…</string>
-    <string name="com_kustomer_Loading...">Ładuję…</string>
+    <string name="com_kustomer_loading...">Ładuję…</string>
     <string name="com_kustomer_ago">temu</string>
     <string name="com_kustomer_chat_with">Czatuj z</string>
     <string name="com_kustomer_processing">Przetwarzanie…</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Twój oczekiwany czas oczekiwania</string>
     <string name="com_kustomer_second">druga</string>
     <string name="com_kustomer_seconds">sekundy</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Niestety, wygląda na to, że nikt nie stał się dostępny w oczekiwanym czasie. Wybierz alternatywną metodę kontaktu, abyśmy mogli się z Tobą skontaktować ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Niestety, wygląda na to, że nikt nie stał się dostępny w oczekiwanym czasie. Wybierz alternatywną metodę kontaktu, abyśmy mogli się z Tobą skontaktować …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Nasz bieżący czas oczekiwania to około</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Możesz wybrać oczekiwanie na następnego dostępnego agenta lub wybrać alternatywę\",aktować się z Tobą.</string>
     <string name="com_kustomer_volume_control_email_question">Świetnie, jaki jest najlepszy e-mail, z którym możesz się skontaktować?</string>

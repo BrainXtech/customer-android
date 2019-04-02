@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Не пропустите одговор! Примите обавештење путем е-поште:</string>
     <string name="com_kustomer_email_example">екампле@домаин.цом</string>
     <string name="com_kustomer_type_a_message...">Упишите поруку …</string>
-    <string name="com_kustomer_Loading...">Учитавање …</string>
+    <string name="com_kustomer_loading...">Учитавање …</string>
     <string name="com_kustomer_ago">пре</string>
     <string name="com_kustomer_chat_with">Цхат са</string>
     <string name="com_kustomer_processing">Обрада …</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Ваше очекивано време чекања је</string>
     <string name="com_kustomer_second">друго</string>
     <string name="com_kustomer_seconds">секунде</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Извините, изгледа да нико није постао доступан у времену које смо очекивали. Молимо вас да изаберете алтернативни контакт метод за нас са нама ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Извините, изгледа да нико није постао доступан у времену које смо очекивали. Молимо вас да изаберете алтернативни контакт метод за нас са нама …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Наш тренутни тренутак чекања је приближно</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Можете одабрати да сачекате следећег расположивог агента или изаберете алтернативу</string>
     <string name="com_kustomer_volume_control_email_question">Одлично, у чему је најбољи емаил за који сте дошли?</string>

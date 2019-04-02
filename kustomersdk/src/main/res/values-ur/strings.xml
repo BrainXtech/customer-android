@@ -43,8 +43,10 @@
     <string name="com_kustomer_seconds">سیکنڈ</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">ہمارے موجودہ انتظار کا وقت تقریبا ہے</string>
     <string name="com_kustomer_volume_control_email_question">بہت اچھا، آپ کو پہنچنے کا بہترین ای میل کیا ہے؟</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">افسوس، ایسا لگتا ہے جیسے ہم امید کرتے وقت کسی کو بھی دستیاب نہیں ہوا ہے. براہ کرم ہمارے ساتھ پیروی کرنے کے لئے ایک متبادل رابطہ کا طریقہ منتخب کریں ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">افسوس، ایسا لگتا ہے جیسے ہم امید کرتے وقت کسی کو بھی دستیاب نہیں ہوا ہے. براہ کرم ہمارے ساتھ پیروی کرنے کے لئے ایک متبادل رابطہ کا طریقہ منتخب کریں …</string>
     <string name="com_kustomer_volume_control_phone_question">بہت اچھا، آپ کو پہنچنے کے لئے بہترین فون نمبر کیا ہے؟</string>
     <string name="com_kustomer_volume_control_thankyou_response">شکریہ ہم جلد ہی آپ کو واپس ملیں گے.</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">آپ اگلے دستیاب ایجنٹ کے انتظار کا انتخاب کرسکتے ہیں یا آپ کے ساتھ تعقیب کرنے کے لئے ہمارے لئے ایک متبادل رابطہ کا طریقہ منتخب کریں.</string>
+    <string name="com_kustomer_loading...">لوڈنگ…</string>
+    <string name="com_kustomer_authorities">اتھارٹی</string>
 </resources>

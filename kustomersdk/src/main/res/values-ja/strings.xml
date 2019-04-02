@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">レスポンスをお見逃しなく！メールで通知する：</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">メッセージを入力してください…</string>
-    <string name="com_kustomer_Loading...">読み込んでいます…</string>
+    <string name="com_kustomer_loading...">読み込んでいます…</string>
     <string name="com_kustomer_ago">前</string>
     <string name="com_kustomer_chat_with">とチャットする</string>
     <string name="com_kustomer_processing">処理…</string>
@@ -50,7 +50,7 @@
     <string name="com_kustomer_seconds">秒</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">次に使用可能なエージェントを待つか、代替エージェントを選択することができます</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">現在の待ち時間は約</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">申し訳ありませんが、期待した時間に誰も利用できなくなったようです。あなたにフォローアップするための代替連絡方法を選択してください...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">申し訳ありませんが、期待した時間に誰も利用できなくなったようです。あなたにフォローアップするための代替連絡方法を選択してください…</string>
     <string name="com_kustomer_volume_control_email_question">偉大な、あなたに届く最高の電子メールは何ですか？</string>
     <string name="com_kustomer_volume_control_phone_question">あなたに連絡するのに最適な電話番号は何ですか？</string>
     <string name="com_kustomer_volume_control_thankyou_response">ありがとうございました。私たちはまもなくあなたに連絡します。</string>

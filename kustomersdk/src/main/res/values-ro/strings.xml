@@ -19,7 +19,7 @@
     <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Nu ratați un răspuns! Obțineți notificarea prin e-mail:</string>
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Scrie un mesaj…</string>
-    <string name="com_kustomer_Loading...">Se incarca…</string>
+    <string name="com_kustomer_loading...">Se incarca…</string>
     <string name="com_kustomer_ago">în urmă</string>
     <string name="com_kustomer_chat_with">Chat cu</string>
     <string name="com_kustomer_processing">Prelucrare…</string>
@@ -48,7 +48,7 @@
     <string name="com_kustomer_your_expected_wait_time_is">Timpul așteptat de așteptare este</string>
     <string name="com_kustomer_second">al doilea</string>
     <string name="com_kustomer_seconds">secunde</string>
-    <string name="com_kustomer_volume_control_alternative_method_question">Ne pare rău, se pare că nimeni nu a devenit disponibil în perioada în care ne-am așteptat. Selectați o metodă de contact alternativă pentru a vă urma cu dvs. ...</string>
+    <string name="com_kustomer_volume_control_alternative_method_question">Ne pare rău, se pare că nimeni nu a devenit disponibil în perioada în care ne-am așteptat. Selectați o metodă de contact alternativă pentru a vă urma cu dvs. …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Timpul nostru de așteptare este aproximativ</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Puteți alege să așteptați următorul agent disponibil sau să selectați o alternativă\",oi să urmărim cu dvs.</string>
     <string name="com_kustomer_volume_control_email_question">Ce e cel mai bun e-mail pentru a te contacta?</string>
