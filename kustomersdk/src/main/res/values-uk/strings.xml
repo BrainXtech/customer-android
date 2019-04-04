@@ -62,7 +62,7 @@
     <string name="com_kustomer_chat_with_param">Чат з %1$s</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_second">Очікуваний час очікування - %1$d секунда</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_seconds">Очікуваний час очікування - %1$d секунди</string>
-    <string name="com_kustomer_your_expected_wait_time_is_param_minute">Ɛwɔ sԑ wotwԑn bԑyԑ simma baako</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">Очікуваний час очікування - %1$d хвилини</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_minutes">Очікуваний час очікування - %1$d хвилини</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_hour">Очікуваний час очікування - %1$d година</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_hours">Очікуваний час очікування - %1$d години</string>

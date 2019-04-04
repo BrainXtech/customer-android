@@ -62,7 +62,7 @@
     <string name="com_kustomer_chat_with_param">Xateja amb %1$s</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_second">El temps d’espera esperat és d’%1$d segon</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_seconds">El temps d’espera esperat és de %1$d segons</string>
-    <string name="com_kustomer_your_expected_wait_time_is_param_minute">El temps d\'espera esperat és d'%1$d minut</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">El temps d\'espera esperat és d’%1$d minut</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_minutes">El temps d’espera esperat és de %1$d minuts</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_hour">El temps d’espera esperat és d’%1$d hora</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_hours">El temps d’espera previst és de %1$d hores</string>

@@ -80,7 +80,7 @@
     <string name="com_kustomer_param_minutes_ago">acum %1$d minute</string>
     <string name="com_kustomer_param_hour_ago">%1$d oră în urmă</string>
     <string name="com_kustomer_param_hours_ago">%1$d ore în urmă</string>
-    <string name="com_kustomer_param_day_ago">Acum o zi</string>
+    <string name="com_kustomer_param_day_ago">Acum %1$d zi</string>
     <string name="com_kustomer_param_days_ago">%1$d zile în urmă</string>
     <string name="com_kustomer_param_week_ago">%1$d săptămână în urmă</string>
     <string name="com_kustomer_param_weeks_ago">acum %1$d saptamani</string>

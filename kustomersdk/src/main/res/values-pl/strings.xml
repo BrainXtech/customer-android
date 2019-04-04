@@ -83,6 +83,6 @@
     <string name="com_kustomer_param_day_ago">%1$d dzień temu</string>
     <string name="com_kustomer_param_days_ago">%1$d dni temu</string>
     <string name="com_kustomer_param_week_ago">%1$d tydzień temu</string>
-    <string name="com_kustomer_param_weeks_ago">Dwa tygodnie temu</string>
+    <string name="com_kustomer_param_weeks_ago">%1$d tygodnie temu</string>
 
 </resources>

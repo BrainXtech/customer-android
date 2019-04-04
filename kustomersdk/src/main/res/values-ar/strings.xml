@@ -70,7 +70,7 @@
 
     <string name="com_kustomer_our_expected_wait_time_is_approximately_param_second">لدينا وقت الانتظار الحالي هو حوالي %1$d ثانية</string>
     <string name="com_kustomer_our_expected_wait_time_is_approximately_param_seconds">وقت الانتظار الحالي لدينا حوالي %1$d ثانية</string>
-    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minute">مدة الانتظار الحالية حوالي دقيقة واحدة</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minute">لدينا وقت الانتظار الحالي هو حوالي %1$d دقيقة</string>
     <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minutes">وقت الانتظار الحالي لدينا حوالي %1$d دقيقة</string>
     <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hour">لدينا وقت الانتظار الحالي حوالي %1$d ساعة</string>
     <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hours">وقت الانتظار الحالي لدينا حوالي %1$d ساعة</string>

@@ -60,11 +60,11 @@
     <string name="com_kustomer_low_memory_error">זיכרון נמוך. לא ניתן לטעון תמונות.</string>
 
     <string name="com_kustomer_chat_with_param">צ\'אט עם %1$s</string>
-    <string name="com_kustomer_your_expected_wait_time_is_param_second">זמן ההמתנה הצפוי שלך הוא שנייה אחת</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_second">זמן ההמתנה הצפוי הוא %1$d שנייה</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_seconds">זמן ההמתנה הצפוי הוא %1$d שניות</string>
-    <string name="com_kustomer_your_expected_wait_time_is_param_minute">זמן ההמתנה הצפוי הוא דקה אחת</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">זמן ההמתנה הצפוי הוא 1 דקה</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_minutes">זמן ההמתנה הצפוי הוא %1$d דקות</string>
-    <string name="com_kustomer_your_expected_wait_time_is_param_hour">זמן ההמתנה הצפוי הוא שעה אחת</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hour">זמן ההמתנה הצפוי הוא שעה %1$d</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_hours">זמן ההמתנה הצפוי הוא %1$d שעות</string>
     <string name="com_kustomer_your_expected_wait_time_is_greater_than_one_day">זמן ההמתנה הצפוי שלך גדול מיום אחד</string>
 
@@ -79,9 +79,9 @@
     <string name="com_kustomer_param_minute_ago">לפני %1$d דקה</string>
     <string name="com_kustomer_param_minutes_ago">לפני %1$d דקות</string>
     <string name="com_kustomer_param_hour_ago">לפני %1$d שעה</string>
-    <string name="com_kustomer_param_hours_ago">לפני 3 שעות</string>
+    <string name="com_kustomer_param_hours_ago">לפני %1$d שעות</string>
     <string name="com_kustomer_param_day_ago">לפני %1$d יום</string>
-    <string name="com_kustomer_param_days_ago">לפני 3 ימים</string>
+    <string name="com_kustomer_param_days_ago">לפני %1$d ימים</string>
     <string name="com_kustomer_param_week_ago">לפני שבוע %1$d</string>
     <string name="com_kustomer_param_weeks_ago">לפני %1$d שבועות</string>
 

@@ -63,7 +63,7 @@
     <string name="com_kustomer_low_memory_error">Kumbukumbu ya chini. Haikuweza kupakia picha.</string>
 
     <string name="com_kustomer_chat_with_param">Ongea na %1$s</string>
-    <string name="com_kustomer_your_expected_wait_time_is_param_second">Wakati wako wa kusubiri uliotarajiwa ni wa pili</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_second">Wakati wako wa kusubiri uliotarajiwa ni %1$s pili</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_seconds">Wakati wako wa kusubiri uliotarajiwa ni sekunde %1$d</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_minute">Wakati wako wa kusubiri uliotarajiwa ni dakika %1$d</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_minutes">Wakati wako wa kusubiri uliotarajiwa ni dakika %1$d</string>
