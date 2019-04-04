@@ -55,4 +55,34 @@
     <string name="com_kustomer_volume_control_phone_question">Molt bé, quin és el millor número de telèfon per arribar-hi?</string>
     <string name="com_kustomer_volume_control_thankyou_response">Gràcies. Us tornarem a contactar en breu.</string>
     <string name="com_kustomer_greater_than_one_day">més d\'un dia</string>
+    <string name="com_kustomer_unable_to_share_file">No es pot compartir el fitxer.</string>
+    <string name="com_kustomer_unable_to_open_camera">No es pot obrir la càmera.</string>
+    <string name="com_kustomer_low_memory_error">Memòria baixa. No s’ha pogut penjar imatges.</string>
+
+    <string name="com_kustomer_chat_with_param">Xateja amb %1$s</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_second">El temps d’espera esperat és d’%1$d segon</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_seconds">El temps d’espera esperat és de %1$d segons</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">El temps d\'espera esperat és d'%1$d minut</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minutes">El temps d’espera esperat és de %1$d minuts</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hour">El temps d’espera esperat és d’%1$d hora</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hours">El temps d’espera previst és de %1$d hores</string>
+
+    <string name="com_kustomer_your_expected_wait_time_is_greater_than_one_day">El temps d’espera esperat és superior a un dia</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_second">El nostre temps d\'espera actual és d\'aproximadament %1$d segon</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_seconds">El nostre temps d\'espera actual és d\'aproximadament %1$d segons</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minute">El nostre temps d\'espera actual és d\'aproximadament %1$d minut</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minutes">El nostre temps d\'espera actual és d\'aproximadament %1$d minuts</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hour">El nostre temps d\'espera actual és d\'aproximadament %1$d hora</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hours">El nostre temps d\'espera actual és d\'aproximadament %1$d hores</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_greater_than_one_day">El nostre temps d\'espera actual és aproximadament superior a un dia</string>
+
+    <string name="com_kustomer_param_minute_ago">Fa %1$d minut</string>
+    <string name="com_kustomer_param_minutes_ago">Fa %1$d minuts</string>
+    <string name="com_kustomer_param_hour_ago">Fa %1$d hora</string>
+    <string name="com_kustomer_param_hours_ago">Fa %1$d hores</string>
+    <string name="com_kustomer_param_day_ago">Fa %1$d dia</string>
+    <string name="com_kustomer_param_days_ago">fa %1$d dies</string>
+    <string name="com_kustomer_param_week_ago">Fa %1$d setmana</string>
+    <string name="com_kustomer_param_weeks_ago">Fa %1$d setmanes</string>
+
 </resources>

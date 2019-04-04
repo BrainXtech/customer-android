@@ -55,4 +55,34 @@
     <string name="com_kustomer_volume_control_phone_question">Grozav, care este cel mai bun număr de telefon la care te afli?</string>
     <string name="com_kustomer_volume_control_thankyou_response">Mulțumesc. Ne vom întoarce în curând.</string>
     <string name="com_kustomer_greater_than_one_day">mai mult de o zi</string>
+    <string name="com_kustomer_unable_to_share_file">Nu se poate partaja fișierul.</string>
+    <string name="com_kustomer_unable_to_open_camera">Imposibil de deschis camera.</string>
+    <string name="com_kustomer_low_memory_error">Memorie puțină. Imposibil de încărcat imagini.</string>
+
+    <string name="com_kustomer_chat_with_param">Chat cu %1$s</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_second">Timpul așteptat de așteptare este de %1$d secundă</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_seconds">Timpul așteptat de așteptare este de %1$d secunde</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">Timpul așteptat de așteptare este de %1$d minut</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minutes">Timpul așteptat de așteptare este de %1$d minute</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hour">Timpul așteptat de așteptare este de %1$d oră</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hours">Timpul așteptat de așteptare este de %1$d ore</string>
+    <string name="com_kustomer_your_expected_wait_time_is_greater_than_one_day">Timpul așteptat de așteptare este mai mare decât o zi</string>
+
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_second">Timpul de așteptare curent este de aproximativ %1$d secundă</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_seconds">Timpul de așteptare curent este de aproximativ %1$d secunde</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minute">Timpul nostru de așteptare este de aproximativ %1$d minut</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minutes">Timpul nostru de așteptare este de aproximativ %1$d minute</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hour">Timpul nostru de așteptare este de aproximativ %1$d oră</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hours">Timpul nostru de așteptare este de aproximativ %1$d ore</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_greater_than_one_day">Timpul de așteptare actual este aproximativ mai mare decât o zi</string>
+
+    <string name="com_kustomer_param_minute_ago">Acum %1$d minut</string>
+    <string name="com_kustomer_param_minutes_ago">acum %1$d minute</string>
+    <string name="com_kustomer_param_hour_ago">%1$d oră în urmă</string>
+    <string name="com_kustomer_param_hours_ago">%1$d ore în urmă</string>
+    <string name="com_kustomer_param_day_ago">Acum o zi</string>
+    <string name="com_kustomer_param_days_ago">%1$d zile în urmă</string>
+    <string name="com_kustomer_param_week_ago">%1$d săptămână în urmă</string>
+    <string name="com_kustomer_param_weeks_ago">acum %1$d saptamani</string>
+
 </resources>

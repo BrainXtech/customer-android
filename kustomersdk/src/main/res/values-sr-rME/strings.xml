@@ -55,4 +55,34 @@
     <string name="com_kustomer_volume_control_phone_question">Одлично, који је најбољи телефонски број на кога сте дошли?</string>
     <string name="com_kustomer_volume_control_thankyou_response">Хвала вам. Вратићемо се теби ускоро.</string>
     <string name="com_kustomer_greater_than_one_day">већи од једног дана</string>
+    <string name="com_kustomer_unable_to_share_file">Није могуће делити датотеку.</string>
+    <string name="com_kustomer_unable_to_open_camera">Није могуће отворити камеру.</string>
+    <string name="com_kustomer_low_memory_error">Лов Мемори. Није могуће учитати слике.</string>
+
+    <string name="com_kustomer_chat_with_param">Разговарајте са 1$s-ом</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_second">Очекивано време чекања је %1$d секунда</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_seconds">Очекивано време чекања је %1$d секунде</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">Очекивано време чекања је %1$d минут</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minutes">Очекивано време чекања је %1$d минута</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hour">Очекивано време чекања је %1$d сат</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hours">Очекивано време чекања је %1$d сата</string>
+    <string name="com_kustomer_your_expected_wait_time_is_greater_than_one_day">Ваше очекивано време чекања је веће од једног дана</string>
+
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_second">Тренутно време чекања је приближно %1$d секунда</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_seconds">Наше тренутно време чекања је приближно %1$d секунде</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minute">Тренутно време чекања је приближно %1$d минут</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minutes">Тренутно време чекања је око %1$d минута</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hour">Тренутно време чекања је приближно %1$d сат</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hours">Тренутно време чекања је око %1$d сата</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_greater_than_one_day">Наше тренутно време чекања је приближно веће од једног дана</string>
+
+    <string name="com_kustomer_param_minute_ago">Пре %1$d минут</string>
+    <string name="com_kustomer_param_minutes_ago">Пре %1$d минута</string>
+    <string name="com_kustomer_param_hour_ago">пре %1$d сат</string>
+    <string name="com_kustomer_param_hours_ago">пре %1$d сата</string>
+    <string name="com_kustomer_param_day_ago">%1$d дан пре</string>
+    <string name="com_kustomer_param_days_ago">пре %1$d дана</string>
+    <string name="com_kustomer_param_week_ago">Пре %1$d недељу</string>
+    <string name="com_kustomer_param_weeks_ago">пре %1$d недеље</string>
+
 </resources>

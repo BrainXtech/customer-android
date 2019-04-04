@@ -55,4 +55,34 @@
     <string name="com_kustomer_volume_control_phone_question">Hyvä, mikä on paras puhelinnumero tavoittaa sinut?</string>
     <string name="com_kustomer_volume_control_thankyou_response">Kiitos. Palataan takaisin sinulle pian.</string>
     <string name="com_kustomer_greater_than_one_day">enemmän kuin yksi päivä</string>
+    <string name="com_kustomer_unable_to_share_file">Tiedoston jakaminen ei onnistu.</string>
+    <string name="com_kustomer_unable_to_open_camera">Kameraa ei voi avata.</string>
+    <string name="com_kustomer_low_memory_error">Muisti vähissä. Kuvien lataaminen epäonnistui.</string>
+
+    <string name="com_kustomer_chat_with_param">Keskustele %1$s: n kanssa</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_second">Odotettu odotusaika on %1$d sekunti</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_seconds">Odotettu odotusaika on %1$d sekuntia</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">Odotettu odotusaika on %1$d minuutti</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minutes">Odotettu odotusaika on %1$d minuuttia</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hour">Odotettu odotusaika on %1$d tunti</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hours">Odotettu odotusaika on %1$d tuntia</string>
+    <string name="com_kustomer_your_expected_wait_time_is_greater_than_one_day">Odotettu odotusaika on suurempi kuin yksi päivä</string>
+
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_second">Nykyinen odotusaika on noin %1$d sekunti</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_seconds">Nykyinen odotusaika on noin %1$d sekuntia</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minute">Nykyinen odotusaika on noin %1$d minuutti</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minutes">Nykyinen odotusaika on noin %1$d minuuttia</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hour">Nykyinen odotusaika on noin %1$d tunti</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hours">Nykyinen odotusaika on noin %1$d tuntia</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_greater_than_one_day">Nykyinen odotusaika on noin yksi päivä</string>
+
+    <string name="com_kustomer_param_minute_ago">%1$d minuutti sitten</string>
+    <string name="com_kustomer_param_minutes_ago">%1$d minuuttia sitten</string>
+    <string name="com_kustomer_param_hour_ago">%1$d tunti sitten</string>
+    <string name="com_kustomer_param_hours_ago">%1$d tuntia sitten</string>
+    <string name="com_kustomer_param_day_ago">%1$d päivä sitten</string>
+    <string name="com_kustomer_param_days_ago">%1$d päivää sitten</string>
+    <string name="com_kustomer_param_week_ago">%1$d viikko sitten</string>
+    <string name="com_kustomer_param_weeks_ago">%1$d viikkoa sitten</string>
+
 </resources>

@@ -55,4 +55,34 @@
     <string name="com_kustomer_volume_control_phone_question">Skvelé, aké je najlepšie telefónne číslo, na ktoré sa chcete dostať?</string>
     <string name="com_kustomer_volume_control_thankyou_response">Ďakujem. Dostávame sa k vám krátko.</string>
     <string name="com_kustomer_greater_than_one_day">viac ako jeden deň</string>
+    <string name="com_kustomer_unable_to_share_file">Súbor sa nedá zdieľať.</string>
+    <string name="com_kustomer_unable_to_open_camera">Nie je možné otvoriť kameru.</string>
+    <string name="com_kustomer_low_memory_error">Nedostatok pamäte. Nepodarilo sa odovzdať obrázky.</string>
+
+    <string name="com_kustomer_chat_with_param">Chatujte s %1$som</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_second">Očakávaná doba čakania je %1$d sekunda</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_seconds">Očakávaná doba čakania je %1$d sekundy</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">Očakávaná doba čakania je %1$d minúta</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minutes">Očakávaná doba čakania je %1$d minúty</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hour">Očakávaná doba čakania je %1$d hodina</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hours">Očakávaná doba čakania je %1$d hodiny</string>
+    <string name="com_kustomer_your_expected_wait_time_is_greater_than_one_day">Vaša očakávaná doba čakania je väčšia ako jeden deň</string>
+
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_second">Naša súčasná doba čakania je približne %1$d sekundu</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_seconds">Naša súčasná doba čakania je približne %1$d sekundy</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minute">Naša súčasná doba čakania je približne %1$d minútu</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minutes">Naša súčasná doba čakania je približne %1$d minúty</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hour">Naša súčasná doba čakania je približne %1$d hodina</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hours">Naša súčasná doba čakania je približne %1$d hodiny</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_greater_than_one_day">Naša súčasná doba čakania je približne viac ako jeden deň</string>
+
+    <string name="com_kustomer_param_minute_ago">Pred %1$d minútou</string>
+    <string name="com_kustomer_param_minutes_ago">Pred %1$d minútami</string>
+    <string name="com_kustomer_param_hour_ago">pred %1$d hodinou</string>
+    <string name="com_kustomer_param_hours_ago">pred %1$d hodinami</string>
+    <string name="com_kustomer_param_day_ago">Pred %1$d dňom</string>
+    <string name="com_kustomer_param_days_ago">pred %1$d dňami</string>
+    <string name="com_kustomer_param_week_ago">Pred %1$d týždňom</string>
+    <string name="com_kustomer_param_weeks_ago">Pred %1$d týždňami</string>
+
 </resources>

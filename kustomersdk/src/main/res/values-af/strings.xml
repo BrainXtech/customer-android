@@ -55,4 +55,33 @@
     <string name="com_kustomer_volume_control_email_question">Groot, wat is die beste e-pos om jou te bereik?</string>
     <string name="com_kustomer_volume_control_phone_question">Groot, wat is die beste telefoonnommer om jou te bereik?</string>
     <string name="com_kustomer_volume_control_thankyou_response">Dankie. Ons sal binnekort terugkom.</string>
+    <string name="com_kustomer_unable_to_share_file">Kan nie lêer deel nie.</string>
+    <string name="com_kustomer_unable_to_open_camera">Kon nie kamera oopmaak nie.</string>
+    <string name="com_kustomer_low_memory_error">Lae geheue. Kon nie beelde oplaai nie.</string>
+
+    <string name="com_kustomer_chat_with_param">Klets met %1$s</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_second">Jou verwagte wagtyd is %1$d sekonde</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_seconds">Jou verwagte wagtyd is %1$d sekondes</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">U verwagte wagtyd is %1$d minuut</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minutes">U verwagte wagtyd is %1$d minute</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hour">U verwagte wagtyd is %1$d uur</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hours">U verwagte wagtyd is %1$d uur</string>
+    <string name="com_kustomer_your_expected_wait_time_is_greater_than_one_day">Jou verwagte wagtyd is groter as een dag</string>
+
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_second">Ons huidige wagtyd is ongeveer %1$d sekonde</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_seconds">Ons huidige wagtyd is ongeveer %1$d sekondes</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minute">Ons huidige wagtyd is ongeveer %1$d minuut</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minutes">Ons huidige wagtyd is ongeveer %1$d minute</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hour">Ons huidige wagtyd is ongeveer %1$d uur</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hours">Ons huidige wagtyd is ongeveer %1$d uur</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_greater_than_one_day">Ons huidige wagtyd is ongeveer meer as een dag</string>
+
+    <string name="com_kustomer_param_minute_ago">%1$d minuut gelede</string>
+    <string name="com_kustomer_param_minutes_ago">%1$d minute gelede</string>
+    <string name="com_kustomer_param_hour_ago">%1$d uur gelede</string>
+    <string name="com_kustomer_param_hours_ago">%1$d ure gelede</string>
+    <string name="com_kustomer_param_day_ago">%1$d dag gelede</string>
+    <string name="com_kustomer_param_days_ago">%1$d dae gelede</string>
+    <string name="com_kustomer_param_week_ago">%1$d week gelede</string>
+    <string name="com_kustomer_param_weeks_ago">%1$d weke gelede</string>
 </resources>

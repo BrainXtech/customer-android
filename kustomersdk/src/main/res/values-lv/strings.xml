@@ -55,4 +55,34 @@
     <string name="com_kustomer_volume_control_phone_question">Lieliski, kāds ir labākais tālruņa numurs, lai jūs varētu sazināties?</string>
     <string name="com_kustomer_volume_control_thankyou_response">Paldies. Mēs tuvākajā laikā atgriezīsimies pie jums.</string>
     <string name="com_kustomer_greater_than_one_day">vairāk par vienu dienu</string>
+    <string name="com_kustomer_unable_to_share_file">Nevar koplietot failu.</string>
+    <string name="com_kustomer_unable_to_open_camera">Nevar atvērt kameru.</string>
+    <string name="com_kustomer_low_memory_error">Zema atmiņa. Nevarēja augšupielādēt attēlus.</string>
+
+    <string name="com_kustomer_chat_with_param">Tērzējiet ar %1$s</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_second">Jūsu paredzamais gaidīšanas laiks ir %1$d sekunde</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_seconds">Jūsu paredzamais gaidīšanas laiks ir %1$d sekundes</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">Jūsu paredzamais gaidīšanas laiks ir %1$d minūte</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minutes">Jūsu paredzamais gaidīšanas laiks ir %1$d minūtes</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hour">Jūsu paredzamais gaidīšanas laiks ir %1$d stunda</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hours">Jūsu paredzamais gaidīšanas laiks ir %1$d stundas</string>
+    <string name="com_kustomer_your_expected_wait_time_is_greater_than_one_day">Jūsu paredzamais gaidīšanas laiks ir lielāks par vienu dienu</string>
+
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_second">Mūsu pašreizējais gaidīšanas laiks ir aptuveni %1$d sekunde</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_seconds">Mūsu pašreizējais gaidīšanas laiks ir aptuveni %1$d sekundes</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minute">Mūsu pašreizējais gaidīšanas laiks ir aptuveni %1$d minūte</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minutes">Mūsu pašreizējais gaidīšanas laiks ir aptuveni %1$d minūtes</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hour">Mūsu pašreizējais gaidīšanas laiks ir aptuveni %1$d stunda</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hours">Mūsu pašreizējais gaidīšanas laiks ir aptuveni %1$d stundas</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_greater_than_one_day">Mūsu pašreizējais gaidīšanas laiks ir aptuveni par vienu dienu</string>
+
+    <string name="com_kustomer_param_minute_ago">Pirms %1$d minūtes</string>
+    <string name="com_kustomer_param_minutes_ago">Pirms %1$d minūtēm</string>
+    <string name="com_kustomer_param_hour_ago">Pirms %1$d stundas</string>
+    <string name="com_kustomer_param_hours_ago">Pirms %1$d stundām</string>
+    <string name="com_kustomer_param_day_ago">Pirms %1$d dienas</string>
+    <string name="com_kustomer_param_days_ago">pirms %1$d dienām</string>
+    <string name="com_kustomer_param_week_ago">Pirms %1$d nedēļas</string>
+    <string name="com_kustomer_param_weeks_ago">pirms %1$d nedēļām</string>
+
 </resources>

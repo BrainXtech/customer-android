@@ -55,4 +55,34 @@
     <string name="com_kustomer_volume_control_phone_question">Μεγάλη, ποιος είναι ο καλύτερος αριθμός τηλεφώνου για να σας φτάσει;</string>
     <string name="com_kustomer_volume_control_thankyou_response">Ευχαριστώ. Θα σας επιστρέψουμε σύντομα.</string>
     <string name="com_kustomer_greater_than_one_day">μεγαλύτερη από μία ημέρα</string>
+    <string name="com_kustomer_unable_to_share_file">Δεν είναι δυνατή η κοινή χρήση αρχείου.</string>
+    <string name="com_kustomer_unable_to_open_camera">Δεν είναι δυνατό να ανοίξει η κάμερα.</string>
+    <string name="com_kustomer_low_memory_error">Χαμηλή μνήμη. Δεν ήταν δυνατή η μεταφόρτωση εικόνων.</string>
+
+    <string name="com_kustomer_chat_with_param">Συνομιλήστε με το %1$s</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_second">Ο αναμενόμενος χρόνος αναμονής είναι %1$d δευτερόλεπτο</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_seconds">Ο αναμενόμενος χρόνος αναμονής είναι %1$d δευτερόλεπτα</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">Ο αναμενόμενος χρόνος αναμονής είναι %1$d λεπτό</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minutes">Ο αναμενόμενος χρόνος αναμονής είναι %1$d λεπτά</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hour">Ο αναμενόμενος χρόνος αναμονής είναι %1$d ώρα</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hours">Ο αναμενόμενος χρόνος αναμονής είναι %1$d ώρες</string>
+    <string name="com_kustomer_your_expected_wait_time_is_greater_than_one_day">Ο αναμενόμενος χρόνος αναμονής είναι μεγαλύτερος από μία ημέρα</string>
+
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_second">Ο τρέχων χρόνος αναμονής είναι περίπου %1$d δευτερόλεπτο</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_seconds">Ο τρέχων χρόνος αναμονής είναι περίπου %1$d δευτερόλεπτα</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minute">Ο τρέχων χρόνος αναμονής είναι περίπου %1$d λεπτό</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minutes">Ο τρέχων χρόνος αναμονής είναι περίπου %1$d λεπτά</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hour">Ο τρέχων χρόνος αναμονής είναι περίπου %1$d ώρα</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hours">Ο τρέχων χρόνος αναμονής είναι περίπου %1$d ώρες</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_greater_than_one_day">Ο τρέχων χρόνος αναμονής είναι περίπου μεγαλύτερος από μία ημέρα</string>
+
+    <string name="com_kustomer_param_minute_ago">Πριν από %1$d λεπτό</string>
+    <string name="com_kustomer_param_minutes_ago">Πριν από %1$d λεπτά</string>
+    <string name="com_kustomer_param_hour_ago">Πριν από %1$d ώρα</string>
+    <string name="com_kustomer_param_hours_ago">πριν %1$d ώρες</string>
+    <string name="com_kustomer_param_day_ago">%1$d ημέρα πριν</string>
+    <string name="com_kustomer_param_days_ago">%1$d μέρες πριν</string>
+    <string name="com_kustomer_param_week_ago">Πριν από %1$d εβδομάδα</string>
+    <string name="com_kustomer_param_weeks_ago">πριν %1$d εβδομάδες</string>
+
 </resources>

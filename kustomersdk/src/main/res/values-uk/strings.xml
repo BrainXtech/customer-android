@@ -55,4 +55,34 @@
     <string name="com_kustomer_volume_control_phone_question">Чудово, який найкращий номер телефону для вас?</string>
     <string name="com_kustomer_volume_control_thankyou_response">Дякую. Ми скоро повернемося до вас.</string>
     <string name="com_kustomer_greater_than_one_day">більше одного дня</string>
+    <string name="com_kustomer_unable_to_share_file">Не вдалося поділитися файлом.</string>
+    <string name="com_kustomer_unable_to_open_camera">Неможливо відкрити камеру.</string>
+    <string name="com_kustomer_low_memory_error">Низька пам\'ять. Не вдалося завантажити зображення.</string>
+
+    <string name="com_kustomer_chat_with_param">Чат з %1$s</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_second">Очікуваний час очікування - %1$d секунда</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_seconds">Очікуваний час очікування - %1$d секунди</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">Ɛwɔ sԑ wotwԑn bԑyԑ simma baako</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minutes">Очікуваний час очікування - %1$d хвилини</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hour">Очікуваний час очікування - %1$d година</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hours">Очікуваний час очікування - %1$d години</string>
+    <string name="com_kustomer_your_expected_wait_time_is_greater_than_one_day">Ваш очікуваний час очікування перевищує один день</string>
+
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_second">Наш поточний час очікування становить приблизно %1$d секунду</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_seconds">Наш поточний час очікування - приблизно %1$d секунди</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minute">Наш поточний час очікування становить приблизно %1$d хвилину</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minutes">Наш поточний час очікування - приблизно %1$d хвилини</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hour">Наш поточний час очікування складає приблизно %1$d годину</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hours">Наш поточний час очікування - приблизно %1$d години</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_greater_than_one_day">Наш поточний час очікування приблизно більше, ніж один день</string>
+
+    <string name="com_kustomer_param_minute_ago">%1$d хвилина тому</string>
+    <string name="com_kustomer_param_minutes_ago">%1$d хвилини тому</string>
+    <string name="com_kustomer_param_hour_ago">%1$d годину тому</string>
+    <string name="com_kustomer_param_hours_ago">%1$d години тому</string>
+    <string name="com_kustomer_param_day_ago">%1$d день тому</string>
+    <string name="com_kustomer_param_days_ago">%1$d дні тому</string>
+    <string name="com_kustomer_param_week_ago">%1$d тиждень тому</string>
+    <string name="com_kustomer_param_weeks_ago">%1$d тижні тому</string>
+
 </resources>

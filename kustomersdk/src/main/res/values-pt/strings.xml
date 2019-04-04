@@ -55,4 +55,34 @@
     <string name="com_kustomer_volume_control_phone_question">Ótimo, qual é o melhor número de telefone para chegar até você?</string>
     <string name="com_kustomer_volume_control_thankyou_response">Obrigado. Nós entraremos em contato com você em breve.</string>
     <string name="com_kustomer_greater_than_one_day">maior que um dia</string>
+    <string name="com_kustomer_unable_to_share_file">Não é possível compartilhar o arquivo.</string>
+    <string name="com_kustomer_unable_to_open_camera">Não é possível abrir a câmera.</string>
+    <string name="com_kustomer_low_memory_error">Memória baixa. Não foi possível fazer upload de imagens.</string>
+
+    <string name="com_kustomer_chat_with_param">Bate-papo com o %1$s</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_second">Seu tempo de espera esperado é de %1$d segundo</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_seconds">Seu tempo de espera esperado é de %1$d segundos</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">Seu tempo de espera esperado é de %1$d minuto</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minutes">Seu tempo de espera esperado é de %1$d minutos</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hour">Seu tempo de espera esperado é de %1$d hora</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hours">Seu tempo de espera esperado é de %1$d horas</string>
+    <string name="com_kustomer_your_expected_wait_time_is_greater_than_one_day">Seu tempo de espera esperado é maior que um dia</string>
+
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_second">Nosso tempo de espera atual é de aproximadamente %1$d segundo</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_seconds">Nosso tempo de espera atual é de aproximadamente %1$d segundos</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minute">Nosso tempo de espera atual é de aproximadamente %1$d minuto</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minutes">Nosso tempo de espera atual é de aproximadamente %1$d minutos</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hour">Nosso tempo de espera atual é de aproximadamente %1$d hora</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hours">Nosso tempo de espera atual é de aproximadamente %1$d horas</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_greater_than_one_day">Nosso tempo de espera atual é aproximadamente maior que um dia</string>
+
+    <string name="com_kustomer_param_minute_ago">%1$d minuto atrás</string>
+    <string name="com_kustomer_param_minutes_ago">%1$d minutos atrás</string>
+    <string name="com_kustomer_param_hour_ago">%1$d hora atrás</string>
+    <string name="com_kustomer_param_hours_ago">%1$d horas atrás</string>
+    <string name="com_kustomer_param_day_ago">%1$d dia atrás</string>
+    <string name="com_kustomer_param_days_ago">%1$d dias atrás</string>
+    <string name="com_kustomer_param_week_ago">%1$d semana atrás</string>
+    <string name="com_kustomer_param_weeks_ago">%1$d semanas atrás</string>
+
 </resources>

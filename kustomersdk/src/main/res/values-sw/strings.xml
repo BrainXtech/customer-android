@@ -58,4 +58,34 @@
     <string name="com_kustomer_volume_control_thankyou_response">Asante. Tutakuja tena kwa muda mfupi.</string>
     <string name="com_kustomer_greater_than_one_day">zaidi ya siku moja</string>
     <string name="com_kustomer_home">Nyumbani</string>
+    <string name="com_kustomer_unable_to_share_file">Haiwezi kushiriki faili.</string>
+    <string name="com_kustomer_unable_to_open_camera">Haiwezi kufungua kamera.</string>
+    <string name="com_kustomer_low_memory_error">Kumbukumbu ya chini. Haikuweza kupakia picha.</string>
+
+    <string name="com_kustomer_chat_with_param">Ongea na %1$s</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_second">Wakati wako wa kusubiri uliotarajiwa ni wa pili</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_seconds">Wakati wako wa kusubiri uliotarajiwa ni sekunde %1$d</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minute">Wakati wako wa kusubiri uliotarajiwa ni dakika %1$d</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_minutes">Wakati wako wa kusubiri uliotarajiwa ni dakika %1$d</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hour">Wakati wako wa kusubiri uliotarajiwa ni saa %1$d</string>
+    <string name="com_kustomer_your_expected_wait_time_is_param_hours">Wakati wako wa kusubiri uliotarajiwa ni saa %1$d</string>
+    <string name="com_kustomer_your_expected_wait_time_is_greater_than_one_day">Wakati wako wa kusubiri uliotarajiwa ni mkubwa kuliko siku moja</string>
+
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_second">Wakati wetu wa kusubiri sasa ni takribani %1$d pili</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_seconds">Wakati wetu wa kusubiri sasa ni takriban sekunde %1$d</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minute">Wakati wetu wa kusubiri sasa ni takriban dakika %1$d</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_minutes">Wakati wetu wa kusubiri sasa ni takribani dakika %1$d</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hour">Wakati wetu wa kusubiri sasa ni takribani saa %1$d</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_param_hours">Wakati wetu wa kusubiri sasa ni takriban masaa %1$d</string>
+    <string name="com_kustomer_our_expected_wait_time_is_approximately_greater_than_one_day">Wakati wetu wa kusubiri sasa ni karibu zaidi ya siku moja</string>
+
+    <string name="com_kustomer_param_minute_ago">Dakika %1$d iliyopita</string>
+    <string name="com_kustomer_param_minutes_ago">Miezi %1$d iliyopita</string>
+    <string name="com_kustomer_param_hour_ago">Saa %1$d iliyopita</string>
+    <string name="com_kustomer_param_hours_ago">Saa %1$d zilizopita</string>
+    <string name="com_kustomer_param_day_ago">Siku %1$d iliyopita</string>
+    <string name="com_kustomer_param_days_ago">siku %1$d zilizopita</string>
+    <string name="com_kustomer_param_week_ago">Wiki %1$d iliyopita</string>
+    <string name="com_kustomer_param_weeks_ago">Wiki %1$d zilizopita</string>
+
 </resources>
