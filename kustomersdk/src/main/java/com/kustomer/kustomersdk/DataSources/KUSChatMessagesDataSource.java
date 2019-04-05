@@ -13,7 +13,6 @@ import com.kustomer.kustomersdk.Enums.KUSVolumeControlMode;
 import com.kustomer.kustomersdk.Helpers.KUSAudio;
 import com.kustomer.kustomersdk.Helpers.KUSCache;
 import com.kustomer.kustomersdk.Helpers.KUSDate;
-import com.kustomer.kustomersdk.Helpers.KUSImage;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Helpers.KUSLog;
 import com.kustomer.kustomersdk.Helpers.KUSUpload;
@@ -69,7 +68,6 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
     //region Properties
     private static final int KUS_CHAT_AUTO_REPLY_DELAY = 2 * 1000;
-    private static final int MAX_PIXEL_COUNT_FOR_CACHED_IMAGES = 400000;
 
     private String sessionId;
     private boolean createdLocally;
@@ -691,8 +689,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
                     put("attachments", attachmentIds);
                 }};
 
-                if(!TextUtils.isEmpty(text))
-                    params.put("body",text);
+                if (!TextUtils.isEmpty(text))
+                    params.put("body", text);
 
                 getUserSession().getRequestManager().performRequestType(
                         KUSRequestType.KUS_REQUEST_TYPE_POST,
@@ -1362,17 +1360,15 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
             if (chatSettings.getVolumeControlMode() == KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_UPFRONT
                     && sessionQueue.getEstimatedWaitTimeSeconds() != 0) {
 
-                String currentWaitTime = Kustomer.getContext()
-                        .getString(R.string.com_kustomer_our_current_wait_time_is_approximately);
+                String approximateWaitingTimeString = KUSDate.upfrontVolumeControlApproximateWaitingTimeFromSeconds(
+                        Kustomer.getContext(),
+                        sessionQueue.getEstimatedWaitTimeSeconds());
+
                 String upfrontAlternatePrompt = Kustomer.getContext()
                         .getString(R.string.com_kustomer_upfront_volume_control_alternative_method_question);
 
-                String humanReadableTextFromSeconds = KUSDate.humanReadableTextFromSeconds(
-                        Kustomer.getContext(), sessionQueue.getEstimatedWaitTimeSeconds());
-                prompt = String.format("%s %s. %s", currentWaitTime, humanReadableTextFromSeconds,
-                        upfrontAlternatePrompt);
+                prompt = String.format("%s. %s", approximateWaitingTimeString, upfrontAlternatePrompt);
             }
-
 
             JSONObject formMessage = new JSONObject();
             try {
@@ -1457,7 +1453,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
         //Store the local image data in our cache for the remote image urls
         KUSChatMessage firstMessage = (KUSChatMessage) finalMessages.get(0);
-        String messageId= firstMessage.getId().split("_")[0];
+        String messageId = firstMessage.getId().split("_")[0];
 
         for (int i = 0; i < (firstMessage.getAttachmentIds() != null ? firstMessage.getAttachmentIds().size() : 0); i++) {
             Bitmap attachment = attachments.get(i);
