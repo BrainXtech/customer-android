@@ -269,7 +269,7 @@ public class KUSNotificationWindow {
 
         RemoteViews view = createNotificationView(
                 bitmap,
-                String.format(mContext.getString(R.string.com_kustomer_chat_with)+" %s",responderName),
+                mContext.getString(R.string.com_kustomer_chat_with_param, responderName),
                 subtitleText, getDate(),getUnreadCount());
 
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext,NOTIFICATION_CHANNEL_ID)
@@ -290,7 +290,7 @@ public class KUSNotificationWindow {
 
             RemoteViews expandedView = createExpandedNotificationView(
                     bitmap,
-                    String.format(mContext.getString(R.string.com_kustomer_chat_with)+" %s",responderName),
+                    mContext.getString(R.string.com_kustomer_chat_with_param, responderName),
                     subtitleText, getDate(),getUnreadCount());
 
             Intent dismiss = new Intent(mContext, NotificationDismissReceiver.class);
