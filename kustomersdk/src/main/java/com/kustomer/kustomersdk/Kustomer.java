@@ -117,7 +117,7 @@ public class Kustomer {
      * Returns the identification status in listener on background thread.
      *
      * @param externalToken A valid JWT web token to identify user
-     * @param listener The callback which will receive identification status.
+     * @param listener      The callback which will receive identification status.
      */
     public static void identify(@NonNull String externalToken, @Nullable KUSIdentifyListener listener) {
         getSharedInstance().mIdentify(externalToken, listener);
@@ -199,6 +199,19 @@ public class Kustomer {
     public static void showSupportWithMessage(Activity activity, String message) {
         getSharedInstance().mShowSupportWithMessage(activity, message, null);
     }
+
+    public static void showSupportConversationalForm(@NonNull Activity activity,
+                                                     @NonNull String formId,
+                                                     @NonNull String message,
+                                                     @Nullable JSONObject customAttributes) {
+        getSharedInstance().mShowSupportConversationForm(activity, formId, message, customAttributes);
+    }
+
+    public static void showSupportConversationalForm(@NonNull Activity activity,
+                                                     @NonNull String formId,
+                                                     @NonNull String message) {
+        getSharedInstance().mShowSupportConversationForm(activity, formId, message,  null);
+    }
     //endregion
 
     //region Private Methods
@@ -256,8 +269,8 @@ public class Kustomer {
             throw new AssertionError("Kustomer expects externalToken to be non-null");
         }
 
-        if(externalToken.isEmpty()){
-            if(listener != null)
+        if (externalToken.isEmpty()) {
+            if (listener != null)
                 listener.onComplete(false);
 
             return;
@@ -382,6 +395,15 @@ public class Kustomer {
             mDescribeNextConversation(customAttributes);
 
         showSupport(activity);
+    }
+
+    private void mShowSupportConversationForm(Activity activity, String formId, String message,
+                                              JSONObject customAttributes) {
+        if (TextUtils.isEmpty(formId))
+            throw new AssertionError("Requires a valid form id to start conversational form.");
+
+        getUserSession().getChatSessionsDataSource().setFormIdForConversationalForm(formId);
+        mShowSupportWithMessage(activity, message, customAttributes);
     }
     //endregion
 
