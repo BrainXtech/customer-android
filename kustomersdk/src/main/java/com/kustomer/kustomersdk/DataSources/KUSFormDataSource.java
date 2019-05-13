@@ -2,6 +2,7 @@ package com.kustomer.kustomersdk.DataSources;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -21,10 +22,18 @@ import org.json.JSONObject;
 
 public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectDataSourceListener {
 
+    @Nullable
+    String formId;
+
     //region LifeCycle
     public KUSFormDataSource(KUSUserSession userSession) {
         super(userSession);
         userSession.getChatSettingsDataSource().addListener(this);
+    }
+
+    public KUSFormDataSource(KUSUserSession userSession, String formId) {
+        super(userSession);
+        this.formId = formId;
     }
 
     KUSModel objectFromJson(JSONObject jsonObject) throws KUSInvalidJsonException {
@@ -36,10 +45,14 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
     public void performRequest(KUSRequestCompletionListener listener) {
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
 
-        String formId = getUserSession().getSharedPreferences().getFormId();
+        String formId = this.formId;
+
+        if (formId == null)
+            formId = getUserSession().getSharedPreferences().getFormId();
+
         if (formId == null)
             formId = chatSettings.getActiveFormId();
-        
+
         getUserSession().getRequestManager().getEndpoint(
                 String.format(KUSConstants.URL.FORMS_ENDPOINT, formId),
                 true,

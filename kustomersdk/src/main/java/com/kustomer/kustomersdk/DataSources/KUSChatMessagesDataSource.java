@@ -31,7 +31,6 @@ import com.kustomer.kustomersdk.Interfaces.KUSVolumeControlTimerListener;
 import com.kustomer.kustomersdk.Interfaces.KUSTypingStatusListener;
 import com.kustomer.kustomersdk.Kustomer;
 import com.kustomer.kustomersdk.Managers.KUSVolumeControlTimerManager;
-import com.kustomer.kustomersdk.Models.KUSCSatisfactionResponse;
 import com.kustomer.kustomersdk.Models.KUSChatAttachment;
 import com.kustomer.kustomersdk.Models.KUSChatMessage;
 import com.kustomer.kustomersdk.Models.KUSChatSession;
@@ -67,8 +66,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-import static com.kustomer.kustomersdk.Enums.KUSCSatisfactionFormResponseStatus.KUS_C_SATISFACTION_RESPONSE_STATUS_COMMENTED;
-import static com.kustomer.kustomersdk.Enums.KUSCSatisfactionFormResponseStatus.KUS_C_SATISFACTION_RESPONSE_STATUS_RATED;
 import static com.kustomer.kustomersdk.Models.KUSChatMessage.KUSChatMessageSentByUser;
 
 /**
@@ -120,6 +117,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     private Timer hideTypingTimer;
     @Nullable
     private KUSTypingIndicator typingIndicator;
+    @Nullable
+    private KUSFormDataSource formDataSource;
     //endregion
 
     //region Initializer
@@ -137,6 +136,18 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
         userSession.getChatSettingsDataSource().addListener(this);
         addListener(this);
+    }
+
+    public KUSChatMessagesDataSource(KUSUserSession userSession, String formId, boolean startNewConversation) {
+        this(userSession);
+
+        if(startNewConversation) {
+            createdLocally = true;
+
+            formDataSource = new KUSFormDataSource(userSession, formId);
+            formDataSource.addListener(this);
+            formDataSource.fetch();
+        }
     }
 
     public KUSChatMessagesDataSource(KUSUserSession userSession, boolean startNewConversation) {
@@ -216,7 +227,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         KUSChatSession session = (KUSChatSession) getUserSession().getChatSessionsDataSource()
                 .findById(getSessionId());
 
-        boolean isSessionLocked =session!=null && session.getLockedAt() != null;
+        boolean isSessionLocked = session != null && session.getLockedAt() != null;
         boolean isSatisfactionResponseFetched = getSatisfactionResponseDataSource().isFetched();
 
         return isSessionLocked && isSatisfactionResponseFetched;
@@ -233,7 +244,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         isProactiveCampaign = !isAnyMessageByCurrentUser();
 
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
-        if (chatSettings != null && chatSettings.getActiveFormId() != null && !isActualSession()) {
+        if (((chatSettings != null && chatSettings.getActiveFormId() != null) || formDataSource != null)
+                && !isActualSession()) {
 
             if (attachments != null && attachments.size() > 0)
                 throw new AssertionError("Should not have been able to send attachments without a sessionId");
@@ -816,7 +828,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         if (getUserSession() == null)
             return;
 
-        if(getSatisfactionResponseDataSource() == null)
+        if (getSatisfactionResponseDataSource() == null)
             return;
 
         KUSChatSession chatSession = (KUSChatSession) getUserSession().getChatSessionsDataSource()
