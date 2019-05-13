@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="com_kustomer_week">vika</string>
-    <string name="com_kustomer_day">dagur</string>
-    <string name="com_kustomer_hour">klukkustund</string>
-    <string name="com_kustomer_minute">mínútu</string>
-    <string name="com_kustomer_weeks">vikur</string>
-    <string name="com_kustomer_days">daga</string>
-    <string name="com_kustomer_hours">klukkustundir</string>
-    <string name="com_kustomer_minutes">mínútur</string>
     <string name="com_kustomer_just_now">Rétt í þessu</string>
     <string name="com_kustomer_attachment">Viðhengi</string>
     <string name="com_kustomer_camera">Myndavél</string>
@@ -20,7 +12,6 @@
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Skrifaðu skilaboð …</string>
     <string name="com_kustomer_loading...">Hleð inn …</string>
-    <string name="com_kustomer_ago">síðan</string>
     <string name="com_kustomer_chat_with">Spjalla við</string>
     <string name="com_kustomer_processing">Vinnsla …</string>
     <string name="com_kustomer_no_internet_connection">Engin nettenging</string>
@@ -45,16 +36,12 @@
     <string name="com_kustomer_home">Heim</string>
     <string name="com_kustomer_please_select_an_item">Vinsamlegast veldu hlut</string>
     <string name="com_kustomer_someone_should_be_with_you_momentarily">Einhver ætti að vera með þér í augnablikinu</string>
-    <string name="com_kustomer_your_expected_wait_time_is">Búist er við biðtíma þínum</string>
-    <string name="com_kustomer_second">annað</string>
-    <string name="com_kustomer_seconds">sekúndur</string>
     <string name="com_kustomer_volume_control_alternative_method_question">Því miður, það virðist sem enginn hefur orðið laus við þann tíma sem við búumst við. Vinsamlegast veldu aðra samskiptaaðferð til að fylgjast með þér …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Núverandi biðtími okkar er um það bil</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Þú getur valið að bíða eftir næsta umboðsmanni eða velja valkost\",lgja eftir með þér.</string>
     <string name="com_kustomer_volume_control_email_question">Frábær, hvað er besti tölvupósturinn til að ná þér á?</string>
     <string name="com_kustomer_volume_control_phone_question">Frábær, hvað er besta símanúmerið til að ná þér á?</string>
     <string name="com_kustomer_volume_control_thankyou_response">Þakka þér fyrir. Við munum komast aftur til þín fljótlega.</string>
-    <string name="com_kustomer_greater_than_one_day">meira en einn dagur</string>
     <string name="com_kustomer_unable_to_share_file">Ekki er hægt að deila skrá.</string>
     <string name="com_kustomer_unable_to_open_camera">Gat ekki opnað myndavélina.</string>
     <string name="com_kustomer_low_memory_error">Lágt minni. Gat ekki hlaðið upp myndum.</string>

@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="com_kustomer_week">vecka</string>
-    <string name="com_kustomer_day">dag</string>
-    <string name="com_kustomer_hour">timme</string>
-    <string name="com_kustomer_minute">minut</string>
-    <string name="com_kustomer_weeks">veckor</string>
-    <string name="com_kustomer_days">dagar</string>
-    <string name="com_kustomer_hours">timmar</string>
-    <string name="com_kustomer_minutes">minuter</string>
     <string name="com_kustomer_just_now">Precis nu</string>
     <string name="com_kustomer_attachment">Bilaga</string>
     <string name="com_kustomer_camera">Kamera</string>
@@ -20,7 +12,6 @@
     <string name="com_kustomer_email_example">example@domain.com</string>
     <string name="com_kustomer_type_a_message...">Skriv ett meddelande…</string>
     <string name="com_kustomer_loading...">Läser in…</string>
-    <string name="com_kustomer_ago">sedan</string>
     <string name="com_kustomer_chat_with">Chatta med</string>
     <string name="com_kustomer_processing">Bearbetning …</string>
     <string name="com_kustomer_no_internet_connection">Ingen internetanslutning</string>
@@ -45,16 +36,12 @@
     <string name="com_kustomer_home">Hem</string>
     <string name="com_kustomer_please_select_an_item">Var god välj ett objekt</string>
     <string name="com_kustomer_someone_should_be_with_you_momentarily">Någon borde vara med dig tillfälligt</string>
-    <string name="com_kustomer_your_expected_wait_time_is">Din väntade väntetid är</string>
-    <string name="com_kustomer_second">andra</string>
-    <string name="com_kustomer_seconds">sekunder</string>
     <string name="com_kustomer_volume_control_alternative_method_question">Tyvärr ser det ut att ingen har blivit tillgänglig under den tid vi förväntade oss. Var god välj en alternativ kontaktmetod för att följa upp med dig …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Vår nuvarande väntetid är ungefär</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Du kan välja att vänta på nästa tillgängliga agent eller välj ett alternativ\",p med dig.</string>
     <string name="com_kustomer_volume_control_email_question">Bra, vad är den bästa e-postadressen för att nå dig på?</string>
     <string name="com_kustomer_volume_control_phone_question">Bra, vad är det bästa telefonnumret för att nå dig?</string>
     <string name="com_kustomer_volume_control_thankyou_response">Tack. Vi kommer snart tillbaka till dig.</string>
-    <string name="com_kustomer_greater_than_one_day">mer än en dag</string>
     <string name="com_kustomer_unable_to_share_file">Det gick inte att dela filen.</string>
     <string name="com_kustomer_unable_to_open_camera">Det gick inte att öppna kameran.</string>
     <string name="com_kustomer_low_memory_error">Lågt minne. Det gick inte att ladda upp bilder.</string>

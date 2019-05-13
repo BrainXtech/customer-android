@@ -1,15 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="com_kustomer_week">wiki</string>
-    <string name="com_kustomer_day">siku</string>
-    <string name="com_kustomer_hour">saa</string>
-    <string name="com_kustomer_minute">dakika</string>
-    <string name="com_kustomer_weeks">weeks</string>
-    <string name="com_kustomer_days">wiki</string>
-    <string name="com_kustomer_hours">masaa</string>
-    <string name="com_kustomer_minutes">dakika</string>
     <string name="com_kustomer_just_now">sasa hivi</string>
-    <string name="com_kustomer_ago">iliyopita</string>
 
     <string name="com_kustomer_attachment">kiambatisho</string>
     <string name="com_kustomer_camera">kamera</string>
@@ -47,16 +38,12 @@
     <string name="com_kustomer_please_provide_storage_permission">Tafadhali kutoa ruhusa ya kuhifadhi kwenye programu hii</string>
     <string name="com_kustomer_dismiss">Futa</string>
     <string name="com_kustomer_someone_should_be_with_you_momentarily">Mtu anapaswa kuwa na wewe kwa wakati</string>
-    <string name="com_kustomer_your_expected_wait_time_is">Wakati wako wa kusubiri uliotarajiwa ni</string>
-    <string name="com_kustomer_second">pili</string>
-    <string name="com_kustomer_seconds">sekunde</string>
     <string name="com_kustomer_volume_control_alternative_method_question">Samahani, inaonekana kama hakuna mtu aliyepatikana wakati tunatarajia. Tafadhali chagua mbinu mbadala ya kuwasiliana na sisi kufuatilia na wewe …</string>
     <string name="com_kustomer_our_current_wait_time_is_approximately">Wakati wetu wa kusubiri sasa ni takribani</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Unaweza kuchagua kusubiri wakala unaofuata au chagua mbadala</string>
     <string name="com_kustomer_volume_control_email_question">Kubwa, ni barua pepe bora gani kufikia wewe?</string>
     <string name="com_kustomer_volume_control_phone_question">Kubwa, nambari bora ya simu kufikia wewe ni nani?</string>
     <string name="com_kustomer_volume_control_thankyou_response">Asante. Tutakuja tena kwa muda mfupi.</string>
-    <string name="com_kustomer_greater_than_one_day">zaidi ya siku moja</string>
     <string name="com_kustomer_home">Nyumbani</string>
     <string name="com_kustomer_unable_to_share_file">Haiwezi kushiriki faili.</string>
     <string name="com_kustomer_unable_to_open_camera">Haiwezi kufungua kamera.</string>
