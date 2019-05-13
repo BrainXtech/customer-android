@@ -9,11 +9,6 @@
 </p>
 
 
-### Updates:
-No need to declare File Provider in manifest for camera access in SDK v0.1.25 & onwards. See [changelog](CHANGELOG.md)
-
-
-
 ## Requirements
 
 - A [Kustomer.com](https://www.kustomer.com/) API Key
@@ -31,7 +26,7 @@ The Kustomer Android SDK requires a valid API Key with role `org.tracking`. See 
 Include the library in your `app.gradle`:
 
 ```gradle
-implementation 'com.kustomer.kustomersdk:kustomersdk:0.1.30'
+implementation 'com.kustomer.kustomersdk:kustomersdk:0.2.2'
 ```
 
 #### Or through Maven
@@ -40,7 +35,7 @@ implementation 'com.kustomer.kustomersdk:kustomersdk:0.1.30'
 <dependency>
   <groupId>com.kustomer.kustomersdk</groupId>
   <artifactId>kustomersdk</artifactId>
-  <version>0.1.30</version>
+  <version>0.2.2</version>
   <type>pom</type>
 </dependency>
 ```
@@ -126,7 +121,12 @@ Kustomer.resetTracking();
 
 ```java
 // Securely identify a customer. Requires a valid JSON Web Token.
-Kustomer.identify("SECURE_ID_HASH");
+Kustomer.identify("SECURE_ID_HASH", new KUSIdentifyListener() {
+  @Override
+  public void onComplete(final boolean success) {
+      // Note: This will be called on background thread
+  }
+});
 
 /*
  Identifying users is the best way to ensure your users have a great chat experience because
@@ -224,6 +224,8 @@ Check chat management status asynchronously to enable support chat.
 Kustomer.isChatAvailable(new KUSChatAvailableListener(){
     @Override
     public void onSuccess(boolean enabled){
+        // Note: This will be called on background thread
+        
         // This is called when API call is successful.
         // enabled represent chat management settings.
 
@@ -231,6 +233,8 @@ Kustomer.isChatAvailable(new KUSChatAvailableListener(){
     
     @Override
     public void onFailure(){
+        // Note: This will be called on background thread
+        
         // This is called when API call fails.
     }
 });
@@ -360,6 +364,31 @@ You can define any of the following in your `res/values/style` to customize font
 <style name="KUSOptionPickerTextAppearance" parent="@style/TextAppearance.AppCompat">
     <item name="android:fontFamily">@font/montserrat</item>
 </style>
+
+<!--Update Appearance of satisfaction form -->
+
+<style name="KUSCSatRatingPromptTextAppearance" parent="@style/TextAppearance.AppCompat">
+    <item name="android:fontFamily">@font/montserrat</item>
+    <item name="android:textStyle">bold</item>
+</style>
+<style name="KUSCSatQuestionsTextAppearance" parent="@style/TextAppearance.AppCompat">
+<item name="android:fontFamily">@font/montserrat</item>
+    <item name="android:textStyle">bold</item>
+</style>
+<style name="KUSCSatRatingLabelsTextAppearance" parent="@style/TextAppearance.AppCompat">
+<item name="android:fontFamily">@font/montserrat</item>
+</style>
+<style name="KUSCSatThankYouTextAppearance" parent="@style/TextAppearance.AppCompat">
+<item name="android:fontFamily">@font/montserrat</item>
+    <item name="android:textStyle">bold</item>
+</style>
+<style name="KUSCSatEditTextAppearance" parent="@style/TextAppearance.AppCompat">
+    <item name="android:fontFamily">@font/montserrat</item>
+</style>
+<style name="kusCSatCommentInputTextAppearance" parent="@style/TextAppearance.AppCompat">
+    <item name="android:fontFamily">@font/montserrat</item>
+</style>
+
 ```
 
 #### Additional Customization
@@ -426,6 +455,18 @@ You can define any of the following items in their respective `res` files to cha
 <color name="kusOptionPickerButtonTextColor">#2962FF</color>
 <color name="kusOptionPickerButtonBackground">#F5F5F5</color>
 
+<!--Update colors of satisfaction form -->
+
+<color name="kusCSatRatingPromptTextColor">#FFFFFF</color>
+<color name="kusCSatQuestionsTextColor">#FFFFFF</color>
+<color name="kusCSatRatingLabelsTextColor">#FFFFFF</color>
+<color name="kusCSatFeedbackTextColor">#FFFFFF</color>
+<color name="kusCSatEditTextColor">#DD2C00</color>
+<color name="kusCSatCommentBorderColor">#FFFFFF</color>
+<color name="kusCSatCommentInputTextColor">#FFFFFF</color>
+<color name="kusCSatSubmitButtonColor">#DD2C00</color>
+<color name="kusCSatSubmitTextColor">#000000</color>
+
 <string name="com_kustomer_type_a_message">Type a message...</string>
 <string name="com_kustomer_dont_miss_a_response_get_notified_soon_by_email">Don\'t miss a response! Get notified by email:</string>
 <string name="com_kustomer_email_example">example@domain.com</string>
@@ -489,6 +530,10 @@ Kustomer SDK support both <b>Right-to-left (RTL)</b> and <b>Left-to-right (LTR)<
      <string name="com_kustomer_end_chat">END CHAT</string>
      <string name="com_kustomer_back_to_chat">Back to Chat</string>
      <string name="com_kustomer_leave_a_message">Leave a message</string>
+     
+     <string name="com_kustomer_submit">Submit</string>
+     <string name="com_kustomer_thank_you_for_your_feedback">Thank you for your feedback!</string>
+     <string name="com_kustomer_edit">Edit</string>
 ```
 
 #### Customize existing strings

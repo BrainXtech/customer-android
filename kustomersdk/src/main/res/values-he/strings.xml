@@ -72,4 +72,7 @@
     <string name="com_kustomer_param_week_ago">לפני שבוע %1$d</string>
     <string name="com_kustomer_param_weeks_ago">לפני %1$d שבועות</string>
 
+    <string name="com_kustomer_submit">שלח</string>
+    <string name="com_kustomer_thank_you_for_your_feedback">תודה על המשוב שלך!</string>
+    <string name="com_kustomer_edit">עריכה</string>
 </resources>

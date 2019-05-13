@@ -72,4 +72,7 @@
     <string name="com_kustomer_param_week_ago">Pre %1$d nedelju</string>
     <string name="com_kustomer_param_weeks_ago">Pre %1$d nedelje</string>
 
+    <string name="com_kustomer_submit">podnijeti</string>
+    <string name="com_kustomer_thank_you_for_your_feedback">Hvala vam za vaše povratne informacije!</string>
+    <string name="com_kustomer_edit">edit</string>
 </resources>

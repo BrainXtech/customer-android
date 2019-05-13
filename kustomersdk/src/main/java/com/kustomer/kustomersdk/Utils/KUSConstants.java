@@ -34,6 +34,8 @@ public class KUSConstants {
         String BUSINESS_SCHEDULE_ENDPOINT = "/c/v1/schedules/default?include=holidays";
         String SESSION_QUEUE_ENDPOINT = "/c/v1/chat/sessions/%s/queue";
         String SINGLE_MESSAGE_ENDPOINT = "/c/v1/chat/sessions/%s/messages/%s";
+        String SATISFACTION_RESPONSE_ENDPOINT = "/c/v1/chat/sessions/%s/satisfaction";
+        String SATISFACTION_RESPONSE_SUBMIT_ENDPOINT = "/c/v1/chat/satisfaction-responses/%s";
     }
 
     public interface Keys {
@@ -55,6 +57,7 @@ public class KUSConstants {
     public interface PusherEventNames {
         String SEND_MESSAGE_EVENT = "kustomer.app.chat.message.send";
         String END_SESSION_EVENT = "kustomer.app.chat.session.end";
+        String CHAT_ACTIVITY_TYPING_EVENT = "client-kustomer.app.chat.activity.typing";
     }
 
     public interface BundleName {

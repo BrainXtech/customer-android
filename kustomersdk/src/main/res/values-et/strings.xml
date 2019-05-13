@@ -72,4 +72,7 @@
     <string name="com_kustomer_param_week_ago">%1$d nädal tagasi</string>
     <string name="com_kustomer_param_weeks_ago">%1$d nädalat tagasi</string>
 
+    <string name="com_kustomer_submit">Esita</string>
+    <string name="com_kustomer_thank_you_for_your_feedback">Aitäh tagasiside eest!</string>
+    <string name="com_kustomer_edit">Edit</string>
 </resources>

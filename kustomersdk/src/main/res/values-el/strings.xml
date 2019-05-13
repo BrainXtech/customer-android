@@ -72,4 +72,7 @@
     <string name="com_kustomer_param_week_ago">Πριν από %1$d εβδομάδα</string>
     <string name="com_kustomer_param_weeks_ago">πριν %1$d εβδομάδες</string>
 
+    <string name="com_kustomer_submit">υποβάλλουν</string>
+    <string name="com_kustomer_thank_you_for_your_feedback">Ευχαριστούμε για την ανταπόκρισή σας!</string>
+    <string name="com_kustomer_edit">Επεξεργασία</string>
 </resources>

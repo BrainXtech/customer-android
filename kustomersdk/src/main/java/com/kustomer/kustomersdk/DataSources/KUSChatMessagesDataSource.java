@@ -3,12 +3,15 @@ package com.kustomer.kustomersdk.DataSources;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.kustomer.kustomersdk.API.KUSSessionQueuePollingManager;
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Enums.KUSChatMessageState;
 import com.kustomer.kustomersdk.Enums.KUSRequestType;
+import com.kustomer.kustomersdk.Enums.KUSTypingStatus;
 import com.kustomer.kustomersdk.Enums.KUSVolumeControlMode;
 import com.kustomer.kustomersdk.Helpers.KUSAudio;
 import com.kustomer.kustomersdk.Helpers.KUSCache;
@@ -24,7 +27,11 @@ import com.kustomer.kustomersdk.Interfaces.KUSObjectDataSourceListener;
 import com.kustomer.kustomersdk.Interfaces.KUSPaginatedDataSourceListener;
 import com.kustomer.kustomersdk.Interfaces.KUSRequestCompletionListener;
 import com.kustomer.kustomersdk.Interfaces.KUSSessionQueuePollingListener;
+import com.kustomer.kustomersdk.Interfaces.KUSVolumeControlTimerListener;
+import com.kustomer.kustomersdk.Interfaces.KUSTypingStatusListener;
 import com.kustomer.kustomersdk.Kustomer;
+import com.kustomer.kustomersdk.Managers.KUSVolumeControlTimerManager;
+import com.kustomer.kustomersdk.Models.KUSCSatisfactionResponse;
 import com.kustomer.kustomersdk.Models.KUSChatAttachment;
 import com.kustomer.kustomersdk.Models.KUSChatMessage;
 import com.kustomer.kustomersdk.Models.KUSChatSession;
@@ -36,6 +43,7 @@ import com.kustomer.kustomersdk.Models.KUSMessageRetry;
 import com.kustomer.kustomersdk.Models.KUSModel;
 import com.kustomer.kustomersdk.Models.KUSRetry;
 import com.kustomer.kustomersdk.Models.KUSSessionQueue;
+import com.kustomer.kustomersdk.Models.KUSTypingIndicator;
 import com.kustomer.kustomersdk.R;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 import com.kustomer.kustomersdk.Utils.KUSConstants;
@@ -55,19 +63,28 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.UUID;
 
+import static com.kustomer.kustomersdk.Enums.KUSCSatisfactionFormResponseStatus.KUS_C_SATISFACTION_RESPONSE_STATUS_COMMENTED;
+import static com.kustomer.kustomersdk.Enums.KUSCSatisfactionFormResponseStatus.KUS_C_SATISFACTION_RESPONSE_STATUS_RATED;
 import static com.kustomer.kustomersdk.Models.KUSChatMessage.KUSChatMessageSentByUser;
 
 /**
  * Created by Junaid on 1/20/2018.
  */
 
-public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements KUSChatMessagesDataSourceListener,
-        KUSObjectDataSourceListener, KUSSessionQueuePollingListener {
+public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
+        implements KUSChatMessagesDataSourceListener,
+        KUSObjectDataSourceListener,
+        KUSSessionQueuePollingListener,
+        KUSTypingStatusListener {
 
     //region Properties
     private static final int KUS_CHAT_AUTO_REPLY_DELAY = 2 * 1000;
+    private static final int KUS_RESEND_TYPING_STATUS_DELAY = 3 * 1000;
+    private static final int KUS_TYPING_ENDED_DELAY = 5 * 1000;
 
     private String sessionId;
     private boolean createdLocally;
@@ -92,6 +109,17 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
     private ArrayList<onCreateSessionListener> onCreateSessionListeners;
     private HashMap<String, KUSRetry> messageRetryHashMap;
+
+    @Nullable
+    private KUSSatisfactionResponseDataSource satisfactionResponseDataSource;
+
+    private long lastTypingStatusSentAt;
+    @Nullable
+    private Timer typingEndedStatusTimer;
+    @Nullable
+    private Timer hideTypingTimer;
+    @Nullable
+    private KUSTypingIndicator typingIndicator;
     //endregion
 
     //region Initializer
@@ -164,6 +192,34 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
             return getUserSession().getRequestManager().urlForEndpoint(endPoint);
         }
         return null;
+    }
+
+    @Nullable
+    public KUSSatisfactionResponseDataSource getSatisfactionResponseDataSource() {
+        if (satisfactionResponseDataSource == null && isActualSession()) {
+            satisfactionResponseDataSource = new KUSSatisfactionResponseDataSource(getUserSession(),
+                    sessionId);
+            satisfactionResponseDataSource.addListener(this);
+        }
+
+        return satisfactionResponseDataSource;
+    }
+
+    public boolean shouldShowSatisfactionForm() {
+        if (getUserSession() == null)
+            return false;
+
+        if (!isActualSession() || getSatisfactionResponseDataSource() == null) {
+            return false;
+        }
+
+        KUSChatSession session = (KUSChatSession) getUserSession().getChatSessionsDataSource()
+                .findById(getSessionId());
+
+        boolean isSessionLocked =session!=null && session.getLockedAt() != null;
+        boolean isSatisfactionResponseFetched = getSatisfactionResponseDataSource().isFetched();
+
+        return isSessionLocked && isSatisfactionResponseFetched;
     }
 
     public void sendMessageWithText(String text, List<Bitmap> attachments) {
@@ -636,9 +692,150 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
         }
     }
 
+    public void sendTypingStatusToPusher(@NonNull final KUSTypingStatus typingStatus) {
+        final String customerId = getCustomerId();
+
+        if (getUserSession() == null || customerId == null)
+            return;
+
+        KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
+
+        if (chatSettings == null || !chatSettings.getShouldShowTypingIndicatorWeb())
+            return;
+
+        long currentDate = (new Date()).getTime();
+        boolean shouldSendStatus = typingStatus.equals(KUSTypingStatus.KUS_TYPING_ENDED)
+                || currentDate - lastTypingStatusSentAt > KUS_RESEND_TYPING_STATUS_DELAY;
+
+        if (!shouldSendStatus)
+            return;
+
+        HashMap<String, Object> activityData = new HashMap<String, Object>() {{
+            put("type", "conversation");
+            put("id", sessionId);
+            put("userId", customerId);
+            put("status", typingStatus == KUSTypingStatus.KUS_TYPING ? "typing" : "typing-ended");
+            put("userType", "customer");
+            put("createdAt", new Date().getTime());
+        }};
+
+        getUserSession().getPushClient().sendChatActivityForSessionId(sessionId,
+                JsonHelper.jsonObjectFromHashMap(activityData).toString());
+
+        if (typingStatus.equals(KUSTypingStatus.KUS_TYPING)) {
+            lastTypingStatusSentAt = currentDate;
+            sendTypingEndedStatusAfterDelay();
+        } else if (typingStatus.equals(KUSTypingStatus.KUS_TYPING_ENDED)
+                && typingEndedStatusTimer != null) {
+            typingEndedStatusTimer.cancel();
+        }
+    }
+
+    public void startListeningForTypingUpdate() {
+        if (!isActualSession())
+            return;
+
+        KUSChatSettings settings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
+
+        if (settings == null || !settings.getShouldShowTypingIndicatorCustomerWeb())
+            return;
+
+        KUSChatSession chatSession = (KUSChatSession) getUserSession()
+                .getChatSessionsDataSource().findById(sessionId);
+
+        if (chatSession == null || chatSession.getLockedAt() != null)
+            return;
+
+        getUserSession().getPushClient().connectToChatActivityChannel(sessionId);
+        getUserSession().getPushClient().setTypingStatusListener(this);
+    }
+
+    public void stopListeningForTypingUpdate() {
+        sendTypingStatusToPusher(KUSTypingStatus.KUS_TYPING_ENDED);
+        getUserSession().getPushClient().disconnectFromChatActivityChannel();
+        getUserSession().getPushClient().removeTypingStatusListener();
+
+        if (hideTypingTimer != null) {
+            hideTypingTimer.cancel();
+            hideTypingTimer = null;
+        }
+
+        if (typingIndicator != null) {
+            typingIndicator.setStatus(KUSTypingStatus.KUS_TYPING_ENDED);
+            notifyAnnouncersDidReceiveTypingUpdate();
+        }
+    }
+
     //endregion
 
     //region Private Methods
+
+    private void sendTypingEndedStatusAfterDelay() {
+        if (typingEndedStatusTimer != null)
+            typingEndedStatusTimer.cancel();
+
+        typingEndedStatusTimer = new Timer();
+        typingEndedStatusTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                sendTypingStatusToPusher(KUSTypingStatus.KUS_TYPING_ENDED);
+            }
+        }, KUS_TYPING_ENDED_DELAY);
+    }
+
+    @Nullable
+    private String getCustomerId() {
+        for (int i = 0; i < getSize(); i++) {
+
+            if (get(i).getCustomerId() != null)
+                return get(i).getCustomerId();
+        }
+
+        return null;
+    }
+
+    private void hideTypingIndicatorAfterDelay() {
+        if (hideTypingTimer != null) {
+            hideTypingTimer.cancel();
+            hideTypingTimer = null;
+        }
+
+        hideTypingTimer = new Timer();
+        hideTypingTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                if (typingIndicator != null) {
+                    typingIndicator.setStatus(KUSTypingStatus.KUS_TYPING_ENDED);
+                    notifyAnnouncersDidReceiveTypingUpdate();
+                }
+            }
+        }, KUS_TYPING_ENDED_DELAY);
+    }
+
+    private void fetchSatisfactionResponseIfNecessary() {
+        if (getUserSession() == null)
+            return;
+
+        if(getSatisfactionResponseDataSource() == null)
+            return;
+
+        KUSChatSession chatSession = (KUSChatSession) getUserSession().getChatSessionsDataSource()
+                .findById(sessionId);
+
+        if (chatSession == null)
+            return;
+
+        boolean isChatClosed = chatSession.getLockedAt() != null;
+        boolean isSatisfactionResponseFetched = getSatisfactionResponseDataSource().isFetched();
+        boolean hasAgentMessage = getOtherUserIds().size() > 0;
+
+        boolean needSatisfactionForm = isChatClosed && hasAgentMessage;
+        boolean shouldFetchSatisfactionForm = !isSatisfactionResponseFetched && needSatisfactionForm;
+
+        if (shouldFetchSatisfactionForm)
+            getSatisfactionResponseDataSource().fetch();
+    }
+
     private void fullySendMessage(final List<KUSModel> temporaryMessages, final List<Bitmap> attachments,
                                   final String text, final List<String> cachedImageKeys) {
         insertMessagesWithState(KUSChatMessageState.KUS_CHAT_MESSAGE_STATE_SENDING, temporaryMessages);
@@ -735,7 +932,6 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
         // Make sure we submit the form if we just inserted a non-response question
         if (!submittingForm && !KUSFormQuestion.KUSFormQuestionRequiresResponse(formQuestion)
-                && form.getQuestions() != null
                 && questionIndex == form.getQuestions().size() - 1 && delayedChatMessageIds.size() == 0)
             submitFormResponses();
 
@@ -942,19 +1138,18 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
     private void startVolumeControlFormTrackingAfterDelay(long delay) {
         final WeakReference<KUSChatMessagesDataSource> weakReference = new WeakReference<>(this);
 
-        Handler delayHandler = new Handler(Looper.getMainLooper());
-        Runnable delayRunnable = new Runnable() {
-            @Override
-            public void run() {
-                KUSChatMessagesDataSource strongReference = weakReference.get();
-                if (strongReference == null) {
-                    return;
-                }
-                strongReference.vcTrackingDelayCompleted = true;
-                strongReference.insertVolumeControlFormMessageIfNecessary();
-            }
-        };
-        delayHandler.postDelayed(delayRunnable, delay);
+        KUSVolumeControlTimerManager.getSharedInstance().createVolumeControlTimer(sessionId, delay,
+                new KUSVolumeControlTimerListener() {
+                    @Override
+                    public void onDelayComplete() {
+                        KUSChatMessagesDataSource strongReference = weakReference.get();
+                        if (strongReference == null) {
+                            return;
+                        }
+                        strongReference.vcTrackingDelayCompleted = true;
+                        strongReference.insertVolumeControlFormMessageIfNecessary();
+                    }
+                });
     }
 
     private void endVolumeControlFormAfterDelayIfNecessary(long delay) {
@@ -1332,6 +1527,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
     private void endVolumeControlTracking() {
         vcFormEnd = true;
         vcFormActive = false;
+        KUSVolumeControlTimerManager.getSharedInstance().removeVcTimer(sessionId);
     }
 
     private KUSFormQuestion getNextVCFormQuestion(int index, String previousChannel) {
@@ -1566,9 +1762,32 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
 
     //endregion
 
+    //region Notifier
+
+    private void notifyAnnouncersDidReceiveTypingUpdate() {
+        for (KUSPaginatedDataSourceListener listener : listeners) {
+
+            if (listener instanceof KUSChatMessagesDataSourceListener) {
+                ((KUSChatMessagesDataSourceListener) listener).onReceiveTypingUpdate(this,
+                        typingIndicator);
+            }
+        }
+    }
+
+    //endregion
+
     //region Listener
     @Override
     public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+        if (dataSource == satisfactionResponseDataSource) {
+            for (KUSPaginatedDataSourceListener listener : listeners) {
+                if (listener instanceof KUSChatMessagesDataSourceListener) {
+                    ((KUSChatMessagesDataSourceListener) listener)
+                            .onSatisfactionResponseLoaded(KUSChatMessagesDataSource.this);
+                }
+            }
+            return;
+        }
 
         if (form == null && dataSource.getClass().equals(KUSFormDataSource.class))
             form = (KUSForm) dataSource.getObject();
@@ -1596,6 +1815,16 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
     }
 
     @Override
+    public void onReceiveTypingUpdate(@NonNull KUSChatMessagesDataSource source, @Nullable KUSTypingIndicator typingIndicator) {
+        //No need to do anything here
+    }
+
+    @Override
+    public void onSatisfactionResponseLoaded(@NonNull KUSChatMessagesDataSource dataSource) {
+        //No need to do anything here
+    }
+
+    @Override
     public void onLoad(KUSPaginatedDataSource dataSource) {
 
     }
@@ -1608,6 +1837,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
     public void onContentChange(KUSPaginatedDataSource dataSource) {
         insertFormMessageIfNecessary();
         insertVolumeControlFormMessageIfNecessary();
+        fetchSatisfactionResponseIfNecessary();
     }
 
     @Override
@@ -1652,6 +1882,23 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource implements
     @Override
     public void onFailure(Error error, KUSSessionQueuePollingManager manager) {
 
+    }
+
+    @Override
+    public void onTypingStatusChanged(@NonNull KUSTypingIndicator typingIndicator) {
+        if (!typingIndicator.getId().equals(sessionId))
+            return;
+
+        boolean shouldNotifyUpdate = this.typingIndicator == null
+                || !this.typingIndicator.equals(typingIndicator);
+
+        if (shouldNotifyUpdate) {
+            this.typingIndicator = typingIndicator;
+            notifyAnnouncersDidReceiveTypingUpdate();
+        }
+
+        if (typingIndicator.getStatus() == KUSTypingStatus.KUS_TYPING)
+            hideTypingIndicatorAfterDelay();
     }
 
     //endregion

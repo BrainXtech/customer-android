@@ -72,4 +72,7 @@
     <string name="com_kustomer_param_week_ago">%1$d vecka sedan</string>
     <string name="com_kustomer_param_weeks_ago">%1$d veckor sedan</string>
 
+    <string name="com_kustomer_submit">Lämna</string>
+    <string name="com_kustomer_thank_you_for_your_feedback">Tack för din feedback!</string>
+    <string name="com_kustomer_edit">Redigera</string>
 </resources>

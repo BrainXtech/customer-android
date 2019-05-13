@@ -72,4 +72,7 @@
     <string name="com_kustomer_param_week_ago">%1$d週間前</string>
     <string name="com_kustomer_param_weeks_ago">%1$d週間前</string>
 
+    <string name="com_kustomer_submit">提出します</string>
+    <string name="com_kustomer_thank_you_for_your_feedback">ご意見ありがとうございます！</string>
+    <string name="com_kustomer_edit">編集します</string>
 </resources>

@@ -1,5 +1,40 @@
 # Changelog for Kustomer Android SDK
 
+## 0.2.2
+Release Date: 05/8/2019
+* Updated glide & other dependencies to the latest versions
+* Fixed satisfaction form issue when VC forms are enabled
+
+## 0.2.1
+Release Date: 05/3/2019
+* Implemented typing indicator feature
+* Implemented customer satisfaction feature
+* Added support to stop volume control form tracking in case of no internet
+* Fixed phone validation issue in conversational assistant form
+* Fixed the deleted node issue in multi-level list form
+* Changes to Brand and Design
+
+## 0.2.0
+Release Date: 04/12/2019
+* `identify()` & `isChatAvailable()` methods will always return callback on background thread.
+
+## 0.1.33
+Release Date: 04/09/2019
+* Fixed identify callback issue
+
+## 0.1.32
+Release Date: 04/04/2019
+* Fixed crash in notification due to AppCompatImageView
+
+## 0.1.31
+Release Date: 03/28/2019
+* Protect data to ensure HIPAA compliance
+* Added numbers option support in option list
+* Fixed send button issue for android 5.0 and below
+* Updated chat setting test cases
+* Fixed time format issue for non-supported languages like Twi
+* Removed delay when sending messages with attachment
+
 ## 0.1.30
 Release Date: 03/08/2019 
 * Fixed null pointer exceptions

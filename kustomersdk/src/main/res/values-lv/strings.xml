@@ -72,4 +72,7 @@
     <string name="com_kustomer_param_week_ago">Pirms %1$d nedēļas</string>
     <string name="com_kustomer_param_weeks_ago">pirms %1$d nedēļām</string>
 
+    <string name="com_kustomer_submit">Iesniegt</string>
+    <string name="com_kustomer_thank_you_for_your_feedback">Paldies par jūsu atsauksmēm!</string>
+    <string name="com_kustomer_edit">rediģēt</string>
 </resources>

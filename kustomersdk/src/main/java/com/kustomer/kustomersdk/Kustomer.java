@@ -3,8 +3,6 @@ package com.kustomer.kustomersdk;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.text.emoji.EmojiCompat;
@@ -20,12 +18,14 @@ import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Activities.KUSKnowledgeBaseActivity;
 import com.kustomer.kustomersdk.Activities.KUSSessionsActivity;
 import com.kustomer.kustomersdk.Enums.KUSRequestType;
-import com.kustomer.kustomersdk.Interfaces.KUSChatAvailableListener;
 import com.kustomer.kustomersdk.Helpers.KUSLocalization;
+import com.kustomer.kustomersdk.Interfaces.KUSChatAvailableListener;
 import com.kustomer.kustomersdk.Interfaces.KUSIdentifyListener;
 import com.kustomer.kustomersdk.Interfaces.KUSKustomerListener;
 import com.kustomer.kustomersdk.Interfaces.KUSLogOptions;
 import com.kustomer.kustomersdk.Interfaces.KUSRequestCompletionListener;
+import com.kustomer.kustomersdk.Managers.KUSNetworkStateManager;
+import com.kustomer.kustomersdk.Managers.KUSVolumeControlTimerManager;
 import com.kustomer.kustomersdk.Models.KUSCustomerDescription;
 import com.kustomer.kustomersdk.Utils.KUSConstants;
 
@@ -74,6 +74,7 @@ public class Kustomer {
     //endregion
 
     //region Class Methods
+
     public static void init(Context context, String apiKey) throws AssertionError {
         mContext = context.getApplicationContext();
 
@@ -81,7 +82,7 @@ public class Kustomer {
         EmojiCompat.init(emojiConfig);
 
         KUSLocalization.getSharedInstance().updateKustomerLocaleWithFallback(mContext);
-
+        KUSNetworkStateManager.getSharedInstance().startObservingNetworkState();
         getSharedInstance().setApiKey(apiKey);
 
         try {
@@ -112,6 +113,12 @@ public class Kustomer {
         getSharedInstance().mDescribeCustomer(customerDescription);
     }
 
+    /**
+     * Returns the identification status in listener on background thread.
+     *
+     * @param externalToken A valid JWT web token to identify user
+     * @param listener The callback which will receive identification status.
+     */
     public static void identify(@NonNull String externalToken, @Nullable KUSIdentifyListener listener) {
         getSharedInstance().mIdentify(externalToken, listener);
     }
@@ -128,6 +135,11 @@ public class Kustomer {
         return getSharedInstance().mGetUnreadMessageCount();
     }
 
+    /**
+     * Returns the chat status in listener on background thread.
+     *
+     * @param listener The callback which will receive chat status.
+     */
     public static void isChatAvailable(KUSChatAvailableListener listener) {
         getSharedInstance().mIsChatAvailable(listener);
     }
@@ -244,8 +256,12 @@ public class Kustomer {
             throw new AssertionError("Kustomer expects externalToken to be non-null");
         }
 
-        if (externalToken.length() <= 0)
+        if(externalToken.isEmpty()){
+            if(listener != null)
+                listener.onComplete(false);
+
             return;
+        }
 
         HashMap<String, Object> params = new HashMap<String, Object>() {{
             put("externalToken", externalToken);
@@ -262,12 +278,7 @@ public class Kustomer {
                     public void onCompletion(final Error error, JSONObject response) {
                         instance.get().getTrackingTokenDataSource().fetch();
                         if (listener != null) {
-                            new Handler(Looper.getMainLooper()).post(new Runnable() {
-                                @Override
-                                public void run() {
-                                    listener.onComplete(error == null);
-                                }
-                            });
+                            listener.onComplete(error == null);
                         }
                     }
                 }
@@ -280,6 +291,7 @@ public class Kustomer {
         // Create a new userSession and release the previous one
         if (userSession != null) {
             userSession.removeAllListeners();
+            KUSVolumeControlTimerManager.getSharedInstance().removeVcTimers();
         }
 
         userSession = new KUSUserSession(orgName, orgId, true);

@@ -45,6 +45,7 @@
     <color name="kusOptionPickerButtonBorderColor">#2962FF</color>
     <color name="kusOptionPickerButtonTextColor">#2962FF</color>
     <color name="kusOptionPickerButtonBackground">#F5F5F5</color>
+    <color name="kusTypingIndicatorColor">#757575</color>
 
     <color name="kusWebBackTintColor">#000000</color>
     <color name="kusWebForwardTintColor">#000000</color>
@@ -70,6 +71,15 @@
     <color name="kusColorBlueMessage">#2962FF</color>
     <color name="kusColorLightGrey">#E0E0E0</color>
 
+    <color name="kusCSatRatingPromptTextColor">#000000</color>
+    <color name="kusCSatQuestionsTextColor">#000000</color>
+    <color name="kusCSatRatingLabelsTextColor">#545454</color>
+    <color name="kusCSatFeedbackTextColor">#000000</color>
+    <color name="kusCSatEditTextColor">#2962FF</color>
+    <color name="kusCSatCommentBorderColor">#BDBDBD</color>
+    <color name="kusCSatCommentInputTextColor">#000000</color>
+    <color name="kusCSatSubmitButtonColor">#2962FF</color>
+    <color name="kusCSatSubmitTextColor">#FFFFFF</color>
 
     <color name="kusDefaultNameColor1">#d73d32</color>
     <color name="kusDefaultNameColor2">#7e3794</color>

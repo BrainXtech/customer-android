@@ -50,6 +50,12 @@
     <string name="com_kustomer_unable_to_share_file">Unable to share file.</string>
     <string name="com_kustomer_unable_to_open_camera">Unable to open camera.</string>
     <string name="com_kustomer_low_memory_error">Low Memory. Could not upload images.</string>
+    <string name="com_kustomer_something_went_wrong">Something went wrong</string>
+    <string name="com_kustomer_unable_to_parse_response">Unable to parse response</string>
+
+    <string name="com_kustomer_submit">Submit</string>
+    <string name="com_kustomer_thank_you_for_your_feedback">Thank you for your feedback!</string>
+    <string name="com_kustomer_edit">Edit</string>
 
     <string name="com_kustomer_chat_with_param">Chat with %1$s</string>
     <string name="com_kustomer_your_expected_wait_time_is_param_second">Your expected wait time is %1$d second</string>

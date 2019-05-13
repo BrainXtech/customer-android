@@ -3,13 +3,17 @@ package com.kustomer.kustomer.Activities;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.kustomer.kustomer.BaseClasses.BaseActivity;
 import com.kustomer.kustomer.R;
 import com.kustomer.kustomersdk.Interfaces.KUSChatAvailableListener;
+import com.kustomer.kustomersdk.Interfaces.KUSIdentifyListener;
 import com.kustomer.kustomersdk.Kustomer;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
@@ -64,7 +68,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //        }
 //        Kustomer.describeNextConversation(nextConversationObject);
 
-//        Kustomer.identify("[INSERT_JWT_TOKEN_HERE");
+//        Kustomer.identify("[INSERT_JWT_TOKEN_HERE]", new KUSIdentifyListener() {
+//            @Override
+//            public void onComplete(final boolean success) {
+//                Handler handler = new Handler(Looper.getMainLooper());
+//
+//                Runnable runnable = new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Toast.makeText(MainActivity.this,
+//                                "Identify success: "+ success,
+//                                Toast.LENGTH_SHORT)
+//                                .show();
+//                    }
+//                };
+//                handler.post(runnable);
+//
+//            }
+//        });
 
 //        Kustomer.setListener(new KUSKustomerListener() {
 //            @Override
@@ -137,18 +158,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             public void onSuccess(boolean enabled) {
                 String testString = enabled ? "Yes, chat's turned on!" :
                         "Sorry, chat is not available at the moment, please contact support@acme.com";
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Chat On/Off Status").setMessage(testString)
-                        .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                            }
-                        }).show();
+               showDialog(testString);
             }
 
             @Override
             public void onFailure() {
                 String testString = "Sorry, chat is not available at the moment, please contact support@acme.com";
+                showDialog(testString);
+            }
+        });
+
+    }
+
+    private void showDialog(final String testString){
+        Handler handler = new Handler(Looper.getMainLooper());
+
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Chat On/Off Status").setMessage(testString)
                         .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
@@ -157,8 +184,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                             }
                         }).show();
             }
-        });
-
+        };
+        handler.post(runnable);
     }
 
     //endregion

@@ -72,4 +72,7 @@
     <string name="com_kustomer_param_week_ago">Hace %1$d semana</string>
     <string name="com_kustomer_param_weeks_ago">hace %1$d semanas</string>
 
+    <string name="com_kustomer_submit">Enviar</string>
+    <string name="com_kustomer_thank_you_for_your_feedback">¡Gracias por tus comentarios!</string>
+    <string name="com_kustomer_edit">Editar</string>
 </resources>

@@ -75,4 +75,7 @@
     <string name="com_kustomer_param_week_ago">Wiki %1$d iliyopita</string>
     <string name="com_kustomer_param_weeks_ago">Wiki %1$d zilizopita</string>
 
+    <string name="com_kustomer_submit">wasilisha</string>
+    <string name="com_kustomer_thank_you_for_your_feedback">Asante kwa maoni yako!</string>
+    <string name="com_kustomer_edit">Edit</string>
 </resources>
