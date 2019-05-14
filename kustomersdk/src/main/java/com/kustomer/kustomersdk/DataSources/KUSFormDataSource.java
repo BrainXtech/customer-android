@@ -23,7 +23,7 @@ import org.json.JSONObject;
 public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectDataSourceListener {
 
     @Nullable
-    String formId;
+    private String formId;
 
     //region LifeCycle
     public KUSFormDataSource(KUSUserSession userSession) {
@@ -31,7 +31,7 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
         userSession.getChatSettingsDataSource().addListener(this);
     }
 
-    public KUSFormDataSource(KUSUserSession userSession, String formId) {
+    KUSFormDataSource(KUSUserSession userSession, @Nullable String formId) {
         super(userSession);
         this.formId = formId;
     }
@@ -43,15 +43,15 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
 
     //region Subclass Methods
     public void performRequest(KUSRequestCompletionListener listener) {
-        KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
+        if (getUserSession() == null) {
+            listener.onCompletion(new Error(), null);
+            return;
+        }
 
-        String formId = this.formId;
+        String formId = getFormId();
 
         if (formId == null)
-            formId = getUserSession().getSharedPreferences().getFormId();
-
-        if (formId == null)
-            formId = chatSettings.getActiveFormId();
+            return;
 
         getUserSession().getRequestManager().getEndpoint(
                 String.format(KUSConstants.URL.FORMS_ENDPOINT, formId),
@@ -65,9 +65,7 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
             return;
         }
 
-        KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
-        if (chatSettings != null && chatSettings.getActiveFormId() != null)
-            super.fetch();
+        super.fetch();
     }
 
     public boolean isFetching() {
@@ -89,6 +87,24 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
     public Error getError() {
         Error error = getUserSession().getChatSettingsDataSource().getError();
         return error != null ? error : super.getError();
+    }
+
+    @Nullable
+    String getFormId() {
+        if (getUserSession() == null)
+            return null;
+
+        KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
+
+        String formId = this.formId;
+
+        if (formId == null)
+            formId = getUserSession().getSharedPreferences().getFormId();
+
+        if (formId == null)
+            formId = chatSettings.getActiveFormId();
+
+        return formId;
     }
     //endregion
 

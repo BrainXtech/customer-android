@@ -141,7 +141,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     public KUSChatMessagesDataSource(KUSUserSession userSession, String formId, boolean startNewConversation) {
         this(userSession);
 
-        if(startNewConversation) {
+        if (startNewConversation) {
             createdLocally = true;
 
             formDataSource = new KUSFormDataSource(userSession, formId);
@@ -243,9 +243,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
         isProactiveCampaign = !isAnyMessageByCurrentUser();
 
-        KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
-        if (((chatSettings != null && chatSettings.getActiveFormId() != null) || formDataSource != null)
-                && !isActualSession()) {
+        if (!isActualSession() && doesHaveFormId()) {
 
             if (attachments != null && attachments.size() > 0)
                 throw new AssertionError("Should not have been able to send attachments without a sessionId");
@@ -782,6 +780,13 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
     //region Private Methods
 
+    private boolean doesHaveFormId() {
+        boolean doesHaveDefaultFormId = getUserSession().getFormDataSource().getFormId() != null;
+        boolean doesHaveUserPassedFormId = formDataSource != null && formDataSource.getFormId() != null;
+
+        return doesHaveDefaultFormId || doesHaveUserPassedFormId;
+    }
+
     private void sendTypingEndedStatusAfterDelay() {
         if (typingEndedStatusTimer != null)
             typingEndedStatusTimer.cancel();
@@ -929,8 +934,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         if (getUserSession() == null)
             return;
 
-        KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
-        if (chatSettings != null && chatSettings.getActiveFormId() == null)
+        if (!doesHaveFormId())
             return;
 
         if (getSize() == 0)
