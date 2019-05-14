@@ -3,6 +3,7 @@ package com.kustomer.kustomersdk.DataSources;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.Nullable;
+import android.support.annotation.NonNull;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -42,7 +43,7 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
     //endregion
 
     //region Subclass Methods
-    public void performRequest(KUSRequestCompletionListener listener) {
+    public void performRequest(@NonNull KUSRequestCompletionListener listener) {
         if (getUserSession() == null) {
             listener.onCompletion(new Error(), null);
             return;
@@ -60,6 +61,9 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
     }
 
     public void fetch() {
+        if(getUserSession() == null)
+            return;
+
         if (!getUserSession().getChatSettingsDataSource().isFetched()) {
             getUserSession().getChatSettingsDataSource().fetch();
             return;
@@ -69,7 +73,7 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
     }
 
     public boolean isFetching() {
-        if (getUserSession().getChatSettingsDataSource().isFetching()) {
+        if (getUserSession() != null && getUserSession().getChatSettingsDataSource().isFetching()) {
             return getUserSession().getChatSettingsDataSource().isFetching();
         }
 
@@ -77,7 +81,11 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
     }
 
     public boolean isFetched() {
-        KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
+        KUSChatSettings chatSettings = null;
+
+        if(getUserSession() != null)
+            chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
+
         if (chatSettings != null && chatSettings.getActiveFormId() == null)
             return true;
 
