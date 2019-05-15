@@ -192,26 +192,30 @@ public class Kustomer {
         getSharedInstance().mHideNewConversationButtonInClosedChat(status);
     }
 
-    public static void showSupportWithMessage(Activity activity, String message, JSONObject customAttributes) {
-        getSharedInstance().mShowSupportWithMessage(activity, message, customAttributes);
+    public static void showSupportWithMessage(@NonNull Activity activity,
+                                              @NonNull String message,
+                                              @Nullable JSONObject customAttributes) {
+        getSharedInstance().mShowSupportWithMessage(activity, message, null, customAttributes);
     }
 
-    public static void showSupportWithMessage(Activity activity, String message) {
-        getSharedInstance().mShowSupportWithMessage(activity, message, null);
+    public static void showSupportWithMessage(@NonNull Activity activity,
+                                              @NonNull String message) {
+        getSharedInstance().mShowSupportWithMessage(activity, message, null, null);
     }
 
-    public static void showSupportConversationalForm(@NonNull Activity activity,
-                                                     @NonNull String formId,
-                                                     @NonNull String message,
-                                                     @Nullable JSONObject customAttributes) {
-        getSharedInstance().mShowSupportConversationForm(activity, formId, message, customAttributes);
+    public static void showSupportWithMessage(@NonNull Activity activity,
+                                              @NonNull String message,
+                                              @NonNull String formId,
+                                              @Nullable JSONObject customAttributes) {
+        getSharedInstance().mShowSupportWithMessage(activity, formId, message, customAttributes);
     }
 
-    public static void showSupportConversationalForm(@NonNull Activity activity,
-                                                     @NonNull String formId,
-                                                     @NonNull String message) {
-        getSharedInstance().mShowSupportConversationForm(activity, formId, message,  null);
+    public static void showSupportWithMessage(@NonNull Activity activity,
+                                              @NonNull String message,
+                                              @NonNull String formId) {
+        getSharedInstance().mShowSupportWithMessage(activity, formId, message, null);
     }
+
     //endregion
 
     //region Private Methods
@@ -385,9 +389,13 @@ public class Kustomer {
         getUserSession().getSharedPreferences().setShouldHideConversationButton(status);
     }
 
-    private void mShowSupportWithMessage(Activity activity, String message, JSONObject customAttributes) {
+    private void mShowSupportWithMessage(Activity activity, String message, String formId,
+                                         JSONObject customAttributes) {
+
         if (TextUtils.isEmpty(message))
             throw new AssertionError("Requires a valid message to create chat session.");
+
+        getUserSession().getChatSessionsDataSource().setFormIdForConversationalForm(formId);
 
         getUserSession().getChatSessionsDataSource().setMessageToCreateNewChatSession(message);
 
@@ -395,15 +403,6 @@ public class Kustomer {
             mDescribeNextConversation(customAttributes);
 
         showSupport(activity);
-    }
-
-    private void mShowSupportConversationForm(Activity activity, String formId, String message,
-                                              JSONObject customAttributes) {
-        if (TextUtils.isEmpty(formId))
-            throw new AssertionError("Requires a valid form id to start conversational form.");
-
-        getUserSession().getChatSessionsDataSource().setFormIdForConversationalForm(formId);
-        mShowSupportWithMessage(activity, message, customAttributes);
     }
     //endregion
 

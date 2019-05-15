@@ -269,6 +269,46 @@ Kustomer.getUnreadMessageCount();
 Kustomer.setFormId(FORM_ID);
 ```
 
+```java
+/*
+  Convenience method that will present chat interface and initiate new chat conversation with message.
+*/
+Kustomer.showSupportWithMessage(Activity, "message");
+```
+
+```java
+/*
+  Convenience method that will present chat interface, initiate new chat conversation with message
+  and set customAttributes of that conversation.
+*/
+
+JSONObject customAttributes = new JSONObject();
+conversationObject.put("customAttributeStr", "value");
+// ...
+
+Kustomer.showSupportWithMessage(Activity, "message", customAttributes);
+```
+
+```java
+/*
+  Convenience method that will present chat interface and initiate new chat assistant form with message.
+*/
+Kustomer.showSupportWithMessage(Activity, "message", "form-id");
+```
+
+```java
+/*
+  Convenience method that will present chat interface, initiate new chat assistant form with message
+   and set customAttributes of that conversation.
+*/
+
+JSONObject customAttributes = new JSONObject();
+conversationObject.put("customAttributeStr", "value");
+// ...
+
+Kustomer.showSupportWithMessage(Activity, "message", "form-id", customAttributes);
+```
+
 ### Styling
 
 ##### Theme Customization:
