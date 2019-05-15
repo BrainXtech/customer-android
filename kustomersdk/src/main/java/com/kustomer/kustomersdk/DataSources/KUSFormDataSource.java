@@ -61,7 +61,7 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
     }
 
     public void fetch() {
-        if(getUserSession() == null)
+        if (getUserSession() == null)
             return;
 
         if (!getUserSession().getChatSettingsDataSource().isFetched()) {
@@ -83,10 +83,10 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
     public boolean isFetched() {
         KUSChatSettings chatSettings = null;
 
-        if(getUserSession() != null)
+        if (getUserSession() != null)
             chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
 
-        if (chatSettings != null && chatSettings.getActiveFormId() == null)
+        if (chatSettings != null && getFormId() == null)
             return true;
 
         return super.isFetched();

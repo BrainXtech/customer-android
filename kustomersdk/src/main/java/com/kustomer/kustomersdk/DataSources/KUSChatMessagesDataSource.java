@@ -155,9 +155,10 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
         if (startNewConversation) {
             createdLocally = true;
-            userSession.getFormDataSource().addListener(this);
 
-            userSession.getFormDataSource().fetch();
+            formDataSource = userSession.getFormDataSource();
+            formDataSource.addListener(this);
+            formDataSource.fetch();
         }
     }
 
@@ -383,7 +384,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                     onCreateSessionListeners.add(listener);
             } else {
                 if (getUserSession() == null) {
-                    if(listener != null)
+                    if (listener != null)
                         listener.onComplete(false, new Error());
                     return;
                 }
@@ -414,7 +415,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                         sessionQueuePollingManager = new KUSSessionQueuePollingManager(getUserSession(), sessionId);
 
                         //Insert the current messages data source into the userSession's lookup table
-                        if(getUserSession() != null)
+                        if (getUserSession() != null)
                             getUserSession().getChatMessagesDataSources().put(session.getId(),
                                     KUSChatMessagesDataSource.this);
 
@@ -528,7 +529,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
     public void endChat(final String reason, final OnEndChatListener onEndChatListener) {
         if (getUserSession() == null) {
-            if(onEndChatListener != null)
+            if (onEndChatListener != null)
                 onEndChatListener.onComplete(false);
             return;
         }
@@ -787,8 +788,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         }
     }
 
-    public boolean isLatestMessageAfterLastSeen(){
-        KUSChatSession chatSession= (KUSChatSession) getUserSession().getChatSessionsDataSource()
+    public boolean isLatestMessageAfterLastSeen() {
+        KUSChatSession chatSession = (KUSChatSession) getUserSession().getChatSessionsDataSource()
                 .findById(sessionId);
 
         Date sessionLastSeenAt = getUserSession().getChatSessionsDataSource()
@@ -816,10 +817,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     //region Private Methods
 
     private boolean doesHaveFormId() {
-        boolean doesHaveDefaultFormId = getUserSession().getFormDataSource().getFormId() != null;
-        boolean doesHaveUserPassedFormId = formDataSource != null && formDataSource.getFormId() != null;
-
-        return doesHaveDefaultFormId || doesHaveUserPassedFormId;
+        return formDataSource != null && formDataSource.getFormId() != null;
     }
 
     private boolean shouldAllowResending() {
@@ -1778,6 +1776,21 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
         return ids;
     }
+
+    private void clearFormAndSendMessageIfNecessary() {
+        if (getUserSession() == null)
+            return;
+
+        if (isActualSession())
+            return;
+
+        formDataSource = null;
+        if (getList().size() > 0) {
+            KUSChatMessage message = (KUSChatMessage) getFirst();
+            removeAll(getList());
+            sendMessageWithText(message.getBody(), null);
+        }
+    }
     //endregion
 
     //region Accessors
@@ -1869,16 +1882,26 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
             return;
         }
 
-        if (form == null && dataSource.getClass().equals(KUSFormDataSource.class))
+        if (form == null && dataSource.getClass().equals(KUSFormDataSource.class)) {
             form = (KUSForm) dataSource.getObject();
+            if (form != null && form.getQuestions().size() == 0)
+                clearFormAndSendMessageIfNecessary();
+        }
 
         insertFormMessageIfNecessary();
     }
 
     @Override
     public void objectDataSourceOnError(final KUSObjectDataSource dataSource, Error error) {
-        if(dataSource instanceof KUSSatisfactionResponseDataSource)
+        if (dataSource instanceof KUSSatisfactionResponseDataSource)
             return;
+
+        if (dataSource instanceof KUSFormDataSource) {
+            if (JsonHelper.getErrorStatus(error) == 400) {
+                clearFormAndSendMessageIfNecessary();
+                return;
+            }
+        }
 
         Handler mainHandler = new Handler(Looper.getMainLooper());
         Runnable myRunnable = new Runnable() {
