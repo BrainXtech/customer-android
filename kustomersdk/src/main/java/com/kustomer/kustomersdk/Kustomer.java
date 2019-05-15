@@ -192,28 +192,58 @@ public class Kustomer {
         getSharedInstance().mHideNewConversationButtonInClosedChat(status);
     }
 
+    /**
+     * Convenience method that will present chat interface, initiate new chat conversation with message
+     * and set customAttributes of that conversation.
+     *
+     * @param activity         activity calling this method
+     * @param message          A message to create chat conversation
+     * @param customAttributes CustomAttribute of chat conversation
+     */
     public static void showSupportWithMessage(@NonNull Activity activity,
                                               @NonNull String message,
                                               @Nullable JSONObject customAttributes) {
         getSharedInstance().mShowSupportWithMessage(activity, message, null, customAttributes);
     }
 
+    /**
+     * Convenience method that will present chat interface and initiate new chat conversation with message.
+     *
+     * @param activity activity calling this method
+     * @param message  A message to create chat conversation
+     */
     public static void showSupportWithMessage(@NonNull Activity activity,
                                               @NonNull String message) {
         getSharedInstance().mShowSupportWithMessage(activity, message, null, null);
     }
 
+    /**
+     * Convenience method that will present chat interface, initiate new chat assistant form with message
+     * and set customAttributes of that conversation.
+     *
+     * @param activity         activity calling this method
+     * @param message          A message to create chat conversation
+     * @param formId           formId of chat assistant form
+     * @param customAttributes CustomAttribute of chat conversation
+     */
     public static void showSupportWithMessage(@NonNull Activity activity,
                                               @NonNull String message,
                                               @NonNull String formId,
                                               @Nullable JSONObject customAttributes) {
-        getSharedInstance().mShowSupportWithMessage(activity, formId, message, customAttributes);
+        getSharedInstance().mShowSupportWithMessage(activity, message, formId, customAttributes);
     }
 
+    /**
+     * Convenience method that will present chat interface and initiate new chat assistant form with message.
+     *
+     * @param activity activity calling this method
+     * @param message  A message to create chat conversation
+     * @param formId   formId of chat assistant form
+     */
     public static void showSupportWithMessage(@NonNull Activity activity,
                                               @NonNull String message,
                                               @NonNull String formId) {
-        getSharedInstance().mShowSupportWithMessage(activity, formId, message, null);
+        getSharedInstance().mShowSupportWithMessage(activity, message, formId, null);
     }
 
     //endregion

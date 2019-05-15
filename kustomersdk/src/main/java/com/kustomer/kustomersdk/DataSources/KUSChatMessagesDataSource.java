@@ -138,7 +138,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         addListener(this);
     }
 
-    public KUSChatMessagesDataSource(KUSUserSession userSession, String formId, boolean startNewConversation) {
+    public KUSChatMessagesDataSource(@NonNull KUSUserSession userSession,@NonNull String formId,
+                                     boolean startNewConversation) {
         this(userSession);
 
         if (startNewConversation) {
@@ -244,7 +245,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
         isProactiveCampaign = !isAnyMessageByCurrentUser();
 
-        if (!isActualSession() && doesHaveFormId()) {
+        if (!isActualSession() && containsFormId()) {
 
             if (attachments != null && attachments.size() > 0)
                 throw new AssertionError("Should not have been able to send attachments without a sessionId");
@@ -816,7 +817,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
     //region Private Methods
 
-    private boolean doesHaveFormId() {
+    private boolean containsFormId() {
         return formDataSource != null && formDataSource.getFormId() != null;
     }
 
@@ -992,7 +993,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         if (getUserSession() == null)
             return;
 
-        if (!doesHaveFormId())
+        if (!containsFormId())
             return;
 
         if (getSize() == 0)

@@ -32,7 +32,7 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
         userSession.getChatSettingsDataSource().addListener(this);
     }
 
-    KUSFormDataSource(KUSUserSession userSession, @Nullable String formId) {
+    KUSFormDataSource(@NonNull KUSUserSession userSession, @Nullable String formId) {
         super(userSession);
         this.formId = formId;
     }
@@ -104,12 +104,15 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
 
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
 
-        String formId = this.formId;
+        String formId = null;
 
-        if (formId == null)
+        if (this.formId != null)
+            formId = this.formId;
+
+        else if (getUserSession().getSharedPreferences().getFormId() != null)
             formId = getUserSession().getSharedPreferences().getFormId();
 
-        if (formId == null)
+        else if (chatSettings.getActiveFormId() != null)
             formId = chatSettings.getActiveFormId();
 
         return formId;

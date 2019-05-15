@@ -299,7 +299,7 @@ Kustomer.showSupportWithMessage(Activity, "message", "form-id");
 ```java
 /*
   Convenience method that will present chat interface, initiate new chat assistant form with message
-   and set customAttributes of that conversation.
+  and set customAttributes of that conversation.
 */
 
 JSONObject customAttributes = new JSONObject();
