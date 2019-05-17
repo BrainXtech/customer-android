@@ -16,7 +16,7 @@ public class KUSMLNode extends KUSModel {
     //region Properties
     private String displayName;
     private String nodeId;
-    private Boolean deleted;
+    private boolean deleted;
     private ArrayList<KUSMLNode> childNodes;
     //endregion
 
@@ -91,7 +91,7 @@ public class KUSMLNode extends KUSModel {
     }
 
     public boolean isDeleted() {
-        return deleted != null ? deleted : false;
+        return deleted;
     }
 
     //endregion

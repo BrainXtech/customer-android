@@ -11,8 +11,8 @@ public class KUSSessionQueue extends KUSModel {
 
     //region Properties
     private Date enteredAt;
-    private Integer estimatedWaitTimeSeconds;
-    private Integer latestWaitTimeSeconds;
+    private int estimatedWaitTimeSeconds;
+    private int latestWaitTimeSeconds;
     private String name;
     //endregion
 

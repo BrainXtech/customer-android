@@ -37,7 +37,7 @@ public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOption
     private ArrayList<KUSMLNode> selectedValuesStack;
     private ArrayList<String> currentOptionsValues;
 
-    private Boolean isLastNodeRequired;
+    private boolean isLastNodeRequired;
     private KUSMLSelectedValueListAdapter adapter;
     private KUSMLFormValuesPickerViewListener listener;
     //endregion

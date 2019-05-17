@@ -11,7 +11,7 @@ public class KUSMLFormValue extends KUSModel {
 
     //region Properties
     private String displayName;
-    private Boolean lastNodeRequired;
+    private boolean lastNodeRequired;
     private ArrayList<KUSMLNode> mlNodes;
     //endregion
 
@@ -53,8 +53,8 @@ public class KUSMLFormValue extends KUSModel {
         return displayName;
     }
 
-    public Boolean getLastNodeRequired() {
-        return lastNodeRequired != null ? lastNodeRequired : false;
+    public boolean getLastNodeRequired() {
+        return lastNodeRequired;
     }
 
     public ArrayList<KUSMLNode> getMlNodes() {

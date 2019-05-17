@@ -22,7 +22,7 @@ public class KUSChatSettings extends KUSModel implements Serializable {
     private String greeting;
     private String activeFormId;
     private String pusherAccessKey;
-    private Boolean enabled;
+    private boolean enabled;
 
     private KUSBusinessHoursAvailability availability;
     private String offHoursImageUrl;
@@ -30,22 +30,22 @@ public class KUSChatSettings extends KUSModel implements Serializable {
 
     private String waitMessage;
     private String customWaitMessage;
-    private Integer timeOut;
-    private Integer promptDelay;
-    private Boolean hideWaitOption;
+    private int timeOut;
+    private int promptDelay;
+    private boolean hideWaitOption;
     private ArrayList<String> followUpChannels;
-    private Boolean useDynamicWaitMessage;
-    private Boolean markDoneAfterTimeout;
-    private Boolean volumeControlEnabled;
-    private Boolean closableChat;
-    private Boolean singleSessionChat;
-    private Boolean noHistory;
-    private Boolean shouldShowTypingIndicatorCustomerWeb;
-    private Boolean shouldShowTypingIndicatorWeb;
+    private boolean useDynamicWaitMessage;
+    private boolean markDoneAfterTimeout;
+    private boolean volumeControlEnabled;
+    private boolean closableChat;
+    private boolean singleSessionChat;
+    private boolean noHistory;
+    private boolean shouldShowTypingIndicatorCustomerWeb;
+    private boolean shouldShowTypingIndicatorWeb;
 
     private KUSVolumeControlMode volumeControlMode;
-    private Integer upfrontWaitThreshold;
-    private Boolean showKustomerBranding;
+    private int upfrontWaitThreshold;
+    private boolean showKustomerBranding;
     //endregion
 
     //region Initializer
@@ -152,8 +152,8 @@ public class KUSChatSettings extends KUSModel implements Serializable {
         return pusherAccessKey;
     }
 
-    public Boolean getEnabled() {
-        return enabled != null ? enabled : false;
+    public boolean getEnabled() {
+        return enabled;
     }
 
     public String getCustomWaitMessage() {
@@ -168,56 +168,56 @@ public class KUSChatSettings extends KUSModel implements Serializable {
         return promptDelay;
     }
 
-    public Boolean isHideWaitOption() {
-        return hideWaitOption != null ? hideWaitOption : false;
+    public boolean isHideWaitOption() {
+        return hideWaitOption;
     }
 
     public ArrayList<String> getFollowUpChannels() {
         return followUpChannels;
     }
 
-    public Boolean isUseDynamicWaitMessage() {
-        return useDynamicWaitMessage != null ? useDynamicWaitMessage : false;
+    public boolean isUseDynamicWaitMessage() {
+        return useDynamicWaitMessage;
     }
 
-    public Boolean isMarkDoneAfterTimeout() {
-        return markDoneAfterTimeout != null ? markDoneAfterTimeout : false;
+    public boolean isMarkDoneAfterTimeout() {
+        return markDoneAfterTimeout;
     }
 
-    public Boolean isVolumeControlEnabled() {
-        return volumeControlEnabled != null ? volumeControlEnabled : false;
+    public boolean isVolumeControlEnabled() {
+        return volumeControlEnabled;
     }
 
     public String getWaitMessage() {
         return waitMessage;
     }
 
-    public Boolean getHideWaitOption() {
-        return hideWaitOption != null ? hideWaitOption : false;
+    public boolean getHideWaitOption() {
+        return hideWaitOption;
     }
 
-    public Boolean getUseDynamicWaitMessage() {
-        return useDynamicWaitMessage != null ? useDynamicWaitMessage : false;
+    public boolean getUseDynamicWaitMessage() {
+        return useDynamicWaitMessage;
     }
 
-    public Boolean getMarkDoneAfterTimeout() {
-        return markDoneAfterTimeout != null ? markDoneAfterTimeout : false;
+    public boolean getMarkDoneAfterTimeout() {
+        return markDoneAfterTimeout;
     }
 
-    public Boolean getVolumeControlEnabled() {
-        return volumeControlEnabled != null ? volumeControlEnabled : false;
+    public boolean getVolumeControlEnabled() {
+        return volumeControlEnabled;
     }
 
-    public Boolean getClosableChat() {
-        return closableChat != null ? closableChat : false;
+    public boolean getClosableChat() {
+        return closableChat;
     }
 
-    public Boolean getSingleSessionChat() {
-        return singleSessionChat != null ? singleSessionChat : false;
+    public boolean getSingleSessionChat() {
+        return singleSessionChat;
     }
 
-    public Boolean getNoHistory() {
-        return noHistory != null ? noHistory : false;
+    public boolean getNoHistory() {
+        return noHistory;
     }
 
     public KUSBusinessHoursAvailability getAvailability() {
@@ -241,15 +241,15 @@ public class KUSChatSettings extends KUSModel implements Serializable {
     }
 
     public boolean shouldShowKustomerBranding() {
-        return showKustomerBranding != null ? showKustomerBranding : false;
+        return showKustomerBranding;
     }
 
     public boolean getShouldShowTypingIndicatorCustomerWeb() {
-        return shouldShowTypingIndicatorCustomerWeb != null ? shouldShowTypingIndicatorCustomerWeb : false;
+        return shouldShowTypingIndicatorCustomerWeb;
     }
 
     public boolean getShouldShowTypingIndicatorWeb() {
-        return shouldShowTypingIndicatorWeb != null ? shouldShowTypingIndicatorWeb :false;
+        return shouldShowTypingIndicatorWeb;
     }
 
     //endregion

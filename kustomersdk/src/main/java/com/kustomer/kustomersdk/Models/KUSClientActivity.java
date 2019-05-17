@@ -1,6 +1,8 @@
 package com.kustomer.kustomersdk.Models;
 
 
+import android.support.annotation.NonNull;
+
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
@@ -18,7 +20,7 @@ public class KUSClientActivity extends KUSModel {
     private List<Double> intervals;
     private String currentPage;
     private String previousPage;
-    private Double currentPageSeconds;
+    private double currentPageSeconds;
     private Date createdAt;
     //endregion
 
@@ -44,7 +46,7 @@ public class KUSClientActivity extends KUSModel {
     //endregion
 
     //region Private Methods
-    private List<Double> arrayListFromJsonArray(JSONArray array, String id) {
+    private List<Double> arrayListFromJsonArray(@NonNull JSONArray array, String id) {
         List<Double> list = new ArrayList<>();
 
         for(int i = 0 ; i<array.length() ; i++){
@@ -86,11 +88,11 @@ public class KUSClientActivity extends KUSModel {
         this.previousPage = previousPage;
     }
 
-    public Double getCurrentPageSeconds() {
+    public double getCurrentPageSeconds() {
         return currentPageSeconds;
     }
 
-    public void setCurrentPageSeconds(Double currentPageSeconds) {
+    public void setCurrentPageSeconds(double currentPageSeconds) {
         this.currentPageSeconds = currentPageSeconds;
     }
 

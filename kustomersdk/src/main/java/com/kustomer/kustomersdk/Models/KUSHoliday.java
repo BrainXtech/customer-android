@@ -13,7 +13,7 @@ public class KUSHoliday extends KUSModel {
     private String name;
     private Date startDate;
     private Date endDate;
-    private Boolean enabled;
+    private boolean enabled;
     //endregion
 
     //region Initializer
@@ -47,7 +47,7 @@ public class KUSHoliday extends KUSModel {
         return endDate;
     }
 
-    public Boolean getEnabled() {
+    public boolean getEnabled() {
         return enabled;
     }
 

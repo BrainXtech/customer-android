@@ -17,8 +17,8 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
     //region Properties
     private static final int ONE_MINUTE = 60;
 
-    private Boolean isPollingStarted;
-    private Boolean isPollingCanceled;
+    private boolean isPollingStarted;
+    private boolean isPollingCanceled;
 
     private String sessionId;
     private List<KUSSessionQueuePollingListener> listeners;
@@ -181,11 +181,11 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
 
     //region Accessors
 
-    public Boolean getPollingStarted() {
+    public boolean getPollingStarted() {
         return isPollingStarted;
     }
 
-    public Boolean getPollingCanceled() {
+    public boolean getPollingCanceled() {
         return isPollingCanceled;
     }
 

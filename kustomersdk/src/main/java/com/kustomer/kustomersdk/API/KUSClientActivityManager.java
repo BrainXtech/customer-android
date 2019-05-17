@@ -2,7 +2,6 @@ package com.kustomer.kustomersdk.API;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.support.annotation.NonNull;
 
 import com.kustomer.kustomersdk.DataSources.KUSClientActivityDataSource;
 import com.kustomer.kustomersdk.DataSources.KUSObjectDataSource;
@@ -22,7 +21,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
     private String currentPageName;
     private WeakReference<KUSUserSession> userSession;
     private String previousPageName;
-    private Double currentPageStartTime;
+    private double currentPageStartTime;
     private List<Timer> timers = new ArrayList<>();
     private KUSClientActivityDataSource activityDataSource;
     //endregion
@@ -82,7 +81,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
         requestClientActivityWithCurrentPageSeconds(timeOnCurrentPage());
     }
 
-    private void requestClientActivityWithCurrentPageSeconds(Double currentPageSeconds) {
+    private void requestClientActivityWithCurrentPageSeconds(double currentPageSeconds) {
 
         activityDataSource = new KUSClientActivityDataSource(userSession.get(),
                 previousPageName,
@@ -93,14 +92,13 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
         activityDataSource.fetch();
     }
 
-    @NonNull
-    private Double timeOnCurrentPage() {
+    private double timeOnCurrentPage() {
         long currentTime = Calendar.getInstance().getTimeInMillis() / 1000;
         return (double) Math.round(currentTime - currentPageStartTime);
     }
 
 
-    private void onActivityTimer(Double interval) {
+    private void onActivityTimer(double interval) {
         requestClientActivityWithCurrentPageSeconds(interval);
     }
     //endregion
@@ -135,7 +133,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
                     .getChatSettingsDataSource()
                     .getObject();
 
-            if (settings == null || settings.getNoHistory() == null || !settings.getNoHistory()) {
+            if (settings == null || !settings.getNoHistory()) {
                 currentPageStartTime = (double) Calendar.getInstance().getTimeInMillis() / 1000;
                 requestClientActivityWithCurrentPageSeconds(0.0);
             }
@@ -168,7 +166,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
                     KUSChatSettings settings = (KUSChatSettings) userSession.get()
                             .getChatSettingsDataSource()
                             .getObject();
-                    if (settings == null || settings.getNoHistory() == null || !settings.getNoHistory()) {
+                    if (settings == null || !settings.getNoHistory()) {
                         currentPageStartTime = (double) Calendar.getInstance().getTimeInMillis() / 1000;
                         requestClientActivityWithCurrentPageSeconds(0.0);
                     }

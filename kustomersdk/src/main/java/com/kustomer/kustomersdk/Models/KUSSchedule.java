@@ -9,14 +9,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 
 public class KUSSchedule extends KUSModel {
     //region Properties
     private String name;
     private JSONObject hours;
     private String timezone;
-    private Boolean enabled;
+    private boolean enabled;
 
     private ArrayList<KUSHoliday> holidays;
     //endregion
@@ -69,8 +68,8 @@ public class KUSSchedule extends KUSModel {
         return timezone;
     }
 
-    public Boolean getEnabled() {
-        return enabled != null ? enabled : false;
+    public boolean getEnabled() {
+        return enabled;
     }
 
     public ArrayList<KUSHoliday> getHolidays() {

@@ -23,7 +23,7 @@ public class KUSClientActivityDataSource extends KUSObjectDataSource {
     private Date createdAt;
     private String previousPageName;
     private String currentPageName;
-    Double currentPageSeconds;
+    double currentPageSeconds;
     //endregion
 
     //region LifeCycle
@@ -111,11 +111,11 @@ public class KUSClientActivityDataSource extends KUSObjectDataSource {
         this.currentPageName = currentPageName;
     }
 
-    public Double getCurrentPageSeconds() {
+    public double getCurrentPageSeconds() {
         return currentPageSeconds;
     }
 
-    public void setCurrentPageSeconds(Double currentPageSeconds) {
+    public void setCurrentPageSeconds(double currentPageSeconds) {
         this.currentPageSeconds = currentPageSeconds;
     }
 

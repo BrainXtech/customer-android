@@ -2,10 +2,7 @@ package com.kustomer.kustomersdk.Models;
 
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 
-import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.HashMap;
 
 import static com.kustomer.kustomersdk.Utils.JsonHelper.boolFromKeyPath;
 import static com.kustomer.kustomersdk.Utils.JsonHelper.stringFromKeyPath;
@@ -19,7 +16,7 @@ public class KUSTrackingToken extends KUSModel {
     //region Properties
     private String trackingId;
     private String token;
-    private Boolean verified;
+    private boolean verified;
     //endregion
 
     //region Initializer
@@ -55,11 +52,11 @@ public class KUSTrackingToken extends KUSModel {
         this.token = token;
     }
 
-    public Boolean getVerified() {
-        return verified != null ? verified : false;
+    public boolean getVerified() {
+        return verified;
     }
 
-    public void setVerified(Boolean verified) {
+    public void setVerified(boolean verified) {
         this.verified = verified;
     }
 

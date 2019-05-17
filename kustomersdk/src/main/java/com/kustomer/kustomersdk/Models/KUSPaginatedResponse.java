@@ -2,7 +2,6 @@ package com.kustomer.kustomersdk.Models;
 
 import com.kustomer.kustomersdk.DataSources.KUSPaginatedDataSource;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
-import com.kustomer.kustomersdk.Utils.JsonHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,8 +21,8 @@ public class KUSPaginatedResponse {
 
     //region Properties
     private List<KUSModel> objects;
-    private Integer page;
-    private Integer pageSize;
+    private int page;
+    private int pageSize;
 
     private String selfPath;
     private String firstPath;
@@ -76,9 +75,8 @@ public class KUSPaginatedResponse {
 
         page = integerFromKeyPath(json,"meta.page");
 
-        Integer a= integerFromKeyPath(json,"meta.pageSize");
-        if(a!= null)
-            pageSize = Math.max(a,objects.size());
+        int a= integerFromKeyPath(json,"meta.pageSize");
+        pageSize = Math.max(a,objects.size());
 
         selfPath = stringFromKeyPath(json,"links.self");
         firstPath = stringFromKeyPath(json,"links.first");
@@ -96,19 +94,19 @@ public class KUSPaginatedResponse {
         this.objects = objects;
     }
 
-    public Integer getPage() {
+    public int getPage() {
         return page;
     }
 
-    public void setPage(Integer page) {
+    public void setPage(int page) {
         this.page = page;
     }
 
-    public Integer getPageSize() {
+    public int getPageSize() {
         return pageSize;
     }
 
-    public void setPageSize(Integer pageSize) {
+    public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
     }
 
