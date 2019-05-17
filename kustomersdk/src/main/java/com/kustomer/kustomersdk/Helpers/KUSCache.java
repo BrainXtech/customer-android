@@ -1,6 +1,8 @@
 package com.kustomer.kustomersdk.Helpers;
 
 import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.LruCache;
 
 /**
@@ -31,17 +33,17 @@ public class KUSCache {
 
     }
 
-    public void addBitmapToMemoryCache(String key, Bitmap bitmap) {
+    public void addBitmapToMemoryCache(@NonNull String key,@NonNull Bitmap bitmap) {
         if (getBitmapFromMemCache(key) == null) {
             mMemoryCache.put(key, bitmap);
         }
     }
 
-    public Bitmap getBitmapFromMemCache(String key) {
+    public Bitmap getBitmapFromMemCache(@NonNull String key) {
         return mMemoryCache.get(key);
     }
 
-    public void removeBitmapFromMemCache(String key){
+    public void removeBitmapFromMemCache(@Nullable String key){
         if(key != null)
             mMemoryCache.remove(key);
     }

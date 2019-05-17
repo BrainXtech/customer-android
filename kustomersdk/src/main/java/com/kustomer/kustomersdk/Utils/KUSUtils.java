@@ -47,7 +47,7 @@ public class KUSUtils {
     }
 
     @NonNull
-    public static String KUSUnescapeBackslashesFromString(@Nullable String string) {
+    public static String unescapeBackslashesFromString(@Nullable String string) {
         if (string == null)
             return "";
 
@@ -74,7 +74,8 @@ public class KUSUtils {
         return updatedString;
     }
 
-    public static String removeNonASCIIChars(String original) {
+    @Nullable
+    public static String removeNonASCIIChars(@Nullable String original) {
 
         if (original != null)
             return original.replaceAll("[^\\p{ASCII}]", "");
@@ -128,7 +129,7 @@ public class KUSUtils {
     }
 
     @Nullable
-    public static Uri getUriFromFile(Context context, File file) {
+    public static Uri getUriFromFile(@NonNull Context context, File file) {
         try {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 return Uri.fromFile(file);

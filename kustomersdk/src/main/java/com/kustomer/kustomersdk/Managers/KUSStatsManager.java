@@ -57,8 +57,11 @@ public class KUSStatsManager {
 
                         JSONObject jsonObject = JsonHelper.jsonObjectFromKeyPath(response,
                                 "data");
-                        Date lastActivity = JsonHelper.dateFromKeyPath(jsonObject,
-                                "attributes.lastActivity");
+                        Date lastActivity = null;
+                        if (jsonObject != null) {
+                            lastActivity = JsonHelper.dateFromKeyPath(jsonObject,
+                                    "attributes.lastActivity");
+                        }
 
                         final boolean sessionUpdated = (KUSStatsManager.this.lastActivity == null
                                 && lastActivity != null)

@@ -81,7 +81,7 @@ public class KUSImage {
 
     }
 
-    private static Bitmap getBitmapWithText(@NonNull Context mContext, KSize size, int color,
+    private static Bitmap getBitmapWithText(@NonNull Context mContext, @NonNull KSize size, int color,
                                             int strokeColor, int strokeWidth, String text, int textSize) {
 
         Bitmap src = circularImage(size, color, strokeColor, strokeWidth);
@@ -109,7 +109,7 @@ public class KUSImage {
         return src;
     }
 
-    public static Bitmap defaultAvatarBitmapForName(@NonNull Context context, KSize size,
+    public static Bitmap defaultAvatarBitmapForName(@NonNull Context context, @NonNull KSize size,
                                                     @NonNull String name, int strokeWidth, int fontSize) {
         Bitmap bitmap = new KUSCache().getBitmapFromMemCache(name + "w:" + strokeWidth);
         if (bitmap != null)
@@ -149,9 +149,11 @@ public class KUSImage {
             BitmapFactory.Options options = new BitmapFactory.Options();
             options.inJustDecodeBounds = true;
             BitmapFactory.decodeStream(getInputStream(uri), null, options);
-            Bitmap bitmap = getBitmapFromInputStream(getInputStream(uri), options);
+            Bitmap bitmap;
+            bitmap = getBitmapFromInputStream(getInputStream(uri), options);
 
-            return KUSImage.rotateBitmapIfNeeded(bitmap, getInputStream(uri));
+            if (bitmap != null)
+                return KUSImage.rotateBitmapIfNeeded(bitmap, getInputStream(uri));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -213,7 +215,12 @@ public class KUSImage {
         return defaultNameColors;
     }
 
-    private static Bitmap rotateBitmapIfNeeded(Bitmap bitmap, InputStream inputStream) throws IOException {
+    @NonNull
+    private static Bitmap rotateBitmapIfNeeded(@NonNull Bitmap bitmap,
+                                               @Nullable InputStream inputStream) throws IOException {
+        if (inputStream == null)
+            return bitmap;
+
         ExifInterface ei = new ExifInterface(inputStream);
         int orientation = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION,
                 ExifInterface.ORIENTATION_UNDEFINED);

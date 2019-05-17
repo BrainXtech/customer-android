@@ -1,6 +1,8 @@
 package com.kustomer.kustomersdk.Helpers;
 
 import android.media.MediaPlayer;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Kustomer;
 import com.kustomer.kustomersdk.R;
@@ -50,7 +52,7 @@ public class KUSAudio implements MediaPlayer.OnCompletionListener {
     }
 
     @Override
-    public void onCompletion(MediaPlayer mp) {
+    public void onCompletion(@NonNull MediaPlayer mp) {
         mp.stop();
         mp.release();
         mp.setOnCompletionListener(null);

@@ -19,6 +19,7 @@ package com.kustomer.kustomersdk.Helpers;
  */
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 /**
  * Immutable class for describing width and height dimensions in pixels.
@@ -64,7 +65,7 @@ public final class KSize {
      * @return {@code true} if the objects were equal, {@code false} otherwise
      */
     @Override
-    public boolean equals(final Object obj) {
+    public boolean equals(@Nullable final Object obj) {
         if (obj == null) {
             return false;
         }
@@ -89,7 +90,7 @@ public final class KSize {
         return mWidth + "x" + mHeight;
     }
 
-    private static NumberFormatException invalidSize(String s) {
+    private static NumberFormatException invalidSize(@Nullable String s) {
         throw new NumberFormatException("Invalid Size: \"" + s + "\"");
     }
 
@@ -122,7 +123,7 @@ public final class KSize {
      * as a size value.
      * @throws NullPointerException if {@code string} was {@code null}
      */
-    public static KSize parseSize(String string)
+    public static KSize parseSize(@Nullable String string)
             throws NumberFormatException {
         if (string == null) {
             throw new NullPointerException("string must not be null");

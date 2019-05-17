@@ -46,7 +46,7 @@ public class KUSDate {
     }
 
     @NonNull
-    private static String localizedHumanReadableTextFromDate(Context context, long timeAgo) {
+    private static String localizedHumanReadableTextFromDate(@NonNull Context context, long timeAgo) {
         String unit;
         int count;
 
@@ -79,7 +79,7 @@ public class KUSDate {
                 context.getString(R.string.com_kustomer_ago));
     }
 
-    public static String humanReadableTextFromSeconds(Context context, int seconds) {
+    public static String humanReadableTextFromSeconds(@NonNull Context context, int seconds) {
         if (seconds < SECONDS_PER_MINUTE) {
             int stringId = seconds <= 1 ? R.string.com_kustomer_second : R.string.com_kustomer_seconds;
             return textWithCountAndUnit(context, seconds, stringId);
@@ -96,8 +96,8 @@ public class KUSDate {
         }
     }
 
-    public static String humanReadableUpfrontVolumeControlWaitingTimeFromSeconds(Context context,
-                                                                                 int seconds) {
+    public static String humanReadableUpfrontVCWaitingTimeFromSeconds(@NonNull Context context,
+                                                                      int seconds) {
         if (seconds == 0)
             return context.getString(R.string.com_kustomer_someone_should_be_with_you_momentarily);
         else {
@@ -107,7 +107,8 @@ public class KUSDate {
         }
     }
 
-    public static String messageTimeStampTextFromDate(Date date) {
+    @NonNull
+    public static String messageTimeStampTextFromDate(@Nullable Date date) {
 
         if (date != null) {
             long now = System.currentTimeMillis();

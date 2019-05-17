@@ -18,7 +18,7 @@ import static android.support.v4.content.ContextCompat.checkSelfPermission;
 public class KUSPermission {
 
     //region Private Methods
-    private static boolean hasSelfPermission(Context context, String permission) {
+    private static boolean hasSelfPermission(@NonNull Context context, String permission) {
         try {
             return checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
         } catch (RuntimeException t) {
@@ -51,22 +51,22 @@ public class KUSPermission {
     //endregion
 
     //region Public Methods
-    public static boolean isCameraPermissionDeclared(Context context){
+    public static boolean isCameraPermissionDeclared(@NonNull Context context){
         return isPermissionDeclared(context, Manifest.permission.CAMERA);
     }
 
-    public static boolean isReadPermissionDeclared(Context context){
+    public static boolean isReadPermissionDeclared(@NonNull Context context){
         return isPermissionDeclared(context, Manifest.permission.READ_EXTERNAL_STORAGE);
     }
 
-    public static boolean isCameraPermissionAvailable(Context context) {
+    public static boolean isCameraPermissionAvailable(@NonNull Context context) {
         return hasSelfPermission(context, Manifest.permission.CAMERA);
     }
 
-    public static boolean isStoragePermissionAvailable(Context context) {
+    public static boolean isStoragePermissionAvailable(@NonNull Context context) {
         return hasSelfPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE);
     }
-    public static boolean checkAudioPermission(Context context) {
+    public static boolean checkAudioPermission(@NonNull Context context) {
         return hasSelfPermission(context, Manifest.permission.RECORD_AUDIO);
     }
     //endregion

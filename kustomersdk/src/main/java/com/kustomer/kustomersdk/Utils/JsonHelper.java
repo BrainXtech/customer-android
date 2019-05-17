@@ -51,7 +51,7 @@ public class JsonHelper {
     }
 
     @Nullable
-    public static URL urlFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static URL urlFromKeyPath(@NonNull JSONObject jsonObject, String keyPath) {
         String value = stringFromKeyPath(jsonObject, keyPath);
 
         if (value != null && !value.isEmpty())
@@ -65,14 +65,16 @@ public class JsonHelper {
     }
 
     @Nullable
-    public static String stringFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static String stringFromKeyPath(@NonNull JSONObject jsonObject,
+                                           @NonNull String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
                 jsonObject = jsonObject.getJSONObject(keys[i]);
             }
 
-            String value = keys.length > 0 ? jsonObject.getString(keys[keys.length - 1]) : jsonObject.getString(keyPath);
+            String value = keys.length > 0 ?
+                    jsonObject.getString(keys[keys.length - 1]) : jsonObject.getString(keyPath);
             return value.equals("null") ? null : value;
         } catch (Exception e) {
             return null;
@@ -80,7 +82,8 @@ public class JsonHelper {
     }
 
     @Nullable
-    public static JSONArray arrayFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static JSONArray arrayFromKeyPath(@NonNull JSONObject jsonObject,
+                                             @NonNull String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -94,7 +97,8 @@ public class JsonHelper {
     }
 
     @Nullable
-    public static ArrayList<String> arrayListFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static ArrayList<String> arrayListFromKeyPath(@NonNull JSONObject jsonObject,
+                                                         @NonNull String keyPath) {
         try {
             Gson googleJson = new Gson();
             String[] keys = keyPath.split("[.]");
@@ -113,7 +117,8 @@ public class JsonHelper {
     }
 
     @Nullable
-    public static HashMap<String, String> hashMapFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static HashMap<String, String> hashMapFromKeyPath(@NonNull JSONObject jsonObject,
+                                                             @NonNull String keyPath) {
         try {
             Gson googleJson = new Gson();
             String[] keys = keyPath.split("[.]");
@@ -131,7 +136,8 @@ public class JsonHelper {
         }
     }
 
-    public static boolean boolFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static boolean boolFromKeyPath(@NonNull JSONObject jsonObject,
+                                          @NonNull String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -143,7 +149,8 @@ public class JsonHelper {
         }
     }
 
-    public static int integerFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static int integerFromKeyPath(@NonNull JSONObject jsonObject,
+                                         @NonNull String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -155,7 +162,8 @@ public class JsonHelper {
         }
     }
 
-    public static double doubleFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static double doubleFromKeyPath(@NonNull JSONObject jsonObject,
+                                           @NonNull String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -168,8 +176,8 @@ public class JsonHelper {
     }
 
     @Nullable
-    public static Date dateFromKeyPath(JSONObject jsonObject, String keyPath) {
-
+    public static Date dateFromKeyPath(@NonNull JSONObject jsonObject,
+                                       @NonNull String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -185,7 +193,8 @@ public class JsonHelper {
     }
 
     @Nullable
-    public static JSONObject jsonObjectFromKeyPath(JSONObject json, String keyPath) {
+    public static JSONObject jsonObjectFromKeyPath(@NonNull JSONObject json,
+                                                   @NonNull String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -198,7 +207,7 @@ public class JsonHelper {
     }
 
     @Nullable
-    public static JSONObject stringToJson(String jsonString) {
+    public static JSONObject stringToJson(@NonNull String jsonString) {
         try {
             return new JSONObject(jsonString);
         } catch (JSONException e) {
@@ -209,7 +218,7 @@ public class JsonHelper {
     }
 
     @Nullable
-    public static List<KUSModel> kusChatModelsFromJSON(@NonNull Context context,@Nullable JSONObject jsonObject) {
+    public static List<KUSModel> kusChatModelsFromJSON(@NonNull Context context, @Nullable JSONObject jsonObject) {
         if (jsonObject == null)
             return null;
 
@@ -224,7 +233,7 @@ public class JsonHelper {
         if (standardChatMessage == null)
             return new ArrayList<>();
 
-        String body = KUSUtils.KUSUnescapeBackslashesFromString(standardChatMessage.getBody());
+        String body = KUSUtils.unescapeBackslashesFromString(standardChatMessage.getBody());
         standardChatMessage.setBody(body);
 
         //The markdown url pattern we want to detect
@@ -243,7 +252,7 @@ public class JsonHelper {
                 Matcher urlMatcher = Pattern.compile(KUSConstants.Pattern.URL_PATTERN).matcher(matcher.group());
 
                 if (urlMatcher.find()) {
-                    String matchedText = KUSUtils.KUSUnescapeBackslashesFromString(urlMatcher.group());
+                    String matchedText = KUSUtils.unescapeBackslashesFromString(urlMatcher.group());
                     try {
                         URL matchedURL = new URL(matchedText);
                         JSONObject previousJSON = new JSONObject(jsonObject.toString());

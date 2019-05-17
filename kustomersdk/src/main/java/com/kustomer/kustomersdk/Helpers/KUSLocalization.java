@@ -3,6 +3,7 @@ package com.kustomer.kustomersdk.Helpers;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.os.LocaleListCompat;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
@@ -35,7 +36,7 @@ public class KUSLocalization {
 
     //region Private Methods
 
-    private boolean isLocaleResourceAvailable(@NonNull Context mContext, Locale locale) {
+    private boolean isLocaleResourceAvailable(@NonNull Context mContext,@NonNull Locale locale) {
 
         Configuration config = new Configuration(mContext.getResources().getConfiguration());
 
@@ -53,7 +54,7 @@ public class KUSLocalization {
 
     }
 
-    private Locale getAvailableLocale(Context mContext) {
+    private Locale getAvailableLocale(@NonNull Context mContext) {
         LocaleListCompat localeList = LocaleListCompat.getDefault();
         for (int i = 0; i < localeList.size(); i++) {
             if (isLocaleResourceAvailable(mContext, localeList.get(i))) {
@@ -75,11 +76,11 @@ public class KUSLocalization {
         return uLocale;
     }
 
-    public void setUserLocale(Locale locale) {
+    public void setUserLocale(@Nullable Locale locale) {
         uLocale = locale;
     }
 
-    public void updateKustomerLocaleWithFallback(Context mContext) {
+    public void updateKustomerLocaleWithFallback(@NonNull Context mContext) {
         if (uLocale == null)
             uLocale = Locale.getDefault();
 
@@ -101,7 +102,7 @@ public class KUSLocalization {
 
     }
 
-    public String localizedString(Context mContext, String key) {
+    public String localizedString(@NonNull Context mContext,@Nullable String key) {
         String packageName = mContext.getPackageName();
         int resId = mContext.getResources().getIdentifier(key, "string", packageName);
         if (resId == 0)
@@ -111,7 +112,7 @@ public class KUSLocalization {
         }
     }
 
-    public void updateConfig(ContextThemeWrapper wrapper) {
+    public void updateConfig(@NonNull ContextThemeWrapper wrapper) {
         if (dLocale != null) {
             Locale.setDefault(dLocale);
             Configuration configuration = new Configuration();
@@ -120,7 +121,7 @@ public class KUSLocalization {
         }
     }
 
-    public void updateConfig(Context mContext) {
+    public void updateConfig(@NonNull Context mContext) {
         if (dLocale != null) {
             Locale.setDefault(dLocale);
             Configuration configuration = mContext.getResources().getConfiguration();
