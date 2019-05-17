@@ -38,14 +38,8 @@ public class KUSImage {
     private static List<Integer> defaultNameColors = null;
     //endreigon
 
-    //region Resource Method
-    public static Bitmap bitmapFromId(Context mContext, int id) {
-        return BitmapFactory.decodeResource(mContext.getResources(), id);
-    }
-    //endregion
-
     //region Public Methods
-    private static Bitmap circularImage(KSize size, int color, int strokeColor, int strokeWidth) {
+    private static Bitmap circularImage(@NonNull KSize size, int color, int strokeColor, int strokeWidth) {
         Bitmap dstBitmap = Bitmap.createBitmap(
                 size.getWidth(), // Width
                 size.getHeight(), // Height
@@ -68,8 +62,8 @@ public class KUSImage {
 
             // Set a pixels value to padding around the circle
             canvas.drawCircle(
-                    canvas.getWidth() / 2, // cx
-                    canvas.getHeight() / 2, // cy
+                    (float) canvas.getWidth() / 2, // cx
+                    (float) canvas.getHeight() / 2, // cy
                     radius, // Radius
                     paint // Paint
             );
@@ -77,8 +71,8 @@ public class KUSImage {
 
         paint.setColor(color);
         canvas.drawCircle(
-                canvas.getWidth() / 2, // cx
-                canvas.getHeight() / 2, // cy
+                (float) canvas.getWidth() / 2, // cx
+                (float) canvas.getHeight() / 2, // cy
                 radius - strokeWidth, // Radius
                 paint // Paint
         );
@@ -87,8 +81,8 @@ public class KUSImage {
 
     }
 
-    private static Bitmap getBitmapWithText(Context mContext, KSize size, int color, int strokeColor, int strokeWidth, String text, int textSize) {
-
+    private static Bitmap getBitmapWithText(@NonNull Context mContext, KSize size, int color,
+                                            int strokeColor, int strokeWidth, String text, int textSize) {
 
         Bitmap src = circularImage(size, color, strokeColor, strokeWidth);
 
@@ -99,7 +93,7 @@ public class KUSImage {
 
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setColor(Color.WHITE); // Text Color
-        paint.setTextSize((int) textSize * scale);// Text Size
+        paint.setTextSize(textSize * scale);// Text Size
         paint.setTextAlign(Paint.Align.CENTER);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_OVER)); // Text Overlapping Pattern
 
@@ -115,7 +109,8 @@ public class KUSImage {
         return src;
     }
 
-    public static Bitmap defaultAvatarBitmapForName(Context context, KSize size, String name, int strokeWidth, int fontSize) {
+    public static Bitmap defaultAvatarBitmapForName(@NonNull Context context, KSize size,
+                                                    @NonNull String name, int strokeWidth, int fontSize) {
         Bitmap bitmap = new KUSCache().getBitmapFromMemCache(name + "w:" + strokeWidth);
         if (bitmap != null)
             return bitmap;
@@ -177,7 +172,8 @@ public class KUSImage {
 
     //region Private Methods
 
-    private static List<String> initialsForName(String name) {
+    @NonNull
+    private static List<String> initialsForName(@NonNull String name) {
         int maximumInitialsCount = 3;
 
         String[] words = name.trim().split(" ");
@@ -202,6 +198,7 @@ public class KUSImage {
         return initials;
     }
 
+    @NonNull
     private static List<Integer> getDefaultNameColors() {
         if (defaultNameColors == null) {
             defaultNameColors = new ArrayList<>();
@@ -244,7 +241,8 @@ public class KUSImage {
         return rotatedBitmap;
     }
 
-    private static Bitmap rotateImage(Bitmap source, float angle) {
+    @NonNull
+    private static Bitmap rotateImage(@NonNull Bitmap source, float angle) {
 
         Matrix matrix = new Matrix();
         matrix.postRotate(angle);

@@ -5,8 +5,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.content.FileProvider;
@@ -27,7 +25,7 @@ import java.util.List;
 
 public class KUSUtils {
 
-    public static final double MIN_TABLET_SIZE_IN_INCH = 6.5;
+    private static final double MIN_TABLET_SIZE_IN_INCH = 6.5;
     private static final String AUTHORITY_SUFFIX = ".kustomersdk";
 
     @Nullable
@@ -42,16 +40,16 @@ public class KUSUtils {
             Toast.makeText(context, message, Toast.LENGTH_SHORT).show();
     }
 
-    public static int getWindowHeight(Activity activity) {
+    public static int getWindowHeight(@NonNull Activity activity) {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         return displayMetrics.heightPixels;
     }
 
-    @Nullable
+    @NonNull
     public static String KUSUnescapeBackslashesFromString(@Nullable String string) {
         if (string == null)
-            return null;
+            return "";
 
         String updatedString = "";
 
@@ -84,12 +82,13 @@ public class KUSUtils {
             return null;
     }
 
-    public static float dipToPixels(Context context, float dipValue) {
+    public static float dipToPixels(@NonNull Context context, float dipValue) {
         DisplayMetrics metrics = context.getResources().getDisplayMetrics();
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
     }
 
-    public static String listJoinedByString(List<String> list, String join) {
+    @NonNull
+    public static String listJoinedByString(@NonNull List<String> list, String join) {
         StringBuilder joinedString = new StringBuilder();
 
         for (int i = 0; i < list.size(); i++) {
@@ -103,7 +102,7 @@ public class KUSUtils {
         return joinedString.toString();
     }
 
-    public static boolean isPhone(Activity activity) {
+    public static boolean isPhone(@NonNull Activity activity) {
         DisplayMetrics metrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(metrics);
 
@@ -114,14 +113,14 @@ public class KUSUtils {
         return diagonalInches < MIN_TABLET_SIZE_IN_INCH;
     }
 
-    public static void showKeyboard(final View view) {
+    public static void showKeyboard(@NonNull final View view) {
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.showSoftInput(view, 0);
         }
     }
 
-    public static void hideKeyboard(final View view) {
+    public static void hideKeyboard(@NonNull final View view) {
         InputMethodManager imm = (InputMethodManager) view.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);

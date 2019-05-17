@@ -1,7 +1,6 @@
 package com.kustomer.kustomersdk.Helpers;
 
 import android.os.Handler;
-import android.os.HandlerThread;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 

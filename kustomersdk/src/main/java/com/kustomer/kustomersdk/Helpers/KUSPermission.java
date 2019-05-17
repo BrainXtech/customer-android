@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.support.annotation.NonNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -24,7 +25,7 @@ public class KUSPermission {
             return false;
         }
     }
-    private static boolean isPermissionDeclared(Context context, String permission){
+    private static boolean isPermissionDeclared(@NonNull Context context, String permission){
         PackageManager pm = context.getPackageManager();
         try
         {

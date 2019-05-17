@@ -2,6 +2,7 @@ package com.kustomer.kustomersdk.Helpers;
 
 import android.content.Context;
 import android.content.res.Configuration;
+import android.support.annotation.NonNull;
 import android.support.v4.os.LocaleListCompat;
 import android.text.TextUtils;
 import android.view.ContextThemeWrapper;
@@ -34,7 +35,7 @@ public class KUSLocalization {
 
     //region Private Methods
 
-    private boolean isLocaleResourceAvailable(Context mContext, Locale locale) {
+    private boolean isLocaleResourceAvailable(@NonNull Context mContext, Locale locale) {
 
         Configuration config = new Configuration(mContext.getResources().getConfiguration());
 
@@ -45,10 +46,7 @@ public class KUSLocalization {
         String englishString = mContext.createConfigurationContext(config).getResources().getString(R.string.com_kustomer_chat_with);
 
         if (result.equals(englishString)) {
-            if (locale.getLanguage().equals(Locale.ENGLISH.getLanguage()))
-                return true;
-            else
-                return false;
+            return locale.getLanguage().equals(Locale.ENGLISH.getLanguage());
         }
 
         return true;
@@ -60,7 +58,7 @@ public class KUSLocalization {
         for (int i = 0; i < localeList.size(); i++) {
             if (isLocaleResourceAvailable(mContext, localeList.get(i))) {
                 return localeList.get(i);
-            }else {
+            } else {
                 Locale lanLocale = new Locale(localeList.get(i).getLanguage());
                 if (isLocaleResourceAvailable(mContext, lanLocale))
                     return localeList.get(i);
@@ -78,14 +76,14 @@ public class KUSLocalization {
     }
 
     public void setUserLocale(Locale locale) {
-        uLocale=locale;
+        uLocale = locale;
     }
 
     public void updateKustomerLocaleWithFallback(Context mContext) {
-        if(uLocale == null)
+        if (uLocale == null)
             uLocale = Locale.getDefault();
 
-        Locale locales[] = Locale.getAvailableLocales();
+        Locale[] locales = Locale.getAvailableLocales();
 
         for (Locale loc : locales) {
             if (loc.equals(uLocale)) {
@@ -94,7 +92,7 @@ public class KUSLocalization {
             }
         }
 
-        if(dLocale !=null) {
+        if (dLocale != null) {
             if (isLocaleResourceAvailable(mContext, dLocale))
                 return;
         }
@@ -134,7 +132,6 @@ public class KUSLocalization {
     public boolean isLTR() {
         return TextUtils.getLayoutDirectionFromLocale(Locale.getDefault()) == View.LAYOUT_DIRECTION_LTR;
     }
-
 
     //endregion
 }

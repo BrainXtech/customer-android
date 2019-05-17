@@ -18,7 +18,7 @@ package com.kustomer.kustomersdk.Helpers;
  * limitations under the License.
  */
 
-import static android.support.v4.util.Preconditions.checkNotNull;
+import android.support.annotation.NonNull;
 
 /**
  * Immutable class for describing width and height dimensions in pixels.
@@ -83,6 +83,7 @@ public final class KSize {
      *
      * @return string representation of the size
      */
+    @NonNull
     @Override
     public String toString() {
         return mWidth + "x" + mHeight;
@@ -123,7 +124,9 @@ public final class KSize {
      */
     public static KSize parseSize(String string)
             throws NumberFormatException {
-        checkNotNull(string, "string must not be null");
+        if (string == null) {
+            throw new NullPointerException("string must not be null");
+        }
 
         int sep_ix = string.indexOf('*');
         if (sep_ix < 0) {

@@ -2,6 +2,7 @@ package com.kustomer.kustomersdk.Utils;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -49,6 +50,7 @@ public class JsonHelper {
         return jsonObject;
     }
 
+    @Nullable
     public static URL urlFromKeyPath(JSONObject jsonObject, String keyPath) {
         String value = stringFromKeyPath(jsonObject, keyPath);
 
@@ -59,10 +61,10 @@ public class JsonHelper {
                 e.printStackTrace();
             }
 
-
         return null;
     }
 
+    @Nullable
     public static String stringFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
@@ -77,18 +79,21 @@ public class JsonHelper {
         }
     }
 
+    @Nullable
     public static JSONArray arrayFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
                 jsonObject = jsonObject.getJSONObject(keys[i]);
             }
-            return keys.length > 0 ? jsonObject.getJSONArray(keys[keys.length - 1]) : jsonObject.getJSONArray(keyPath);
+            return keys.length > 0 ?
+                    jsonObject.getJSONArray(keys[keys.length - 1]) : jsonObject.getJSONArray(keyPath);
         } catch (Exception e) {
             return null;
         }
     }
 
+    @Nullable
     public static ArrayList<String> arrayListFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             Gson googleJson = new Gson();
@@ -96,7 +101,8 @@ public class JsonHelper {
             for (int i = 0; i < keys.length - 1; i++) {
                 jsonObject = jsonObject.getJSONObject(keys[i]);
             }
-            JSONArray jsonArray = keys.length > 0 ? jsonObject.getJSONArray(keys[keys.length - 1]) : jsonObject.getJSONArray(keyPath);
+            JSONArray jsonArray = keys.length > 0 ?
+                    jsonObject.getJSONArray(keys[keys.length - 1]) : jsonObject.getJSONArray(keyPath);
 
             Type listType = new TypeToken<ArrayList<String>>() {
             }.getType();
@@ -106,6 +112,7 @@ public class JsonHelper {
         }
     }
 
+    @Nullable
     public static HashMap<String, String> hashMapFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             Gson googleJson = new Gson();
@@ -113,7 +120,8 @@ public class JsonHelper {
             for (int i = 0; i < keys.length - 1; i++) {
                 jsonObject = jsonObject.getJSONObject(keys[i]);
             }
-            JSONObject jsonObject1 = keys.length > 0 ? jsonObject.getJSONObject(keys[keys.length - 1]) : jsonObject.getJSONObject(keyPath);
+            JSONObject jsonObject1 = keys.length > 0 ?
+                    jsonObject.getJSONObject(keys[keys.length - 1]) : jsonObject.getJSONObject(keyPath);
 
             Type hashMapType = new TypeToken<HashMap<String, String>>() {
             }.getType();
@@ -123,7 +131,7 @@ public class JsonHelper {
         }
     }
 
-    public static Boolean boolFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static boolean boolFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -131,11 +139,11 @@ public class JsonHelper {
             }
             return keys.length > 0 ? jsonObject.getBoolean(keys[keys.length - 1]) : jsonObject.getBoolean(keyPath);
         } catch (Exception e) {
-            return null;
+            return false;
         }
     }
 
-    public static Integer integerFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static int integerFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -147,7 +155,7 @@ public class JsonHelper {
         }
     }
 
-    public static Double doubleFromKeyPath(JSONObject jsonObject, String keyPath) {
+    public static double doubleFromKeyPath(JSONObject jsonObject, String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -159,6 +167,7 @@ public class JsonHelper {
         }
     }
 
+    @Nullable
     public static Date dateFromKeyPath(JSONObject jsonObject, String keyPath) {
 
         try {
@@ -175,6 +184,7 @@ public class JsonHelper {
         }
     }
 
+    @Nullable
     public static JSONObject jsonObjectFromKeyPath(JSONObject json, String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
@@ -187,6 +197,7 @@ public class JsonHelper {
         }
     }
 
+    @Nullable
     public static JSONObject stringToJson(String jsonString) {
         try {
             return new JSONObject(jsonString);
@@ -197,7 +208,8 @@ public class JsonHelper {
         return null;
     }
 
-    public static List<KUSModel> kusChatModelsFromJSON(Context context, JSONObject jsonObject) {
+    @Nullable
+    public static List<KUSModel> kusChatModelsFromJSON(@NonNull Context context,@Nullable JSONObject jsonObject) {
         if (jsonObject == null)
             return null;
 
@@ -216,7 +228,7 @@ public class JsonHelper {
         standardChatMessage.setBody(body);
 
         //The markdown url pattern we want to detect
-        String imagePattern = "!\\[.*\\]\\(.*\\)";
+        String imagePattern = "!\\[.*]\\(.*\\)";
         List<KUSModel> chatMessages = new ArrayList<>();
 
         Pattern regex = Pattern.compile(imagePattern);
@@ -261,18 +273,16 @@ public class JsonHelper {
                         lastId++;
                         lastLocation = matcher.end();
 
-
                     } catch (MalformedURLException | JSONException | KUSInvalidJsonException e) {
                         e.printStackTrace();
                     }
                 }
-
             }
 
             if (chatMessages.size() == 0)
                 chatMessages.add(standardChatMessage);
             else {
-                JSONObject previousJSON = null;
+                JSONObject previousJSON;
                 try {
 
                     previousJSON = new JSONObject(jsonObject.toString());
@@ -316,7 +326,6 @@ public class JsonHelper {
                 } catch (MalformedURLException | JSONException | KUSInvalidJsonException e) {
                     e.printStackTrace();
                 }
-
             }
         }
 
