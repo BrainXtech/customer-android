@@ -245,7 +245,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         super.onConfigurationChanged(newConfig);
 
         checkShouldShowEmailInput();
-        updateBottomViews();
+        checkShouldUpdateInputView();
         checkShouldShowCloseChatButtonView();
 
         updateOptionPickerHeight();
@@ -343,7 +343,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         mlFormValuesPickerView.setListener(this);
         updateOptionPickerHeight();
         setupToolbar();
-        updateBottomViews();
+        checkShouldUpdateInputView();
         showNonBusinessHoursImageIfNeeded();
         showKustomerBrandingFooterIfNeeded();
 
@@ -419,14 +419,6 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         kusInputBarView.setText("");
     }
 
-    private void fetchTeamOptionsIfNecessary(List<String> teamIds) {
-        if (teamOptionsDatasource == null || !teamOptionsDatasource.getTeamIds().equals(teamIds)) {
-            teamOptionsDatasource = new KUSTeamsDataSource(userSession, teamIds);
-            teamOptionsDatasource.addListener(this);
-            teamOptionsDatasource.fetchLatest();
-        }
-    }
-
     private void checkShouldShowCloseChatButtonView() {
         KUSChatSettings settings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
 
@@ -466,7 +458,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             boolean isChatCloseable = settings != null && settings.getClosableChat();
 
             boolean shouldShowEmailInput = userSession.isShouldCaptureEmail()
-                    && getValidChatSessionId() != null && !isChatCloseable;
+                    && getValidChatSessionId() != null
+                    && !isChatCloseable;
 
             appBarLayout.setLayoutTransition(new LayoutTransition());
 
@@ -529,7 +522,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         tvClosedChat.setVisibility(View.VISIBLE);
     }
 
-    private void updateBottomViews() {
+    private void checkShouldUpdateInputView() {
         KUSChatSession session = (KUSChatSession) userSession
                 .getChatSessionsDataSource().findById(getValidChatSessionId());
 
@@ -551,33 +544,38 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource.volumeControlCurrentQuestion();
             KUSFormQuestion currentQuestion = chatMessagesDataSource.currentQuestion();
 
-            boolean isFollowupChannelVCQuestion = (vcCurrentQuestion != null
+            boolean isFollowupChannelQuestion = (vcCurrentQuestion != null
                     && vcCurrentQuestion.getProperty() == KUS_FORM_QUESTION_PROPERTY_CUSTOMER_FOLLOW_UP_CHANNEL
                     && vcCurrentQuestion.getValues().size() > 0);
 
-            boolean isPropertyValueFormQuestion = (currentQuestion != null
+            boolean isPropertyValueQuestion = (currentQuestion != null
                     && currentQuestion.getProperty() == KUS_FORM_QUESTION_PROPERTY_VALUES
                     && currentQuestion.getValues().size() > 0);
 
-            boolean isConversationTeamFormQuestion = (currentQuestion != null
+            boolean isConversationTeamQuestion = (currentQuestion != null
                     && currentQuestion.getProperty() == KUS_FORM_QUESTION_PROPERTY_CONVERSATION_TEAM
                     && currentQuestion.getValues().size() > 0);
 
             boolean teamOptionsDidFail = false;
 
-            if (isConversationTeamFormQuestion) {
+            if (isConversationTeamQuestion) {
                 teamOptionsDidFail = teamOptionsDatasource.getError() != null
                         || (teamOptionsDatasource.isFetched() && teamOptionsDatasource.getSize() == 0);
 
                 if (!teamOptionsDidFail) {
                     List<String> teamIds = currentQuestion.getValues();
-                    fetchTeamOptionsIfNecessary(teamIds);
+
+                    if (teamOptionsDatasource == null || !teamOptionsDatasource.getTeamIds().equals(teamIds)) {
+                        teamOptionsDatasource = new KUSTeamsDataSource(userSession, teamIds);
+                        teamOptionsDatasource.addListener(this);
+                        teamOptionsDatasource.fetchLatest();
+                    }
                 }
             }
 
-            boolean wantsOptionPicker = isFollowupChannelVCQuestion
-                    || isPropertyValueFormQuestion
-                    || (isConversationTeamFormQuestion && !teamOptionsDidFail);
+            boolean wantsOptionPicker = isFollowupChannelQuestion
+                    || isPropertyValueQuestion
+                    || (isConversationTeamQuestion && !teamOptionsDidFail);
 
             if (wantsOptionPicker) {
                 showOptionPickerView();
@@ -786,7 +784,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             return questionId.equals(latestMessage.getId());
         }
 
-        return true;
+        return false;
     }
 
     //endregion
@@ -842,7 +840,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
         checkShouldShowEmailInput();
         checkShouldShowCloseChatButtonView();
-        updateBottomViews();
+        checkShouldUpdateInputView();
 
         kusToolbar.setExtraLargeSize(chatMessagesDataSource.getSize() == 0);
     }
@@ -895,7 +893,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    updateBottomViews();
+                    checkShouldUpdateInputView();
                 }
             };
             handler.post(runnable);
@@ -910,7 +908,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             public void run() {
                 if (dataSource == chatMessagesDataSource) {
                     adapter.notifyDataSetChanged();
-                    updateBottomViews();
+                    checkShouldUpdateInputView();
                     checkShouldShowCloseChatButtonView();
 
                     KUSChatSession session = (KUSChatSession) userSession
@@ -932,7 +930,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
                     shouldShowNonBusinessHoursImage = false;
                     ivNonBusinessHours.setVisibility(View.GONE);
                 } else if (dataSource == teamOptionsDatasource) {
-                    updateBottomViews();
+                    checkShouldUpdateInputView();
                     updateOptionsPickerOptions();
                 }
             }

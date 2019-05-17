@@ -1305,13 +1305,13 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                                 }
                             }
 
+                            submittingForm = false;
+                            vcChatClosed = true;
+
                             removeAll(temporaryMessages);
                             removeAll(temporaryVCMessagesResponses);
                             upsertNewMessages(chatMessages);
-
                         }
-                        vcChatClosed = true;
-                        submittingForm = false;
 
                         // Cancel Volume Control Polling if necessary
                         if (sessionQueuePollingManager != null)
