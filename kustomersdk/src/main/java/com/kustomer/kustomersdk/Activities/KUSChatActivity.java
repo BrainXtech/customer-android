@@ -541,25 +541,32 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         }
 
         if (isCurrentFormQuestionInserted()) {
-            KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource.volumeControlCurrentQuestion();
-            KUSFormQuestion currentQuestion = chatMessagesDataSource.currentQuestion();
+            KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource != null ?
+                    chatMessagesDataSource.volumeControlCurrentQuestion() : null;
+
+            KUSFormQuestion currentQuestion = chatMessagesDataSource != null ?
+                    chatMessagesDataSource.currentQuestion() : null;
 
             boolean isFollowupChannelQuestion = (vcCurrentQuestion != null
                     && vcCurrentQuestion.getProperty() == KUS_FORM_QUESTION_PROPERTY_CUSTOMER_FOLLOW_UP_CHANNEL
+                    && vcCurrentQuestion.getValues() != null
                     && vcCurrentQuestion.getValues().size() > 0);
 
             boolean isPropertyValueQuestion = (currentQuestion != null
                     && currentQuestion.getProperty() == KUS_FORM_QUESTION_PROPERTY_VALUES
+                    && currentQuestion.getValues() != null
                     && currentQuestion.getValues().size() > 0);
 
             boolean isConversationTeamQuestion = (currentQuestion != null
                     && currentQuestion.getProperty() == KUS_FORM_QUESTION_PROPERTY_CONVERSATION_TEAM
+                    && currentQuestion.getValues() != null
                     && currentQuestion.getValues().size() > 0);
 
             boolean teamOptionsDidFail = false;
 
             if (isConversationTeamQuestion) {
-                teamOptionsDidFail = teamOptionsDatasource.getError() != null
+                teamOptionsDidFail = teamOptionsDatasource == null
+                        || teamOptionsDatasource.getError() != null
                         || (teamOptionsDatasource.isFetched() && teamOptionsDatasource.getSize() == 0);
 
                 if (!teamOptionsDidFail) {
@@ -770,18 +777,21 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     private boolean isCurrentFormQuestionInserted() {
-        KUSChatMessage latestMessage = chatMessagesDataSource.getLatestMessage();
-        KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource.volumeControlCurrentQuestion();
+        KUSChatMessage latestMessage = chatMessagesDataSource != null ?
+                chatMessagesDataSource.getLatestMessage() : null;
+        KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource != null ?
+                chatMessagesDataSource.volumeControlCurrentQuestion() : null;
 
         if (vcCurrentQuestion != null) {
-            return vcCurrentQuestion.getId().equals(latestMessage.getId());
+            return latestMessage != null && vcCurrentQuestion.getId().equals(latestMessage.getId());
         }
 
-        KUSFormQuestion currentQuestion = chatMessagesDataSource.currentQuestion();
+        KUSFormQuestion currentQuestion = chatMessagesDataSource != null ?
+                chatMessagesDataSource.currentQuestion() : null;
 
         if (currentQuestion != null) {
             String questionId = String.format("question_%s", currentQuestion.getId());
-            return questionId.equals(latestMessage.getId());
+            return latestMessage != null && questionId.equals(latestMessage.getId());
         }
 
         return false;
