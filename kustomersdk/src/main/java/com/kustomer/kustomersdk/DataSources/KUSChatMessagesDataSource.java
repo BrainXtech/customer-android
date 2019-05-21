@@ -138,7 +138,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         addListener(this);
     }
 
-    public KUSChatMessagesDataSource(@NonNull KUSUserSession userSession,@NonNull String formId,
+    public KUSChatMessagesDataSource(@NonNull KUSUserSession userSession, @NonNull String formId,
                                      boolean startNewConversation) {
         this(userSession);
 
@@ -399,6 +399,12 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                         ArrayList<onCreateSessionListener> callbacks = new ArrayList<>(onCreateSessionListeners);
                         onCreateSessionListeners = null;
 
+                        if (getUserSession() == null) {
+                            for (onCreateSessionListener listener1 : callbacks)
+                                listener1.onComplete(false, null);
+                            return;
+                        }
+
                         if (error != null || session == null) {
                             KUSLog.KUSLogError(String.format("Error creating session: %s",
                                     error != null ? error.toString() : ""));
@@ -406,6 +412,15 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                                 listener1.onComplete(false, error);
 
                             return;
+                        }
+
+                        if (!isActualSession() && sessionId != null) {
+                            KUSChatSession tempSession = (KUSChatSession) getUserSession()
+                                    .getChatSessionsDataSource().findById(sessionId);
+
+                            getUserSession().getChatMessagesDataSources().remove(sessionId);
+                            getUserSession().getChatSessionsDataSource()
+                                    .removeAll(Collections.singletonList((KUSModel) tempSession));
                         }
 
                         //Grab the sessionId
