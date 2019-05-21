@@ -79,8 +79,8 @@ public class KUSDate {
         return context.getString(stringId, count);
     }
 
-    public static String upfrontVolumeControlApproximateWaitingTimeFromSeconds(Context context,
-                                                                        int seconds){
+    public static String volumeControlCurrentWaitTimeMessageForSeconds(Context context,
+                                                                       int seconds){
         int count;
         @StringRes int stringId;
 
@@ -109,8 +109,8 @@ public class KUSDate {
         return context.getString(stringId, count);
     }
 
-    public static String humanReadableUpfrontVolumeControlWaitingTimeFromSeconds(Context context,
-                                                                                 int seconds) {
+    public static String volumeControlExpectedWaitTimeMessageForSeconds(Context context,
+                                                                        int seconds) {
         if (seconds == 0)
             return context.getString(R.string.com_kustomer_someone_should_be_with_you_momentarily);
         else {

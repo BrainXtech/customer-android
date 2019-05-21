@@ -350,7 +350,7 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener, 
             KUSSessionQueue sessionQueue = chatMessagesDataSource.getSessionQueuePollingManager().getSessionQueue();
 
             if(sessionQueue != null)
-                waitingMessage = KUSDate.humanReadableUpfrontVolumeControlWaitingTimeFromSeconds(
+                waitingMessage = KUSDate.volumeControlExpectedWaitTimeMessageForSeconds(
                         getContext(),sessionQueue.getEstimatedWaitTimeSeconds());
         }
 
@@ -494,7 +494,7 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener, 
 
     @Override
     public void onSessionQueueUpdated(KUSSessionQueuePollingManager manager, KUSSessionQueue sessionQueue) {
-        waitingMessage = KUSDate.humanReadableUpfrontVolumeControlWaitingTimeFromSeconds(
+        waitingMessage = KUSDate.volumeControlExpectedWaitTimeMessageForSeconds(
                 getContext(),sessionQueue.getEstimatedWaitTimeSeconds());
 
         Handler handler = new Handler(Looper.getMainLooper());

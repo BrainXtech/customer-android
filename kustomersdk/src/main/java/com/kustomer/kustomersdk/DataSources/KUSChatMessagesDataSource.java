@@ -1614,7 +1614,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
             if (chatSettings.getVolumeControlMode() == KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_UPFRONT
                     && sessionQueue.getEstimatedWaitTimeSeconds() != 0) {
 
-                String approximateWaitingTimeString = KUSDate.upfrontVolumeControlApproximateWaitingTimeFromSeconds(
+                String approximateWaitingTimeString = KUSDate.volumeControlCurrentWaitTimeMessageForSeconds(
                         Kustomer.getContext(),
                         sessionQueue.getEstimatedWaitTimeSeconds());
 
