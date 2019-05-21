@@ -79,6 +79,7 @@ public class KUSDate {
                 context.getString(R.string.com_kustomer_ago));
     }
 
+    @NonNull
     public static String humanReadableTextFromSeconds(@NonNull Context context, int seconds) {
         if (seconds < SECONDS_PER_MINUTE) {
             int stringId = seconds <= 1 ? R.string.com_kustomer_second : R.string.com_kustomer_seconds;
@@ -96,6 +97,7 @@ public class KUSDate {
         }
     }
 
+    @NonNull
     public static String humanReadableUpfrontVCWaitingTimeFromSeconds(@NonNull Context context,
                                                                       int seconds) {
         if (seconds == 0)

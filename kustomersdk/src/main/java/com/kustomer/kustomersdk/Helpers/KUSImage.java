@@ -39,6 +39,7 @@ public class KUSImage {
     //endreigon
 
     //region Public Methods
+    @NonNull
     private static Bitmap circularImage(@NonNull KSize size, int color, int strokeColor, int strokeWidth) {
         Bitmap dstBitmap = Bitmap.createBitmap(
                 size.getWidth(), // Width
@@ -81,6 +82,7 @@ public class KUSImage {
 
     }
 
+    @NonNull
     private static Bitmap getBitmapWithText(@NonNull Context mContext, @NonNull KSize size, int color,
                                             int strokeColor, int strokeWidth, String text, int textSize) {
 
@@ -109,6 +111,7 @@ public class KUSImage {
         return src;
     }
 
+    @NonNull
     public static Bitmap defaultAvatarBitmapForName(@NonNull Context context, @NonNull KSize size,
                                                     @NonNull String name, int strokeWidth, int fontSize) {
         Bitmap bitmap = new KUSCache().getBitmapFromMemCache(name + "w:" + strokeWidth);
@@ -134,8 +137,7 @@ public class KUSImage {
                 text.toString(),
                 fontSize);
 
-        if (bitmap != null)
-            new KUSCache().addBitmapToMemoryCache(name + "w:" + strokeWidth, bitmap);
+        new KUSCache().addBitmapToMemoryCache(name + "w:" + strokeWidth, bitmap);
 
         return bitmap;
     }

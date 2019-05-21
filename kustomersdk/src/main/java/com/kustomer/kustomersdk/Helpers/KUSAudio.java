@@ -2,13 +2,9 @@ package com.kustomer.kustomersdk.Helpers;
 
 import android.media.MediaPlayer;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Kustomer;
 import com.kustomer.kustomersdk.R;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by Junaid on 1/20/2018.
@@ -18,7 +14,6 @@ public class KUSAudio implements MediaPlayer.OnCompletionListener {
 
     //region Properties
     private static KUSAudio kusAudio;
-    private List<MediaPlayer> playingMediaPlayers = new ArrayList<>();
     //endregion
 
     //region LifeCycle
@@ -42,7 +37,6 @@ public class KUSAudio implements MediaPlayer.OnCompletionListener {
             MediaPlayer mPlayer = MediaPlayer.create(Kustomer.getContext(), R.raw.kus_message_received);
 
             if (mPlayer != null) {
-                playingMediaPlayers.add(mPlayer);
                 mPlayer.setOnCompletionListener(this);
                 mPlayer.start();
             }
@@ -56,7 +50,6 @@ public class KUSAudio implements MediaPlayer.OnCompletionListener {
         mp.stop();
         mp.release();
         mp.setOnCompletionListener(null);
-        playingMediaPlayers.remove(mp);
     }
     //endregion
 

@@ -218,20 +218,19 @@ public class JsonHelper {
     }
 
     @Nullable
-    public static List<KUSModel> kusChatModelsFromJSON(@NonNull Context context, @Nullable JSONObject jsonObject) {
+    public static List<KUSModel> kusChatModelsFromJSON(@NonNull Context context,
+                                                       @Nullable JSONObject jsonObject) {
         if (jsonObject == null)
             return null;
 
-        KUSChatMessage standardChatMessage = null;
+        KUSChatMessage standardChatMessage;
 
         try {
             standardChatMessage = new KUSChatMessage(jsonObject);
         } catch (KUSInvalidJsonException e) {
             e.printStackTrace();
-        }
-
-        if (standardChatMessage == null)
             return new ArrayList<>();
+        }
 
         String body = KUSUtils.unescapeBackslashesFromString(standardChatMessage.getBody());
         standardChatMessage.setBody(body);

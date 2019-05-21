@@ -35,6 +35,7 @@ public class KUSText {
         Markwon.setMarkdown(textView, spannableConfiguration, msg);
     }
 
+    @NonNull
     private static String formatText(@NonNull String text) {
         if (!text.contains("\n")) {
             return text;
