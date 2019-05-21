@@ -1,5 +1,11 @@
 # Changelog for Kustomer Android SDK
 
+## 0.2.3
+Release Date: 05/14/2019
+* Optimized & Improved Performance of API calls that fetch Satisfaction Forms data.
+* Disabled the ability for Customers to manually retry failed messages when vc-form is active or chat has ended
+* Fixed crash & duplicate chat screen issue when app restarted by system
+
 ## 0.2.2
 Release Date: 05/8/2019
 * Updated glide & other dependencies to the latest versions
