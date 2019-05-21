@@ -37,7 +37,6 @@
     <string name="com_kustomer_please_select_an_item">Будь ласка, виберіть предмет</string>
     <string name="com_kustomer_someone_should_be_with_you_momentarily">Хтось повинен бути з вами на мить</string>
     <string name="com_kustomer_volume_control_alternative_method_question">Вибачте, як ніколи не було доступно в той час, коли ми очікували. Будь-ласка, виберіть альтернативний метод контакту, щоб ми могли піти з вами …</string>
-    <string name="com_kustomer_our_current_wait_time_is_approximately">Наш поточний час очікування приблизно</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Ви можете вибрати очікування наступного доступного агента або вибрати альтернативу\",іти з вами.</string>
     <string name="com_kustomer_volume_control_email_question">Відмінно, який найкращий лист для вас?</string>
     <string name="com_kustomer_volume_control_phone_question">Чудово, який найкращий номер телефону для вас?</string>

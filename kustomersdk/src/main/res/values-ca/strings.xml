@@ -37,7 +37,6 @@
     <string name="com_kustomer_please_select_an_item">Seleccioneu un element</string>
     <string name="com_kustomer_someone_should_be_with_you_momentarily">Algú hauria d\'estar contínuament amb tu</string>
     <string name="com_kustomer_volume_control_alternative_method_question">Ho sentim, però ningú ha quedat disponible en el moment que esperàvem. Seleccioneu un mètode de contacte alternatiu perquè seguiu amb vosaltres …</string>
-    <string name="com_kustomer_our_current_wait_time_is_approximately">El nostre temps d\'espera actual és aproximadament</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Podeu optar per esperar el següent agent disponible o seleccionar una alternativa\", tu.</string>
     <string name="com_kustomer_volume_control_email_question">Molt bé, quin és el millor correu electrònic per arribar-hi?</string>
     <string name="com_kustomer_volume_control_phone_question">Molt bé, quin és el millor número de telèfon per arribar-hi?</string>

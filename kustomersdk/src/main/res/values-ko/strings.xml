@@ -36,7 +36,6 @@
     <string name="com_kustomer_home">집</string>
     <string name="com_kustomer_please_select_an_item">항목을 선택하십시오.</string>
     <string name="com_kustomer_someone_should_be_with_you_momentarily">누군가 당신과 잠시 같이 있어야합니다.</string>
-    <string name="com_kustomer_our_current_wait_time_is_approximately">우리의 현재 대기 시간은 약입니다</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">다음으로 사용할 수있는 상담원을 기다리거나 대안을 선택할 수 있습니다.</string>
     <string name="com_kustomer_volume_control_alternative_method_question">죄송합니다. 예상 한 시간에 아무도 사용할 수 없게 된 것 같습니다. 후속 조치를 취할 대체 연락처 방법을 선택하십시오 …</string>
     <string name="com_kustomer_volume_control_email_question">좋아요, 연락 할 수있는 가장 좋은 이메일은 무엇입니까?</string>

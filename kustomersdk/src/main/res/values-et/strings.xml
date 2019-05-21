@@ -37,7 +37,6 @@
     <string name="com_kustomer_please_select_an_item">Palun valige üksus</string>
     <string name="com_kustomer_someone_should_be_with_you_momentarily">Keegi peaks olema sinuga hetkeks</string>
     <string name="com_kustomer_volume_control_alternative_method_question">Kahjuks tundub, et keegi ei ole kasutusele oodatud. Palun vali alternatiivne kontaktiviis, mida saaksime teiega jälgida …</string>
-    <string name="com_kustomer_our_current_wait_time_is_approximately">Meie praegune ooteaeg on umbes</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Võite oodata järgmise saadaval oleva agendi või valida alternatiiv\", teiega ühendust.</string>
     <string name="com_kustomer_volume_control_email_question">Hea, mis on parim e-kiri, et jõuda teie juurde?</string>
     <string name="com_kustomer_volume_control_phone_question">Suur, mis on parim telefoninumber, et jõuda teid?</string>

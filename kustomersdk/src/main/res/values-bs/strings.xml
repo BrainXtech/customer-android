@@ -37,7 +37,6 @@
     <string name="com_kustomer_please_select_an_item">Molimo izaberite stavku</string>
     <string name="com_kustomer_someone_should_be_with_you_momentarily">Neko bi trebao biti sa vama trenutno</string>
     <string name="com_kustomer_volume_control_alternative_method_question">Izvinite, izgleda da niko nije postao dostupan u vremenu koje smo očekivali. Molimo vas da izaberete alternativni kontakt metod da se nadjemo sa vama …</string>
-    <string name="com_kustomer_our_current_wait_time_is_approximately">Naš trenutni trenutak čekanja je otprilike</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Možete odabrati da sačekate sledećeg raspoloživog agenta ili izaberete alternativu\",s vama.</string>
     <string name="com_kustomer_volume_control_email_question">Odlično, u čemu je najbolji email za koji ste došli?</string>
     <string name="com_kustomer_volume_control_phone_question">Odlično, koji je najbolji telefonski broj na koji ste došli?</string>

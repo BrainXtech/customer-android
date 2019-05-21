@@ -37,7 +37,6 @@
     <string name="com_kustomer_please_select_an_item">โปรดเลือกรายการ</string>
     <string name="com_kustomer_someone_should_be_with_you_momentarily">บางคนควรอยู่กับคุณชั่วขณะ</string>
     <string name="com_kustomer_volume_control_alternative_method_question">ขออภัยดูเหมือนว่าไม่มีใครสามารถใช้งานได้ในเวลาที่เราคาดหวัง โปรดเลือกวิธีการติดต่ออื่นเพื่อให้เราติดตามผลกับคุณ …</string>
-    <string name="com_kustomer_our_current_wait_time_is_approximately">เวลารอปัจจุบันของเราอยู่ที่ประมาณ</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">คุณสามารถเลือกที่จะรอตัวแทนที่มีอยู่ถัดไปหรือเลือกทางเลือกอื่น</string>
     <string name="com_kustomer_volume_control_email_question">อะไรดีอีเมลที่ดีที่สุดในการติดต่อคุณคืออะไร</string>
     <string name="com_kustomer_volume_control_phone_question">หมายเลขโทรศัพท์ที่ดีที่สุดในการติดต่อคุณคืออะไร?</string>

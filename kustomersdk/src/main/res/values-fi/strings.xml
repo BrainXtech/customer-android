@@ -37,7 +37,6 @@
     <string name="com_kustomer_please_select_an_item">Valitse kohde</string>
     <string name="com_kustomer_someone_should_be_with_you_momentarily">Joku pitäisi olla kanssasi hetkeksi</string>
     <string name="com_kustomer_volume_control_alternative_method_question">Valitettavasti keneltäkään ei ole tullut saatavana odotettua aikaa. Valitse vaihtoehtoinen yhteydenottomenetelmä, jotta voimme seurata kanssasi …</string>
-    <string name="com_kustomer_our_current_wait_time_is_approximately">Nykyinen odotusaika on noin</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Voit valita odottavan seuraavan käytettävissä olevan agentin tai valita vaihtoehdon\",eurata sinua.</string>
     <string name="com_kustomer_volume_control_email_question">Hyvä, mikä on paras sähköpostiosoite tavoittaa sinut?</string>
     <string name="com_kustomer_volume_control_phone_question">Hyvä, mikä on paras puhelinnumero tavoittaa sinut?</string>

@@ -37,7 +37,6 @@
     <string name="com_kustomer_please_select_an_item">Моля, изберете елемент</string>
     <string name="com_kustomer_someone_should_be_with_you_momentarily">Някой трябва да бъде с теб за момент</string>
     <string name="com_kustomer_volume_control_alternative_method_question">За съжаление изглежда, че никой не е станал достъпен във времето, което очаквахме. Моля, изберете алтернативен метод за връзка, за да можем да продължим с Вас …</string>
-    <string name="com_kustomer_our_current_wait_time_is_approximately">Настоящото време на изчакване е приблизително</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Можете да изберете да изчакате следващия наличен агент или да изберете алтернатива\",родължим с Вас.</string>
     <string name="com_kustomer_volume_control_email_question">Страхотно, какъв е най-добрият имейл, с който да се свържеш с вас?</string>
     <string name="com_kustomer_volume_control_phone_question">Страхотно, какъв е най-добрият телефонен номер, на който да стигнете?</string>

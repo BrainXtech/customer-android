@@ -37,7 +37,6 @@
     <string name="com_kustomer_please_select_an_item">Bitte wählen Sie einen Artikel</string>
     <string name="com_kustomer_someone_should_be_with_you_momentarily">Jemand sollte für einen Moment bei dir sein</string>
     <string name="com_kustomer_volume_control_alternative_method_question">Entschuldigung, es sieht so aus, als sei in der erwarteten Zeit niemand verfügbar. Bitte wählen Sie eine alternative Kontaktmethode, damit wir mit Ihnen Kontakt aufnehmen können…</string>
-    <string name="com_kustomer_our_current_wait_time_is_approximately">Unsere derzeitige Wartezeit beträgt ungefähr</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Sie können auf den nächsten verfügbaren Agenten warten oder eine Alternative auswählen\",en Kontakt aufnehmen können.</string>
     <string name="com_kustomer_volume_control_email_question">Toll, was ist die beste E-Mail, um Sie zu erreichen?</string>
     <string name="com_kustomer_volume_control_phone_question">Toll, wie lautet die beste Telefonnummer, um Sie zu erreichen?</string>

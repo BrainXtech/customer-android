@@ -37,7 +37,6 @@
     <string name="com_kustomer_please_select_an_item">Ju lutemi zgjidhni një artikull</string>
     <string name="com_kustomer_someone_should_be_with_you_momentarily">Dikush duhet të jetë me ju momentalisht</string>
     <string name="com_kustomer_volume_control_alternative_method_question">Na vjen keq, duket sikur askush nuk është vënë në dispozicion në kohën që prisnim. Ju lutemi zgjidhni një metodë alternative të kontaktit për ne për të ndjekur me ju …</string>
-    <string name="com_kustomer_our_current_wait_time_is_approximately">Koha aktuale e pritjes është afërsisht</string>
     <string name="com_kustomer_upfront_volume_control_alternative_method_question">Ju mund të zgjidhni të prisni agjentin tjetër në dispozicion ose zgjidhni një alternativë\",ërcjellim me ju.</string>
     <string name="com_kustomer_volume_control_email_question">E madhe, cila është e-mailja më e mirë për të arritur tek ju?</string>
     <string name="com_kustomer_volume_control_phone_question">E madhe, cili është numri më i mirë i telefonit për të arritur tek ju?</string>
