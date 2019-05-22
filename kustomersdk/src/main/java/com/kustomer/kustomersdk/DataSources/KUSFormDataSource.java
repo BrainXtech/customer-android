@@ -64,10 +64,15 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
         if (getUserSession() == null)
             return;
 
-        if (getFormId() == null && !getUserSession().getChatSettingsDataSource().isFetched()) {
+        String formId = getFormId();
+
+        if (formId == null && !getUserSession().getChatSettingsDataSource().isFetched()) {
             getUserSession().getChatSettingsDataSource().fetch();
             return;
         }
+
+        if (formId == null)
+            return;
 
         super.fetch();
     }
