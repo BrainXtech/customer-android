@@ -322,7 +322,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             chatSessionId = kusChatSession.getId();
             chatMessagesDataSource = userSession.chatMessageDataSourceForSessionId(chatSessionId);
         } else {
-            chatMessagesDataSource = new KUSChatMessagesDataSource(userSession, true);
+            chatMessagesDataSource = new KUSChatMessagesDataSource(userSession, null, true);
         }
 
         if (message != null) {
@@ -805,7 +805,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             chatMessagesDataSource = userSession.chatMessageDataSourceForSessionId(chatSessionId);
 
         } else {
-            chatMessagesDataSource = new KUSChatMessagesDataSource(userSession, true);
+            chatMessagesDataSource = new KUSChatMessagesDataSource(userSession, null,true);
             chatSessionId = null;
             kusInputBarView.setAllowsAttachment(false);
 

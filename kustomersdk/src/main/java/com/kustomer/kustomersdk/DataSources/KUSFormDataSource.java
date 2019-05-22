@@ -64,7 +64,7 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
         if (getUserSession() == null)
             return;
 
-        if (!getUserSession().getChatSettingsDataSource().isFetched()) {
+        if (getFormId() == null && !getUserSession().getChatSettingsDataSource().isFetched()) {
             getUserSession().getChatSettingsDataSource().fetch();
             return;
         }
@@ -112,7 +112,7 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
         else if (getUserSession().getSharedPreferences().getFormId() != null)
             formId = getUserSession().getSharedPreferences().getFormId();
 
-        else if (chatSettings.getActiveFormId() != null)
+        else if (chatSettings != null && chatSettings.getActiveFormId() != null)
             formId = chatSettings.getActiveFormId();
 
         return formId;

@@ -138,26 +138,18 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         addListener(this);
     }
 
-    public KUSChatMessagesDataSource(@NonNull KUSUserSession userSession, @NonNull String formId,
+    public KUSChatMessagesDataSource(@NonNull KUSUserSession userSession, @Nullable String formId,
                                      boolean startNewConversation) {
         this(userSession);
 
         if (startNewConversation) {
             createdLocally = true;
 
-            formDataSource = new KUSFormDataSource(userSession, formId);
-            formDataSource.addListener(this);
-            formDataSource.fetch();
-        }
-    }
+            if (formId != null)
+                formDataSource = new KUSFormDataSource(userSession, formId);
+            else
+                formDataSource = userSession.getFormDataSource();
 
-    public KUSChatMessagesDataSource(KUSUserSession userSession, boolean startNewConversation) {
-        this(userSession);
-
-        if (startNewConversation) {
-            createdLocally = true;
-
-            formDataSource = userSession.getFormDataSource();
             formDataSource.addListener(this);
             formDataSource.fetch();
         }
@@ -171,7 +163,6 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
         this.sessionId = sessionId;
     }
-
 
     //endregion
 
