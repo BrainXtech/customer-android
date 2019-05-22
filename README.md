@@ -104,8 +104,43 @@ Kustomer.init(this, "API_KEY");
 ```
 
 ```java
-// Convenience method that will present the chat interface.
+// Convenience methods that will present the chat interface.
+
+
+//Present new or most recent chat conversation.
+
 Kustomer.showSupport(ACTIVITY);
+
+//Present new chat conversation with message.
+
+Kustomer.showSupportWithMessage(Activity, "message");
+
+//Present new chat conversation with message and set custom attributes for that conversation.
+
+JSONObject customAttributes = new JSONObject();
+conversationObject.put("customAttributeStr", "value");
+// ...
+
+Kustomer.showSupportWithMessage(Activity, "message", customAttributes);
+
+//Present new chat conversation with message and set chat assistant form for that conversation.
+
+Kustomer.showSupportWithMessage(Activity, "message", "form-id");
+
+/*
+  Present new chat conversation with message, set chat assistant form andcustom attributes
+  for that conversation.
+*/
+
+JSONObject customAttributes = new JSONObject();
+conversationObject.put("customAttributeStr", "value");
+// ...
+
+Kustomer.showSupportWithMessage(Activity, "message", "form-id", customAttributes);
+
+```
+
+```java
 
 // Convenience methods that will present a browser interface pointing to your KnowledgeBase.
 Kustomer.presentKnowledgeBase(ACTIVITY);
@@ -267,46 +302,6 @@ Kustomer.getUnreadMessageCount();
  Override the conversation form directly from the sdk by setting the form id. 
 */
 Kustomer.setFormId(FORM_ID);
-```
-
-```java
-/*
-  Convenience method that will present chat interface and initiate new chat conversation with message.
-*/
-Kustomer.showSupportWithMessage(Activity, "message");
-```
-
-```java
-/*
-  Convenience method that will present chat interface, initiate new chat conversation with message
-  and set customAttributes of that conversation.
-*/
-
-JSONObject customAttributes = new JSONObject();
-conversationObject.put("customAttributeStr", "value");
-// ...
-
-Kustomer.showSupportWithMessage(Activity, "message", customAttributes);
-```
-
-```java
-/*
-  Convenience method that will present chat interface and initiate new chat assistant form with message.
-*/
-Kustomer.showSupportWithMessage(Activity, "message", "form-id");
-```
-
-```java
-/*
-  Convenience method that will present chat interface, initiate new chat assistant form with message
-  and set customAttributes of that conversation.
-*/
-
-JSONObject customAttributes = new JSONObject();
-conversationObject.put("customAttributeStr", "value");
-// ...
-
-Kustomer.showSupportWithMessage(Activity, "message", "form-id", customAttributes);
 ```
 
 ### Styling
