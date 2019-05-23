@@ -89,7 +89,7 @@ public class KUSUtils {
     }
 
     @NonNull
-    public static String listJoinedByString(@NonNull List<String> list, String join) {
+    public static String listJoinedByString(@NonNull List<String> list, @NonNull String join) {
         StringBuilder joinedString = new StringBuilder();
 
         for (int i = 0; i < list.size(); i++) {
@@ -129,7 +129,7 @@ public class KUSUtils {
     }
 
     @Nullable
-    public static Uri getUriFromFile(@NonNull Context context, File file) {
+    public static Uri getUriFromFile(@NonNull Context context, @NonNull File file) {
         try {
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
                 return Uri.fromFile(file);

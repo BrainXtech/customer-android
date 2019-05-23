@@ -51,14 +51,14 @@ public class JsonHelper {
     }
 
     @Nullable
-    public static URL urlFromKeyPath(@NonNull JSONObject jsonObject, String keyPath) {
+    public static URL urlFromKeyPath(@NonNull JSONObject jsonObject, @NonNull String keyPath) {
         String value = stringFromKeyPath(jsonObject, keyPath);
 
         if (value != null && !value.isEmpty())
             try {
                 return new URL(value);
             } catch (MalformedURLException e) {
-                e.printStackTrace();
+                KUSLog.KUSLogError(e.getMessage());
             }
 
         return null;
@@ -211,7 +211,7 @@ public class JsonHelper {
         try {
             return new JSONObject(jsonString);
         } catch (JSONException e) {
-            e.printStackTrace();
+            KUSLog.KUSLogError(e.getMessage());
         }
 
         return null;

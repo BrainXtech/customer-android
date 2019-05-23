@@ -18,14 +18,14 @@ import static android.support.v4.content.ContextCompat.checkSelfPermission;
 public class KUSPermission {
 
     //region Private Methods
-    private static boolean hasSelfPermission(@NonNull Context context, String permission) {
+    private static boolean hasSelfPermission(@NonNull Context context, @NonNull String permission) {
         try {
             return checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
         } catch (RuntimeException t) {
             return false;
         }
     }
-    private static boolean isPermissionDeclared(@NonNull Context context, String permission){
+    private static boolean isPermissionDeclared(@NonNull Context context, @NonNull String permission){
         PackageManager pm = context.getPackageManager();
         try
         {

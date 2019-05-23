@@ -15,7 +15,7 @@ public class KUSTimer {
     @NonNull
     private Handler handler;
     @NonNull
-    private KUSTimerListener timerLister;
+    private KUSTimerListener timerListener;
     @Nullable
     private Date startTime;
     private boolean running;
@@ -24,9 +24,9 @@ public class KUSTimer {
 
     //region Lifecycle
 
-    public KUSTimer(@NonNull Handler handler, long delay, @NonNull KUSTimerListener timerLister) {
+    public KUSTimer(@NonNull Handler handler, long delay, @NonNull KUSTimerListener timerListener) {
         this.delay = delay;
-        this.timerLister = timerLister;
+        this.timerListener = timerListener;
         this.handler = handler;
     }
     //endregion
@@ -37,7 +37,7 @@ public class KUSTimer {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                timerLister.onTimerComplete();
+                timerListener.onTimerComplete();
                 startTime = null;
                 running = false;
             }

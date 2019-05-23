@@ -3,6 +3,7 @@ package com.kustomer.kustomersdk.Helpers;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 
@@ -20,7 +21,9 @@ public class KUSSharedPreferences {
     private static final String FORM_ID_PREFERENCE = "form_id_pref";
     private static final String OPEN_CHAT_SESSIONS_COUNT = "open_chat_session_count_pref";
     private static final String SHOULD_HIDE_CONVERSATION_BUTTON = "should_hide_conversation_button_pref";
-    private SharedPreferences sharedPref = null;
+
+    @NonNull
+    private SharedPreferences sharedPref;
     //endregion
 
     //region Initializer
@@ -32,23 +35,23 @@ public class KUSSharedPreferences {
     //endregion
 
     //region Basic Methods
-    private void saveInt(String key, int value) {
+    private void saveInt(@NonNull String key, int value) {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putInt(key, value);
         editor.apply();
     }
 
-    private int getInt(String key) {
+    private int getInt(@NonNull String key) {
         return sharedPref.getInt(key, 0);
     }
 
-    private void saveBoolean(String key, boolean check) {
+    private void saveBoolean(@NonNull String key, boolean check) {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putBoolean(key, check);
         editor.apply();
     }
 
-    private boolean getBoolean(String key) {
+    private boolean getBoolean(@NonNull String key) {
         return sharedPref.getBoolean(key, false);
     }
 
@@ -58,7 +61,8 @@ public class KUSSharedPreferences {
         editor.apply();
     }
 
-    private String getString(String key) {
+    @Nullable
+    private String getString(@NonNull String key) {
         return sharedPref.getString(key, null);
     }
 
@@ -73,18 +77,20 @@ public class KUSSharedPreferences {
         return getBoolean(DID_CAPTURE_EMAIL_PREFERENCE);
     }
 
-    public void setTrackingToken(String trackingToken) {
+    public void setTrackingToken(@NonNull String trackingToken) {
         saveString(TRACKING_TOKEN_PREFERENCE, trackingToken);
     }
 
+    @Nullable
     public String getTrackingToken() {
         return getString(TRACKING_TOKEN_PREFERENCE);
     }
 
-    public void setFormId(String formId) {
+    public void setFormId(@NonNull String formId) {
         saveString(FORM_ID_PREFERENCE, formId);
     }
 
+    @Nullable
     public String getFormId() {
         return getString(FORM_ID_PREFERENCE);
     }

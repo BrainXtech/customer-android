@@ -28,15 +28,17 @@ public class KUSDate {
     private static float HOURS_PER_DAY = 24f;
     private static int DAYS_PER_WEEK = 7;
 
+    @Nullable
     private static DateFormat shortDateFormat;
+    @Nullable
     private static DateFormat shortTimeFormat;
     //endregion
 
     //region Static Methods
-    @Nullable
+    @NonNull
     public static String humanReadableTextFromDate(@NonNull Context context, @Nullable Date date) {
         if (date == null)
-            return null;
+            return "";
 
         long timeAgo = (Calendar.getInstance().getTimeInMillis() - date.getTime()) / 1000;
         if (timeAgo < SECONDS_PER_MINUTE)
@@ -140,12 +142,12 @@ public class KUSDate {
         return null;
     }
 
-    @Nullable
+    @NonNull
     public static String stringFromDate(@Nullable Date date) {
         if (date != null) {
             return ISO8601DateFormatterFromDate().format(date);
         } else
-            return null;
+            return "";
     }
     //endregion
 

@@ -30,6 +30,7 @@ public class KUSUpload {
     //region Properties
     private boolean sendingComplete = false;
     private int uploadedCount = 0;
+    @NonNull
     private List<KUSChatAttachment> attachments;
     //endregion
 
@@ -38,13 +39,8 @@ public class KUSUpload {
     //endregion
 
     //region Public Methods
-    public void uploadImages(@Nullable final List<Bitmap> images, @Nullable KUSUserSession userSession,
+    public void uploadImages(@Nullable final List<Bitmap> images, @NonNull KUSUserSession userSession,
                              @NonNull final KUSImageUploadListener listener) {
-
-        if (userSession == null) {
-            listener.onCompletion(new Error(), null);
-            return;
-        }
 
         if (images == null || images.size() == 0) {
             listener.onCompletion(null, new ArrayList<KUSChatAttachment>());
@@ -163,7 +159,7 @@ public class KUSUpload {
 
     //region Interface
     public interface ImageUploadListener {
-        void onUploadComplete(Error error, KUSChatAttachment attachment);
+        void onUploadComplete(@Nullable Error error, @Nullable KUSChatAttachment attachment);
     }
     //endregion
 

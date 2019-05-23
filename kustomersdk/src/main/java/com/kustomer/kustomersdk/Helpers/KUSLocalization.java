@@ -17,7 +17,9 @@ public class KUSLocalization {
     //region properties
 
     private static KUSLocalization localizationManager;
+    @Nullable
     private Locale dLocale;
+    @Nullable
     private Locale uLocale;
 
     //endregion
@@ -54,6 +56,7 @@ public class KUSLocalization {
 
     }
 
+    @NonNull
     private Locale getAvailableLocale(@NonNull Context mContext) {
         LocaleListCompat localeList = LocaleListCompat.getDefault();
         for (int i = 0; i < localeList.size(); i++) {
@@ -72,6 +75,7 @@ public class KUSLocalization {
 
     //region Public Methods
 
+    @Nullable
     public Locale getUserLocale() {
         return uLocale;
     }
@@ -102,7 +106,8 @@ public class KUSLocalization {
 
     }
 
-    public String localizedString(@NonNull Context mContext,@Nullable String key) {
+    @NonNull
+    public String localizedString(@NonNull Context mContext,@NonNull String key) {
         String packageName = mContext.getPackageName();
         int resId = mContext.getResources().getIdentifier(key, "string", packageName);
         if (resId == 0)

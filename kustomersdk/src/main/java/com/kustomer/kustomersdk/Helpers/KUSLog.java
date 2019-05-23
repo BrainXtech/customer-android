@@ -1,5 +1,6 @@
 package com.kustomer.kustomersdk.Helpers;
 
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.kustomer.kustomersdk.Interfaces.KUSLogOptions;
@@ -12,7 +13,7 @@ import com.kustomer.kustomersdk.Kustomer;
 public class KUSLog {
 
     //region Private Methods
-    private static void KUSLogMessage(int req, String value){
+    private static void KUSLogMessage(int req, @NonNull String value){
         if((Kustomer.getLogOptions() & req) > 0){
             Log.d("Kustomer",value);
         }
@@ -20,23 +21,23 @@ public class KUSLog {
     //endregion
 
     //region Public Methods
-    public static void KUSLogInfo(String info){
+    public static void KUSLogInfo(@NonNull String info){
         KUSLogMessage(KUSLogOptions.KUSLogOptionInfo,info);
     }
 
-    public static void KUSLogError(String info){
+    public static void KUSLogError(@NonNull String info){
         KUSLogMessage(KUSLogOptions.KUSLogOptionErrors,info);
     }
 
-    public static void KUSLogRequest(String info){
+    public static void KUSLogRequest(@NonNull String info){
         KUSLogMessage(KUSLogOptions.KUSLogOptionRequests,info);
     }
 
-    public static void KUSLogPusher(String info){
+    public static void KUSLogPusher(@NonNull String info){
         KUSLogMessage(KUSLogOptions.KUSLogOptionPusher,info);
     }
 
-    public static void KUSLogPusherError(String info){
+    public static void KUSLogPusherError(@NonNull String info){
         KUSLogMessage(KUSLogOptions.KUSLogOptionPusher | KUSLogOptions.KUSLogOptionErrors,info);
     }
     //endregion

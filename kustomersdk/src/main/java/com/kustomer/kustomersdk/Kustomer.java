@@ -176,11 +176,11 @@ public class Kustomer {
         getSharedInstance().mSetLocale(locale);
     }
 
-    public static String getLocalizedString(String key) {
+    public static String getLocalizedString(@NonNull String key) {
         return getSharedInstance().mGetString(key);
     }
 
-    public static void setFormId(String formId) {
+    public static void setFormId(@NonNull String formId) {
         getSharedInstance().mSetFormId(formId);
     }
 
@@ -356,11 +356,11 @@ public class Kustomer {
         KUSLocalization.getSharedInstance().setUserLocale(locale);
     }
 
-    private String mGetString(String key) {
+    private String mGetString(@NonNull String key) {
         return KUSLocalization.getSharedInstance().localizedString(mContext, key);
     }
 
-    private void mSetFormId(String formId) {
+    private void mSetFormId(@NonNull String formId) {
         userSession.getSharedPreferences().setFormId(formId);
     }
 

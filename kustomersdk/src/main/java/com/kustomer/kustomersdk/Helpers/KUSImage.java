@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Created by Junaid on 1/20/2018.
@@ -35,6 +36,7 @@ import java.util.List;
 public class KUSImage {
     //region Properties
     private static final int MAX_BITMAP_PIXELS = 1000000;
+    @Nullable
     private static List<Integer> defaultNameColors = null;
     //endreigon
 
@@ -157,7 +159,7 @@ public class KUSImage {
             if (bitmap != null)
                 return KUSImage.rotateBitmapIfNeeded(bitmap, getInputStream(uri));
         } catch (IOException e) {
-            e.printStackTrace();
+            KUSLog.KUSLogError(e.getMessage());
         }
         return null;
     }
@@ -282,7 +284,7 @@ public class KUSImage {
     private static InputStream getInputStream(@NonNull String uri) {
         try {
             return !uri.startsWith("content") ?
-                    new FileInputStream(Uri.parse(uri).getPath()) :
+                    new FileInputStream(Objects.requireNonNull(Uri.parse(uri).getPath())) :
                     Kustomer.getContext().getContentResolver().openInputStream(Uri.parse(uri));
         } catch (FileNotFoundException e) {
             return null;
