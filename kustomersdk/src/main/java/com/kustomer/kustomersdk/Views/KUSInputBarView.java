@@ -95,6 +95,16 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
         setListeners();
         setupAdapter();
     }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+
+        if (userSession != null) {
+            userSession.getChatSettingsDataSource().removeListener(this);
+            userSession.getScheduleDataSource().removeListener(this);
+        }
+    }
     //endregion
 
     //region Initializer

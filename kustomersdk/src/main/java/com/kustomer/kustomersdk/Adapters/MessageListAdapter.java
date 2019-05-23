@@ -24,7 +24,7 @@ import com.kustomer.kustomersdk.ViewHolders.UserMessageViewHolder;
  * Created by Junaid on 1/19/2018.
  */
 
-public class MessageListAdapter extends RecyclerView.Adapter {
+public class MessageListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //region Properties
     private static final int K_PREFETCH_PADDING = 20;
@@ -177,6 +177,17 @@ public class MessageListAdapter extends RecyclerView.Adapter {
             return mPaginatedDataSource.getSize() + 1;
 
         return mPaginatedDataSource.getSize();
+    }
+
+    @Override
+    public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
+        super.onViewDetachedFromWindow(holder);
+
+        // No need to call onDetach for Agent Message items
+        try {
+            ((UserMessageViewHolder) holder).onDetached();
+        } catch (Exception ignore) {
+        }
     }
 
     //endregion

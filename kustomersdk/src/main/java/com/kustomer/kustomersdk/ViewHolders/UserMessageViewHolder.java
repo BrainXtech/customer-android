@@ -108,6 +108,11 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
 
         updateAlphaForState();
     }
+
+    public void onDetached() {
+        mListener = null;
+    }
+
     //endregion
 
     //region Private Methods

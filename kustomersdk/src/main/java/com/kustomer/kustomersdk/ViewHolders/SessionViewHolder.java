@@ -76,6 +76,10 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
         mChatSession = chatSession;
 
         mUserSession.getChatSettingsDataSource().addListener(this);
+
+        if (chatMessagesDataSource != null)
+            chatMessagesDataSource.removeListener(this);
+
         chatMessagesDataSource = userSession.chatMessageDataSourceForSessionId(chatSession.getId());
         chatMessagesDataSource.addListener(this);
         if (!chatMessagesDataSource.isFetched() && !chatMessagesDataSource.isFetching())

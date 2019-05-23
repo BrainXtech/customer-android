@@ -91,11 +91,14 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener, 
         if (userSession != null && userSession.getChatSessionsDataSource() != null)
             userSession.getChatSessionsDataSource().removeListener(this);
 
+        if (userSession != null && userSession.getScheduleDataSource() != null)
+            userSession.getScheduleDataSource().removeListener(this);
+
         if (userDataSource != null)
             userDataSource.removeListener(this);
 
-        if (chatMessagesDataSource != null)
-        {
+        if (chatMessagesDataSource != null) {
+
             if(chatMessagesDataSource.getSessionQueuePollingManager() != null)
                 chatMessagesDataSource.getSessionQueuePollingManager().removeListener(this);
 
