@@ -161,7 +161,7 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
             @Override
             public void onComplete(boolean success, Error error) {
                 if(error != null || !success){
-                    KUSLog.KUSLogError(String.format("Error submitting email: %s",
+                    KUSLog.kusLogError(String.format("Error submitting email: %s",
                             error != null ? error.toString() : ""));
                     return;
                 }

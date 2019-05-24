@@ -51,7 +51,7 @@ public class KUSFormQuestion extends KUSModel {
             }
         }
 
-        values = JsonHelper.arrayListFromKeyPath(json, "values");
+        values = JsonHelper.stringsArrayListFromKeyPath(json, "values");
     }
     //endregion
 

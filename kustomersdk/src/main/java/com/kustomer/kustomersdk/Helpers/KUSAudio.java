@@ -41,7 +41,7 @@ public class KUSAudio implements MediaPlayer.OnCompletionListener {
                 mPlayer.start();
             }
         } catch (Exception e) {
-            KUSLog.KUSLogError(e.getMessage());
+            KUSLog.kusLogError(e.getMessage());
         }
     }
 

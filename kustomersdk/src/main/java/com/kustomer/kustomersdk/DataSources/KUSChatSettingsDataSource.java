@@ -18,6 +18,7 @@ import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.HashMap;
+import java.util.Locale;
 
 /**
  * Created by Junaid on 1/20/2018.
@@ -40,12 +41,14 @@ public class KUSChatSettingsDataSource extends KUSObjectDataSource implements Se
             return;
         }
 
+        final Locale locale = KUSLocalization.getSharedInstance().getUserLocale();
+
         getUserSession().getRequestManager().performRequestType(KUSRequestType.KUS_REQUEST_TYPE_GET,
                 KUSConstants.URL.SETTINGS_ENDPOINT,
                 new HashMap<String, Object>() {
                     {
                         put(KUSConstants.HeaderKeys.K_KUSTOMER_LANGUAGE_KEY,
-                                KUSLocalization.getSharedInstance().getUserLocale().getLanguage());
+                                locale != null ? locale.getLanguage() : "");
                     }
                 }, true,
                 completionListener);

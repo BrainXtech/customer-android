@@ -30,7 +30,7 @@ public class KUSMLNode extends KUSModel {
         deleted = JsonHelper.boolFromKeyPath(json, "deleted");
 
         //Filter deleted nodes
-        ArrayList<KUSMLNode> nodes = KUSMLNode.objectsFromJSONs(JsonHelper.arrayFromKeyPath(json,
+        ArrayList<KUSMLNode> nodes = KUSMLNode.objectsFromJSONs(JsonHelper.jsonArrayFromKeyPath(json,
                 "children"));
         ArrayList<KUSMLNode> filteredNodes = new ArrayList<>();
 

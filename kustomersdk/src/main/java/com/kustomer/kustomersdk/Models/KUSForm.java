@@ -29,7 +29,7 @@ public class KUSForm extends KUSModel{
     public KUSForm(JSONObject jsonObject) throws KUSInvalidJsonException {
         super(jsonObject);
 
-        questions = getQuestionsFromJsonArray(JsonHelper.arrayFromKeyPath(jsonObject,
+        questions = getQuestionsFromJsonArray(JsonHelper.jsonArrayFromKeyPath(jsonObject,
                 "attributes.questions"));
     }
 

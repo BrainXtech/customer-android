@@ -57,7 +57,7 @@ public class KUSCSatisfactionResponse extends KUSModel {
             JSONObject jsonObject = (JSONObject) jsonArray.get(0);
             satisfactionForm = new KUSCSatisfactionForm(jsonObject);
         } catch (JSONException | KUSInvalidJsonException e) {
-            KUSLog.KUSLogError(e.getMessage());
+            KUSLog.kusLogError(e.getMessage());
         }
     }
 
@@ -70,7 +70,7 @@ public class KUSCSatisfactionResponse extends KUSModel {
         submittedAt = dateFromKeyPath(json, "attributes.submittedAt");
         rating = integerFromKeyPath(json, "attributes.rating");
 
-        JSONArray array = arrayFromKeyPath(json, "attributes.answers");
+        JSONArray array = jsonArrayFromKeyPath(json, "attributes.answers");
         updateAnswers(array);
     }
 
@@ -82,7 +82,7 @@ public class KUSCSatisfactionResponse extends KUSModel {
                     answers.put(JsonHelper.stringFromKeyPath(array.getJSONObject(i), "id"),
                             JsonHelper.stringFromKeyPath(array.getJSONObject(i), "answer"));
                 } catch (JSONException e) {
-                    KUSLog.KUSLogError(e.getMessage());
+                    KUSLog.kusLogError(e.getMessage());
                 }
             }
         }

@@ -148,7 +148,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
                         typingEventListener);
             }
         } catch (IllegalArgumentException e) {
-            KUSLog.KUSLogError(e.getMessage());
+            KUSLog.kusLogError(e.getMessage());
         }
     }
 
@@ -449,7 +449,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
                             return;
 
                         List<KUSModel> chatSessions = userSession.get().getChatSessionsDataSource()
-                                .objectsFromJSONArray(JsonHelper.arrayFromKeyPath(response, "data"));
+                                .objectsFromJSONArray(JsonHelper.jsonArrayFromKeyPath(response, "data"));
 
                         if (chatSessions != null) {
                             for (KUSModel model : chatSessions) {
@@ -782,7 +782,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
                 if (typingStatusListener != null)
                     typingStatusListener.onTypingStatusChanged(new KUSTypingIndicator(jsonObject));
             } catch (KUSInvalidJsonException e) {
-                KUSLog.KUSLogError(e.getMessage());
+                KUSLog.kusLogError(e.getMessage());
             }
         }
     };

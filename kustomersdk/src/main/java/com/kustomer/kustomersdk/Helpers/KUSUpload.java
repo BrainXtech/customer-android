@@ -36,6 +36,10 @@ public class KUSUpload {
 
     //region LifeCycle
 
+    public KUSUpload(){
+        attachments = new ArrayList<>();
+    }
+
     //endregion
 
     //region Public Methods

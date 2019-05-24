@@ -159,7 +159,7 @@ public class KUSImage {
             if (bitmap != null)
                 return KUSImage.rotateBitmapIfNeeded(bitmap, getInputStream(uri));
         } catch (IOException e) {
-            KUSLog.KUSLogError(e.getMessage());
+            KUSLog.kusLogError(e.getMessage());
         }
         return null;
     }
@@ -286,7 +286,7 @@ public class KUSImage {
             return !uri.startsWith("content") ?
                     new FileInputStream(Objects.requireNonNull(Uri.parse(uri).getPath())) :
                     Kustomer.getContext().getContentResolver().openInputStream(Uri.parse(uri));
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException | NullPointerException e ) {
             return null;
         }
     }

@@ -22,7 +22,7 @@ public class KUSMLFormValue extends KUSModel {
         displayName = JsonHelper.stringFromKeyPath(json,"displayName");
         lastNodeRequired = JsonHelper.boolFromKeyPath(json,"lastNodeRequired");
 
-        ArrayList<KUSMLNode> nodes = KUSMLNode.objectsFromJSONs(JsonHelper.arrayFromKeyPath(json,
+        ArrayList<KUSMLNode> nodes = KUSMLNode.objectsFromJSONs(JsonHelper.jsonArrayFromKeyPath(json,
                 "tree.children"));
         ArrayList<KUSMLNode> filteredNodes = new ArrayList<>();
 

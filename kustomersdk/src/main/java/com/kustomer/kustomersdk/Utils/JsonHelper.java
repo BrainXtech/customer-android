@@ -44,7 +44,7 @@ public class JsonHelper {
                 jsonObject.put(key, dataMap.get(key));
 
         } catch (JSONException e) {
-            KUSLog.KUSLogError(e.getMessage());
+            KUSLog.kusLogError(e.getMessage());
         }
 
         return jsonObject;
@@ -58,7 +58,7 @@ public class JsonHelper {
             try {
                 return new URL(value);
             } catch (MalformedURLException e) {
-                KUSLog.KUSLogError(e.getMessage());
+                KUSLog.kusLogError(e.getMessage());
             }
 
         return null;
@@ -82,8 +82,8 @@ public class JsonHelper {
     }
 
     @Nullable
-    public static JSONArray arrayFromKeyPath(@NonNull JSONObject jsonObject,
-                                             @NonNull String keyPath) {
+    public static JSONArray jsonArrayFromKeyPath(@NonNull JSONObject jsonObject,
+                                                 @NonNull String keyPath) {
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {
@@ -96,9 +96,9 @@ public class JsonHelper {
         }
     }
 
-    @Nullable
-    public static ArrayList<String> arrayListFromKeyPath(@NonNull JSONObject jsonObject,
-                                                         @NonNull String keyPath) {
+    @NonNull
+    public static ArrayList<String> stringsArrayListFromKeyPath(@NonNull JSONObject jsonObject,
+                                                                @NonNull String keyPath) {
         try {
             Gson googleJson = new Gson();
             String[] keys = keyPath.split("[.]");
@@ -112,7 +112,7 @@ public class JsonHelper {
             }.getType();
             return googleJson.fromJson(jsonArray.toString(), listType);
         } catch (Exception e) {
-            return null;
+            return new ArrayList<>();
         }
     }
 
@@ -211,7 +211,7 @@ public class JsonHelper {
         try {
             return new JSONObject(jsonString);
         } catch (JSONException e) {
-            KUSLog.KUSLogError(e.getMessage());
+            KUSLog.kusLogError(e.getMessage());
         }
 
         return null;

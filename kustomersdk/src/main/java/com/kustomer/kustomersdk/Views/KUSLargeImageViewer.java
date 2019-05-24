@@ -147,7 +147,7 @@ public class KUSLargeImageViewer implements View.OnClickListener {
             out.close();
             bitmapPath = Uri.fromFile(file).toString();
         } catch (IOException e) {
-            KUSLog.KUSLogError(e.getMessage());
+            KUSLog.kusLogError(e.getMessage());
         }
 
         return bitmapPath;

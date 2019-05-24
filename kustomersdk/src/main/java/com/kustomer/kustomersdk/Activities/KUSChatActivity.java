@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -736,7 +735,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         kusInputBarView.attachImage(path, new KUSInputBarView.MemoryListener() {
             @Override
             public void onOutOfMemoryError(OutOfMemoryError error) {
-                KUSLog.KUSLogError(error.getMessage());
+                KUSLog.kusLogError(error.getMessage());
                 showMemoryError();
             }
         });
@@ -1038,7 +1037,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
                     chatMessagesDataSource.sendTypingStatusToPusher(KUSTypingStatus.KUS_TYPING_ENDED);
                     chatMessagesDataSource.sendMessageWithText(text, bitmapList);
                 } catch (OutOfMemoryError e) {
-                    KUSLog.KUSLogError(e.getMessage());
+                    KUSLog.kusLogError(e.getMessage());
                     showMemoryError();
                 }
             }

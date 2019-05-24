@@ -76,11 +76,10 @@ public class KUSUtils {
 
     @Nullable
     public static String removeNonASCIIChars(@Nullable String original) {
-
-        if (original != null)
-            return original.replaceAll("[^\\p{ASCII}]", "");
-        else
+        if (original == null)
             return null;
+
+        return original.replaceAll("[^\\p{ASCII}]", "");
     }
 
     public static float dipToPixels(@NonNull Context context, float dipValue) {
@@ -139,7 +138,7 @@ public class KUSUtils {
                         file);
             }
         } catch (Exception e) {
-            KUSLog.KUSLogError(e.getMessage());
+            KUSLog.kusLogError(e.getMessage());
             return null;
         }
     }

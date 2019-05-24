@@ -269,7 +269,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
 
                         KUSChatSession chatSession = null;
                         ArrayList<KUSModel> chatMessages = new ArrayList<>();
-                        JSONArray includedModelsJSON = JsonHelper.arrayFromKeyPath(response, "included");
+                        JSONArray includedModelsJSON = JsonHelper.jsonArrayFromKeyPath(response, "included");
 
                         if (includedModelsJSON != null) {
                             for (int i = 0; i < includedModelsJSON.length(); i++) {
@@ -472,7 +472,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
                             return;
 
                         if (error != null) {
-                            KUSLog.KUSLogError(String.format("Error updating chat attributes: %s", error));
+                            KUSLog.kusLogError(String.format("Error updating chat attributes: %s", error));
                         }
                     }
                 }

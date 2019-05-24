@@ -68,7 +68,7 @@ public class KUSChatSettings extends KUSModel implements Serializable {
         timeOut = JsonHelper.integerFromKeyPath(json, "attributes.volumeControl.timeout");
         promptDelay = JsonHelper.integerFromKeyPath(json, "attributes.volumeControl.promptDelay");
         hideWaitOption = JsonHelper.boolFromKeyPath(json, "attributes.volumeControl.hideWaitOption");
-        followUpChannels = JsonHelper.arrayListFromKeyPath(json, "attributes.volumeControl.followUpChannels");
+        followUpChannels = JsonHelper.stringsArrayListFromKeyPath(json, "attributes.volumeControl.followUpChannels");
         useDynamicWaitMessage = JsonHelper.boolFromKeyPath(json, "attributes.volumeControl.useDynamicWaitMessage");
         markDoneAfterTimeout = JsonHelper.boolFromKeyPath(json, "attributes.volumeControl.markDoneAfterTimeout");
         volumeControlEnabled = JsonHelper.boolFromKeyPath(json, "attributes.volumeControl.enabled");

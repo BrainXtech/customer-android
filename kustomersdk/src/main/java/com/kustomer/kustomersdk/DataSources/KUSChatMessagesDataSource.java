@@ -242,7 +242,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                     attributes.put("direction", "in");
                     attributes.put("createdAt", KUSDate.stringFromDate(Calendar.getInstance().getTime()));
                 } catch (JSONException e) {
-                    KUSLog.KUSLogError(e.getMessage());
+                    KUSLog.kusLogError(e.getMessage());
                 }
 
                 JSONObject relationships = new JSONObject();
@@ -255,7 +255,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
                     relationships.put("session", session);
                 } catch (JSONException e) {
-                    KUSLog.KUSLogError(e.getMessage());
+                    KUSLog.kusLogError(e.getMessage());
                 }
 
                 JSONObject messageJSON = new JSONObject();
@@ -265,7 +265,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                     messageJSON.put("attributes", attributes);
                     messageJSON.put("relationships", relationships);
                 } catch (JSONException e) {
-                    KUSLog.KUSLogError(e.getMessage());
+                    KUSLog.kusLogError(e.getMessage());
                 }
 
                 try {
@@ -288,7 +288,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                     }
 
                 } catch (KUSInvalidJsonException e) {
-                    KUSLog.KUSLogError(e.getMessage());
+                    KUSLog.kusLogError(e.getMessage());
                 }
 
             } else if (sessionId.equals(KUSConstants.ChatSession.TEMP_SESSION_ID)) {
@@ -298,7 +298,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                     attributes.put("direction", "in");
                     attributes.put("createdAt", KUSDate.stringFromDate(Calendar.getInstance().getTime()));
                 } catch (JSONException e) {
-                    KUSLog.KUSLogError(e.getMessage());
+                    KUSLog.kusLogError(e.getMessage());
                 }
 
                 JSONObject messageJSON = new JSONObject();
@@ -307,7 +307,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                     messageJSON.put("id", UUID.randomUUID().toString());
                     messageJSON.put("attributes", attributes);
                 } catch (JSONException e) {
-                    KUSLog.KUSLogError(e.getMessage());
+                    KUSLog.kusLogError(e.getMessage());
                 }
 
                 try {
@@ -316,7 +316,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
                     upsertNewMessages(Collections.singletonList((KUSModel) tempMessage));
                 } catch (KUSInvalidJsonException e) {
-                    KUSLog.KUSLogError(e.getMessage());
+                    KUSLog.kusLogError(e.getMessage());
                 }
             }
 
@@ -385,7 +385,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                         onCreateSessionListeners = null;
 
                         if (error != null || session == null) {
-                            KUSLog.KUSLogError(String.format("Error creating session: %s",
+                            KUSLog.kusLogError(String.format("Error creating session: %s",
                                     error != null ? error.toString() : ""));
                             for (onCreateSessionListener listener1 : callbacks)
                                 listener1.onComplete(false, error);
@@ -1299,7 +1299,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                         }
 
                         ArrayList<KUSModel> chatMessages = new ArrayList<>();
-                        JSONArray includedModelsJSON = JsonHelper.arrayFromKeyPath(response, "included");
+                        JSONArray includedModelsJSON = JsonHelper.jsonArrayFromKeyPath(response, "included");
 
                         if (includedModelsJSON != null) {
                             for (int i = 0; i < includedModelsJSON.length(); i++) {

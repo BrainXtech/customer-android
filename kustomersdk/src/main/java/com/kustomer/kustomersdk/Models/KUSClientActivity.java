@@ -28,7 +28,7 @@ public class KUSClientActivity extends KUSModel {
     public KUSClientActivity(JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
-        JSONArray intervalsArray = JsonHelper.arrayFromKeyPath(json,"attributes.intervals");
+        JSONArray intervalsArray = JsonHelper.jsonArrayFromKeyPath(json,"attributes.intervals");
 
         if(intervalsArray != null)
             this.intervals = arrayListFromJsonArray(intervalsArray,"seconds");

@@ -90,7 +90,7 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
             int weekDay = calendar.get(Calendar.DAY_OF_WEEK) - 1;
             int minutes = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
 
-            JSONArray businessHoursOfCurrentDay = JsonHelper.arrayFromKeyPath(businessHours.getHours(),
+            JSONArray businessHoursOfCurrentDay = JsonHelper.jsonArrayFromKeyPath(businessHours.getHours(),
                     String.valueOf(weekDay));
             if (businessHoursOfCurrentDay == null)
                 return false;

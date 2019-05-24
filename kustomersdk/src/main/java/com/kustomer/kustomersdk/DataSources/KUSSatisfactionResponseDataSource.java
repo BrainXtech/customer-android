@@ -88,7 +88,7 @@ public class KUSSatisfactionResponseDataSource extends KUSObjectDataSource {
                 satisfactionResponse.updateAnswers(answersArray);
                 satisfactionResponse.setStatus(KUS_C_SATISFACTION_RESPONSE_STATUS_COMMENTED);
             } catch (JSONException e) {
-                KUSLog.KUSLogError(e.getMessage());
+                KUSLog.kusLogError(e.getMessage());
             }
         }
 

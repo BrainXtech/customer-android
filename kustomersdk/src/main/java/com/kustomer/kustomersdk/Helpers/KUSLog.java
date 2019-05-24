@@ -13,7 +13,7 @@ import com.kustomer.kustomersdk.Kustomer;
 public class KUSLog {
 
     //region Private Methods
-    private static void KUSLogMessage(int req, @NonNull String value){
+    private static void kusLogMessage(int req, @NonNull String value){
         if((Kustomer.getLogOptions() & req) > 0){
             Log.d("Kustomer",value);
         }
@@ -21,24 +21,24 @@ public class KUSLog {
     //endregion
 
     //region Public Methods
-    public static void KUSLogInfo(@NonNull String info){
-        KUSLogMessage(KUSLogOptions.KUSLogOptionInfo,info);
+    public static void kusLogInfo(@NonNull String info){
+        kusLogMessage(KUSLogOptions.KUSLogOptionInfo,info);
     }
 
-    public static void KUSLogError(@NonNull String info){
-        KUSLogMessage(KUSLogOptions.KUSLogOptionErrors,info);
+    public static void kusLogError(@NonNull String info){
+        kusLogMessage(KUSLogOptions.KUSLogOptionErrors,info);
     }
 
-    public static void KUSLogRequest(@NonNull String info){
-        KUSLogMessage(KUSLogOptions.KUSLogOptionRequests,info);
+    public static void kusLogRequest(@NonNull String info){
+        kusLogMessage(KUSLogOptions.KUSLogOptionRequests,info);
     }
 
-    public static void KUSLogPusher(@NonNull String info){
-        KUSLogMessage(KUSLogOptions.KUSLogOptionPusher,info);
+    public static void kusLogPusher(@NonNull String info){
+        kusLogMessage(KUSLogOptions.KUSLogOptionPusher,info);
     }
 
-    public static void KUSLogPusherError(@NonNull String info){
-        KUSLogMessage(KUSLogOptions.KUSLogOptionPusher | KUSLogOptions.KUSLogOptionErrors,info);
+    public static void kusLogPusherError(@NonNull String info){
+        kusLogMessage(KUSLogOptions.KUSLogOptionPusher | KUSLogOptions.KUSLogOptionErrors,info);
     }
     //endregion
 
