@@ -90,7 +90,6 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
     //region Public Methods
     public void initWithUserSession(KUSUserSession userSession){
         this.userSession = userSession;
-        userSession.getChatSettingsDataSource().addListener(this);
 
         staticImageView = new ImageView(getContext());
         staticImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -174,6 +173,7 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
 
         KUSChatSettings chatSettings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
         if(userSession.getChatSettingsDataSource() != null && chatSettings == null && !this.userSession.getChatSettingsDataSource().isFetching()){
+            userSession.getChatSettingsDataSource().addListener(this);
             userSession.getChatSettingsDataSource().fetch();
         }
 
@@ -241,6 +241,8 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
     public void objectDataSourceOnLoad(final KUSObjectDataSource dataSource) {
 
         if(dataSource == userSession.getChatSettingsDataSource()){
+            dataSource.removeListener(this);
+
             Handler handler = new Handler(Looper.getMainLooper());
             Runnable runnable = new Runnable() {
                 @Override
