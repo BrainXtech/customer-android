@@ -75,7 +75,8 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
         mUserSession = userSession;
         mChatSession = chatSession;
 
-        mUserSession.getChatSettingsDataSource().addListener(this);
+        if(!mUserSession.getChatSettingsDataSource().isFetched())
+            mUserSession.getChatSettingsDataSource().addListener(this);
 
         if (chatMessagesDataSource != null)
             chatMessagesDataSource.removeListener(this);
@@ -221,6 +222,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
             @Override
             public void run() {
                 updateLabels();
+                mUserSession.getChatSettingsDataSource().removeListener(SessionViewHolder.this);
             }
         };
         handler.post(runnable);
