@@ -193,7 +193,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
     @Nullable
     public KUSSatisfactionResponseDataSource getSatisfactionResponseDataSource() {
-        if (satisfactionResponseDataSource == null && isActualSession()) {
+        if (satisfactionResponseDataSource == null && isActualSession() && getUserSession() != null) {
             satisfactionResponseDataSource = new KUSSatisfactionResponseDataSource(getUserSession(),
                     sessionId);
             satisfactionResponseDataSource.addListener(this);
@@ -798,6 +798,32 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         return lastSeenBeforeMessage && lastMessageAtNewerThanLocalLastMessage;
     }
 
+    public void fetchSatisfactionResponseIfNecessary() {
+        if (getUserSession() == null)
+            return;
+
+        if(getSatisfactionResponseDataSource() == null)
+            return;
+
+        KUSChatSession chatSession = (KUSChatSession) getUserSession().getChatSessionsDataSource()
+                .findById(sessionId);
+
+        if (chatSession == null)
+            return;
+
+        boolean isChatClosed = chatSession.getLockedAt() != null;
+        boolean isSatisfactionResponseFetched = getSatisfactionResponseDataSource().isFetched();
+        boolean isSatisfactionFormEnabled = getSatisfactionResponseDataSource().isSatisfactionEnabled();
+        boolean hasAgentMessage = getOtherUserIds().size() > 0;
+
+        boolean needSatisfactionForm = isChatClosed && hasAgentMessage;
+        boolean shouldFetchSatisfactionForm = !isSatisfactionResponseFetched && isSatisfactionFormEnabled
+                && needSatisfactionForm;
+
+        if (shouldFetchSatisfactionForm)
+            getSatisfactionResponseDataSource().fetch();
+    }
+
     //endregion
 
     //region Private Methods
@@ -865,32 +891,6 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                 }
             }
         }, KUS_TYPING_ENDED_DELAY);
-    }
-
-    private void fetchSatisfactionResponseIfNecessary() {
-        if (getUserSession() == null)
-            return;
-
-        if(getSatisfactionResponseDataSource() == null)
-            return;
-
-        KUSChatSession chatSession = (KUSChatSession) getUserSession().getChatSessionsDataSource()
-                .findById(sessionId);
-
-        if (chatSession == null)
-            return;
-
-        boolean isChatClosed = chatSession.getLockedAt() != null;
-        boolean isSatisfactionResponseFetched = getSatisfactionResponseDataSource().isFetched();
-        boolean isSatisfactionFormEnabled = getSatisfactionResponseDataSource().isSatisfactionEnabled();
-        boolean hasAgentMessage = getOtherUserIds().size() > 0;
-
-        boolean needSatisfactionForm = isChatClosed && hasAgentMessage;
-        boolean shouldFetchSatisfactionForm = !isSatisfactionResponseFetched && isSatisfactionFormEnabled
-                && needSatisfactionForm;
-
-        if (shouldFetchSatisfactionForm)
-            getSatisfactionResponseDataSource().fetch();
     }
 
     private void fullySendMessage(final List<KUSModel> temporaryMessages, final List<Bitmap> attachments,
@@ -1901,7 +1901,6 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     public void onContentChange(KUSPaginatedDataSource dataSource) {
         insertFormMessageIfNecessary();
         insertVolumeControlFormMessageIfNecessary();
-        fetchSatisfactionResponseIfNecessary();
     }
 
     @Override

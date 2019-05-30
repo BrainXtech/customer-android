@@ -327,6 +327,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
         chatMessagesDataSource.addListener(this);
         chatMessagesDataSource.fetchLatest();
+        chatMessagesDataSource.fetchSatisfactionResponseIfNecessary();
         if (!chatMessagesDataSource.isFetched()) {
             progressDialog.show();
         }
