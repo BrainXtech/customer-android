@@ -552,6 +552,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                             sessionQueuePollingManager.cancelPolling();
 
                         notifyAnnouncersOnContentChange();
+                        notifyAnnouncersChatHasEnded();
+
                         if (onEndChatListener != null)
                             onEndChatListener.onComplete(true);
                     }
@@ -1835,6 +1837,15 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         }
     }
 
+    public void notifyAnnouncersChatHasEnded() {
+        for (KUSPaginatedDataSourceListener listener : listeners) {
+
+            if (listener instanceof KUSChatMessagesDataSourceListener) {
+                ((KUSChatMessagesDataSourceListener) listener).onChatSessionEnded(this);
+            }
+        }
+    }
+
     //endregion
 
     //region Listener
@@ -1876,6 +1887,11 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     public void onCreateSessionId(KUSChatMessagesDataSource source, String sessionId) {
         startVolumeControlTracking();
         closeProactiveCampaignIfNecessary();
+    }
+
+    @Override
+    public void onChatSessionEnded(KUSChatMessagesDataSource source) {
+        fetchSatisfactionResponseIfNecessary();
     }
 
     @Override

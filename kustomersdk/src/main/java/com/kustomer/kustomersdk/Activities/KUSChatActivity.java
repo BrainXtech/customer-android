@@ -944,6 +944,11 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     @Override
+    public void onChatSessionEnded(KUSChatMessagesDataSource source) {
+
+    }
+
+    @Override
     public void onReceiveTypingUpdate(@NonNull KUSChatMessagesDataSource source,
                                       @Nullable KUSTypingIndicator typingIndicator) {
         setTypingIndicator(typingIndicator);
