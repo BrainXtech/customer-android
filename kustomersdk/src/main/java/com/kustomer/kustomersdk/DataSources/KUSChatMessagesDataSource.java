@@ -741,6 +741,9 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     public void startListeningForTypingUpdate() {
+        if(getUserSession() == null)
+            return;
+
         if (!isActualSession())
             return;
 
@@ -760,6 +763,9 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     public void stopListeningForTypingUpdate() {
+        if(getUserSession() == null)
+            return;
+
         sendTypingStatusToPusher(KUSTypingStatus.KUS_TYPING_ENDED);
         getUserSession().getPushClient().disconnectFromChatActivityChannel();
         getUserSession().getPushClient().removeTypingStatusListener();
@@ -776,6 +782,9 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     public boolean isLatestMessageAfterLastSeen(){
+        if(getUserSession() == null)
+            return false;
+
         KUSChatSession chatSession= (KUSChatSession) getUserSession().getChatSessionsDataSource()
                 .findById(sessionId);
 
@@ -1743,7 +1752,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
             closeProactiveCampaignIfNecessary();
 
         // Update the locally session last seen
-        getUserSession().getChatSessionsDataSource().updateLocallyLastSeenAtForSessionId(sessionId);
+        if(getUserSession()!=null)
+            getUserSession().getChatSessionsDataSource().updateLocallyLastSeenAtForSessionId(sessionId);
     }
 
     @Nullable
