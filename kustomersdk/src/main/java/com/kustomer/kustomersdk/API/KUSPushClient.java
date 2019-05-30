@@ -509,10 +509,8 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
                 KUSChatMessagesDataSource messagesDataSource = userSession.get()
                         .chatMessageDataSourceForSessionId(session.getId());
 
-                if (messagesDataSource != null) {
-                    messagesDataSource.fetchLatest();
+                if (messagesDataSource != null)
                     messagesDataSource.notifyAnnouncersChatHasEnded();
-                }
             }
         } else {
 
@@ -520,10 +518,8 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
             KUSChatMessagesDataSource messagesDataSource = userSession.get()
                     .chatMessageDataSourceForSessionId(chatSession.getId());
 
-            if (messagesDataSource != null) {
-                messagesDataSource.fetchLatest();
+            if (messagesDataSource != null)
                 messagesDataSource.notifyAnnouncersChatHasEnded();
-            }
         }
     }
 

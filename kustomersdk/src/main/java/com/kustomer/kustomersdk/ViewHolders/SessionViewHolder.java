@@ -257,7 +257,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     }
 
     @Override
-    public void onChatSessionEnded(KUSChatMessagesDataSource source) {
+    public void onChatSessionEnded(@NonNull KUSChatMessagesDataSource dataSource) {
 
     }
 

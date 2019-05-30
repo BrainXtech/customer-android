@@ -478,7 +478,7 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener, 
     }
 
     @Override
-    public void onChatSessionEnded(KUSChatMessagesDataSource source) {
+    public void onChatSessionEnded(@NonNull KUSChatMessagesDataSource dataSource) {
 
     }
 

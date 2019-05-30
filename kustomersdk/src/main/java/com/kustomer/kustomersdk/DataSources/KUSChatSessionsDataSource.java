@@ -620,7 +620,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
     }
 
     @Override
-    public void onChatSessionEnded(KUSChatMessagesDataSource source) {
+    public void onChatSessionEnded(@NonNull KUSChatMessagesDataSource dataSource) {
 
     }
 

@@ -551,7 +551,6 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                         if (sessionQueuePollingManager != null)
                             sessionQueuePollingManager.cancelPolling();
 
-                        notifyAnnouncersOnContentChange();
                         notifyAnnouncersChatHasEnded();
 
                         if (onEndChatListener != null)
@@ -1890,7 +1889,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     @Override
-    public void onChatSessionEnded(KUSChatMessagesDataSource source) {
+    public void onChatSessionEnded(@NonNull KUSChatMessagesDataSource dataSource) {
         fetchSatisfactionResponseIfNecessary();
     }
 
