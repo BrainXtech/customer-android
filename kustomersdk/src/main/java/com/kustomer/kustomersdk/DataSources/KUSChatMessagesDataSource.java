@@ -547,10 +547,6 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                         if (session != null)
                             session.setLockedAt(new Date());
 
-                        // Cancel Volume Control Polling if necessary
-                        if (sessionQueuePollingManager != null)
-                            sessionQueuePollingManager.cancelPolling();
-
                         notifyAnnouncersChatHasEnded();
 
                         if (onEndChatListener != null)
@@ -1900,6 +1896,10 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
     @Override
     public void onChatSessionEnded(@NonNull KUSChatMessagesDataSource dataSource) {
+        // Cancel Volume Control Polling if necessary
+        if (sessionQueuePollingManager != null)
+            sessionQueuePollingManager.cancelPolling();
+
         fetchSatisfactionResponseIfNecessary();
     }
 

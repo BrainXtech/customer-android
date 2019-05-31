@@ -455,7 +455,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
                             for (KUSModel model : chatSessions) {
                                 KUSChatSession session = (KUSChatSession) model;
                                 if (session.getId().equals(endedSessionId)) {
-                                    upsertEndedSession(Collections.singletonList((KUSModel) session));
+                                    upsertEndedSessionAndNotify(Collections.singletonList((KUSModel) session));
                                 }
                             }
                         }
@@ -493,7 +493,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
         });
     }
 
-    private void upsertEndedSession(@Nullable List<KUSModel> chatSessions) {
+    private void upsertEndedSessionAndNotify(@Nullable List<KUSModel> chatSessions) {
         if (userSession.get() == null || chatSessions == null || chatSessions.isEmpty()) {
             return;
         }
@@ -565,7 +565,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
             List<KUSModel> chatSessions = userSession.get().getChatSessionsDataSource()
                     .objectsFromJSON(JsonHelper.jsonObjectFromKeyPath(jsonObject, "data"));
 
-            upsertEndedSession(chatSessions);
+            upsertEndedSessionAndNotify(chatSessions);
         }
     }
 
