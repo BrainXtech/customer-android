@@ -177,10 +177,6 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
                     tvMessage.setAlpha(1.0f);
                     attachmentLayout.setAlpha(1.0f);
 
-                    if(sendingFadingTimer != null)
-                        sendingFadingTimer.cancel();
-                    sendingFadingTimer = null;
-
                     long timeInterval = OPTIMISTIC_SEND_LOADING_DELAY - timeElapsed;
                     startTimer(timeInterval);
 
