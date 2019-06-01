@@ -127,9 +127,6 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
         this.userId = userId;
         this.userDataSource = userSession.userDataSourceForUserId(userId);
 
-        if(userDataSource != null)
-            userDataSource.addListener(this);
-
         updateAvatarImage();
     }
 
@@ -168,6 +165,7 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
             user = (KUSUser) userDataSource.getObject();
             if (user == null && !userDataSource.isFetching()) {
                 userDataSource.fetch();
+                userDataSource.addListener(this);
             }
         }
 
@@ -239,30 +237,15 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
     //region Listener
     @Override
     public void objectDataSourceOnLoad(final KUSObjectDataSource dataSource) {
-
-        if(dataSource == userSession.getChatSettingsDataSource()){
-            dataSource.removeListener(this);
-
-            Handler handler = new Handler(Looper.getMainLooper());
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    updateAvatarImage();
-                }
-            };
-            handler.post(runnable);
-        }else if(dataSource == userDataSource){
-            Handler handler = new Handler(Looper.getMainLooper());
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    updateAvatarImage();
-                }
-            };
-            handler.post(runnable);
-        }
-
-
+        dataSource.removeListener(this);
+        Handler handler = new Handler(Looper.getMainLooper());
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                updateAvatarImage();
+            }
+        };
+        handler.post(runnable);
     }
 
     @Override

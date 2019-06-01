@@ -75,6 +75,8 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
         mUserSession = userSession;
         mChatSession = chatSession;
 
+        clearListeners();
+
         if(!mUserSession.getChatSettingsDataSource().isFetched())
             mUserSession.getChatSettingsDataSource().addListener(this);
 
@@ -95,17 +97,21 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     }
 
     public void onDetached() {
-        if (mUserSession != null && mUserSession.getChatSettingsDataSource() != null)
-            mUserSession.getChatSettingsDataSource().removeListener(this);
+        clearListeners();
 
         if (userDataSource != null)
             userDataSource.removeListener(this);
+    }
+
+    //region Private Methods
+    private void clearListeners(){
+        if (mUserSession != null && mUserSession.getChatSettingsDataSource() != null)
+            mUserSession.getChatSettingsDataSource().removeListener(this);
 
         if (chatMessagesDataSource != null)
             chatMessagesDataSource.removeListener(this);
     }
 
-    //region Private Methods
     private void updateAvatar() {
         imageLayout.removeAllViews();
 
@@ -214,12 +220,14 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     //region Listener
     @Override
     public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+        if(dataSource == mUserSession.getChatSettingsDataSource())
+            dataSource.removeListener(this);
+
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
                 updateLabels();
-                mUserSession.getChatSettingsDataSource().removeListener(SessionViewHolder.this);
             }
         };
         handler.post(runnable);
