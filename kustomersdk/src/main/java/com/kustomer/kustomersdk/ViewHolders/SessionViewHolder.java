@@ -98,9 +98,6 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
 
     public void onDetached() {
         clearListeners();
-
-        if (userDataSource != null)
-            userDataSource.removeListener(this);
     }
 
     //region Private Methods
@@ -110,6 +107,9 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
 
         if (chatMessagesDataSource != null)
             chatMessagesDataSource.removeListener(this);
+
+        if (userDataSource != null)
+            userDataSource.removeListener(this);
     }
 
     private void updateAvatar() {
@@ -138,12 +138,14 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
 
         userDataSource = mUserSession.userDataSourceForUserId(chatMessagesDataSource.getFirstOtherUserId());
 
-        if (userDataSource != null)
-            userDataSource.addListener(this);
-
-        //Title text (from last responder, chat settings or organization name)
-        KUSUser firstOtherUser = userDataSource != null ? (KUSUser) userDataSource.getObject() : null;
-
+        KUSUser firstOtherUser = null;
+        if (userDataSource != null) {
+            firstOtherUser = (KUSUser) userDataSource.getObject();
+            if (firstOtherUser == null && !userDataSource.isFetching()) {
+                userDataSource.addListener(this);
+                userDataSource.fetch();
+            }
+        }
 
         String responderName = firstOtherUser != null ? firstOtherUser.getDisplayName() : null;
 
@@ -220,9 +222,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     //region Listener
     @Override
     public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
-        if(dataSource == mUserSession.getChatSettingsDataSource())
-            dataSource.removeListener(this);
-
+        dataSource.removeListener(this);
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override

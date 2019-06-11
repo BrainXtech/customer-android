@@ -150,7 +150,7 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
             getContext().getTheme().resolveAttribute(R.attr.kus_company_image, typedValue, true);
             int drawableRes = typedValue.resourceId;
 
-            Drawable companyAvatarImage = null;
+            Drawable companyAvatarImage;
 
             companyAvatarImage = getContext().getResources().getDrawable(drawableRes);
             if(this.userId == null && companyAvatarImage != null){
@@ -158,14 +158,14 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
                 return;
             }
 
-        } catch (Exception e) {}
+        } catch (Exception ignored) {}
 
         KUSUser user = null;
         if(userDataSource != null) {
             user = (KUSUser) userDataSource.getObject();
             if (user == null && !userDataSource.isFetching()) {
-                userDataSource.fetch();
                 userDataSource.addListener(this);
+                userDataSource.fetch();
             }
         }
 
