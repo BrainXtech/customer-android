@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 
@@ -9,7 +10,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.kustomer.kustomersdk.Utils.JsonHelper.stringFromKeyPath;
 
@@ -20,17 +21,26 @@ import static com.kustomer.kustomersdk.Utils.JsonHelper.stringFromKeyPath;
 public class KUSModel implements Comparable<KUSModel>, Serializable {
 
     //region Properties
+    @NonNull
     private String id;
+    @Nullable
     private String orgId;
+    @Nullable
     private String customerId;
+    @Nullable
     private String sessionId;
+    @Nullable
     private String originalJSON;
     //endregion
 
     //region Initializer
     public KUSModel(){}
 
-    public KUSModel(JSONObject json) throws KUSInvalidJsonException {
+    public KUSModel(@Nullable JSONObject json) throws KUSInvalidJsonException {
+
+        if (json == null)
+            throw new KUSInvalidJsonException("Json is null.");
+
         //Reject any objects  where the model type doesn't match, if enforced
         String type = stringFromKeyPath(json,"type");
         String classType = modelType();
@@ -61,6 +71,7 @@ public class KUSModel implements Comparable<KUSModel>, Serializable {
         return true;
     }
 
+    @NonNull
     @Override
     public String toString() {
         //Missing %p (this)
@@ -79,10 +90,7 @@ public class KUSModel implements Comparable<KUSModel>, Serializable {
 
     @Override
     public int compareTo(@NonNull KUSModel kusModel) {
-        if(kusModel.id != null)
-            return kusModel.id.compareTo(this.id);
-        else
-            return -1;
+        return kusModel.id.compareTo(this.id);
     }
 
     @Override
@@ -93,43 +101,47 @@ public class KUSModel implements Comparable<KUSModel>, Serializable {
 
         KUSModel kus = (KUSModel) obj;
         return kus.id.equals(this.id)
-                && kus.orgId != null && kus.orgId.equals(this.orgId)
-                && kus.customerId != null && kus.customerId.equals(this.customerId)
-                && kus.sessionId != null && kus.sessionId.equals(this.sessionId);
+                && Objects.equals(kus.orgId, this.orgId)
+                && Objects.equals(kus.customerId, this.customerId)
+                && Objects.equals(kus.sessionId, this.sessionId);
     }
     //endregion
 
     //region Accessors
 
+    @NonNull
     public String getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(@NonNull String id) {
         this.id = id;
     }
 
+    @Nullable
     public String getOrgId() {
         return orgId;
     }
 
-    public void setOrgId(String orgId) {
+    public void setOrgId(@Nullable String orgId) {
         this.orgId = orgId;
     }
 
+    @Nullable
     public String getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(String customerId) {
+    public void setCustomerId(@Nullable String customerId) {
         this.customerId = customerId;
     }
 
+    @Nullable
     public String getSessionId() {
         return sessionId;
     }
 
-    public void setSessionId(String sessionId) {
+    public void setSessionId(@Nullable String sessionId) {
         this.sessionId = sessionId;
     }
 

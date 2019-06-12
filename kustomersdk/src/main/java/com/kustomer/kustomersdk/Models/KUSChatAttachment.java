@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
@@ -13,8 +15,11 @@ import java.util.Date;
 
 public class KUSChatAttachment extends KUSModel {
     //region Properties
+    @Nullable
     private String name;
+    @Nullable
     private Date createdAt;
+    @Nullable
     private Date updatedAt;
     //endregion
 
@@ -35,27 +40,30 @@ public class KUSChatAttachment extends KUSModel {
 
     //region Getter & Setters
 
+    @Nullable
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(@Nullable String name) {
         this.name = name;
     }
 
+    @Nullable
     public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(@Nullable Date createdAt) {
         this.createdAt = createdAt;
     }
 
+    @Nullable
     public Date getUpdatedAt() {
         return updatedAt;
     }
 
-    public void setUpdatedAt(Date updatedAt) {
+    public void setUpdatedAt(@Nullable Date updatedAt) {
         this.updatedAt = updatedAt;
     }
 

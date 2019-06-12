@@ -115,8 +115,14 @@ public class MessageListAdapter extends RecyclerView.Adapter {
                 mPosition >= mChatMessagesDataSource.getSize() - 1 - K_PREFETCH_PADDING)
             mChatMessagesDataSource.fetchNext();
 
+        long nextMessageTimeInMili = nextChatMessage != null && nextChatMessage.getCreatedAt() != null
+                ? nextChatMessage.getCreatedAt().getTime() : 0;
+
+        long currentMessageMili = chatMessage != null && chatMessage.getCreatedAt() != null
+                ? chatMessage.getCreatedAt().getTime() : 0;
+
         boolean nextMessageOlderThan5Min = nextChatMessage == null ||
-                nextChatMessage.getCreatedAt().getTime() - chatMessage.getCreatedAt().getTime() > K_5_MINUTE;
+                nextMessageTimeInMili - currentMessageMili > K_5_MINUTE;
 
         if (holder.getItemViewType() == USER_VIEW) {
             ((UserMessageViewHolder) holder).onBind(chatMessage, nextMessageOlderThan5Min, mListener);

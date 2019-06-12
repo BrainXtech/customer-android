@@ -39,7 +39,7 @@ public class KUSCSatisfactionResponse extends KUSModel {
 
     //region LifeCycle
 
-    public KUSCSatisfactionResponse(JSONObject json) throws KUSInvalidJsonException {
+    public KUSCSatisfactionResponse(@Nullable JSONObject json) throws KUSInvalidJsonException {
         super(json);
         answers = new HashMap<>();
         status = KUS_C_SATISFACTION_RESPONSE_STATUS_UNKNOWN;

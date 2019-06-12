@@ -1005,7 +1005,10 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         for (int i = Math.max(questionIndex + startingOffset, 0); i < form.getQuestions().size(); i++) {
             KUSFormQuestion question = form.getQuestions().get(i);
 
-            Date createdAt = new Date(lastMessage.getCreatedAt().getTime()
+            long lastMessageCreatedAtMilis = lastMessage.getCreatedAt() != null
+                    ? lastMessage.getCreatedAt().getTime() : Calendar.getInstance().getTime().getTime();
+
+            Date createdAt = new Date(lastMessageCreatedAtMilis
                     + KUS_CHAT_AUTO_REPLY_DELAY + additionalInsertDelay);
 
             String questionId = String.format("question_%s", question.getId());
@@ -1143,7 +1146,11 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         }
 
         // Ask next question
-        Date createdAt = new Date(lastMessage.getCreatedAt().getTime() + KUS_CHAT_AUTO_REPLY_DELAY);
+        long lastMessageCreatedAtMilis = lastMessage.getCreatedAt() != null
+                ? lastMessage.getCreatedAt().getTime() : Calendar.getInstance().getTime().getTime();
+
+        Date createdAt = new Date(lastMessageCreatedAtMilis + KUS_CHAT_AUTO_REPLY_DELAY);
+
         if (!vcFormActive) {
             long currentDate = (new Date()).getTime();
             if (currentDate + KUS_CHAT_AUTO_REPLY_DELAY > lastMessage.getCreatedAt().getTime()) {
@@ -1408,15 +1415,13 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     private void retrySubmittingForm(final KUSFormRetry formRetry) {
-        if (formRetry.getLastUserChatMessage() != null) {
-            removeAll(new ArrayList<KUSModel>() {{
-                add(formRetry.getLastUserChatMessage());
-            }});
-            formRetry.getLastUserChatMessage().setState(KUSChatMessageState.KUS_CHAT_MESSAGE_STATE_SENDING);
-            upsertNewMessages(new ArrayList<KUSModel>() {{
-                add(formRetry.getLastUserChatMessage());
-            }});
-        }
+        removeAll(new ArrayList<KUSModel>() {{
+            add(formRetry.getLastUserChatMessage());
+        }});
+        formRetry.getLastUserChatMessage().setState(KUSChatMessageState.KUS_CHAT_MESSAGE_STATE_SENDING);
+        upsertNewMessages(new ArrayList<KUSModel>() {{
+            add(formRetry.getLastUserChatMessage());
+        }});
 
         actuallySubmitForm(formRetry.getMessagesJSON(), formRetry.getFormId(), formRetry.getLastUserChatMessage());
     }
@@ -1515,7 +1520,9 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         if (findById(chatMessage.getId()) != null)
             return;
 
-        long delay = chatMessage.getCreatedAt().getTime() - Calendar.getInstance().getTime().getTime();
+        long delay = chatMessage.getCreatedAt() != null ?
+                chatMessage.getCreatedAt().getTime() - Calendar.getInstance().getTime().getTime() : 0;
+
         if (delay <= 0) {
             upsertAll(new ArrayList<KUSModel>() {{
                 add(chatMessage);
@@ -1711,7 +1718,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         KUSChatMessage firstMessage = (KUSChatMessage) finalMessages.get(0);
         String messageId = firstMessage.getId().split("_")[0];
 
-        for (int i = 0; i < (firstMessage.getAttachmentIds() != null ? firstMessage.getAttachmentIds().size() : 0); i++) {
+        for (int i = 0; i < firstMessage.getAttachmentIds().size(); i++) {
             Bitmap attachment = attachments.get(i);
             String attachmentId = (String) firstMessage.getAttachmentIds().get(i);
             try {

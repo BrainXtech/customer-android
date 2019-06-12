@@ -1,5 +1,8 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
@@ -10,13 +13,15 @@ import java.util.ArrayList;
 public class KUSMLFormValue extends KUSModel {
 
     //region Properties
+    @Nullable
     private String displayName;
     private boolean lastNodeRequired;
+    @NonNull
     private ArrayList<KUSMLNode> mlNodes;
     //endregion
 
     //region Initializer
-    KUSMLFormValue(JSONObject json) throws KUSInvalidJsonException {
+    KUSMLFormValue(@Nullable JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
         displayName = JsonHelper.stringFromKeyPath(json,"displayName");
@@ -49,6 +54,7 @@ public class KUSMLFormValue extends KUSModel {
 
     //region Accessors
 
+    @Nullable
     public String getDisplayName() {
         return displayName;
     }
@@ -57,6 +63,7 @@ public class KUSMLFormValue extends KUSModel {
         return lastNodeRequired;
     }
 
+    @NonNull
     public ArrayList<KUSMLNode> getMlNodes() {
         return mlNodes;
     }

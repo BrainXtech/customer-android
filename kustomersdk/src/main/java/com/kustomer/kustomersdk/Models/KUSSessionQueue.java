@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
@@ -10,9 +12,11 @@ import java.util.Date;
 public class KUSSessionQueue extends KUSModel {
 
     //region Properties
+    @Nullable
     private Date enteredAt;
     private int estimatedWaitTimeSeconds;
     private int latestWaitTimeSeconds;
+    @Nullable
     private String name;
     //endregion
 
@@ -37,6 +41,7 @@ public class KUSSessionQueue extends KUSModel {
 
     //region Accessors
 
+    @Nullable
     public Date getEnteredAt() {
         return enteredAt;
     }
@@ -49,6 +54,7 @@ public class KUSSessionQueue extends KUSModel {
         return latestWaitTimeSeconds;
     }
 
+    @Nullable
     public String getName() {
         return name;
     }

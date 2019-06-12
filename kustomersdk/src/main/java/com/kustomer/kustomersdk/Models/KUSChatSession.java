@@ -15,6 +15,7 @@ import org.json.JSONObject;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 import static com.kustomer.kustomersdk.Utils.JsonHelper.dateFromKeyPath;
 import static com.kustomer.kustomersdk.Utils.JsonHelper.stringFromKeyPath;
@@ -26,12 +27,18 @@ import static com.kustomer.kustomersdk.Utils.JsonHelper.stringFromKeyPath;
 public class KUSChatSession extends KUSModel implements Serializable {
 
     //region Properties
+    @Nullable
     private String preview;
+    @Nullable
     private String trackingId;
 
+    @Nullable
     private Date createdAt;
+    @Nullable
     private Date lastSeenAt;
+    @Nullable
     private Date lastMessageAt;
+    @Nullable
     private Date lockedAt;
 
     @Nullable
@@ -46,7 +53,7 @@ public class KUSChatSession extends KUSModel implements Serializable {
     public KUSChatSession() {
     }
 
-    public KUSChatSession(JSONObject json) throws KUSInvalidJsonException {
+    public KUSChatSession(@Nullable JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
         preview = stringFromKeyPath(json, "attributes.preview");
@@ -68,7 +75,8 @@ public class KUSChatSession extends KUSModel implements Serializable {
 
         JSONObject attributes = new JSONObject();
         try {
-            attributes.put("preview", message.getBody() != null ? message.getBody() : "");
+            message.getBody();
+            attributes.put("preview", message.getBody());
             attributes.put("createdAt", KUSDate.stringFromDate(message.getCreatedAt() != null ?
                     message.getCreatedAt() : Calendar.getInstance().getTime()));
 
@@ -93,6 +101,7 @@ public class KUSChatSession extends KUSModel implements Serializable {
         return new KUSChatSession(messageJSON);
     }
 
+    @NonNull
     @Override
     public String toString() {
         //Missing %p (this)
@@ -106,19 +115,16 @@ public class KUSChatSession extends KUSModel implements Serializable {
 
         KUSChatSession chatSession = (KUSChatSession) obj;
 
-        if (!chatSession.getId().equals(this.getId()))
+        if (!Objects.equals(chatSession.getId(),this.getId()))
             return false;
-        if (this.preview != null && chatSession.preview != null && !chatSession.preview.equals(this.preview))
+        if (!Objects.equals(this.preview,chatSession.preview))
             return false;
-        if (this.preview != null || chatSession.preview != null)
+        if (!Objects.equals(this.lastSeenAt,chatSession.lastSeenAt))
             return false;
-        if (chatSession.lastSeenAt != null && !chatSession.lastSeenAt.equals(this.lastSeenAt))
+        if (!Objects.equals(this.lastMessageAt,chatSession.lastMessageAt))
             return false;
-        if (chatSession.lastMessageAt != null && !chatSession.lastMessageAt.equals(this.lastMessageAt))
+        if (!Objects.equals(this.createdAt,chatSession.createdAt))
             return false;
-        if (chatSession.createdAt != null && !chatSession.createdAt.equals(this.createdAt))
-            return false;
-
 
         return true;
     }
@@ -175,50 +181,56 @@ public class KUSChatSession extends KUSModel implements Serializable {
     //endregion
 
     //region Accessors
+    @Nullable
     public String getPreview() {
         return preview;
     }
 
-    public void setPreview(String preview) {
+    public void setPreview(@Nullable String preview) {
         this.preview = preview;
     }
 
+    @Nullable
     public String getTrackingId() {
         return trackingId;
     }
 
-    public void setTrackingId(String trackingId) {
+    public void setTrackingId(@Nullable String trackingId) {
         this.trackingId = trackingId;
     }
 
+    @Nullable
     public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(@Nullable Date createdAt) {
         this.createdAt = createdAt;
     }
 
+    @Nullable
     public Date getLastSeenAt() {
         return lastSeenAt;
     }
 
-    public void setLastSeenAt(Date lastSeenAt) {
+    public void setLastSeenAt(@Nullable Date lastSeenAt) {
         this.lastSeenAt = lastSeenAt;
     }
 
+    @Nullable
     public Date getLastMessageAt() {
         return lastMessageAt;
     }
 
-    public void setLastMessageAt(Date lastMessageAt) {
+    public void setLastMessageAt(@Nullable Date lastMessageAt) {
         this.lastMessageAt = lastMessageAt;
     }
 
-    public void setLockedAt(Date lockedAt) {
+    public void setLockedAt(@Nullable Date lockedAt) {
         this.lockedAt = lockedAt;
     }
 
+    @Nullable
     public Date getLockedAt() {
         return lockedAt;
     }

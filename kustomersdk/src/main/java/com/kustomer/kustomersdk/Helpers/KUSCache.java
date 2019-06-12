@@ -39,7 +39,9 @@ public class KUSCache {
         }
     }
 
-    public Bitmap getBitmapFromMemCache(@NonNull String key) {
+    public Bitmap getBitmapFromMemCache(@Nullable String key) {
+        if(key == null)
+            return null;
         return mMemoryCache.get(key);
     }
 

@@ -8,6 +8,8 @@ import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 
 import org.json.JSONObject;
 
+import java.util.Objects;
+
 import static com.kustomer.kustomersdk.Utils.JsonHelper.stringFromKeyPath;
 
 public class KUSTypingIndicator {
@@ -16,10 +18,8 @@ public class KUSTypingIndicator {
 
     @NonNull
     private String id;
-
     @Nullable
     private String userId;
-
     @NonNull
     private KUSTypingStatus status;
 
@@ -27,8 +27,8 @@ public class KUSTypingIndicator {
 
     //region Constructor
 
-    public KUSTypingIndicator(JSONObject json) throws KUSInvalidJsonException {
-        String objectId = stringFromKeyPath(json, "id");
+    public KUSTypingIndicator(@Nullable JSONObject json) throws KUSInvalidJsonException {
+        String objectId = json != null ? stringFromKeyPath(json, "id") : null;
         if (objectId == null)
             throw new KUSInvalidJsonException("Object Id not found.");
 
@@ -72,13 +72,8 @@ public class KUSTypingIndicator {
 
         KUSTypingIndicator typingIndicator = (KUSTypingIndicator) obj;
 
-        if (this.userId == null || !this.userId.equals(typingIndicator.userId))
-            return false;
-
-        if (typingIndicator.status != this.status)
-            return false;
-
-        return true;
+        return Objects.equals(typingIndicator.userId, this.userId)
+                && Objects.equals(typingIndicator.status, this.status);
     }
 
     public void setStatus(@NonNull KUSTypingStatus status) {

@@ -26,7 +26,7 @@ public class KUSForm extends KUSModel{
     //endregion
 
     //region LifeCycle
-    public KUSForm(JSONObject jsonObject) throws KUSInvalidJsonException {
+    public KUSForm(@Nullable JSONObject jsonObject) throws KUSInvalidJsonException {
         super(jsonObject);
 
         questions = getQuestionsFromJsonArray(JsonHelper.jsonArrayFromKeyPath(jsonObject,
@@ -51,6 +51,7 @@ public class KUSForm extends KUSModel{
     //endregion
 
     //region Static Methods
+    @NonNull
     private static List<KUSFormQuestion> getQuestionsFromJsonArray(@Nullable JSONArray jsonArray){
         ArrayList<KUSFormQuestion> objects = new ArrayList<>();
 

@@ -1,8 +1,8 @@
 package com.kustomer.kustomersdk.Models;
 
 import android.graphics.Bitmap;
-import android.os.Handler;
-import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Helpers.KUSImage;
 import com.kustomer.kustomersdk.Interfaces.KUSBitmapListener;
@@ -13,13 +13,16 @@ public class KUSBitmap {
 
     //region properties
 
+    @NonNull
     private String uri;
+    @Nullable
     private Bitmap bitmap;
+    @NonNull
     private ArrayList<KUSBitmapListener> bitmapListeners = new ArrayList<>();
     //endregion
 
     //region constructor
-    public KUSBitmap(final String imageUri) {
+    private KUSBitmap(@NonNull final String imageUri) {
         uri = imageUri;
         new Thread(new Runnable() {
             @Override
@@ -36,7 +39,7 @@ public class KUSBitmap {
         }).start();
     }
 
-    public KUSBitmap(final String imageUri, KUSBitmapListener listener) {
+    public KUSBitmap(@NonNull final String imageUri,@NonNull KUSBitmapListener listener) {
         this(imageUri);
         bitmapListeners.add(listener);
     }
@@ -61,6 +64,7 @@ public class KUSBitmap {
 
     //region getter & setter
 
+    @NonNull
     public String getUri() {
         return uri;
     }
@@ -69,11 +73,12 @@ public class KUSBitmap {
         this.bitmapListeners.add(listener);
     }
 
+    @Nullable
     public Bitmap getBitmap() {
         return bitmap;
     }
 
-    public void setBitmap(Bitmap bitmap) {
+    public void setBitmap(@Nullable Bitmap bitmap) {
         this.bitmap = bitmap;
     }
 

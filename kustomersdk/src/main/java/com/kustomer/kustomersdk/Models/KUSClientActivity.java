@@ -2,6 +2,7 @@ package com.kustomer.kustomersdk.Models;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
@@ -17,39 +18,46 @@ import java.util.List;
 public class KUSClientActivity extends KUSModel {
 
     //region Properties
+    @NonNull
     private List<Double> intervals;
+    @Nullable
     private String currentPage;
+    @Nullable
     private String previousPage;
     private double currentPageSeconds;
+    @Nullable
     private Date createdAt;
     //endregion
 
     //region LifeCycle
-    public KUSClientActivity(JSONObject json) throws KUSInvalidJsonException {
+    public KUSClientActivity(@Nullable JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
-        JSONArray intervalsArray = JsonHelper.jsonArrayFromKeyPath(json,"attributes.intervals");
+        JSONArray intervalsArray = JsonHelper.jsonArrayFromKeyPath(json, "attributes.intervals");
 
-        if(intervalsArray != null)
-            this.intervals = arrayListFromJsonArray(intervalsArray,"seconds");
+        this.intervals = arrayListFromJsonArray(intervalsArray, "seconds");
 
-        currentPage = JsonHelper.stringFromKeyPath(json,"attributes.currentPage");
-        previousPage = JsonHelper.stringFromKeyPath(json,"attributes.previousPage");
-        currentPageSeconds = JsonHelper.doubleFromKeyPath(json,"attributes.currentPageSeconds");
-        createdAt = JsonHelper.dateFromKeyPath(json,"attributes.createdAt");
+        currentPage = JsonHelper.stringFromKeyPath(json, "attributes.currentPage");
+        previousPage = JsonHelper.stringFromKeyPath(json, "attributes.previousPage");
+        currentPageSeconds = JsonHelper.doubleFromKeyPath(json, "attributes.currentPageSeconds");
+        createdAt = JsonHelper.dateFromKeyPath(json, "attributes.createdAt");
     }
 
     @Override
-    public String modelType(){
+    public String modelType() {
         return "client_activity";
     }
     //endregion
 
     //region Private Methods
-    private List<Double> arrayListFromJsonArray(@NonNull JSONArray array, String id) {
+    @NonNull
+    private List<Double> arrayListFromJsonArray(@Nullable JSONArray array, String id) {
         List<Double> list = new ArrayList<>();
 
-        for(int i = 0 ; i<array.length() ; i++){
+        if (array == null)
+            return list;
+
+        for (int i = 0; i < array.length(); i++) {
             try {
                 JSONObject jsonObject = array.getJSONObject(i);
                 list.add(jsonObject.getDouble(id));
@@ -64,27 +72,30 @@ public class KUSClientActivity extends KUSModel {
 
     //region Getters & Setters
 
+    @NonNull
     public List<Double> getIntervals() {
         return intervals;
     }
 
-    public void setIntervals(List<Double> intervals) {
+    public void setIntervals(@NonNull List<Double> intervals) {
         this.intervals = intervals;
     }
 
+    @Nullable
     public String getCurrentPage() {
         return currentPage;
     }
 
-    public void setCurrentPage(String currentPage) {
+    public void setCurrentPage(@Nullable String currentPage) {
         this.currentPage = currentPage;
     }
 
+    @Nullable
     public String getPreviousPage() {
         return previousPage;
     }
 
-    public void setPreviousPage(String previousPage) {
+    public void setPreviousPage(@Nullable String previousPage) {
         this.previousPage = previousPage;
     }
 
@@ -96,11 +107,12 @@ public class KUSClientActivity extends KUSModel {
         this.currentPageSeconds = currentPageSeconds;
     }
 
+    @Nullable
     public Date getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(@Nullable Date createdAt) {
         this.createdAt = createdAt;
     }
 

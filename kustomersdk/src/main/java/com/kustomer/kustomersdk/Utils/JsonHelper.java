@@ -316,24 +316,22 @@ public class JsonHelper {
             }
         }
 
-        if (standardChatMessage.getAttachmentIds() != null) {
-            for (Object id : standardChatMessage.getAttachmentIds()) {
-                String attachmentId = (String) id;
-                try {
-                    URL imageUrl = KUSChatMessage.attachmentUrlForMessageId(standardChatMessage.getId(), attachmentId);
+        for (Object id : standardChatMessage.getAttachmentIds()) {
+            String attachmentId = (String) id;
+            try {
+                URL imageUrl = KUSChatMessage.attachmentUrlForMessageId(standardChatMessage.getId(), attachmentId);
 
-                    JSONObject imageJson = new JSONObject(jsonObject.toString());
-                    imageJson.put("id", String.format(Locale.getDefault(),
-                            "%s_%d", standardChatMessage.getId(), lastId));
-                    KUSChatMessage imageMessage = new KUSChatMessage(imageJson,
-                            KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE, imageUrl);
+                JSONObject imageJson = new JSONObject(jsonObject.toString());
+                imageJson.put("id", String.format(Locale.getDefault(),
+                        "%s_%d", standardChatMessage.getId(), lastId));
+                KUSChatMessage imageMessage = new KUSChatMessage(imageJson,
+                        KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE, imageUrl);
 
-                    imageMessage.setBody(context.getString(R.string.com_kustomer_attachment));
-                    chatMessages.add(imageMessage);
-                    lastId++;
-                } catch (MalformedURLException | JSONException | KUSInvalidJsonException e) {
-                    e.printStackTrace();
-                }
+                imageMessage.setBody(context.getString(R.string.com_kustomer_attachment));
+                chatMessages.add(imageMessage);
+                lastId++;
+            } catch (MalformedURLException | JSONException | KUSInvalidJsonException e) {
+                e.printStackTrace();
             }
         }
 

@@ -26,7 +26,7 @@ public class KUSCSatisfactionForm extends KUSForm {
     private int scaleOptionsCount;
 
     //region Lifecycle
-    public KUSCSatisfactionForm(JSONObject json) throws KUSInvalidJsonException {
+    public KUSCSatisfactionForm(@Nullable JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
         this.introduction = stringFromKeyPath(json,"attributes.introduction");

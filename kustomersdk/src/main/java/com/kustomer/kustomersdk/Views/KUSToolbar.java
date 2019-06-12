@@ -6,6 +6,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -261,7 +262,7 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener, 
         }
 
         if (responderName == null || responderName.length() == 0) {
-            if (chatSettings.getTeamName() != null && chatSettings.getTeamName().length() != 0)
+            if (!TextUtils.isEmpty(chatSettings.getTeamName()))
                 responderName = chatSettings.getTeamName();
             else
                 responderName = userSession.getOrganizationName();

@@ -106,11 +106,12 @@ public class AgentMessageViewHolder extends RecyclerView.ViewHolder {
     private void updateImageForMessage(final KUSChatMessage chatMessage,
                                        final MessageListAdapter.ChatMessageItemListener mListener){
 
-
         progressBarImage.setVisibility(View.VISIBLE);
 
+        String imageUrl = chatMessage.getImageUrl() != null ? chatMessage.getImageUrl().toString() : null;
+
         Glide.with(itemView)
-                .load(chatMessage.getImageUrl().toString())
+                .load(imageUrl)
                 .error(R.drawable.kus_ic_error_outline_red_33dp)
                 .listener(new RequestListener<Drawable>() {
                     @Override

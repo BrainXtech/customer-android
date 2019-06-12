@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
@@ -10,14 +12,17 @@ import java.util.Date;
 public class KUSHoliday extends KUSModel {
 
     //region Properties
+    @Nullable
     private String name;
+    @Nullable
     private Date startDate;
+    @Nullable
     private Date endDate;
     private boolean enabled;
     //endregion
 
     //region Initializer
-    public KUSHoliday(JSONObject json) throws KUSInvalidJsonException {
+    public KUSHoliday(@Nullable JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
         name = JsonHelper.stringFromKeyPath(json,"attributes.name");
@@ -35,14 +40,17 @@ public class KUSHoliday extends KUSModel {
 
     //region Accessors
 
+    @Nullable
     public String getName() {
         return name;
     }
 
+    @Nullable
     public Date getStartDate() {
         return startDate;
     }
 
+    @Nullable
     public Date getEndDate() {
         return endDate;
     }

@@ -1,5 +1,8 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Enums.KUSFormQuestionProperty;
 import com.kustomer.kustomersdk.Enums.KUSFormQuestionType;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -17,17 +20,23 @@ import java.util.List;
 public class KUSFormQuestion extends KUSModel {
 
     //region Properties
+    @Nullable
     private String name;
+    @Nullable
     private String prompt;
+    @NonNull
     private List<String> values;
+    @NonNull
     private KUSFormQuestionType type;
+    @NonNull
     private KUSFormQuestionProperty property;
     private boolean skipIfSatisfied;
+    @Nullable
     private KUSMLFormValue mlFormValues;
     //endregion
 
     //region LifeCycle
-    public KUSFormQuestion(JSONObject json) throws KUSInvalidJsonException {
+    public KUSFormQuestion(@Nullable JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
         name = JsonHelper.stringFromKeyPath(json, "name");
@@ -64,16 +73,16 @@ public class KUSFormQuestion extends KUSModel {
         return false;
     }
 
-    public static boolean KUSFormQuestionRequiresResponse(KUSFormQuestion question) {
-        if (question == null || question.type == null)
+    public static boolean KUSFormQuestionRequiresResponse(@Nullable KUSFormQuestion question) {
+        if (question == null)
             return false;
 
         return question.type == KUSFormQuestionType.KUS_FORM_QUESTION_TYPE_PROPERTY ||
                 question.type == KUSFormQuestionType.KUS_FORM_QUESTION_TYPE_RESPONSE;
     }
 
-    private static KUSFormQuestionType KUSFormQuestionTypeFromString(String string) {
-
+    @NonNull
+    private static KUSFormQuestionType KUSFormQuestionTypeFromString(@Nullable String string) {
         if (string == null)
             return KUSFormQuestionType.KUS_FORM_QUESTION_TYPE_UNKNOWN;
 
@@ -89,7 +98,8 @@ public class KUSFormQuestion extends KUSModel {
         return KUSFormQuestionType.KUS_FORM_QUESTION_TYPE_UNKNOWN;
     }
 
-    private static KUSFormQuestionProperty KUSFormQuestionPropertyFromString(String string) {
+    @NonNull
+    private static KUSFormQuestionProperty KUSFormQuestionPropertyFromString(@Nullable String string) {
         if (string == null)
             return KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_UNKNOWN;
 
@@ -115,22 +125,27 @@ public class KUSFormQuestion extends KUSModel {
 
     //region Accessors
 
+    @NonNull
     public KUSFormQuestionProperty getProperty() {
         return property;
     }
 
+    @NonNull
     public KUSFormQuestionType getType() {
         return type;
     }
 
+    @Nullable
     public String getPrompt() {
         return prompt;
     }
 
+    @Nullable
     public String getName() {
         return name;
     }
 
+    @NonNull
     public List<String> getValues() {
         return values;
     }
@@ -139,6 +154,7 @@ public class KUSFormQuestion extends KUSModel {
         return skipIfSatisfied;
     }
 
+    @Nullable
     public KUSMLFormValue getMlFormValues() {
         return mlFormValues;
     }

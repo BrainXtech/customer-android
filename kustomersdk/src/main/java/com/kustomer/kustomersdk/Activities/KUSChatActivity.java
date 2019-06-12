@@ -483,7 +483,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             kusInputBarView.clearInputFocus();
             kusInputBarView.setText("");
 
-            if (vcCurrentQuestion.getValues() != null && vcCurrentQuestion.getValues().size() > 0) {
+            if (vcCurrentQuestion.getValues().size() > 0) {
                 kusOptionPickerView.setVisibility(View.VISIBLE);
                 updateOptionsPickerOptions();
             }
@@ -499,8 +499,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             kusInputBarView.setVisibility(View.GONE);
             kusInputBarView.clearInputFocus();
 
-            if (currentQuestion.getMlFormValues() != null
-                    && currentQuestion.getMlFormValues().getMlNodes() != null) {
+            if (currentQuestion.getMlFormValues() != null) {
                 if (currentQuestion.getMlFormValues().getMlNodes().size() > 0
                         && mlFormValuesPickerView.getVisibility() == View.GONE) {
 
@@ -515,7 +514,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
         wantsOptionPicker = (currentQuestion != null
                 && currentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_VALUES
-                && currentQuestion.getValues() != null && currentQuestion.getValues().size() > 0);
+                && currentQuestion.getValues().size() > 0);
 
         if (wantsOptionPicker) {
             kusInputBarView.setVisibility(View.GONE);
@@ -528,7 +527,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
         wantsOptionPicker = (currentQuestion != null
                 && currentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_CONVERSATION_TEAM
-                && currentQuestion.getValues() != null && currentQuestion.getValues().size() > 0);
+                && currentQuestion.getValues().size() > 0);
 
         boolean teamOptionsDidFail = teamOptionsDatasource != null && (teamOptionsDatasource.getError() != null
                 || (teamOptionsDatasource.isFetched() && teamOptionsDatasource.getSize() == 0));
@@ -607,7 +606,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource.volumeControlCurrentQuestion();
         boolean wantsOptionPicker = (vcCurrentQuestion != null
                 && vcCurrentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_CUSTOMER_FOLLOW_UP_CHANNEL
-                && vcCurrentQuestion.getValues() != null && vcCurrentQuestion.getValues().size() > 0);
+                && vcCurrentQuestion.getValues().size() > 0);
         if (wantsOptionPicker) {
             kusOptionPickerView.setOptions(vcCurrentQuestion.getValues());
             return;
@@ -616,7 +615,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         KUSFormQuestion currentQuestion = chatMessagesDataSource.currentQuestion();
         wantsOptionPicker = (currentQuestion != null
                 && currentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_VALUES
-                && currentQuestion.getValues() != null && currentQuestion.getValues().size() > 0);
+                && currentQuestion.getValues().size() > 0);
         if (wantsOptionPicker) {
             kusOptionPickerView.setOptions(currentQuestion.getValues());
             return;
@@ -1088,25 +1087,29 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             team = (KUSTeam) teamOptionsDatasource.get(optionIndex);
 
         chatMessagesDataSource.sendMessageWithText(
-                team != null && team.displayName != null ? team.displayName : option,
+                team != null && team.getDisplayName() != null ? team.getDisplayName() : option,
                 null,
                 team != null ? team.getId() : null);
     }
 
     @Override
     public void onChatMessageImageClicked(KUSChatMessage chatMessage) {
-        int startingIndex;
+        int startingIndex = 0;
 
         List<String> imageURIs = new ArrayList<>();
 
         for (int i = chatMessagesDataSource.getSize() - 1; i >= 0; i--) {
             KUSChatMessage kusChatMessage = (KUSChatMessage) chatMessagesDataSource.get(i);
             if (kusChatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE) {
-                imageURIs.add(kusChatMessage.getImageUrl().toString());
+                String imageUrl = kusChatMessage.getImageUrl() != null
+                        ? kusChatMessage.getImageUrl().toString() : null;
+                imageURIs.add(imageUrl);
             }
         }
 
-        startingIndex = imageURIs.indexOf(chatMessage.getImageUrl().toString());
+        if (chatMessage.getImageUrl() != null) {
+            startingIndex = imageURIs.indexOf(chatMessage.getImageUrl().toString());
+        }
 
         new KUSLargeImageViewer(this).showImages(imageURIs, startingIndex);
     }

@@ -1,10 +1,8 @@
 package com.kustomer.kustomersdk.Models;
 
-import android.graphics.Bitmap;
+import android.support.annotation.NonNull;
 
 import org.json.JSONArray;
-
-import java.util.List;
 
 /**
  * Created by Junaid on 3/22/2018.
@@ -13,13 +11,17 @@ import java.util.List;
 public class KUSFormRetry extends KUSRetry {
 
     //region Properties
+    @NonNull
     private JSONArray messagesJSON;
+    @NonNull
     private String formId;
+    @NonNull
     private KUSChatMessage lastUserChatMessage;
     //endregion
 
     //region LifeCycle
-    public KUSFormRetry(JSONArray messagesJSON, String formId, KUSChatMessage lastUserChatMessage ){
+    public KUSFormRetry(@NonNull JSONArray messagesJSON,@NonNull String formId,
+                        @NonNull KUSChatMessage lastUserChatMessage ){
 
         this.messagesJSON = messagesJSON;
         this.formId = formId;
@@ -30,14 +32,17 @@ public class KUSFormRetry extends KUSRetry {
 
     //region Getters
 
+    @NonNull
     public JSONArray getMessagesJSON() {
         return messagesJSON;
     }
 
+    @NonNull
     public String getFormId() {
         return formId;
     }
 
+    @NonNull
     public KUSChatMessage getLastUserChatMessage() {
         return lastUserChatMessage;
     }

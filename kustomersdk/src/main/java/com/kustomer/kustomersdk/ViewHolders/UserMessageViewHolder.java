@@ -115,13 +115,15 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
 
         progressBarImage.setVisibility(View.VISIBLE);
 
-        Bitmap cachedImage = new KUSCache().getBitmapFromMemCache(chatMessage.getImageUrl().toString());
+        String imageUrl = chatMessage.getImageUrl() != null ? chatMessage.getImageUrl().toString() : null;
+
+        Bitmap cachedImage = new KUSCache().getBitmapFromMemCache(imageUrl);
         if(cachedImage != null){
             ivAttachmentImage.setImageBitmap(cachedImage);
             progressBarImage.setVisibility(View.GONE);
             imageLoadedSuccessfully = true;
         }else {
-            GlideUrl glideUrl = new GlideUrl(chatMessage.getImageUrl().toString(), new LazyHeaders.Builder()
+            GlideUrl glideUrl = new GlideUrl(imageUrl, new LazyHeaders.Builder()
                     .addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY, Kustomer.getSharedInstance().getUserSession().getTrackingTokenDataSource().getCurrentTrackingToken())
                     .build());
 

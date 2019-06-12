@@ -1,5 +1,6 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -14,15 +15,18 @@ import java.util.ArrayList;
 public class KUSMLNode extends KUSModel {
 
     //region Properties
+    @Nullable
     private String displayName;
+    @Nullable
     private String nodeId;
     private boolean deleted;
+    @NonNull
     private ArrayList<KUSMLNode> childNodes;
     //endregion
 
     //region Initializer
 
-    public KUSMLNode(JSONObject json) throws KUSInvalidJsonException {
+    public KUSMLNode(@Nullable JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
         displayName = JsonHelper.stringFromKeyPath(json, "displayName");

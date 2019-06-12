@@ -5,6 +5,7 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -139,9 +140,9 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
 
         String responderName = firstOtherUser != null ? firstOtherUser.getDisplayName() : null;
 
-        if (responderName == null || responderName.length() == 0) {
+        if (TextUtils.isEmpty(responderName)) {
             KUSChatSettings chatSettings = (KUSChatSettings) mUserSession.getChatSettingsDataSource().getObject();
-            responderName = chatSettings != null && chatSettings.getTeamName().length() > 0 ?
+            responderName = !TextUtils.isEmpty(chatSettings.getTeamName()) ?
                     chatSettings.getTeamName() : mUserSession.getOrganizationName();
         }
 
@@ -160,7 +161,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
 
         String subtitleText = null;
         if (latestTextMessage != null) {
-            subtitleText = latestTextMessage.getBody() != null ?
+            subtitleText = latestTextMessage.getBody().isEmpty() ?
                     latestTextMessage.getBody() : mChatSession.getPreview();
         }
 
