@@ -163,18 +163,17 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
         KUSUser user = null;
         if(userDataSource != null) {
             user = (KUSUser) userDataSource.getObject();
-            if (user == null && !userDataSource.isFetching()) {
+            if (user == null) {
                 userDataSource.addListener(this);
                 userDataSource.fetch();
             }
         }
 
         KUSChatSettings chatSettings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
-        if(userSession.getChatSettingsDataSource() != null && chatSettings == null && !this.userSession.getChatSettingsDataSource().isFetching()){
+        if(chatSettings == null){
             userSession.getChatSettingsDataSource().addListener(this);
             userSession.getChatSettingsDataSource().fetch();
         }
-
 
         String name = "";
         if (user != null && user.getDisplayName() != null)

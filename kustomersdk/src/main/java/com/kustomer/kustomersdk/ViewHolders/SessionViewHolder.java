@@ -141,7 +141,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
         KUSUser firstOtherUser = null;
         if (userDataSource != null) {
             firstOtherUser = (KUSUser) userDataSource.getObject();
-            if (firstOtherUser == null && !userDataSource.isFetching()) {
+            if (firstOtherUser == null) {
                 userDataSource.addListener(this);
                 userDataSource.fetch();
             }

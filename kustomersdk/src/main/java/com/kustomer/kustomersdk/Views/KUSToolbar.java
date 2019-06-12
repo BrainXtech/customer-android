@@ -249,7 +249,7 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener, 
         KUSUser firstOtherUser = null;
         if (userDataSource != null) {
             firstOtherUser = (KUSUser) userDataSource.getObject();
-            if (firstOtherUser == null && !userDataSource.isFetching()) {
+            if (firstOtherUser == null) {
                 userDataSource.addListener(this);
                 userDataSource.fetch();
             }
