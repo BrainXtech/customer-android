@@ -109,24 +109,23 @@ public class KUSChatSession extends KUSModel implements Serializable {
     }
 
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(@Nullable Object obj) {
+        if (obj == this)
+            return true;
+
+        if (obj == null)
+            return false;
+
         if (!obj.getClass().equals(KUSChatSession.class))
             return false;
 
         KUSChatSession chatSession = (KUSChatSession) obj;
 
-        if (!Objects.equals(chatSession.getId(),this.getId()))
-            return false;
-        if (!Objects.equals(this.preview,chatSession.preview))
-            return false;
-        if (!Objects.equals(this.lastSeenAt,chatSession.lastSeenAt))
-            return false;
-        if (!Objects.equals(this.lastMessageAt,chatSession.lastMessageAt))
-            return false;
-        if (!Objects.equals(this.createdAt,chatSession.createdAt))
-            return false;
-
-        return true;
+        return Objects.equals(chatSession.getId(),this.getId())
+                && Objects.equals(this.preview,chatSession.preview)
+                && Objects.equals(this.lastSeenAt,chatSession.lastSeenAt)
+                && Objects.equals(this.lastMessageAt,chatSession.lastMessageAt)
+                && Objects.equals(this.createdAt,chatSession.createdAt);
     }
 
     private Date sortDate() {

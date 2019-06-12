@@ -103,7 +103,6 @@ public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOption
 
         if(selectedValuesStack.size() != 0) {
             shouldEnableSend = !isLastNodeRequired
-                    || selectedValuesStack.get(selectedValuesStack.size() - 1).getChildNodes() == null
                     || selectedValuesStack.get(selectedValuesStack.size() - 1).getChildNodes().size() == 0;
         }
 
@@ -157,8 +156,7 @@ public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOption
 
         currentOptionsToShow.clear();
         if(selectedValuesStack.size() > 0
-                && selectedValuesStack.get(selectedValuesStack.size()-1).getChildNodes() != null
-                && selectedValuesStack.get(selectedValuesStack.size()-1).getChildNodes().size()>0){
+                && selectedValuesStack.get(selectedValuesStack.size() - 1).getChildNodes().size() > 0){
             currentOptionsToShow = new ArrayList<>(selectedValuesStack.get(selectedValuesStack.size()-1)
                     .getChildNodes());
         }
@@ -176,7 +174,7 @@ public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOption
 
         if(position == 0){
             currentOptionsToShow = new ArrayList<>(valuesTree);
-        }else if(selectedValuesStack.get(position-1).getChildNodes() != null){
+        }else {
             currentOptionsToShow = new ArrayList<>(selectedValuesStack.get(position-1).getChildNodes());
         }
 

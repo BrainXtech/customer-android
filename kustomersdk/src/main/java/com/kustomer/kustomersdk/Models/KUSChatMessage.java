@@ -159,24 +159,14 @@ public class KUSChatMessage extends KUSModel {
 
         KUSChatMessage chatMessage = (KUSChatMessage) obj;
 
-        if (chatMessage.state != this.state)
-            return false;
-        if (!Objects.equals(chatMessage.direction, this.direction))
-            return false;
-        if (chatMessage.type != this.type)
-            return false;
-        if (!chatMessage.attachmentIds.equals(this.attachmentIds))
-            return false;
-        if (!chatMessage.getId().equals(this.getId()))
-            return false;
-        if (!Objects.equals(chatMessage.createdAt, this.createdAt))
-            return false;
-        if (!Objects.equals(chatMessage.importedAt, this.importedAt))
-            return false;
-        if (!Objects.equals(chatMessage.body, this.body))
-            return false;
-
-        return true;
+        return Objects.equals(chatMessage.state,this.state)
+                && Objects.equals(chatMessage.direction, this.direction)
+                && Objects.equals( chatMessage.type, this.type)
+                && Objects.equals(chatMessage.attachmentIds,this.attachmentIds)
+                && Objects.equals(chatMessage.getId(),this.getId())
+                && Objects.equals(chatMessage.createdAt, this.createdAt)
+                && Objects.equals(chatMessage.importedAt, this.importedAt)
+                && Objects.equals(chatMessage.body, this.body);
     }
 
     @Override

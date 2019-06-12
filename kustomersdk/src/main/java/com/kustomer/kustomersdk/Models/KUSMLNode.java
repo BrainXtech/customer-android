@@ -82,14 +82,17 @@ public class KUSMLNode extends KUSModel {
 
     //region Accessors
 
+    @Nullable
     public String getDisplayName() {
         return displayName;
     }
 
+    @Nullable
     public String getNodeId() {
         return nodeId;
     }
 
+    @NonNull
     public ArrayList<KUSMLNode> getChildNodes() {
         return childNodes;
     }
