@@ -52,7 +52,7 @@ public class KUSDateTests {
         Date currentDate = new Date();
         String dateString = KUSDate.stringFromDate(currentDate);
         Date stringDate = KUSDate.dateFromString(dateString);
-        assertEquals(currentDate.getTime(),stringDate.getTime());
+        assertEquals(currentDate.getTime(), stringDate != null ? stringDate.getTime() : 0);
     }
 
     @Test

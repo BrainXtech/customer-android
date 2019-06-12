@@ -168,7 +168,9 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
                 attachmentLayout.setAlpha(1.0f);
                 break;
             case KUS_CHAT_MESSAGE_STATE_SENDING:{
-                long timeElapsed = Calendar.getInstance().getTimeInMillis() - chatMessage.getCreatedAt().getTime();
+                long timeElapsed = chatMessage.getCreatedAt() != null
+                        ? Calendar.getInstance().getTimeInMillis() - chatMessage.getCreatedAt().getTime()
+                        : 0;
                 if(timeElapsed >= OPTIMISTIC_SEND_LOADING_DELAY){
                     tvMessage.setAlpha(0.5f);
                     attachmentLayout.setAlpha(0.5f);
