@@ -90,7 +90,7 @@ public class KUSChatMessage extends KUSModel {
 
         this.createdAt = dateFromKeyPath(json, "attributes.createdAt");
         this.importedAt = dateFromKeyPath(json, "attributes.importedAt");
-        this.direction = KUSChatMessageDirectionFromString(stringFromKeyPath(json, "attributes.direction"));
+        this.direction = kusChatMessageDirectionFromString(stringFromKeyPath(json, "attributes.direction"));
         this.sentById = stringFromKeyPath(json, "relationships.sentBy.data.id");
         this.campaignId = stringFromKeyPath(json, "relationships.campaign.data.id");
     }
@@ -98,12 +98,12 @@ public class KUSChatMessage extends KUSModel {
     //endregion
 
     //region Public Methods
-    public static boolean KUSChatMessageSentByUser(@Nullable KUSChatMessage message) {
+    public static boolean kusChatMessageSentByUser(@Nullable KUSChatMessage message) {
 
         return message != null && message.direction == KUSChatMessageDirection.KUS_CHAT_MESSAGE_DIRECTION_IN;
     }
 
-    public static boolean KUSMessagesSameSender(@Nullable KUSChatMessage message1,
+    public static boolean kusMessagesSameSender(@Nullable KUSChatMessage message1,
                                                 @Nullable KUSChatMessage message2) {
         return message1 != null
                 && message2 != null
@@ -112,7 +112,7 @@ public class KUSChatMessage extends KUSModel {
     }
 
     @Nullable
-    private static KUSChatMessageDirection KUSChatMessageDirectionFromString(@Nullable String str) {
+    private static KUSChatMessageDirection kusChatMessageDirectionFromString(@Nullable String str) {
 
         if (str == null)
             return null;
@@ -159,11 +159,11 @@ public class KUSChatMessage extends KUSModel {
 
         KUSChatMessage chatMessage = (KUSChatMessage) obj;
 
-        return Objects.equals(chatMessage.state,this.state)
+        return Objects.equals(chatMessage.state, this.state)
                 && Objects.equals(chatMessage.direction, this.direction)
-                && Objects.equals( chatMessage.type, this.type)
-                && Objects.equals(chatMessage.attachmentIds,this.attachmentIds)
-                && Objects.equals(chatMessage.getId(),this.getId())
+                && Objects.equals(chatMessage.type, this.type)
+                && Objects.equals(chatMessage.attachmentIds, this.attachmentIds)
+                && Objects.equals(chatMessage.getId(), this.getId())
                 && Objects.equals(chatMessage.createdAt, this.createdAt)
                 && Objects.equals(chatMessage.importedAt, this.importedAt)
                 && Objects.equals(chatMessage.body, this.body);
@@ -190,7 +190,7 @@ public class KUSChatMessage extends KUSModel {
 
     //region Private Methods
     @NonNull
-    private List<String> arrayListFromJsonArray(@NonNull JSONArray array, String id) {
+    private List<String> arrayListFromJsonArray(@NonNull JSONArray array, @NonNull String id) {
         List<String> list = new ArrayList<>();
 
         for (int i = 0; i < array.length(); i++) {

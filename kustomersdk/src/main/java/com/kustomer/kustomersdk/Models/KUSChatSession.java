@@ -71,7 +71,8 @@ public class KUSChatSession extends KUSModel implements Serializable {
     //endregion
 
     //region Public Methods
-    public static KUSChatSession tempSessionFromChatMessage(KUSChatMessage message) throws KUSInvalidJsonException {
+    public static KUSChatSession tempSessionFromChatMessage(@NonNull KUSChatMessage message)
+            throws KUSInvalidJsonException {
 
         JSONObject attributes = new JSONObject();
         try {
@@ -126,27 +127,6 @@ public class KUSChatSession extends KUSModel implements Serializable {
                 && Objects.equals(this.lastSeenAt,chatSession.lastSeenAt)
                 && Objects.equals(this.lastMessageAt,chatSession.lastMessageAt)
                 && Objects.equals(this.createdAt,chatSession.createdAt);
-    }
-
-    private Date sortDate() {
-        KUSUserSession userSession = Kustomer.getSharedInstance().getUserSession();
-        KUSChatMessagesDataSource messagesDataSource = userSession.chatMessageDataSourceForSessionId(getId());
-        KUSChatMessage chatMessage = null;
-
-        if (messagesDataSource != null && messagesDataSource.getSize() > 0)
-            chatMessage = (KUSChatMessage) messagesDataSource.get(0);
-
-        Date laterLastMessageAt = null;
-
-        if (chatMessage != null && chatMessage.getCreatedAt() != null) {
-            if (lastMessageAt != null)
-                laterLastMessageAt = chatMessage.getCreatedAt().after(lastMessageAt) ?
-                        chatMessage.getCreatedAt() : lastMessageAt;
-
-        } else
-            laterLastMessageAt = lastMessageAt;
-
-        return laterLastMessageAt != null ? laterLastMessageAt : createdAt;
     }
 
     @Override

@@ -24,7 +24,7 @@ public class KUSChatAttachment extends KUSModel {
     //endregion
 
     //region Initializer
-    public KUSChatAttachment(JSONObject jsonObject) throws KUSInvalidJsonException {
+    public KUSChatAttachment(@Nullable JSONObject jsonObject) throws KUSInvalidJsonException {
         super(jsonObject);
 
         name = JsonHelper.stringFromKeyPath(jsonObject,"attributes.name");

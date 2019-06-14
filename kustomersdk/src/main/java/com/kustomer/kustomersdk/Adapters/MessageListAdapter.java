@@ -129,7 +129,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
         } else if (holder.getItemViewType() == AGENT_VIEW) {
             boolean previousMessageDiffSender =
-                    !KUSChatMessage.KUSMessagesSameSender(previousChatMessage, chatMessage);
+                    !KUSChatMessage.kusMessagesSameSender(previousChatMessage, chatMessage);
             ((AgentMessageViewHolder) holder).onBind(chatMessage, mUserSession,
                     previousMessageDiffSender, nextMessageOlderThan5Min, mListener);
         }
@@ -159,7 +159,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
         KUSChatMessage chatMessage = messageForPosition(mPosition);
 
-        boolean currentUser = KUSChatMessage.KUSChatMessageSentByUser(chatMessage);
+        boolean currentUser = KUSChatMessage.kusChatMessageSentByUser(chatMessage);
         if (currentUser)
             return USER_VIEW;
         else

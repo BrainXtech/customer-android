@@ -96,7 +96,7 @@ public class KUSChatSettings extends KUSModel implements Serializable {
         offHoursImageUrl = JsonHelper.stringFromKeyPath(json,"attributes.offhoursImageUrl");
         availability = getKUSBusinessHoursAvailabilityFromString(JsonHelper.stringFromKeyPath(json,"attributes.offhoursDisplay"));
 
-        volumeControlMode = KUSVolumeControlModeFromString(JsonHelper.stringFromKeyPath(json,"attributes.volumeControl.mode"));
+        volumeControlMode = kusVolumeControlModeFromString(JsonHelper.stringFromKeyPath(json,"attributes.volumeControl.mode"));
         upfrontWaitThreshold = JsonHelper.integerFromKeyPath(json,"attributes.volumeControl.upfrontWaitThreshold");
         showKustomerBranding = JsonHelper.boolFromKeyPath(json, "attributes.showBrandingIdentifier");
 
@@ -113,7 +113,7 @@ public class KUSChatSettings extends KUSModel implements Serializable {
     //endregion
 
     //region Private Methods
-    private KUSVolumeControlMode KUSVolumeControlModeFromString(String string){
+    private KUSVolumeControlMode kusVolumeControlModeFromString(String string){
 
         if(string == null)
             return KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_UNKNOWN;

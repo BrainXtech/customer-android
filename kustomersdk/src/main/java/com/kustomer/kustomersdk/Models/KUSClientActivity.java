@@ -51,7 +51,7 @@ public class KUSClientActivity extends KUSModel {
 
     //region Private Methods
     @NonNull
-    private List<Double> arrayListFromJsonArray(@Nullable JSONArray array, String id) {
+    private List<Double> arrayListFromJsonArray(@Nullable JSONArray array,@NonNull String id) {
         List<Double> list = new ArrayList<>();
 
         if (array == null)

@@ -66,7 +66,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.UUID;
 
-import static com.kustomer.kustomersdk.Models.KUSChatMessage.KUSChatMessageSentByUser;
+import static com.kustomer.kustomersdk.Models.KUSChatMessage.kusChatMessageSentByUser;
 
 /**
  * Created by Junaid on 1/20/2018.
@@ -564,7 +564,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         for (KUSModel model : getList()) {
             KUSChatMessage message = (KUSChatMessage) model;
 
-            if (KUSChatMessageSentByUser(message)) {
+            if (kusChatMessageSentByUser(message)) {
                 return count;
             }
 
@@ -614,7 +614,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         if (isActualSession())
             return null;
 
-        if (KUSChatMessageSentByUser(this.getLatestMessage()))
+        if (kusChatMessageSentByUser(this.getLatestMessage()))
             return null;
 
         return formQuestion;
@@ -993,7 +993,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
             submitFormResponses();
 
         KUSChatMessage lastMessage = getLatestMessage();
-        if (!KUSChatMessageSentByUser(lastMessage))
+        if (!kusChatMessageSentByUser(lastMessage))
             return;
 
         if (shouldPreventSendingMessage())
@@ -1093,7 +1093,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         }
 
         // Check that response of previous asked question is already entered ? if not return
-        if (vcFormActive && !KUSChatMessageSentByUser(lastMessage) && getOtherUserIds().size() == 0) {
+        if (vcFormActive && !kusChatMessageSentByUser(lastMessage) && getOtherUserIds().size() == 0) {
             return true;
         }
 
@@ -1401,7 +1401,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         KUSChatMessage lastUserChatMessage = null;
         for (KUSModel model : getList()) {
             KUSChatMessage chatMessage = (KUSChatMessage) model;
-            if (KUSChatMessageSentByUser(chatMessage)) {
+            if (kusChatMessageSentByUser(chatMessage)) {
                 lastUserChatMessage = chatMessage;
                 break;
             }
@@ -1777,7 +1777,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     public boolean isAnyMessageByCurrentUser() {
         for (KUSModel message : getList()) {
             KUSChatMessage chatMessage = (KUSChatMessage) message;
-            if (KUSChatMessageSentByUser(chatMessage))
+            if (kusChatMessageSentByUser(chatMessage))
                 return true;
         }
         return false;
@@ -1786,7 +1786,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     public String getFirstOtherUserId() {
         for (KUSModel message : getList()) {
             KUSChatMessage chatMessage = (KUSChatMessage) message;
-            if (!KUSChatMessageSentByUser(chatMessage))
+            if (!kusChatMessageSentByUser(chatMessage))
                 return chatMessage.getSentById();
         }
         return null;
@@ -1798,7 +1798,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
         for (KUSModel message : getList()) {
             KUSChatMessage kusChatMessage = (KUSChatMessage) message;
-            if (!KUSChatMessageSentByUser(kusChatMessage)) {
+            if (!kusChatMessageSentByUser(kusChatMessage)) {
                 String sentById = kusChatMessage.getSentById();
                 if (sentById != null && !userIdsSet.contains(sentById)) {
                     userIdsSet.add(sentById);
