@@ -134,6 +134,7 @@ public class KUSChatMessage extends KUSModel {
         return new URL(imageUrlString);
     }
 
+    @NonNull
     @Override
     public String modelType() {
         return "chat_message";

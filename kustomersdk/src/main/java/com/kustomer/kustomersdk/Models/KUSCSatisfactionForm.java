@@ -60,6 +60,7 @@ public class KUSCSatisfactionForm extends KUSForm {
         }
     }
 
+    @NonNull
     @Override
     public String modelType() {
         return "satisfaction";

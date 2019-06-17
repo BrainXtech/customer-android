@@ -63,6 +63,7 @@ public class KUSModel implements Comparable<KUSModel>, Serializable {
     //endregion
 
     //region Methods
+    @Nullable
     public String modelType() {
         return null;
     }

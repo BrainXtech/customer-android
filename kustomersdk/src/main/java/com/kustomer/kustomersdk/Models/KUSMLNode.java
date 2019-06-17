@@ -52,6 +52,7 @@ public class KUSMLNode extends KUSModel {
 
     //region Class methods
 
+    @Nullable
     public String modelType() {
         return null;
     }

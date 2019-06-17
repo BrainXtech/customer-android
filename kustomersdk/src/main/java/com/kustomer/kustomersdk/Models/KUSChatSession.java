@@ -153,6 +153,7 @@ public class KUSChatSession extends KUSModel implements Serializable {
         return date == 0 ? parent : date;
     }
 
+    @NonNull
     @Override
     public String modelType() {
         return "chat_session";

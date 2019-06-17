@@ -43,6 +43,7 @@ public class KUSMLFormValue extends KUSModel {
     //endregion
 
     //region Class methods
+    @Nullable
     public String modelType(){
         return null;
     }

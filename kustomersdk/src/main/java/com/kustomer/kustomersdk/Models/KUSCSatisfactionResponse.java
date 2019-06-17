@@ -105,6 +105,7 @@ public class KUSCSatisfactionResponse extends KUSModel {
         }
     }
 
+    @NonNull
     @Override
     public String modelType() {
         return "satisfaction_response";

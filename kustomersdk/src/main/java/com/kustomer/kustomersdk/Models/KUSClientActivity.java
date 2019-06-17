@@ -43,6 +43,7 @@ public class KUSClientActivity extends KUSModel {
         createdAt = JsonHelper.dateFromKeyPath(json, "attributes.createdAt");
     }
 
+    @NonNull
     @Override
     public String modelType() {
         return "client_activity";

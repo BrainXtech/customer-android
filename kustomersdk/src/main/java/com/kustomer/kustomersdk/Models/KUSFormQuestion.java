@@ -65,6 +65,7 @@ public class KUSFormQuestion extends KUSModel {
     //endregion
 
     //region Class Methods
+    @Nullable
     public String modelType() {
         return null;
     }

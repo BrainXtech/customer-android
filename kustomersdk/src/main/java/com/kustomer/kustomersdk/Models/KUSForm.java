@@ -33,6 +33,7 @@ public class KUSForm extends KUSModel{
                 "attributes.questions"));
     }
 
+    @NonNull
     public String modelType(){
         return "form";
     }

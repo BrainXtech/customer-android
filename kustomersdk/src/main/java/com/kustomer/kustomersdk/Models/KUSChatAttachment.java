@@ -1,5 +1,6 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -32,6 +33,7 @@ public class KUSChatAttachment extends KUSModel {
         updatedAt = JsonHelper.dateFromKeyPath(jsonObject,"attributes.updatedAt");
     }
 
+    @NonNull
     @Override
     public String modelType(){
         return "attachment";

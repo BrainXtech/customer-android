@@ -40,6 +40,7 @@ public class KUSSchedule extends KUSModel {
     //endregion
 
     //region Class methods
+    @NonNull
     public String modelType(){
         return "schedule";
     }

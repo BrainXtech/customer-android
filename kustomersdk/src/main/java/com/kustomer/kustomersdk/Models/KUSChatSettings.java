@@ -106,6 +106,7 @@ public class KUSChatSettings extends KUSModel implements Serializable {
                 "attributes.showTypingIndicatorWeb");
     }
 
+    @NonNull
     @Override
     public String modelType() {
         return "chat_settings";
