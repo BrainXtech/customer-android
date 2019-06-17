@@ -82,8 +82,11 @@ public class JsonHelper {
     }
 
     @Nullable
-    public static JSONArray jsonArrayFromKeyPath(@NonNull JSONObject jsonObject,
+    public static JSONArray jsonArrayFromKeyPath(@Nullable JSONObject jsonObject,
                                                  @NonNull String keyPath) {
+        if (jsonObject ==null)
+            return null;
+
         try {
             String[] keys = keyPath.split("[.]");
             for (int i = 0; i < keys.length - 1; i++) {

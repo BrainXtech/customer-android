@@ -114,6 +114,7 @@ public class KUSChatSettings extends KUSModel implements Serializable {
     //endregion
 
     //region Private Methods
+    @NonNull
     private KUSVolumeControlMode kusVolumeControlModeFromString(String string){
 
         if(string == null)
@@ -128,14 +129,8 @@ public class KUSChatSettings extends KUSModel implements Serializable {
         return KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_UNKNOWN;
     }
 
-    private String stringSanitizedReply(String autoReply) {
-        if (autoReply != null)
-            return autoReply.trim().length() > 0 ? autoReply.trim() : null;
-        else
-            return null;
-    }
-
-    private static KUSBusinessHoursAvailability getKUSBusinessHoursAvailabilityFromString(String string) {
+    @NonNull
+    private static KUSBusinessHoursAvailability getKUSBusinessHoursAvailabilityFromString(@Nullable String string) {
         if(string == null)
             return KUSBusinessHoursAvailability.KUS_BUSINESS_HOURS_AVAILABILITY_HIDE_CHAT;
 

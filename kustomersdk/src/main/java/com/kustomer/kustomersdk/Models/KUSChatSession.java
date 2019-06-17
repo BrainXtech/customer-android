@@ -72,6 +72,7 @@ public class KUSChatSession extends KUSModel implements Serializable {
     //endregion
 
     //region Public Methods
+    @NonNull
     public static KUSChatSession tempSessionFromChatMessage(@NonNull KUSChatMessage message)
             throws KUSInvalidJsonException {
 
@@ -133,7 +134,6 @@ public class KUSChatSession extends KUSModel implements Serializable {
     @Override
     public int compareTo(@NonNull KUSModel kusModel) {
         KUSChatSession chatSession = (KUSChatSession) kusModel;
-        //int date = chatSession.sortDate().compareTo(this.sortDate());
         int date;
         if (chatSession.lockedAt != null && this.lockedAt != null)
             date = chatSession.lockedAt.compareTo(this.lockedAt);

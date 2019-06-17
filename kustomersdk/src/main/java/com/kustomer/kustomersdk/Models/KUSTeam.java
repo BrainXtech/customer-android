@@ -8,7 +8,6 @@ import com.kustomer.kustomersdk.Utils.JsonHelper;
 
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
@@ -28,7 +27,7 @@ public class KUSTeam extends KUSModel {
     //endregion
 
     //region LifeCycleMethods
-    public KUSTeam(JSONObject json) throws KUSInvalidJsonException {
+    public KUSTeam(@Nullable JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
         displayName = JsonHelper.stringFromKeyPath(json,"attributes.displayName");
@@ -71,24 +70,13 @@ public class KUSTeam extends KUSModel {
         }
     }
 
+    @Nullable
     public String fullDisplay(){
         if(emoji != null){
             return String.format("%s %s",emoji,displayName);
         }
 
         return displayName;
-    }
-
-    private static byte[] append(final byte[]... arrays) {
-        final ByteArrayOutputStream out = new ByteArrayOutputStream();
-        if (arrays != null) {
-            for (final byte[] array : arrays) {
-                if (array != null) {
-                    out.write(array, 0, array.length);
-                }
-            }
-        }
-        return out.toByteArray();
     }
     //endregion
 

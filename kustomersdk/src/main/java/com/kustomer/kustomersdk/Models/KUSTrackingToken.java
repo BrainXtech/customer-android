@@ -25,7 +25,7 @@ public class KUSTrackingToken extends KUSModel {
     //endregion
 
     //region Initializer
-    public KUSTrackingToken (JSONObject json) throws KUSInvalidJsonException {
+    public KUSTrackingToken(@Nullable JSONObject json) throws KUSInvalidJsonException {
         super(json);
 
         trackingId = stringFromKeyPath(json, "attributes.trackingId");

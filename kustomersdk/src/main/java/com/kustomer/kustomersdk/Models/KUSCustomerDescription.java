@@ -1,5 +1,6 @@
 package com.kustomer.kustomersdk.Models;
 
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Helpers.KUSLog;
@@ -36,6 +37,7 @@ public class KUSCustomerDescription {
     //endregion
 
     //region Methods
+    @NonNull
     public HashMap<String, Object> formData(){
         HashMap<String, Object> formData = new HashMap<>();
 

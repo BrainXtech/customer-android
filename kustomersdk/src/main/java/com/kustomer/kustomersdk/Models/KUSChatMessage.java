@@ -242,7 +242,7 @@ public class KUSChatMessage extends KUSModel {
         return attachmentIds;
     }
 
-    public void setAttachmentIds(ArrayList attachmentIds) {
+    public void setAttachmentIds(@NonNull ArrayList attachmentIds) {
         this.attachmentIds = attachmentIds;
     }
 
