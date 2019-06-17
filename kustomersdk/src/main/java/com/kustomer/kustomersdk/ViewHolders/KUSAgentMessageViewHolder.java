@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
  * Created by Junaid on 1/19/2018.
  */
 
-public class AgentMessageViewHolder extends RecyclerView.ViewHolder {
+public class KUSAgentMessageViewHolder extends RecyclerView.ViewHolder {
 
     //region Properties
     @BindView(R2.id.tvMessage)
@@ -53,7 +53,7 @@ public class AgentMessageViewHolder extends RecyclerView.ViewHolder {
     //endregion
 
     //region Initializer
-    public AgentMessageViewHolder(View itemView) {
+    public KUSAgentMessageViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this,itemView);
     }

@@ -33,7 +33,7 @@ import butterknife.OnClick;
 import static com.kustomer.kustomersdk.Enums.KUSCSatisfactionFormResponseStatus.KUS_C_SATISFACTION_RESPONSE_STATUS_RATED;
 import static com.kustomer.kustomersdk.Enums.KUSCSatisfactionScaleType.*;
 
-public class CSatisfactionFormViewHolder extends RecyclerView.ViewHolder {
+public class KUSCSatisfactionFormViewHolder extends RecyclerView.ViewHolder {
 
     //region Properties
     @BindView(R2.id.flAvatar)
@@ -82,8 +82,8 @@ public class CSatisfactionFormViewHolder extends RecyclerView.ViewHolder {
 
     //region Initializer
     @SuppressLint("ClickableViewAccessibility")
-    public CSatisfactionFormViewHolder(View itemView,
-                                       @NonNull KUSMessageListAdapter.ChatMessageItemListener listener) {
+    public KUSCSatisfactionFormViewHolder(View itemView,
+                                          @NonNull KUSMessageListAdapter.ChatMessageItemListener listener) {
         super(itemView);
         ButterKnife.bind(this, itemView);
 

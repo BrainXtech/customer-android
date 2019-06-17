@@ -41,7 +41,7 @@ import butterknife.ButterKnife;
  * Created by Junaid on 1/19/2018.
  */
 
-public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObjectDataSourceListener,
+public class KUSSessionViewHolder extends RecyclerView.ViewHolder implements KUSObjectDataSourceListener,
         KUSChatMessagesDataSourceListener {
 
     //region Properties
@@ -65,7 +65,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     private Date sessionDate = null;
     //endregion
 
-    public SessionViewHolder(View itemView) {
+    public KUSSessionViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }

@@ -7,9 +7,9 @@ import android.view.View;
  * Created by Junaid on 1/19/2018.
  */
 
-public class DummyViewHolder extends RecyclerView.ViewHolder {
+public class KUSDummyViewHolder extends RecyclerView.ViewHolder {
 
-    public DummyViewHolder(View itemView) {
+    public KUSDummyViewHolder(View itemView) {
         super(itemView);
     }
 }

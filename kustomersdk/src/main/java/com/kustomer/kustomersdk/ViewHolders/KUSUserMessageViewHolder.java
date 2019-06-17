@@ -41,7 +41,7 @@ import butterknife.ButterKnife;
  * Created by Junaid on 1/19/2018.
  */
 
-public class UserMessageViewHolder extends RecyclerView.ViewHolder {
+public class KUSUserMessageViewHolder extends RecyclerView.ViewHolder {
 
     //region Properties
     private static final long OPTIMISTIC_SEND_LOADING_DELAY = 750;
@@ -66,7 +66,7 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
     //endregion
 
     //region LifeCycle
-    public UserMessageViewHolder(View itemView) {
+    public KUSUserMessageViewHolder(View itemView) {
         super(itemView);
         ButterKnife.bind(this,itemView);
     }
