@@ -19,7 +19,7 @@ import java.lang.ref.WeakReference;
  * Created by Junaid on 1/19/2018.
  */
 
-public class SessionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class KUSSessionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //region Properties
     private KUSChatSessionsDataSource mChatSessionsDataSource;
@@ -34,8 +34,8 @@ public class SessionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     //endregion
 
     //region LifeCycle
-    public SessionListAdapter(RecyclerView recyclerView, KUSChatSessionsDataSource chatSessionsDataSource,
-                              KUSUserSession userSession, onItemClickListener listener) {
+    public KUSSessionListAdapter(RecyclerView recyclerView, KUSChatSessionsDataSource chatSessionsDataSource,
+                                 KUSUserSession userSession, onItemClickListener listener) {
         mChatSessionsDataSource = chatSessionsDataSource;
         mUserSession = userSession;
         mListener = listener;

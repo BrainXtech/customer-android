@@ -19,7 +19,7 @@ import java.util.List;
  * Created by Junaid on 1/19/2018.
  */
 
-public class ImageAttachmentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
+public class KUSImageAttachmentListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         implements ImageAttachmentViewHolder.ImageAttachmentListener {
 
     //region Properties
@@ -28,7 +28,7 @@ public class ImageAttachmentListAdapter extends RecyclerView.Adapter<RecyclerVie
     //endregion
 
     //region LifeCycle
-    public ImageAttachmentListAdapter(onItemClickListener listener) {
+    public KUSImageAttachmentListAdapter(onItemClickListener listener) {
         imageBitmaps = new ArrayList<>();
         mListener = listener;
     }

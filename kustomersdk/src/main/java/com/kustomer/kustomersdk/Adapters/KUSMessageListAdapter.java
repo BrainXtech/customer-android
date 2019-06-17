@@ -24,7 +24,7 @@ import com.kustomer.kustomersdk.ViewHolders.UserMessageViewHolder;
  * Created by Junaid on 1/19/2018.
  */
 
-public class MessageListAdapter extends RecyclerView.Adapter {
+public class KUSMessageListAdapter extends RecyclerView.Adapter {
 
     //region Properties
     private static final int K_PREFETCH_PADDING = 20;
@@ -46,10 +46,10 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     //endregion
 
     //region LifeCycle
-    public MessageListAdapter(KUSPaginatedDataSource paginatedDataSource,
-                              KUSUserSession userSession,
-                              KUSChatMessagesDataSource chatMessagesDataSource,
-                              ChatMessageItemListener listener) {
+    public KUSMessageListAdapter(KUSPaginatedDataSource paginatedDataSource,
+                                 KUSUserSession userSession,
+                                 KUSChatMessagesDataSource chatMessagesDataSource,
+                                 ChatMessageItemListener listener) {
         mPaginatedDataSource = paginatedDataSource;
         mUserSession = userSession;
         mChatMessagesDataSource = chatMessagesDataSource;

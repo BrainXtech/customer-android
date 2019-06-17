@@ -2,7 +2,6 @@ package com.kustomer.kustomersdk.ViewHolders;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
-import com.kustomer.kustomersdk.Adapters.MessageListAdapter;
+import com.kustomer.kustomersdk.Adapters.KUSMessageListAdapter;
 import com.kustomer.kustomersdk.Models.KUSCSatisfactionForm;
 import com.kustomer.kustomersdk.Models.KUSCSatisfactionResponse;
 import com.kustomer.kustomersdk.R2;
@@ -77,14 +76,14 @@ public class CSatisfactionFormViewHolder extends RecyclerView.ViewHolder {
     @NonNull
     private ImageView[] ratingViewsList;
     @NonNull
-    private MessageListAdapter.ChatMessageItemListener mListener;
+    private KUSMessageListAdapter.ChatMessageItemListener mListener;
 
     //endregion
 
     //region Initializer
     @SuppressLint("ClickableViewAccessibility")
     public CSatisfactionFormViewHolder(View itemView,
-                                       @NonNull MessageListAdapter.ChatMessageItemListener listener) {
+                                       @NonNull KUSMessageListAdapter.ChatMessageItemListener listener) {
         super(itemView);
         ButterKnife.bind(this, itemView);
 

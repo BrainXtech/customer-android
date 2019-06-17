@@ -17,7 +17,7 @@ import com.bumptech.glide.load.model.GlideUrl;
 import com.bumptech.glide.load.model.LazyHeaders;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
-import com.kustomer.kustomersdk.Adapters.MessageListAdapter;
+import com.kustomer.kustomersdk.Adapters.KUSMessageListAdapter;
 import com.kustomer.kustomersdk.Enums.KUSChatMessageState;
 import com.kustomer.kustomersdk.Enums.KUSChatMessageType;
 import com.kustomer.kustomersdk.Helpers.KUSCache;
@@ -62,7 +62,7 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
 
     private boolean imageLoadedSuccessfully = false;
     private KUSChatMessage chatMessage;
-    private MessageListAdapter.ChatMessageItemListener mListener;
+    private KUSMessageListAdapter.ChatMessageItemListener mListener;
     //endregion
 
     //region LifeCycle
@@ -71,7 +71,7 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this,itemView);
     }
 
-    public void onBind(final KUSChatMessage chatMessage, boolean showDate, final MessageListAdapter.ChatMessageItemListener listener){
+    public void onBind(final KUSChatMessage chatMessage, boolean showDate, final KUSMessageListAdapter.ChatMessageItemListener listener){
         this.chatMessage = chatMessage;
         this.mListener = listener;
 

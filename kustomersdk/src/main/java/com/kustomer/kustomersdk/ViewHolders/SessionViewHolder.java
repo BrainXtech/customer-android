@@ -11,7 +11,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
-import com.kustomer.kustomersdk.Adapters.SessionListAdapter;
+import com.kustomer.kustomersdk.Adapters.KUSSessionListAdapter;
 import com.kustomer.kustomersdk.DataSources.KUSChatMessagesDataSource;
 import com.kustomer.kustomersdk.DataSources.KUSObjectDataSource;
 import com.kustomer.kustomersdk.DataSources.KUSPaginatedDataSource;
@@ -71,7 +71,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     }
 
     public void onBind(final KUSChatSession chatSession, KUSUserSession userSession,
-                       final SessionListAdapter.onItemClickListener listener) {
+                       final KUSSessionListAdapter.onItemClickListener listener) {
         mUserSession = userSession;
         mChatSession = chatSession;
 
