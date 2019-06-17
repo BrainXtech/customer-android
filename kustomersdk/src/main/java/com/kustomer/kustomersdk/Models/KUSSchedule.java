@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
+import com.kustomer.kustomersdk.Helpers.KUSLog;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
 import org.json.JSONArray;
@@ -57,7 +58,7 @@ public class KUSSchedule extends KUSModel {
                 KUSHoliday object = new KUSHoliday(jsonObject);
                 holidays.add(object);
             } catch (JSONException | KUSInvalidJsonException e) {
-                e.printStackTrace();
+                KUSLog.kusLogError(e.getMessage());
             }
         }
     }

@@ -7,6 +7,7 @@ import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.DataSources.KUSChatMessagesDataSource;
 import com.kustomer.kustomersdk.Helpers.KUSDate;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
+import com.kustomer.kustomersdk.Helpers.KUSLog;
 import com.kustomer.kustomersdk.Kustomer;
 
 import org.json.JSONException;
@@ -87,7 +88,7 @@ public class KUSChatSession extends KUSModel implements Serializable {
             attributes.put("lastMessageAt", KUSDate.stringFromDate(message.getCreatedAt() != null ?
                     message.getCreatedAt() : Calendar.getInstance().getTime()));
         } catch (JSONException e) {
-            e.printStackTrace();
+            KUSLog.kusLogError(e.getMessage());
         }
 
         JSONObject messageJSON = new JSONObject();
@@ -96,7 +97,7 @@ public class KUSChatSession extends KUSModel implements Serializable {
             messageJSON.put("id", message.getSessionId() != null ? message.getSessionId() : "");
             messageJSON.put("attributes", attributes);
         } catch (JSONException e) {
-            e.printStackTrace();
+            KUSLog.kusLogError(e.getMessage());
         }
 
         return new KUSChatSession(messageJSON);

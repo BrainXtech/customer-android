@@ -7,6 +7,7 @@ import com.kustomer.kustomersdk.Enums.KUSChatMessageDirection;
 import com.kustomer.kustomersdk.Enums.KUSChatMessageState;
 import com.kustomer.kustomersdk.Enums.KUSChatMessageType;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
+import com.kustomer.kustomersdk.Helpers.KUSLog;
 import com.kustomer.kustomersdk.Kustomer;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 import com.kustomer.kustomersdk.Utils.KUSConstants;
@@ -199,7 +200,7 @@ public class KUSChatMessage extends KUSModel {
                 JSONObject jsonObject = array.getJSONObject(i);
                 list.add(jsonObject.getString(id));
             } catch (JSONException e) {
-                e.printStackTrace();
+                KUSLog.kusLogError(e.getMessage());
             }
         }
 

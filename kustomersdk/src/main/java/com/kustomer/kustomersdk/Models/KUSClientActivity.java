@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
+import com.kustomer.kustomersdk.Helpers.KUSLog;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
 import org.json.JSONArray;
@@ -63,7 +64,7 @@ public class KUSClientActivity extends KUSModel {
                 JSONObject jsonObject = array.getJSONObject(i);
                 list.add(jsonObject.getDouble(id));
             } catch (JSONException e) {
-                e.printStackTrace();
+                KUSLog.kusLogError(e.getMessage());
             }
         }
 

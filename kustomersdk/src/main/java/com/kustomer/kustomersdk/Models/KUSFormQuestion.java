@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import com.kustomer.kustomersdk.Enums.KUSFormQuestionProperty;
 import com.kustomer.kustomersdk.Enums.KUSFormQuestionType;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
+import com.kustomer.kustomersdk.Helpers.KUSLog;
 import com.kustomer.kustomersdk.Utils.JsonHelper;
 
 import org.json.JSONException;
@@ -56,7 +57,8 @@ public class KUSFormQuestion extends KUSModel {
                     tempJson.put("id", 1);
                     mlFormValues = new KUSMLFormValue(tempJson);
                 }
-            } catch (JSONException ignore) {
+            } catch (JSONException e) {
+                KUSLog.kusLogError(e.getMessage());
             }
         }
 

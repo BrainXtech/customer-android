@@ -2,6 +2,8 @@ package com.kustomer.kustomersdk.Models;
 
 import android.support.annotation.Nullable;
 
+import com.kustomer.kustomersdk.Helpers.KUSLog;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +46,7 @@ public class KUSCustomerDescription {
                 object.put("email",email);
                 array.put(object);
             } catch (JSONException e) {
-                e.printStackTrace();
+                KUSLog.kusLogError(e.getMessage());
             }
             formData.put("emails", array );
         }
@@ -56,7 +58,7 @@ public class KUSCustomerDescription {
                 object.put("phone",phone);
                 array.put(object);
             } catch (JSONException e) {
-                e.printStackTrace();
+                KUSLog.kusLogError(e.getMessage());
             }
 
             formData.put("phones", array);
@@ -69,7 +71,7 @@ public class KUSCustomerDescription {
                 object.put("username",twitter);
                 object.put("type","twitter");
             } catch (JSONException e) {
-                e.printStackTrace();
+                KUSLog.kusLogError(e.getMessage());
             }
             socials.add(object);
         }
@@ -80,7 +82,7 @@ public class KUSCustomerDescription {
                 object.put("username",twitter);
                 object.put("type","facebook");
             } catch (JSONException e) {
-                e.printStackTrace();
+                KUSLog.kusLogError(e.getMessage());
             }
             socials.add(object);
         }
@@ -91,7 +93,7 @@ public class KUSCustomerDescription {
                 object.put("username",twitter);
                 object.put("type","instagram");
             } catch (JSONException e) {
-                e.printStackTrace();
+                KUSLog.kusLogError(e.getMessage());
             }
             socials.add(object);
         }
@@ -102,7 +104,7 @@ public class KUSCustomerDescription {
                 object.put("username",twitter);
                 object.put("type","linkedin");
             } catch (JSONException e) {
-                e.printStackTrace();
+                KUSLog.kusLogError(e.getMessage());
             }
             socials.add(object);
         }
