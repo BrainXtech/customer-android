@@ -47,6 +47,7 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -159,7 +160,10 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
         }
     }
 
-    public void sendChatActivityForSessionId(@NonNull String sessionId, @NonNull String activityData) {
+    public void sendChatActivityForSessionId(@Nullable String sessionId, @NonNull String activityData) {
+        if(sessionId == null)
+            return;
+
         String activityChannelName = getChatActivityChannelNameForSessionId(sessionId);
 
         try {
@@ -612,7 +616,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
         if (dataSource instanceof KUSChatMessagesDataSource) {
             KUSChatMessagesDataSource chatMessagesDataSource = (KUSChatMessagesDataSource) dataSource;
             if (pendingNotificationSessionId != null && !pendingNotificationSessionId.isEmpty()
-                    && chatMessagesDataSource.getSessionId().equals(pendingNotificationSessionId)) {
+                    && Objects.equals(chatMessagesDataSource.getSessionId(), pendingNotificationSessionId)) {
                 Handler handler = new Handler(Looper.getMainLooper());
                 Runnable runnable = new Runnable() {
                     @Override
@@ -639,7 +643,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
     public void onError(KUSPaginatedDataSource dataSource, Error error) {
         if (dataSource instanceof KUSChatMessagesDataSource) {
             KUSChatMessagesDataSource chatMessagesDataSource = (KUSChatMessagesDataSource) dataSource;
-            if (chatMessagesDataSource.getSessionId().equals(pendingNotificationSessionId)) {
+            if (Objects.equals(chatMessagesDataSource.getSessionId(), pendingNotificationSessionId)) {
                 Handler handler = new Handler(Looper.getMainLooper());
                 Runnable runnable = new Runnable() {
                     @Override

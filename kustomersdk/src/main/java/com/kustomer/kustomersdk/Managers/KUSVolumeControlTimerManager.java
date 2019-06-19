@@ -3,6 +3,7 @@ package com.kustomer.kustomersdk.Managers;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Helpers.KUSTimer;
 import com.kustomer.kustomersdk.Interfaces.KUSVolumeControlTimerListener;
@@ -75,7 +76,10 @@ public class KUSVolumeControlTimerManager {
         return timerMap.get(sessionId) != null;
     }
 
-    public void removeVcTimer(@NonNull String sessionId) {
+    public void removeVcTimer(@Nullable String sessionId) {
+        if(sessionId == null)
+            return;
+
         KUSTimer timer = timerMap.get(sessionId);
         if (timer != null) {
             timer.stop();

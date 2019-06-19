@@ -83,11 +83,15 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     private static final int KUS_RESEND_TYPING_STATUS_DELAY = 3 * 1000;
     private static final int KUS_TYPING_ENDED_DELAY = 5 * 1000;
 
+    @Nullable
     private String sessionId;
     private boolean createdLocally;
+    @Nullable
     private KUSForm form;
+    @NonNull
     private Set<String> delayedChatMessageIds;
     private int questionIndex;
+    @Nullable
     private KUSFormQuestion formQuestion;
     private boolean submittingForm = false;
     private boolean creatingSession = false;
@@ -99,12 +103,16 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     private boolean vcFormEnd;
     private boolean vcChatClosed;
     private boolean isProactiveCampaign;
+    @NonNull
     private ArrayList<KUSModel> temporaryVCMessagesResponses;
 
     private boolean nonBusinessHours;
+    @Nullable
     private KUSSessionQueuePollingManager sessionQueuePollingManager;
 
+    @Nullable
     private ArrayList<onCreateSessionListener> onCreateSessionListeners;
+    @NonNull
     private HashMap<String, KUSRetry> messageRetryHashMap;
 
     @Nullable
@@ -120,7 +128,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     //endregion
 
     //region Initializer
-    public KUSChatMessagesDataSource(KUSUserSession userSession) {
+    public KUSChatMessagesDataSource(@NonNull KUSUserSession userSession) {
         super(userSession);
 
         questionIndex = -1;
@@ -136,7 +144,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         addListener(this);
     }
 
-    public KUSChatMessagesDataSource(KUSUserSession userSession, boolean startNewConversation) {
+    public KUSChatMessagesDataSource(@NonNull KUSUserSession userSession, boolean startNewConversation) {
         this(userSession);
 
         if (startNewConversation) {
@@ -147,7 +155,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         }
     }
 
-    public KUSChatMessagesDataSource(KUSUserSession userSession, String sessionId) {
+    public KUSChatMessagesDataSource(KUSUserSession userSession, @Nullable String sessionId) {
         this(userSession);
 
         if (sessionId == null || sessionId.isEmpty())
@@ -155,7 +163,6 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
         this.sessionId = sessionId;
     }
-
 
     //endregion
 
@@ -193,7 +200,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
     @Nullable
     public KUSSatisfactionResponseDataSource getSatisfactionResponseDataSource() {
-        if (getUserSession() != null && satisfactionResponseDataSource == null && isActualSession()) {
+        if (getUserSession() != null && satisfactionResponseDataSource == null
+                && isActualSession() && sessionId != null) {
             satisfactionResponseDataSource = new KUSSatisfactionResponseDataSource(getUserSession(),
                     sessionId);
             satisfactionResponseDataSource.addListener(this);
@@ -213,7 +221,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         KUSChatSession session = (KUSChatSession) getUserSession().getChatSessionsDataSource()
                 .findById(getSessionId());
 
-        boolean isSessionLocked =session!=null && session.getLockedAt() != null;
+        boolean isSessionLocked = session != null && session.getLockedAt() != null;
         boolean isSatisfactionResponseFetched = getSatisfactionResponseDataSource().isFetched();
 
         return isSessionLocked && isSatisfactionResponseFetched;
@@ -370,7 +378,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                     onCreateSessionListeners.add(listener);
             } else {
                 if (getUserSession() == null) {
-                    if(listener != null)
+                    if (listener != null)
                         listener.onComplete(false, new Error());
                     return;
                 }
@@ -401,7 +409,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                         sessionQueuePollingManager = new KUSSessionQueuePollingManager(getUserSession(), sessionId);
 
                         //Insert the current messages data source into the userSession's lookup table
-                        if(getUserSession() != null)
+                        if (getUserSession() != null)
                             getUserSession().getChatMessagesDataSources().put(session.getId(),
                                     KUSChatMessagesDataSource.this);
 
@@ -515,7 +523,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
     public void endChat(final String reason, final OnEndChatListener onEndChatListener) {
         if (getUserSession() == null) {
-            if(onEndChatListener != null)
+            if (onEndChatListener != null)
                 onEndChatListener.onComplete(false);
             return;
         }
@@ -676,7 +684,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         return false;
     }
 
-    public void closeProactiveCampaignIfNecessary() {
+    private void closeProactiveCampaignIfNecessary() {
         if (getUserSession() == null)
             return;
 
@@ -740,7 +748,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     public void startListeningForTypingUpdate() {
-        if(getUserSession() == null)
+        if (getUserSession() == null)
             return;
 
         if (!isActualSession())
@@ -762,7 +770,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     public void stopListeningForTypingUpdate() {
-        if(getUserSession() == null)
+        if (getUserSession() == null)
             return;
 
         sendTypingStatusToPusher(KUSTypingStatus.KUS_TYPING_ENDED);
@@ -780,11 +788,11 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         }
     }
 
-    public boolean isLatestMessageAfterLastSeen(){
-        if(getUserSession() == null)
+    public boolean isLatestMessageAfterLastSeen() {
+        if (getUserSession() == null)
             return false;
 
-        KUSChatSession chatSession= (KUSChatSession) getUserSession().getChatSessionsDataSource()
+        KUSChatSession chatSession = (KUSChatSession) getUserSession().getChatSessionsDataSource()
                 .findById(sessionId);
 
         Date sessionLastSeenAt = getUserSession().getChatSessionsDataSource()
@@ -880,7 +888,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         if (getUserSession() == null)
             return;
 
-        if(getSatisfactionResponseDataSource() == null)
+        if (getSatisfactionResponseDataSource() == null)
             return;
 
         KUSChatSession chatSession = (KUSChatSession) getUserSession().getChatSessionsDataSource()
@@ -1356,6 +1364,9 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     private void submitFormResponses() {
+        if (form == null)
+            return;
+
         JSONArray messagesJSON = new JSONArray();
 
         int currentMessageIndex = getSize() - 1;
@@ -1625,22 +1636,24 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
             //volume_control_alternative_method_question
             String prompt = Kustomer.getContext()
                     .getString(R.string.com_kustomer_volume_control_alternative_method_question);
-            KUSSessionQueue sessionQueue = sessionQueuePollingManager.getSessionQueue();
 
-            if (chatSettings.getVolumeControlMode() == KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_UPFRONT
-                    && sessionQueue.getEstimatedWaitTimeSeconds() != 0) {
+            if (sessionQueuePollingManager != null) {
+                KUSSessionQueue sessionQueue = sessionQueuePollingManager.getSessionQueue();
 
-                String currentWaitTime = Kustomer.getContext()
-                        .getString(R.string.com_kustomer_our_current_wait_time_is_approximately);
-                String upfrontAlternatePrompt = Kustomer.getContext()
-                        .getString(R.string.com_kustomer_upfront_volume_control_alternative_method_question);
+                if (chatSettings.getVolumeControlMode() == KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_UPFRONT
+                        && sessionQueue.getEstimatedWaitTimeSeconds() != 0) {
 
-                String humanReadableTextFromSeconds = KUSDate.humanReadableTextFromSeconds(
-                        Kustomer.getContext(), sessionQueue.getEstimatedWaitTimeSeconds());
-                prompt = String.format("%s %s. %s", currentWaitTime, humanReadableTextFromSeconds,
-                        upfrontAlternatePrompt);
+                    String currentWaitTime = Kustomer.getContext()
+                            .getString(R.string.com_kustomer_our_current_wait_time_is_approximately);
+                    String upfrontAlternatePrompt = Kustomer.getContext()
+                            .getString(R.string.com_kustomer_upfront_volume_control_alternative_method_question);
+
+                    String humanReadableTextFromSeconds = KUSDate.humanReadableTextFromSeconds(
+                            Kustomer.getContext(), sessionQueue.getEstimatedWaitTimeSeconds());
+                    prompt = String.format("%s %s. %s", currentWaitTime, humanReadableTextFromSeconds,
+                            upfrontAlternatePrompt);
+                }
             }
-
 
             JSONObject formMessage = new JSONObject();
             try {
@@ -1758,7 +1771,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
             closeProactiveCampaignIfNecessary();
 
         // Update the locally session last seen
-        if(getUserSession()!=null)
+        if (getUserSession() != null)
             getUserSession().getChatSessionsDataSource().updateLocallyLastSeenAtForSessionId(sessionId);
     }
 
@@ -1830,10 +1843,12 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         return createdLocally || super.isFetchedAll();
     }
 
+    @Nullable
     public String getSessionId() {
         return sessionId;
     }
 
+    @Nullable
     public KUSSessionQueuePollingManager getSessionQueuePollingManager() {
         return sessionQueuePollingManager;
     }
@@ -1875,7 +1890,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
     @Override
     public void objectDataSourceOnError(final KUSObjectDataSource dataSource, Error error) {
-        if(dataSource instanceof KUSSatisfactionResponseDataSource)
+        if (dataSource instanceof KUSSatisfactionResponseDataSource)
             return;
 
         Handler mainHandler = new Handler(Looper.getMainLooper());
