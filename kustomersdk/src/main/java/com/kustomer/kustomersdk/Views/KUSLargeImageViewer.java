@@ -107,8 +107,12 @@ public class KUSLargeImageViewer implements View.OnClickListener {
             mContext.startActivity(Intent.createChooser(intent,
                     mContext.getResources().getString(R.string.com_kustomer_share_via)));
         } else {
+            String trackingToken = Kustomer.getSharedInstance().getUserSession()
+                    .getTrackingTokenDataSource().getCurrentTrackingToken();
+
             GlideUrl glideUrl = new GlideUrl(currentImageLink, new LazyHeaders.Builder()
-                    .addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY, Kustomer.getSharedInstance().getUserSession().getTrackingTokenDataSource().getCurrentTrackingToken())
+                    .addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY,
+                            trackingToken != null ? trackingToken : "")
                     .build());
 
             Glide.with(mContext)

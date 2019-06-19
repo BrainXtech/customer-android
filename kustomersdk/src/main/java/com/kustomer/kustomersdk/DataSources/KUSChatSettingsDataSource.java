@@ -2,10 +2,12 @@ package com.kustomer.kustomersdk.DataSources;
 
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Enums.KUSRequestType;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
+import com.kustomer.kustomersdk.Helpers.KUSLog;
 import com.kustomer.kustomersdk.Interfaces.KUSChatAvailableListener;
 import com.kustomer.kustomersdk.Helpers.KUSLocalization;
 import com.kustomer.kustomersdk.Interfaces.KUSRequestCompletionListener;
@@ -26,9 +28,8 @@ import java.util.Locale;
 
 public class KUSChatSettingsDataSource extends KUSObjectDataSource implements Serializable {
 
-
     //region Initializer
-    public KUSChatSettingsDataSource(KUSUserSession userSession) {
+    public KUSChatSettingsDataSource(@NonNull KUSUserSession userSession) {
         super(userSession);
     }
     //endregion
@@ -45,21 +46,21 @@ public class KUSChatSettingsDataSource extends KUSObjectDataSource implements Se
 
         getUserSession().getRequestManager().performRequestType(KUSRequestType.KUS_REQUEST_TYPE_GET,
                 KUSConstants.URL.SETTINGS_ENDPOINT,
-                new HashMap<String, Object>() {
-                    {
+                new HashMap<String, Object>() {{
                         put(KUSConstants.HeaderKeys.K_KUSTOMER_LANGUAGE_KEY,
                                 locale != null ? locale.getLanguage() : "");
-                    }
-                }, true,
+                    }},
+                true,
                 completionListener);
     }
 
+    @NonNull
     @Override
-    KUSModel objectFromJson(JSONObject jsonObject) throws KUSInvalidJsonException {
+    KUSModel objectFromJson(@Nullable JSONObject jsonObject) throws KUSInvalidJsonException {
         return new KUSChatSettings(jsonObject);
     }
 
-    public void isChatAvailable(final KUSChatAvailableListener listener){
+    public void isChatAvailable(@NonNull final KUSChatAvailableListener listener) {
 
         performRequest(new KUSRequestCompletionListener() {
             @Override
@@ -68,13 +69,13 @@ public class KUSChatSettingsDataSource extends KUSObjectDataSource implements Se
                 KUSChatSettings settings = null;
                 try {
                     settings = (KUSChatSettings) objectFromJson(
-                            JsonHelper.jsonObjectFromKeyPath(response,"data"));
+                            JsonHelper.jsonObjectFromKeyPath(response, "data"));
 
                 } catch (KUSInvalidJsonException e) {
-                    e.printStackTrace();
+                    KUSLog.kusLogError(e.getMessage());
                 }
 
-                if(error == null && settings !=null)
+                if (error == null && settings != null)
                     listener.onSuccess(settings.getEnabled());
                 else
                     listener.onFailure();

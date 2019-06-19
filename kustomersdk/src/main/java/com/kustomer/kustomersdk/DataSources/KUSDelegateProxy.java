@@ -3,10 +3,11 @@ package com.kustomer.kustomersdk.DataSources;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.Activities.KUSSessionsActivity;
 import com.kustomer.kustomersdk.Interfaces.KUSKustomerListener;
-import com.kustomer.kustomersdk.Kustomer;
 
 /**
  * Created by Junaid on 1/20/2018.
@@ -14,6 +15,7 @@ import com.kustomer.kustomersdk.Kustomer;
 
 public class KUSDelegateProxy {
     //region Properties
+    @Nullable
     private KUSKustomerListener listener;
     //endregion
 
@@ -25,7 +27,8 @@ public class KUSDelegateProxy {
         return true;
     }
 
-    public PendingIntent getPendingIntent(Context context){
+    @NonNull
+    public PendingIntent getPendingIntent(@NonNull Context context){
         if(listener != null)
             return listener.getPendingIntent(context);
         else {
@@ -38,11 +41,12 @@ public class KUSDelegateProxy {
 
     //region Accessors & Mutators
 
+    @Nullable
     public KUSKustomerListener getListener() {
         return listener;
     }
 
-    public void setListener(KUSKustomerListener listener) {
+    public void setListener(@Nullable KUSKustomerListener listener) {
         this.listener = listener;
     }
 

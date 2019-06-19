@@ -208,9 +208,15 @@ public class Kustomer {
                     @Override
                     public Response intercept(Interceptor.Chain chain) throws IOException {
                         Request originalRequest = chain.request(); //Current Request
+
+                        //tracking token
+                        String trackingToken = Kustomer.getSharedInstance().getUserSession()
+                                .getTrackingTokenDataSource().getCurrentTrackingToken();
+
                         Request requestWithToken = null; //The request with the access token which we will use if we have one instead of the original
                         requestWithToken = originalRequest.newBuilder()
-                                .addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY, getSharedInstance().getUserSession().getTrackingTokenDataSource().getCurrentTrackingToken())
+                                .addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY,
+                                        trackingToken != null ? trackingToken : "")
                                 .build();
                         Response response = chain.proceed((requestWithToken != null ? requestWithToken : originalRequest)); //proceed with the request and get the response
                         if (response != null && response.code() != HttpURLConnection.HTTP_OK) {

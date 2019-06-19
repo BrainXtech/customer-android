@@ -47,9 +47,9 @@ public class KUSMessageRetry extends KUSRetry {
         return attachments;
     }
 
-    @Nullable
+    @NonNull
     public String getText() {
-        return text;
+        return text != null ? text : "";
     }
 
     @Nullable

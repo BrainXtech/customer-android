@@ -94,7 +94,10 @@ public class KUSVolumeControlTimerManager {
             timer.resume();
     }
 
-    public void resumeVcTimer(@NonNull String sessionId) {
+    public void resumeVcTimer(@Nullable String sessionId) {
+        if(sessionId == null)
+            return;
+
         KUSTimer timer = timerMap.get(sessionId);
         if (timer != null)
             timer.resume();

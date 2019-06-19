@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.DataSources;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Enums.KUSRequestType;
@@ -12,26 +13,28 @@ import com.kustomer.kustomersdk.Utils.KUSConstants;
 
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 public class KUSClientActivityDataSource extends KUSObjectDataSource {
 
-    //region Properties
-    private List<Double> intervals;
-    private Date createdAt;
+    @Nullable
     private String previousPageName;
+    @Nullable
     private String currentPageName;
-    double currentPageSeconds;
+    private double currentPageSeconds;
     //endregion
 
     //region LifeCycle
-    public KUSClientActivityDataSource(KUSUserSession userSession, String previousPageName,
-                                       String currentPageName, Double currentPageSeconds){
+    public KUSClientActivityDataSource(@NonNull KUSUserSession userSession,
+                                       @Nullable String previousPageName,
+                                       @Nullable String currentPageName,
+                                       double currentPageSeconds) {
         super(userSession);
 
-        if(currentPageName == null)
+        if (currentPageName == null)
             throw new AssertionError("Should not fetch client activity without a current page!");
 
         this.previousPageName = previousPageName;
@@ -41,34 +44,36 @@ public class KUSClientActivityDataSource extends KUSObjectDataSource {
     //endregion
 
     //region Public Methods
-    public List<Double> getIntervals(){
+    @NonNull
+    public List<Double> getIntervals() {
         KUSClientActivity clientActivity = (KUSClientActivity) getObject();
-        return clientActivity.getIntervals();
+        return clientActivity != null ? clientActivity.getIntervals() : new ArrayList<Double>();
     }
 
-    public Date getCreatedAt(){
+    @Nullable
+    public Date getCreatedAt() {
         KUSClientActivity clientActivity = (KUSClientActivity) getObject();
-        return clientActivity.getCreatedAt();
+        return clientActivity != null ? clientActivity.getCreatedAt() : null;
     }
 
     //endregion
 
     //region SubClass Method
     @Override
-    public void performRequest(@NonNull KUSRequestCompletionListener completionListener){
-        if(getUserSession() == null) {
+    public void performRequest(@NonNull KUSRequestCompletionListener completionListener) {
+        if (getUserSession() == null) {
             completionListener.onCompletion(new Error(), null);
             return;
         }
 
-        HashMap<String,Object> params = new HashMap<>();
+        HashMap<String, Object> params = new HashMap<>();
 
-        if(previousPageName != null){
-            params.put("previousPage",previousPageName);
+        if (previousPageName != null) {
+            params.put("previousPage", previousPageName);
         }
 
-        params.put("currentPage",currentPageName);
-        params.put("currentPageSeconds",currentPageSeconds);
+        params.put("currentPage", currentPageName);
+        params.put("currentPageSeconds", currentPageSeconds);
 
         getUserSession().getRequestManager().performRequestType(
                 KUSRequestType.KUS_REQUEST_TYPE_POST,
@@ -79,35 +84,30 @@ public class KUSClientActivityDataSource extends KUSObjectDataSource {
         );
     }
 
+    @NonNull
     @Override
-    KUSModel objectFromJson(JSONObject jsonObject) throws KUSInvalidJsonException {
+    KUSModel objectFromJson(@Nullable JSONObject jsonObject) throws KUSInvalidJsonException {
         return new KUSClientActivity(jsonObject);
     }
     //endregion
 
     //region Getter & Setter
 
-    public void setIntervals(List<Double> intervals) {
-        this.intervals = intervals;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
+    @Nullable
     public String getPreviousPageName() {
         return previousPageName;
     }
 
-    public void setPreviousPageName(String previousPageName) {
+    public void setPreviousPageName(@Nullable String previousPageName) {
         this.previousPageName = previousPageName;
     }
 
+    @Nullable
     public String getCurrentPageName() {
         return currentPageName;
     }
 
-    public void setCurrentPageName(String currentPageName) {
+    public void setCurrentPageName(@Nullable String currentPageName) {
         this.currentPageName = currentPageName;
     }
 

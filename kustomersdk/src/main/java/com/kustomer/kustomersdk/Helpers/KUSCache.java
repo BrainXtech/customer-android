@@ -11,11 +11,11 @@ import android.util.LruCache;
 
 public class KUSCache {
 
-    private static LruCache<String,Bitmap> mMemoryCache;
+    private static LruCache<String, Bitmap> mMemoryCache;
 
-    public KUSCache(){
+    public KUSCache() {
 
-        if(mMemoryCache == null) {
+        if (mMemoryCache == null) {
             final int maxMemory = (int) (Runtime.getRuntime().maxMemory() / 1024);
 
             // Use 1/8th of the available memory for this memory cache.
@@ -33,20 +33,21 @@ public class KUSCache {
 
     }
 
-    public void addBitmapToMemoryCache(@NonNull String key,@NonNull Bitmap bitmap) {
-        if (getBitmapFromMemCache(key) == null) {
+    public void addBitmapToMemoryCache(@NonNull String key, @Nullable Bitmap bitmap) {
+
+        if (bitmap != null && getBitmapFromMemCache(key) == null) {
             mMemoryCache.put(key, bitmap);
         }
     }
 
     public Bitmap getBitmapFromMemCache(@Nullable String key) {
-        if(key == null)
+        if (key == null)
             return null;
         return mMemoryCache.get(key);
     }
 
-    public void removeBitmapFromMemCache(@Nullable String key){
-        if(key != null)
+    public void removeBitmapFromMemCache(@Nullable String key) {
+        if (key != null)
             mMemoryCache.remove(key);
     }
 

@@ -3,6 +3,7 @@ package com.kustomer.kustomersdk.DataSources;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -23,12 +24,13 @@ import org.json.JSONObject;
 public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectDataSourceListener {
 
     //region LifeCycle
-    public KUSFormDataSource(KUSUserSession userSession) {
+    public KUSFormDataSource(@NonNull KUSUserSession userSession) {
         super(userSession);
         userSession.getChatSettingsDataSource().addListener(this);
     }
 
-    KUSModel objectFromJson(JSONObject jsonObject) throws KUSInvalidJsonException {
+    @NonNull
+    KUSModel objectFromJson(@Nullable JSONObject jsonObject) throws KUSInvalidJsonException {
         return new KUSForm(jsonObject);
     }
     //endregion
@@ -43,7 +45,7 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
 
         String formId = getUserSession().getSharedPreferences().getFormId();
-        if (formId == null)
+        if (formId == null && chatSettings != null)
             formId = chatSettings.getActiveFormId();
         
         getUserSession().getRequestManager().getEndpoint(
@@ -86,6 +88,7 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
         return super.isFetched();
     }
 
+    @Nullable
     public Error getError() {
         Error error = getUserSession().getChatSettingsDataSource().getError();
         return error != null ? error : super.getError();

@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.DataSources;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -23,17 +24,22 @@ public class KUSObjectDataSource {
     //region Properties
     private boolean fetching;
     private boolean fetched;
+    @Nullable
     private Error error;
+    @Nullable
     private KUSModel object;
 
+    @NonNull
     private WeakReference<KUSUserSession> userSession;
+    @Nullable
     private Object requestMarker;
 
+    @NonNull
     private List<KUSObjectDataSourceListener> listeners;
     //endregion
 
     //region Initializer
-    KUSObjectDataSource(KUSUserSession userSession){
+    KUSObjectDataSource(@NonNull KUSUserSession userSession){
         this.userSession = new WeakReference<>(userSession);
         listeners = new CopyOnWriteArrayList<>();
     }
@@ -89,12 +95,12 @@ public class KUSObjectDataSource {
         requestMarker = null;
     }
 
-    public void addListener(KUSObjectDataSourceListener listener){
+    public void addListener(@NonNull KUSObjectDataSourceListener listener){
         if(!listeners.contains(listener))
             listeners.add(listener);
     }
 
-    public void removeListener(KUSObjectDataSourceListener listener){
+    public void removeListener(@NonNull KUSObjectDataSourceListener listener){
         listeners.remove(listener);
     }
 
@@ -104,7 +110,7 @@ public class KUSObjectDataSource {
     //endregion
 
     //region Private Methods
-    private void notifyAnnouncersOnError(Error error){
+    private void notifyAnnouncersOnError(@Nullable Error error){
         for(KUSObjectDataSourceListener listener : listeners){
             listener.objectDataSourceOnError(this,error);
         }
@@ -118,7 +124,8 @@ public class KUSObjectDataSource {
     //endregion
 
     //region subclass methods
-    KUSModel objectFromJson(JSONObject jsonObject) throws KUSInvalidJsonException {
+    @NonNull
+    KUSModel objectFromJson(@Nullable JSONObject jsonObject) throws KUSInvalidJsonException {
         return new KUSModel(jsonObject);
     }
 
@@ -135,10 +142,12 @@ public class KUSObjectDataSource {
         return fetched;
     }
 
+    @Nullable
     public Error getError() {
         return error;
     }
 
+    @Nullable
     public KUSModel getObject() {
         return object;
     }
@@ -147,10 +156,12 @@ public class KUSObjectDataSource {
         return userSession.get();
     }
 
+    @Nullable
     public Object getRequestMarker() {
         return requestMarker;
     }
 
+    @NonNull
     public List<KUSObjectDataSourceListener> getListeners() {
         return listeners;
     }

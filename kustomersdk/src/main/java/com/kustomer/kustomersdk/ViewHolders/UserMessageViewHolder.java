@@ -123,8 +123,12 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
             progressBarImage.setVisibility(View.GONE);
             imageLoadedSuccessfully = true;
         }else {
+            String trackingToken = Kustomer.getSharedInstance().getUserSession()
+                    .getTrackingTokenDataSource().getCurrentTrackingToken();
+
             GlideUrl glideUrl = new GlideUrl(imageUrl, new LazyHeaders.Builder()
-                    .addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY, Kustomer.getSharedInstance().getUserSession().getTrackingTokenDataSource().getCurrentTrackingToken())
+                    .addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY,
+                            trackingToken != null ? trackingToken : "")
                     .build());
 
             Glide.with(itemView)

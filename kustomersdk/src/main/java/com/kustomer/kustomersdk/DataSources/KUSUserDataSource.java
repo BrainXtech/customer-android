@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.DataSources;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
@@ -16,11 +17,12 @@ import org.json.JSONObject;
 
 public class KUSUserDataSource extends KUSObjectDataSource {
     //region Properties
+    @NonNull
     private String userId;
     //endregion
 
     //region Initializer
-    public KUSUserDataSource(KUSUserSession userSession, String userId){
+    public KUSUserDataSource(@NonNull KUSUserSession userSession,@NonNull String userId){
         super(userSession);
         this.userId = userId;
     }
@@ -42,8 +44,9 @@ public class KUSUserDataSource extends KUSObjectDataSource {
         );
     }
 
+    @NonNull
     @Override
-    KUSModel objectFromJson(JSONObject jsonObject) throws KUSInvalidJsonException {
+    KUSModel objectFromJson(@Nullable JSONObject jsonObject) throws KUSInvalidJsonException {
         return new KUSUser(jsonObject);
     }
     //endregion
