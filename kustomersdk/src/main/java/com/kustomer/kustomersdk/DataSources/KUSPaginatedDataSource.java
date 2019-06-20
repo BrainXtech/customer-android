@@ -149,13 +149,8 @@ public class KUSPaginatedDataSource {
             url = getUserSession().getRequestManager().urlForEndpoint(mostRecentPaginatedResponse.getFirstPath());
         }
 
-        if (url == null) {
+        if (url == null || fetching)
             return;
-        }
-
-        if (fetching) {
-            return;
-        }
 
         fetching = true;
         error = null;
@@ -201,10 +196,7 @@ public class KUSPaginatedDataSource {
             url = getUserSession().getRequestManager().urlForEndpoint(mostRecentPaginatedResponse.getNextPath());
         }
 
-        if (url == null)
-            return;
-
-        if (fetching)
+        if (url == null || fetching)
             return;
 
         fetching = true;

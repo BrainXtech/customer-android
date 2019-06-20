@@ -164,6 +164,7 @@ public class KUSSatisfactionResponseDataSource extends KUSObjectDataSource {
                 });
     }
 
+    @NonNull
     @Override
     protected KUSModel objectFromJson(JSONObject jsonObject) throws KUSInvalidJsonException {
         return new KUSCSatisfactionResponse(jsonObject);

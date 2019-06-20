@@ -158,7 +158,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     public KUSChatMessagesDataSource(@NonNull KUSUserSession userSession, @Nullable String sessionId) {
         this(userSession);
 
-        if (sessionId == null || sessionId.isEmpty())
+        if (TextUtils.isEmpty(sessionId))
             throw new AssertionError("Cannot create messages datasource without valid sessionId");
 
         this.sessionId = sessionId;
@@ -202,7 +202,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
     @Nullable
     public KUSSatisfactionResponseDataSource getSatisfactionResponseDataSource() {
-        if (getUserSession() != null && satisfactionResponseDataSource == null
+        if (getUserSession() != null
+                && satisfactionResponseDataSource == null
                 && isActualSession() && sessionId != null) {
             satisfactionResponseDataSource = new KUSSatisfactionResponseDataSource(getUserSession(),
                     sessionId);
@@ -213,12 +214,10 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     public boolean shouldShowSatisfactionForm() {
-        if (getUserSession() == null)
+        if (getUserSession() == null
+                || !isActualSession()
+                || getSatisfactionResponseDataSource() == null)
             return false;
-
-        if (!isActualSession() || getSatisfactionResponseDataSource() == null) {
-            return false;
-        }
 
         KUSChatSession session = (KUSChatSession) getUserSession().getChatSessionsDataSource()
                 .findById(getSessionId());
@@ -383,7 +382,6 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         if (isActualSession()) {
             if (listener != null)
                 listener.onComplete(true, null);
-
             return;
         }
 
@@ -512,17 +510,18 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     public void resendMessage(@Nullable KUSChatMessage chatMessage) {
-        if (chatMessage != null && shouldAllowResending()) {
-            KUSRetry retry = messageRetryHashMap.get(chatMessage.getId());
-            if (retry instanceof KUSMessageRetry) {
-                KUSMessageRetry messageRetry = (KUSMessageRetry) retry;
-                fullySendMessage(messageRetry.getTemporaryMessages(), messageRetry.getAttachments(),
-                        messageRetry.getText(), messageRetry.getCachedImages());
+        if (chatMessage == null || !shouldAllowResending())
+            return;
 
-            } else if (retry instanceof KUSFormRetry) {
-                KUSFormRetry formRetry = (KUSFormRetry) retry;
-                retrySubmittingForm(formRetry);
-            }
+        KUSRetry retry = messageRetryHashMap.get(chatMessage.getId());
+        if (retry instanceof KUSMessageRetry) {
+            KUSMessageRetry messageRetry = (KUSMessageRetry) retry;
+            fullySendMessage(messageRetry.getTemporaryMessages(), messageRetry.getAttachments(),
+                    messageRetry.getText(), messageRetry.getCachedImages());
+
+        } else if (retry instanceof KUSFormRetry) {
+            KUSFormRetry formRetry = (KUSFormRetry) retry;
+            retrySubmittingForm(formRetry);
         }
     }
 
@@ -624,35 +623,23 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
     @Nullable
     public KUSFormQuestion currentQuestion() {
-        if (isActualSession())
-            return null;
-
-        if (kusChatMessageSentByUser(this.getLatestMessage()))
-            return null;
+        if (isActualSession()
+                || kusChatMessageSentByUser(this.getLatestMessage())) return null;
 
         return formQuestion;
     }
 
     @Nullable
     public KUSFormQuestion volumeControlCurrentQuestion() {
-        if (getUserSession() == null)
-            return null;
-
-        if (!vcFormActive)
-            return null;
-
-        if (!isActualSession())
+        if (getUserSession() == null
+                || !vcFormActive
+                || !isActualSession())
             return null;
 
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
-        if (chatSettings == null || !chatSettings.isVolumeControlEnabled()) {
-            return null;
-        }
-
-        if (vcFormEnd)
-            return null;
-
-        if (getOtherUserIds().size() > 0)
+        if ((chatSettings == null || !chatSettings.isVolumeControlEnabled()) //if NOT volumeControlEnabled
+                || vcFormEnd // //or vcFormEnded
+                || getOtherUserIds().size() > 0) // or any Message by other user
             return null;
 
         return formQuestion;
@@ -665,10 +652,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
             return true;
         }
 
-        if (vcFormActive) {
-            return false;
-        }
-        if (!isActualSession()) {
+        if (vcFormActive
+                || !isActualSession()) {
             return false;
         }
 
@@ -717,7 +702,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     public void sendTypingStatusToPusher(@NonNull final KUSTypingStatus typingStatus) {
         final String customerId = getCustomerId();
 
-        if (getUserSession() == null || customerId == null)
+        if (getUserSession() == null
+                || customerId == null)
             return;
 
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
@@ -754,10 +740,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     public void startListeningForTypingUpdate() {
-        if (getUserSession() == null)
-            return;
-
-        if (!isActualSession())
+        if (getUserSession() == null
+                || !isActualSession())
             return;
 
         KUSChatSettings settings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
@@ -895,10 +879,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     private void fetchSatisfactionResponseIfNecessary() {
-        if (getUserSession() == null)
-            return;
-
-        if (getSatisfactionResponseDataSource() == null)
+        if (getUserSession() == null
+                || getSatisfactionResponseDataSource() == null)
             return;
 
         KUSChatSession chatSession = (KUSChatSession) getUserSession().getChatSessionsDataSource()
@@ -1009,16 +991,10 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
             return;
 
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
-        if (chatSettings != null && chatSettings.getActiveFormId() == null)
-            return;
-
-        if (getSize() == 0)
-            return;
-
-        if (isActualSession())
-            return;
-
-        if (form == null)
+        if (chatSettings != null && chatSettings.getActiveFormId() == null // if chatSettings activeFormId is null
+                || getSize() == 0 // or not message in datasource
+                || isActualSession() // or chat session isActualSession
+                || form == null) // form is null
             return;
 
         // Make sure we submit the form if we just inserted a non-response question
@@ -1027,10 +1003,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
             submitFormResponses();
 
         KUSChatMessage lastMessage = getLatestMessage();
-        if (!kusChatMessageSentByUser(lastMessage))
-            return;
-
-        if (shouldPreventSendingMessage())
+        if (!kusChatMessageSentByUser(lastMessage) // if lastMessage NOT sentByUser
+                || shouldPreventSendingMessage()) // or shouldPreventSendingMessage
             return;
 
         long additionalInsertDelay = 0;
@@ -1087,39 +1061,19 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     private boolean shouldPreventVCFormQuestionMessage() {
-        if (getUserSession() == null)
+        if (getUserSession() == null // if getUserSession is null
+                || !isActualSession() // or NOT isActualSession
+                || !getUserSession().getChatSettingsDataSource().isFetched()) // or chat settings is not fetched
             return true;
-
-        if (!isActualSession()) {
-            return true;
-        }
-
-        // If we haven't loaded the chat settings data source, prevent input
-        if (!getUserSession().getChatSettingsDataSource().isFetched()) {
-            return true;
-        }
 
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
-        if (chatSettings != null && !chatSettings.isVolumeControlEnabled()) {
-            return true;
-        }
 
-        if (!vcTrackingDelayCompleted) {
+        if ((chatSettings != null && !chatSettings.isVolumeControlEnabled()) //if volume control not enabled
+                || !vcTrackingDelayCompleted //or NOT vcTrackingDelayCompleted
+                || delayedChatMessageIds.size() > 0 // or we are about to insert an artificial message
+                || submittingForm // or when submitting the form
+                || vcFormEnd) // or vcFormEnded
             return true;
-        }
-
-        // If we are about to insert an artificial message, prevent input
-        if (delayedChatMessageIds.size() > 0) {
-            return true;
-        }
-
-        // When submitting the form, prevent sending more responses
-        if (submittingForm) {
-            return true;
-        }
-        if (vcFormEnd) {
-            return true;
-        }
 
         // Check that last message is VC form last message
         KUSChatMessage lastMessage = this.getLatestMessage();
@@ -1137,13 +1091,10 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
     // Volume control form message sending
     private void insertVolumeControlFormMessageIfNecessary() {
-        if (getUserSession() == null)
+        if (getUserSession() == null // if getUserSession in null
+                || shouldPreventVCFormQuestionMessage()) // or any pre-condition not fulfilled
             return;
 
-        // If any pre-condition not fulfilled
-        if (shouldPreventVCFormQuestionMessage()) {
-            return;
-        }
         // If any message sent by Server apart from auto response or form message.
         if (getOtherUserIds().size() > 0) {
             endVolumeControlTracking();
@@ -1275,16 +1226,10 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     private void submitVCFormResponses() {
-        if (getUserSession() == null)
+        if (getUserSession() == null
+                || this.getSize() <= 5
+                || this.getOtherUserIds().size() > 0)
             return;
-
-        if (this.getSize() <= 5) {
-            return;
-        }
-        if (this.getOtherUserIds().size() > 0) {
-            return;
-
-        }
 
         final ArrayList<HashMap<String, Object>> messagesJSON = new ArrayList<>();
 
@@ -1310,6 +1255,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
             if (i == 0) {
                 formMessage.put("property", "conversation_replyChannel");
+
             } else if (i == 1) {
 
                 if (property.toLowerCase().equals("email"))
@@ -1334,12 +1280,9 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                 new KUSRequestCompletionListener() {
                     @Override
                     public void onCompletion(Error error, JSONObject response) {
-                        if (getUserSession() == null)
+                        if (getUserSession() == null
+                                || error != null)
                             return;
-
-                        if (error != null) {
-                            return;
-                        }
 
                         ArrayList<KUSModel> chatMessages = new ArrayList<>();
                         JSONArray includedModelsJSON = JsonHelper.jsonArrayFromKeyPath(response, "included");
@@ -1546,25 +1489,24 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     private void handleError(@Nullable final KUSChatMessage lastUserChatMessage) {
-        if (lastUserChatMessage != null) {
-            removeAll(new ArrayList<KUSModel>() {{
-                add(lastUserChatMessage);
-            }});
-            lastUserChatMessage.setState(KUSChatMessageState.KUS_CHAT_MESSAGE_STATE_FAILED);
-            upsertAll(new ArrayList<KUSModel>() {{
-                add(lastUserChatMessage);
-            }});
-        }
+        if (lastUserChatMessage == null)
+            return;
+
+        removeAll(new ArrayList<KUSModel>() {{
+            add(lastUserChatMessage);
+        }});
+
+        lastUserChatMessage.setState(KUSChatMessageState.KUS_CHAT_MESSAGE_STATE_FAILED);
+        upsertAll(new ArrayList<KUSModel>() {{
+            add(lastUserChatMessage);
+        }});
     }
 
     private void insertDelayedMessage(@NonNull final KUSChatMessage chatMessage) {
 
-        //Sanity Check
-        if (chatMessage.getId().length() == 0)
-            return;
 
-        //Only insert the message if it doesn't exist already
-        if (findById(chatMessage.getId()) != null)
+        if (TextUtils.isEmpty(chatMessage.getId()) //Sanity Check
+                || findById(chatMessage.getId()) != null) //Only insert the message if it doesn't exist already
             return;
 
         long delay = chatMessage.getCreatedAt() != null ?
@@ -1596,26 +1538,16 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     private void startVolumeControlTracking() {
-        if (getUserSession() == null)
+        if (getUserSession() == null
+                || !isActualSession())
             return;
-
-        if (!isActualSession()) {
-            return;
-        }
 
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
-        if (chatSettings == null || !chatSettings.isVolumeControlEnabled()) {
+        if (chatSettings == null || !chatSettings.isVolumeControlEnabled() // if NOT volumeControlEnabled
+                || !getUserSession().getScheduleDataSource().isActiveBusinessHours() // or business hours enabled and not in business hours
+                || vcTrackingStarted) // or vcTrackingStarted
             return;
-        }
 
-        // Check if business hours enabled and not in business hours
-        if (!getUserSession().getScheduleDataSource().isActiveBusinessHours()) {
-            return;
-        }
-
-        if (vcTrackingStarted) {
-            return;
-        }
         vcTrackingStarted = true;
 
         if (chatSettings.getVolumeControlMode() == KUSVolumeControlMode.KUS_VOLUME_CONTROL_MODE_DELAYED) {
