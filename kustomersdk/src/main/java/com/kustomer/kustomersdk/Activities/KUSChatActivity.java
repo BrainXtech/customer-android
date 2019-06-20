@@ -148,7 +148,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        if(savedInstanceState != null && savedInstanceState.getBoolean(CHAT_SCREEN_RESTARTED_KEY))
+        if (savedInstanceState != null && savedInstanceState.getBoolean(CHAT_SCREEN_RESTARTED_KEY))
             finish();
 
         initData();
@@ -793,7 +793,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
         if (isBackToChatButton()) {
             KUSChatSession chatSession = userSession.getChatSessionsDataSource().mostRecentNonProactiveCampaignOpenSession();
-            chatSessionId = chatSession.getId();
+            chatSessionId = chatSession != null ? chatSession.getId() : null;
             chatMessagesDataSource = userSession.chatMessageDataSourceForSessionId(chatSessionId);
 
         } else {
@@ -1100,7 +1100,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
         for (int i = chatMessagesDataSource.getSize() - 1; i >= 0; i--) {
             KUSChatMessage kusChatMessage = (KUSChatMessage) chatMessagesDataSource.get(i);
-            if (kusChatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE) {
+            if (kusChatMessage != null
+                    && kusChatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE) {
                 String imageUrl = kusChatMessage.getImageUrl() != null
                         ? kusChatMessage.getImageUrl().toString() : null;
                 imageURIs.add(imageUrl);
