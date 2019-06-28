@@ -26,7 +26,7 @@ import java.util.Date;
 public class KUSScheduleDataSource extends KUSObjectDataSource {
 
     //region Initializer
-    public KUSScheduleDataSource(KUSUserSession userSession){
+    public KUSScheduleDataSource(@NonNull KUSUserSession userSession){
         super(userSession);
     }
     //endregion

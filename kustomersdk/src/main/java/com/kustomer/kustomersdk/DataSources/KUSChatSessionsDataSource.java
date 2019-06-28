@@ -314,7 +314,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
         );
     }
 
-    public void describeActiveConversation(@Nullable JSONObject customAttributes) {
+    public void describeActiveConversation(@NonNull JSONObject customAttributes) {
         JSONObject pendingCustomChatSessionAttributes = new JSONObject();
 
         if (this.pendingCustomChatSessionAttributes != null) {
@@ -331,17 +331,15 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
             }
         }
         Iterator iterator;
-        if (customAttributes != null) {
-            iterator = customAttributes.keys();
+        iterator = customAttributes.keys();
 
-            while (iterator.hasNext()) {
-                String key = iterator.next().toString();
+        while (iterator.hasNext()) {
+            String key = iterator.next().toString();
 
-                try {
-                    pendingCustomChatSessionAttributes.put(key, customAttributes.get(key));
-                } catch (JSONException e) {
-                    KUSLog.kusLogError(e.getMessage());
-                }
+            try {
+                pendingCustomChatSessionAttributes.put(key, customAttributes.get(key));
+            } catch (JSONException e) {
+                KUSLog.kusLogError(e.getMessage());
             }
         }
         this.pendingCustomChatSessionAttributes = pendingCustomChatSessionAttributes;
