@@ -124,20 +124,30 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     @BindView(R2.id.footerLayout)
     LinearLayout footerLayout;
 
+    @Nullable
     KUSChatSession kusChatSession;
+    @Nullable
     KUSUserSession userSession;
+    @Nullable
     KUSChatMessagesDataSource chatMessagesDataSource;
+    @Nullable
     KUSTeamsDataSource teamOptionsDatasource;
+    @Nullable
     String chatSessionId;
+
     MessageListAdapter adapter;
+    @Nullable
     KUSToolbar kusToolbar;
+
     boolean shouldShowBackButton = true;
     boolean backPressed = false;
     boolean closePressed = false;
     boolean shouldShowNonBusinessHoursImage = false;
 
+    @Nullable
     String message;
 
+    @Nullable
     String mCurrentPhotoPath;
     //endregion
 
@@ -173,7 +183,9 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     @Override
     protected void onResume() {
         super.onResume();
-        KUSChatSession session = (KUSChatSession) userSession.getChatSessionsDataSource().findById(chatSessionId);
+        KUSChatSession session = userSession != null ?
+                (KUSChatSession) userSession.getChatSessionsDataSource().findById(chatSessionId)
+                : null;
 
         if ((session == null || session.getLockedAt() == null)
                 && tvClosedChat.getVisibility() == View.GONE
@@ -305,6 +317,9 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         shouldShowBackButton = getIntent().getBooleanExtra(KUSConstants.BundleName.CHAT_SCREEN_BACK_BUTTON_KEY, true);
         message = getIntent().getStringExtra(KUSConstants.BundleName.CHAT_SCREEN_MESSAGE);
 
+        if (userSession == null)
+            return;
+
         shouldShowNonBusinessHoursImage = !userSession.getScheduleDataSource().isActiveBusinessHours();
 
         KUSChatSettings settings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
@@ -327,7 +342,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         chatMessagesDataSource.addListener(this);
         chatMessagesDataSource.fetchLatest();
         if (!chatMessagesDataSource.isFetched()) {
-            progressDialog.show();
+            if (progressDialog != null)
+                progressDialog.show();
         }
     }
 
@@ -344,12 +360,18 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         showNonBusinessHoursImageIfNeeded();
         showKustomerBrandingFooterIfNeeded();
 
-        KUSChatSettings settings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
+        KUSChatSettings settings = userSession != null ?
+                (KUSChatSettings) userSession.getChatSettingsDataSource().getObject()
+                : null;
+
         if (settings != null && settings.getShouldShowTypingIndicatorWeb())
             kusInputBarView.setTextChangeListener(this);
     }
 
     private void showKustomerBrandingFooterIfNeeded() {
+        if (userSession == null)
+            return;
+
         if (userSession.getChatSettingsDataSource().isFetched()) {
             KUSChatSettings chatSettings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
             footerLayout.setVisibility(chatSettings != null && chatSettings.shouldShowKustomerBranding() ?
@@ -378,7 +400,10 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             return;
         }
 
-        KUSChatSettings chatSettings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
+        KUSChatSettings chatSettings = userSession != null ?
+                (KUSChatSettings) userSession.getChatSettingsDataSource().getObject()
+                : null;
+
         if (chatSettings != null && chatSettings.getOffHoursImageUrl() != null
                 && !chatSettings.getOffHoursImageUrl().isEmpty()) {
             Glide.with(this)
@@ -394,7 +419,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     private void setupToolbar() {
         kusToolbar = (KUSToolbar) toolbar;
         kusToolbar.initWithUserSession(userSession);
-        kusToolbar.setExtraLargeSize(chatMessagesDataSource.getSize() == 0);
+        kusToolbar.setExtraLargeSize(chatMessagesDataSource == null || chatMessagesDataSource.getSize() == 0);
         kusToolbar.setSessionId(chatSessionId);
         kusToolbar.setShowLabel(true);
         kusToolbar.setListener(this);
@@ -411,7 +436,9 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     private void checkShouldShowCloseChatButtonView() {
-        KUSChatSettings settings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
+        KUSChatSettings settings = userSession != null ?
+                (KUSChatSettings) userSession.getChatSettingsDataSource().getObject()
+                : null;
 
         if (settings != null && settings.getClosableChat() && getValidChatSessionId() != null) {
             KUSChatSession session = (KUSChatSession) userSession
@@ -419,6 +446,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
             if (session != null
                     && session.getLockedAt() == null
+                    && chatMessagesDataSource != null
                     && chatMessagesDataSource.isAnyMessageByCurrentUser()) {
                 if (btnEndChat.getVisibility() != View.VISIBLE) {
                     Handler handler = new Handler(Looper.getMainLooper());
@@ -445,11 +473,15 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
             emailInputView.setVisibility(View.GONE);
         } else {
-            KUSChatSettings settings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
+            KUSChatSettings settings = userSession != null ?
+                    (KUSChatSettings) userSession.getChatSettingsDataSource().getObject()
+                    : null;
             boolean isChatCloseable = settings != null && settings.getClosableChat();
 
-            boolean shouldShowEmailInput = userSession.isShouldCaptureEmail()
-                    && getValidChatSessionId() != null && !isChatCloseable;
+            boolean shouldShowEmailInput = userSession != null
+                    && userSession.isShouldCaptureEmail()
+                    && getValidChatSessionId() != null
+                    && !isChatCloseable;
 
             appBarLayout.setLayoutTransition(new LayoutTransition());
 
@@ -463,15 +495,16 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     private void checkShouldShowOptionPicker() {
-        KUSChatSession session = (KUSChatSession) userSession
-                .getChatSessionsDataSource().findById(getValidChatSessionId());
-        if (session != null && session.getLockedAt() != null) {
+        KUSChatSession session = userSession != null ?
+                (KUSChatSession) userSession.getChatSessionsDataSource().findById(getValidChatSessionId())
+                : null;
+        if (session != null && session.getLockedAt() != null)
             return;
-        }
 
-        if (chatMessagesDataSource.isChatClosed() && chatMessagesDataSource.getOtherUserIds().size() == 0) {
+        if (chatMessagesDataSource == null
+                || chatMessagesDataSource.isChatClosed()
+                && chatMessagesDataSource.getOtherUserIds().size() == 0)
             return;
-        }
 
         KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource.volumeControlCurrentQuestion();
 
@@ -557,8 +590,9 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     private void checkShouldShowInputView() {
-        KUSChatSession session = (KUSChatSession) userSession
-                .getChatSessionsDataSource().findById(getValidChatSessionId());
+        KUSChatSession session = userSession != null ?
+                (KUSChatSession) userSession.getChatSessionsDataSource().findById(getValidChatSessionId())
+                : null;
 
         if (session != null && session.getLockedAt() != null) {
             kusInputBarView.setVisibility(View.GONE);
@@ -603,7 +637,10 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     private void updateOptionsPickerOptions() {
-        KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource.volumeControlCurrentQuestion();
+        KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource != null ?
+                chatMessagesDataSource.volumeControlCurrentQuestion()
+                : null;
+
         boolean wantsOptionPicker = (vcCurrentQuestion != null
                 && vcCurrentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_CUSTOMER_FOLLOW_UP_CHANNEL
                 && vcCurrentQuestion.getValues().size() > 0);
@@ -612,7 +649,10 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             return;
         }
 
-        KUSFormQuestion currentQuestion = chatMessagesDataSource.currentQuestion();
+        KUSFormQuestion currentQuestion = chatMessagesDataSource != null ?
+                chatMessagesDataSource.currentQuestion()
+                : null;
+
         wantsOptionPicker = (currentQuestion != null
                 && currentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_VALUES
                 && currentQuestion.getValues().size() > 0);
@@ -632,10 +672,12 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     private void setupAdapter() {
-        adapter = new MessageListAdapter(chatMessagesDataSource, userSession, chatMessagesDataSource, this);
+        adapter = new MessageListAdapter(chatMessagesDataSource, userSession, chatMessagesDataSource,
+                this);
         rvMessages.setAdapter(adapter);
 
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, true);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this,
+                LinearLayoutManager.VERTICAL, true);
         rvMessages.setLayoutManager(layoutManager);
 
         adapter.notifyDataSetChanged();
@@ -724,6 +766,9 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     private boolean isBackToChatButton() {
+        if (userSession == null)
+            return false;
+
         KUSChatSettings settings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
         int openChats = userSession.getChatSessionsDataSource().getOpenChatSessionsCount();
         int proactiveChats = userSession.getChatSessionsDataSource().getOpenProactiveCampaignsCount();
@@ -770,6 +815,9 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     @OnClick(R2.id.btnEndChat)
     void endChatClicked() {
         showProgressBar();
+        if (chatMessagesDataSource == null)
+            return;
+
         chatMessagesDataSource.endChat("customer_ended", new KUSChatMessagesDataSource.OnEndChatListener() {
             @Override
             public void onComplete(boolean success) {
@@ -781,7 +829,6 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
                     }
                 };
                 handler.post(runnable);
-
             }
         });
 
@@ -789,15 +836,20 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
     @OnClick(R2.id.tvStartANewConversation)
     void startNewConversationClicked() {
-        chatMessagesDataSource.removeListener(this);
+        if (chatMessagesDataSource != null)
+            chatMessagesDataSource.removeListener(this);
 
         if (isBackToChatButton()) {
-            KUSChatSession chatSession = userSession.getChatSessionsDataSource().mostRecentNonProactiveCampaignOpenSession();
+            KUSChatSession chatSession = userSession != null ?
+                    userSession.getChatSessionsDataSource().mostRecentNonProactiveCampaignOpenSession()
+                    : null;
             chatSessionId = chatSession != null ? chatSession.getId() : null;
-            chatMessagesDataSource = userSession.chatMessageDataSourceForSessionId(chatSessionId);
+            chatMessagesDataSource = userSession != null ?
+                    userSession.chatMessageDataSourceForSessionId(chatSessionId) : null;
 
         } else {
-            chatMessagesDataSource = new KUSChatMessagesDataSource(userSession, true);
+            if (userSession != null)
+                chatMessagesDataSource = new KUSChatMessagesDataSource(userSession, true);
             chatSessionId = null;
             kusInputBarView.setAllowsAttachment(false);
 
@@ -805,7 +857,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             ivNonBusinessHours.setVisibility(shouldShowNonBusinessHoursImage ? View.VISIBLE : View.GONE);
         }
 
-        chatMessagesDataSource.addListener(this);
+        if (chatMessagesDataSource != null)
+            chatMessagesDataSource.addListener(this);
 
         adapter = null;
         setupAdapter();
@@ -813,7 +866,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         kusInputBarView.setText("");
         kusInputBarView.removeAllAttachments();
         tvStartANewConversation.setVisibility(View.GONE);
-        kusToolbar.setSessionId(chatSessionId);
+        if (kusToolbar != null)
+            kusToolbar.setSessionId(chatSessionId);
 
         checkShouldShowEmailInput();
         checkShouldShowCloseChatButtonView();
@@ -836,7 +890,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
                     if (isBackToChatButton()) {
                         tvStartANewConversation.setText(R.string.com_kustomer_back_to_chat);
                     } else {
-                        if (userSession.getScheduleDataSource().isActiveBusinessHours()) {
+                        if (userSession != null
+                                && userSession.getScheduleDataSource().isActiveBusinessHours()) {
                             tvStartANewConversation.setText(R.string.com_kustomer_start_a_new_conversation);
                         } else {
                             tvStartANewConversation.setText(R.string.com_kustomer_leave_a_message);
@@ -852,7 +907,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     @Override
-    public void onError(KUSPaginatedDataSource dataSource, Error error) {
+    public void onError(@NonNull KUSPaginatedDataSource dataSource, Error error) {
         if (dataSource == chatMessagesDataSource && !chatMessagesDataSource.isFetched()) {
             final WeakReference<KUSChatActivity> weakReference = new WeakReference<>(this);
             Handler handler = new Handler(Looper.getMainLooper());
@@ -860,7 +915,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
                 @Override
                 public void run() {
                     KUSChatActivity strongReference = weakReference.get();
-                    if (strongReference != null)
+                    if (strongReference != null && strongReference.chatMessagesDataSource != null)
                         strongReference.chatMessagesDataSource.fetchLatest();
                 }
             };
@@ -888,17 +943,20 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
                     checkShouldShowInputView();
                     checkShouldShowCloseChatButtonView();
 
-                    KUSChatSession session = (KUSChatSession) userSession
-                            .getChatSessionsDataSource().findById(getValidChatSessionId());
+                    KUSChatSession session = userSession != null ?
+                            (KUSChatSession) userSession.getChatSessionsDataSource()
+                                    .findById(getValidChatSessionId())
+                            : null;
 
-                    if (session != null && session.getLockedAt() != null) {
+                    if (session != null && session.getLockedAt() != null && chatMessagesDataSource != null) {
                         chatMessagesDataSource.stopListeningForTypingUpdate();
                     }
 
                     if (dataSource.getSize() >= 1)
                         setupToolbar();
 
-                    boolean shouldAllowAttachments = chatMessagesDataSource.shouldAllowAttachments();
+                    boolean shouldAllowAttachments = chatMessagesDataSource != null
+                            && chatMessagesDataSource.shouldAllowAttachments();
                     if (!shouldAllowAttachments) {
                         kusInputBarView.removeAllAttachments();
                     }
@@ -923,18 +981,26 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             public void run() {
                 chatSessionId = sessionId;
                 kusInputBarView.setAllowsAttachment(getValidChatSessionId() != null);
-                kusToolbar.setSessionId(chatSessionId);
+                if (kusToolbar != null)
+                    kusToolbar.setSessionId(chatSessionId);
+
                 shouldShowBackButton = true;
 
-                KUSChatSettings settings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
+                KUSChatSettings settings = userSession != null ?
+                        (KUSChatSettings) userSession.getChatSettingsDataSource().getObject()
+                        : null;
                 if (settings != null) {
                     shouldShowBackButton = !settings.getNoHistory();
                 }
 
-                kusToolbar.setShowBackButton(shouldShowBackButton);
+                if (kusToolbar != null)
+                    kusToolbar.setShowBackButton(shouldShowBackButton);
+
                 setupToolbar();
                 checkShouldShowEmailInput();
-                chatMessagesDataSource.startListeningForTypingUpdate();
+                if (chatMessagesDataSource != null)
+                    chatMessagesDataSource.startListeningForTypingUpdate();
+
             }
         };
         handler.post(runnable);
@@ -974,7 +1040,9 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
     @Override
     public void onSubmitEmail(String email) {
-        userSession.submitEmail(email);
+        if (userSession != null) {
+            userSession.submitEmail(email);
+        }
         checkShouldShowEmailInput();
     }
 
@@ -1017,7 +1085,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
     @Override
     public void inputBarSendClicked() {
-        if (chatMessagesDataSource.shouldPreventSendingMessage())
+        if (chatMessagesDataSource != null && chatMessagesDataSource.shouldPreventSendingMessage())
             return;
 
         final String text = kusInputBarView.getText();
@@ -1048,9 +1116,11 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
     @Override
     public boolean inputBarShouldEnableSend() {
-        KUSFormQuestion question = chatMessagesDataSource.volumeControlCurrentQuestion();
+        KUSFormQuestion question = chatMessagesDataSource != null ?
+                chatMessagesDataSource.volumeControlCurrentQuestion()
+                : null;
 
-        if (question == null)
+        if (question == null && chatMessagesDataSource != null)
             question = chatMessagesDataSource.currentQuestion();
 
         if (question != null) {
@@ -1068,7 +1138,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
     @Override
     public void inputBarTextChanged() {
-        if (!kusInputBarView.getText().isEmpty())
+        if (chatMessagesDataSource != null && !kusInputBarView.getText().isEmpty())
             chatMessagesDataSource.sendTypingStatusToPusher(KUSTypingStatus.KUS_TYPING);
     }
 
@@ -1077,7 +1147,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         KUSTeam team = null;
 
         int optionIndex = kusOptionPickerView.getOptions().indexOf(option);
-        KUSFormQuestion currentQuestion = chatMessagesDataSource.currentQuestion();
+        KUSFormQuestion currentQuestion = chatMessagesDataSource != null
+                ? chatMessagesDataSource.currentQuestion() : null;
 
         if (optionIndex >= 0
                 && currentQuestion != null
@@ -1086,10 +1157,12 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
             team = (KUSTeam) teamOptionsDatasource.get(optionIndex);
 
-        chatMessagesDataSource.sendMessageWithText(
-                team != null && team.getDisplayName() != null ? team.getDisplayName() : option,
-                null,
-                team != null ? team.getId() : null);
+        if (chatMessagesDataSource != null) {
+            chatMessagesDataSource.sendMessageWithText(
+                    team != null && team.getDisplayName() != null ? team.getDisplayName() : option,
+                    null,
+                    team != null ? team.getId() : null);
+        }
     }
 
     @Override
@@ -1098,13 +1171,15 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
         List<String> imageURIs = new ArrayList<>();
 
-        for (int i = chatMessagesDataSource.getSize() - 1; i >= 0; i--) {
-            KUSChatMessage kusChatMessage = (KUSChatMessage) chatMessagesDataSource.get(i);
-            if (kusChatMessage != null
-                    && kusChatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE) {
-                String imageUrl = kusChatMessage.getImageUrl() != null
-                        ? kusChatMessage.getImageUrl().toString() : null;
-                imageURIs.add(imageUrl);
+        if (chatMessagesDataSource != null) {
+            for (int i = chatMessagesDataSource.getSize() - 1; i >= 0; i--) {
+                KUSChatMessage kusChatMessage = (KUSChatMessage) chatMessagesDataSource.get(i);
+                if (kusChatMessage != null
+                        && kusChatMessage.getType() == KUSChatMessageType.KUS_CHAT_MESSAGE_TYPE_IMAGE) {
+                    String imageUrl = kusChatMessage.getImageUrl() != null
+                            ? kusChatMessage.getImageUrl().toString() : null;
+                    imageURIs.add(imageUrl);
+                }
             }
         }
 
@@ -1120,7 +1195,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         new Thread(new Runnable() {
             @Override
             public void run() {
-                chatMessagesDataSource.resendMessage(chatMessage);
+                if (chatMessagesDataSource != null)
+                    chatMessagesDataSource.resendMessage(chatMessage);
             }
         }).start();
     }
@@ -1158,14 +1234,15 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
     @Override
     public void mlFormValueSelected(String option, String optionId) {
-        chatMessagesDataSource.sendMessageWithText(option, null, optionId);
+        if (chatMessagesDataSource != null)
+            chatMessagesDataSource.sendMessageWithText(option, null, optionId);
         kusInputBarView.setText("");
         kusInputBarView.removeAllAttachments();
     }
 
     @Override
     public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
-        if (dataSource != userSession.getChatSettingsDataSource())
+        if (userSession == null || dataSource != userSession.getChatSettingsDataSource())
             return;
 
         userSession.getChatSettingsDataSource().removeListener(this);

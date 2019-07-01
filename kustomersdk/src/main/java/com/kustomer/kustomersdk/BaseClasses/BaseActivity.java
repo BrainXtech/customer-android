@@ -3,6 +3,7 @@ package com.kustomer.kustomersdk.BaseClasses;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -23,14 +24,19 @@ import butterknife.ButterKnife;
 public class BaseActivity extends AppCompatActivity {
 
     //region Properties
+    @Nullable
     public ProgressDialog progressDialog;
+    @NonNull
     protected Toolbar toolbar;
 
+    @NonNull
     private static List<Activity> libraryActivities = new ArrayList<>();
 
-    @Nullable @BindView(R2.id.retryView)
+    @Nullable
+    @BindView(R2.id.retryView)
     View retryView;
-    @Nullable @BindView(R2.id.tvError)
+    @Nullable
+    @BindView(R2.id.tvError)
     TextView tvError;
     //endregion
 
@@ -77,7 +83,7 @@ public class BaseActivity extends AppCompatActivity {
     //endregion
 
     //region Methods
-    private void setupDialog(){
+    private void setupDialog() {
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.com_kustomer_processing));
         progressDialog.setCancelable(false);
@@ -86,7 +92,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void setLayout(int layoutId, int toolbarId, String title, boolean homeEnabled) {
         setContentView(layoutId);
 
-        if(toolbarId != -1)
+        if (toolbarId != -1)
             setupToolbar(title, toolbarId, homeEnabled);
     }
 
@@ -94,34 +100,30 @@ public class BaseActivity extends AppCompatActivity {
         setContentView(layoutId);
     }
 
-    protected void showProgressBar(String text){
-        progressDialog.setMessage(text);
-        showProgressBar();
-    }
-
-    protected void showProgressBar(){
-        if(progressDialog != null)
+    protected void showProgressBar() {
+        if (progressDialog != null)
             progressDialog.show();
 
-        if(retryView != null && retryView.getVisibility() == View.VISIBLE)
+        if (retryView != null && retryView.getVisibility() == View.VISIBLE)
             retryView.setVisibility(View.GONE);
     }
 
-    protected void hideProgressBar(){
-        if(progressDialog != null)
+    protected void hideProgressBar() {
+        if (progressDialog != null)
             progressDialog.dismiss();
 
-        if(retryView != null)
+        if (retryView != null)
             retryView.setVisibility(View.GONE);
     }
 
-    protected void showErrorWithText(String text){
-        progressDialog.dismiss();
+    protected void showErrorWithText(String text) {
+        if (progressDialog != null)
+            progressDialog.dismiss();
 
-        if(retryView != null && retryView.getVisibility() == View.GONE)
+        if (retryView != null && retryView.getVisibility() == View.GONE)
             retryView.setVisibility(View.VISIBLE);
 
-        if(tvError != null)
+        if (tvError != null)
             tvError.setText(text);
     }
 
@@ -136,21 +138,20 @@ public class BaseActivity extends AppCompatActivity {
         setBackButton(enabled);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @
-                    Override
+            @Override
             public void onClick(View view) {
                 onBackPressed();
             }
         });
     }
 
-    protected void setBackButton(boolean enabled){
-        if(getSupportActionBar() != null)
+    protected void setBackButton(boolean enabled) {
+        if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(enabled);
     }
 
-    protected static void clearAllLibraryActivities(){
-        for(Activity activity : libraryActivities){
+    protected static void clearAllLibraryActivities() {
+        for (Activity activity : libraryActivities) {
             activity.finish();
         }
 
