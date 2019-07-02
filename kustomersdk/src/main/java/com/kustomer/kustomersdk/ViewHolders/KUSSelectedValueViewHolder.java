@@ -1,11 +1,11 @@
 package com.kustomer.kustomersdk.ViewHolders;
 
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
-import com.kustomer.kustomersdk.Models.KUSMLNode;
 import com.kustomer.kustomersdk.R;
 import com.kustomer.kustomersdk.R2;
 
@@ -20,20 +20,19 @@ public class KUSSelectedValueViewHolder extends RecyclerView.ViewHolder {
     @BindView(R2.id.verticalSeparator)
     View verticalSeparator;
 
-    boolean isSelected = false;
     //endregion
 
     //region Lifecycle
-    public KUSSelectedValueViewHolder(View itemView) {
+    public KUSSelectedValueViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this,itemView);
     }
     //endregion
 
     //region Public Methods
-    public void onBind(final int position, String value, boolean isFirst, boolean isLast, final onItemClickListener listener){
+    public void onBind(final int position, String value, boolean isFirst, boolean isLast,
+                       @NonNull final onItemClickListener listener){
         tvSelectedValue.setText(value);
-        isSelected = isLast;
 
         if(isLast) {
             tvSelectedValue.setTextColor(ContextCompat.getColor(itemView.getContext(),

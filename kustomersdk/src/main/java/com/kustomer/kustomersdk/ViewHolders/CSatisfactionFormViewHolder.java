@@ -2,7 +2,6 @@ package com.kustomer.kustomersdk.ViewHolders;
 
 import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.constraint.ConstraintSet;
 import android.support.v7.widget.RecyclerView;
@@ -32,7 +31,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.kustomer.kustomersdk.Enums.KUSCSatisfactionFormResponseStatus.KUS_C_SATISFACTION_RESPONSE_STATUS_RATED;
-import static com.kustomer.kustomersdk.Enums.KUSCSatisfactionScaleType.*;
+import static com.kustomer.kustomersdk.Enums.KUSCSatisfactionScaleType.KUS_C_SATISFACTION_SCALE_TYPE_EMOJI;
+import static com.kustomer.kustomersdk.Enums.KUSCSatisfactionScaleType.KUS_C_SATISFACTION_SCALE_TYPE_NUMBER;
+import static com.kustomer.kustomersdk.Enums.KUSCSatisfactionScaleType.KUS_C_SATISFACTION_SCALE_TYPE_THUMB;
 
 public class CSatisfactionFormViewHolder extends RecyclerView.ViewHolder {
 
@@ -83,7 +84,7 @@ public class CSatisfactionFormViewHolder extends RecyclerView.ViewHolder {
 
     //region Initializer
     @SuppressLint("ClickableViewAccessibility")
-    public CSatisfactionFormViewHolder(View itemView,
+    public CSatisfactionFormViewHolder(@NonNull View itemView,
                                        @NonNull MessageListAdapter.ChatMessageItemListener listener) {
         super(itemView);
         ButterKnife.bind(this, itemView);

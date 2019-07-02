@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.ViewHolders;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +36,8 @@ public class AgentTypingViewHolder extends RecyclerView.ViewHolder {
     //endregion
 
     //region Methods
-    public void onBind(KUSTypingIndicator typingIndicator, KUSUserSession userSession) {
+    public void onBind(@Nullable KUSTypingIndicator typingIndicator,
+                       @NonNull KUSUserSession userSession) {
 
         imageLayout.removeAllViews();
 
@@ -43,7 +46,7 @@ public class AgentTypingViewHolder extends RecyclerView.ViewHolder {
         avatarImageView.setDrawableSize(40);
 
         avatarImageView.initWithUserSession(userSession);
-        avatarImageView.setUserId(typingIndicator.getUserId());
+        avatarImageView.setUserId(typingIndicator != null ? typingIndicator.getUserId() : null);
 
         FrameLayout.LayoutParams avatarLayoutParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
@@ -52,7 +55,6 @@ public class AgentTypingViewHolder extends RecyclerView.ViewHolder {
         avatarImageView.setLayoutParams(avatarLayoutParams);
 
         imageLayout.addView(avatarImageView);
-
     }
 
     //endregion

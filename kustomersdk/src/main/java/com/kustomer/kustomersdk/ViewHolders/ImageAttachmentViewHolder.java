@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.ViewHolders;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -28,11 +30,14 @@ public class ImageAttachmentViewHolder extends RecyclerView.ViewHolder {
         ButterKnife.bind(this, itemView);
     }
 
-    public void onBind(final KUSBitmap kusBitmap, final ImageAttachmentListener listener) {
+    public void onBind(@Nullable final KUSBitmap kusBitmap,
+                       @NonNull final ImageAttachmentListener listener) {
+
         if (kusBitmap != null)
             ivAttachment.setImageBitmap(kusBitmap.getBitmap());
         else
             ivAttachment.setImageBitmap(null);
+
         itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -53,7 +58,7 @@ public class ImageAttachmentViewHolder extends RecyclerView.ViewHolder {
 
     //region Interface
     public interface ImageAttachmentListener {
-        void onImageCancelClicked(KUSBitmap imageBitmap);
+        void onImageCancelClicked(@Nullable KUSBitmap imageBitmap);
 
         void onImageTapped(int index);
     }

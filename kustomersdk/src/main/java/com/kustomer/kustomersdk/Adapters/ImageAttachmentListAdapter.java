@@ -3,6 +3,7 @@ package com.kustomer.kustomersdk.Adapters;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -110,7 +111,7 @@ public class ImageAttachmentListAdapter extends RecyclerView.Adapter<RecyclerVie
 
     //region Callbacks
     @Override
-    public void onImageCancelClicked(KUSBitmap imageBitmap) {
+    public void onImageCancelClicked(@Nullable KUSBitmap imageBitmap) {
         int pos = imageBitmaps.indexOf(imageBitmap);
 
         imageBitmaps.remove(imageBitmap);
@@ -126,7 +127,7 @@ public class ImageAttachmentListAdapter extends RecyclerView.Adapter<RecyclerVie
 
     //region Listener
     public interface onItemClickListener {
-        void onAttachmentImageClicked(int position,@NonNull List<String> imageURIs);
+        void onAttachmentImageClicked(int position, @NonNull List<String> imageURIs);
 
         void onAttachmentImageRemoved();
     }

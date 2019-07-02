@@ -152,7 +152,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     }
 
     private void setupAdapter() {
-        if (chatSessionsDataSource == null || userSession == null)
+        if (userSession == null)
             return;
 
         adapter = new SessionListAdapter(rvSessions, chatSessionsDataSource, userSession, this);

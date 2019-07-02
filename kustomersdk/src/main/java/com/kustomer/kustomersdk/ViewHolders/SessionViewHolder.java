@@ -59,6 +59,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     @BindView(R2.id.closedView)
     View closedView;
 
+    @NonNull
     private KUSUserSession mUserSession;
     private KUSChatMessagesDataSource chatMessagesDataSource;
     private KUSUserDataSource userDataSource;
@@ -66,22 +67,28 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     private Date sessionDate = null;
     //endregion
 
-    public SessionViewHolder(View itemView) {
+    public SessionViewHolder(@NonNull View itemView,
+                             @NonNull KUSUserSession userSession) {
         super(itemView);
         ButterKnife.bind(this, itemView);
+        mUserSession = userSession;
     }
 
-    public void onBind(final KUSChatSession chatSession, KUSUserSession userSession,
-                       final SessionListAdapter.onItemClickListener listener) {
-        mUserSession = userSession;
+    public void onBind(@Nullable final KUSChatSession chatSession,
+                       @NonNull final SessionListAdapter.onItemClickListener listener) {
         mChatSession = chatSession;
 
         mUserSession.getChatSettingsDataSource().addListener(this);
-        chatMessagesDataSource = userSession.chatMessageDataSourceForSessionId(chatSession.getId());
-        chatMessagesDataSource.addListener(this);
-        if (!chatMessagesDataSource.isFetched() && !chatMessagesDataSource.isFetching())
-            chatMessagesDataSource.fetchLatest();
+        chatMessagesDataSource = chatSession != null ?
+                mUserSession.chatMessageDataSourceForSessionId(chatSession.getId())
+                : null;
 
+        if (chatMessagesDataSource != null) {
+            chatMessagesDataSource.addListener(this);
+
+            if (!chatMessagesDataSource.isFetched() && !chatMessagesDataSource.isFetching())
+                chatMessagesDataSource.fetchLatest();
+        }
         updateAvatar();
         updateLabels();
 
@@ -94,7 +101,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     }
 
     public void onDetached() {
-        if (mUserSession != null && mUserSession.getChatSettingsDataSource() != null)
+        if (mUserSession.getChatSettingsDataSource() != null)
             mUserSession.getChatSettingsDataSource().removeListener(this);
 
         if (userDataSource != null)
@@ -181,7 +188,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
         //Unread count (number of messages > the lastSeenAt)
         Date sessionLastSeenAt = mUserSession.getChatSessionsDataSource().lastSeenAtForSessionId(mChatSession.getId());
 
-        int unreadCount = 0;
+        int unreadCount;
         unreadCount = chatMessagesDataSource.unreadCountAfterDate(sessionLastSeenAt);
 
         if (unreadCount > 0) {

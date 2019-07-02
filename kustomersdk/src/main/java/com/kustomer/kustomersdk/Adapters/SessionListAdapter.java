@@ -23,26 +23,31 @@ import java.lang.ref.WeakReference;
 public class SessionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //region Properties
+    @Nullable
     private KUSChatSessionsDataSource mChatSessionsDataSource;
+    @NonNull
     private KUSUserSession mUserSession;
+    @NonNull
     private onItemClickListener mListener;
 
     private int minimumRowCount = 0;
     private final int SESSION_VIEW_TYPE = 0;
     private final int DUMMY_VIEW_TYPE = 1;
 
+    @NonNull
     private WeakReference<RecyclerView> recyclerViewWeakReference;
     //endregion
 
     //region LifeCycle
     public SessionListAdapter(@NonNull RecyclerView recyclerView,
-                              @NonNull KUSChatSessionsDataSource chatSessionsDataSource,
+                              @Nullable KUSChatSessionsDataSource chatSessionsDataSource,
                               @NonNull KUSUserSession userSession,
                               @NonNull onItemClickListener listener) {
+        
+        recyclerViewWeakReference = new WeakReference<>(recyclerView);
         mChatSessionsDataSource = chatSessionsDataSource;
         mUserSession = userSession;
         mListener = listener;
-        recyclerViewWeakReference = new WeakReference<>(recyclerView);
     }
 
     @NonNull
@@ -51,7 +56,8 @@ public class SessionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
         if (viewType == SESSION_VIEW_TYPE)
             return new SessionViewHolder(LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.kus_item_session_view_holder, parent, false));
+                    .inflate(R.layout.kus_item_session_view_holder, parent, false),
+                    mUserSession);
         else
             return new DummyViewHolder(LayoutInflater.from(parent.getContext())
                     .inflate(R.layout.kus_item_session_dummy_view_holder, parent, false));
@@ -59,15 +65,17 @@ public class SessionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-        if (position < mChatSessionsDataSource.getSize() && holder instanceof SessionViewHolder) {
-            ((SessionViewHolder) holder).onBind((KUSChatSession) mChatSessionsDataSource
-                    .get(position), mUserSession, mListener);
+        if (mChatSessionsDataSource != null
+                && position < mChatSessionsDataSource.getSize()
+                && holder instanceof SessionViewHolder) {
+            ((SessionViewHolder) holder).onBind((KUSChatSession) mChatSessionsDataSource.get(position),
+                    mListener);
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        if (position < mChatSessionsDataSource.getSize())
+        if (mChatSessionsDataSource != null && position < mChatSessionsDataSource.getSize())
             return SESSION_VIEW_TYPE;
         else
             return DUMMY_VIEW_TYPE;
