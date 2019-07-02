@@ -313,8 +313,10 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     //region Initializer
     private void initData() {
         userSession = Kustomer.getSharedInstance().getUserSession();
-        kusChatSession = (KUSChatSession) getIntent().getSerializableExtra(KUSConstants.BundleName.CHAT_SESSION_BUNDLE_KEY);
-        shouldShowBackButton = getIntent().getBooleanExtra(KUSConstants.BundleName.CHAT_SCREEN_BACK_BUTTON_KEY, true);
+        kusChatSession = (KUSChatSession) getIntent()
+                .getSerializableExtra(KUSConstants.BundleName.CHAT_SESSION_BUNDLE_KEY);
+        shouldShowBackButton = getIntent()
+                .getBooleanExtra(KUSConstants.BundleName.CHAT_SCREEN_BACK_BUTTON_KEY, true);
         message = getIntent().getStringExtra(KUSConstants.BundleName.CHAT_SCREEN_MESSAGE);
 
         if (userSession == null)

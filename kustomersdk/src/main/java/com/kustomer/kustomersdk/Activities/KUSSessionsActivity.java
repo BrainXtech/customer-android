@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -35,7 +36,10 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import butterknife.Optional;
 
-public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDataSourceListener, SessionListAdapter.onItemClickListener, KUSToolbar.OnToolbarItemClickListener, KUSObjectDataSourceListener {
+public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDataSourceListener,
+        SessionListAdapter.onItemClickListener,
+        KUSToolbar.OnToolbarItemClickListener,
+        KUSObjectDataSourceListener {
 
     //region Properties
     @BindView(R2.id.rvSessions)
@@ -45,10 +49,14 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     @BindView(R2.id.footerLayout)
     LinearLayout footerLayout;
 
+    @Nullable
     private KUSUserSession userSession;
+    @Nullable
     private KUSChatSessionsDataSource chatSessionsDataSource;
 
     private boolean didHandleFirstLoad = false;
+
+    @Nullable
     private SessionListAdapter adapter;
     private boolean shouldAnimateChatScreen = false;
     //endregion
@@ -107,7 +115,8 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
         if (chatSessionsDataSource != null)
             chatSessionsDataSource.removeListener(this);
 
-        userSession.getPushClient().setSupportScreenShown(false);
+        if (userSession != null)
+            userSession.getPushClient().setSupportScreenShown(false);
         super.onDestroy();
     }
 
@@ -121,6 +130,9 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     //region Initializer
 
     private void showKustomerBrandingFooterIfNeeded() {
+        if (userSession == null)
+            return;
+
         if (userSession.getChatSettingsDataSource().isFetched()) {
             KUSChatSettings chatSettings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
             footerLayout.setVisibility(chatSettings != null && chatSettings.shouldShowKustomerBranding() ?
@@ -158,7 +170,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
             btnNewConversation.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
         } else {
 
-            if (userSession.getScheduleDataSource().isActiveBusinessHours()) {
+            if (userSession != null && userSession.getScheduleDataSource().isActiveBusinessHours()) {
                 btnNewConversation.setText(R.string.com_kustomer_new_conversation);
             } else {
                 btnNewConversation.setText(R.string.com_kustomer_leave_a_message);
@@ -178,6 +190,9 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     }
 
     private boolean isBackToChatButton() {
+        if (userSession == null)
+            return false;
+
         KUSChatSettings settings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
         int openChats = userSession.getChatSessionsDataSource().getOpenChatSessionsCount();
         int proactiveChats = userSession.getChatSessionsDataSource().getOpenProactiveCampaignsCount();
@@ -185,10 +200,10 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     }
 
     private void handleFirstLoadIfNecessary() {
-        if (didHandleFirstLoad || !userSession.getChatSettingsDataSource().isFetched())
+        if (didHandleFirstLoad || userSession == null || !userSession.getChatSettingsDataSource().isFetched())
             return;
 
-        if(!chatSessionsDataSource.isFetched() &&
+        if (chatSessionsDataSource == null || !chatSessionsDataSource.isFetched() &&
                 chatSessionsDataSource.getMessageToCreateNewChatSession() == null)
             return;
 
@@ -228,8 +243,10 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     @Optional
     @OnClick(R2.id.btnRetry)
     void userTappedRetry() {
-        chatSessionsDataSource.fetchLatest();
-        showProgressBar();
+        if (chatSessionsDataSource != null) {
+            chatSessionsDataSource.fetchLatest();
+            showProgressBar();
+        }
     }
 
     @OnClick(R2.id.btnNewConversation)
@@ -237,7 +254,9 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
         Intent intent = new Intent(this, KUSChatActivity.class);
 
         if (isBackToChatButton()) {
-            KUSChatSession chatSession = userSession.getChatSessionsDataSource().mostRecentNonProactiveCampaignOpenSession();
+            KUSChatSession chatSession = userSession != null ?
+                    userSession.getChatSessionsDataSource().mostRecentNonProactiveCampaignOpenSession()
+                    : null;
             intent.putExtra(KUSConstants.BundleName.CHAT_SESSION_BUNDLE_KEY, chatSession);
         }
 
@@ -285,7 +304,8 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                adapter.notifyDataSetChanged();
+                if (adapter != null)
+                    adapter.notifyDataSetChanged();
                 setCreateSessionBackToChatButton();
             }
         };
@@ -316,7 +336,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
 
     @Override
     public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
-        if (dataSource != userSession.getChatSettingsDataSource())
+        if (userSession == null || dataSource != userSession.getChatSettingsDataSource())
             return;
 
         userSession.getChatSettingsDataSource().removeListener(this);

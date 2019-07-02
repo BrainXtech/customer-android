@@ -1,5 +1,6 @@
 package com.kustomer.kustomersdk.Activities;
 
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class KUSKnowledgeBaseActivity extends BaseActivity {
     //endregion
 
     //region LifeCycle
+    @SuppressLint("SetJavaScriptEnabled")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setLayout(R.layout.kus_activity_knowledge_base, R.id.toolbar_main, null, true);
@@ -65,12 +67,8 @@ public class KUSKnowledgeBaseActivity extends BaseActivity {
             //setMixedContentMode() was made public in API 21. Use reflection to get it for older SDK
             try {
                 Method m = WebSettings.class.getMethod("setMixedContentMode", int.class);
-                if (m == null) {
-                    Log.e("WebSettings", "Error getting setMixedContentMode method");
-                } else {
-                    m.invoke(settings, 0); // 0 = MIXED_CONTENT_ALWAYS_ALLOW
-                    Log.i("WebSettings", "Successfully set MIXED_CONTENT_ALWAYS_ALLOW");
-                }
+                m.invoke(settings, 0); // 0 = MIXED_CONTENT_ALWAYS_ALLOW
+                Log.i("WebSettings", "Successfully set MIXED_CONTENT_ALWAYS_ALLOW");
             } catch (Exception ex) {
                 Log.e("WebSettings", "Error calling setMixedContentMode: " + ex.getMessage(), ex);
             }
@@ -89,21 +87,19 @@ public class KUSKnowledgeBaseActivity extends BaseActivity {
     //endregion
 
     //region Intializer
-    private void updateButtons(){
-        if(wvKnowledge.canGoBack()) {
+    private void updateButtons() {
+        if (wvKnowledge.canGoBack()) {
             backButton.setAlpha(1.0f);
             backButton.setClickable(true);
-        }
-        else {
+        } else {
             backButton.setAlpha(0.3f);
             backButton.setClickable(false);
         }
 
-        if(wvKnowledge.canGoForward()) {
+        if (wvKnowledge.canGoForward()) {
             forwardButton.setAlpha(1.0f);
             forwardButton.setClickable(true);
-        }
-        else {
+        } else {
             forwardButton.setAlpha(0.3f);
             forwardButton.setClickable(false);
         }
@@ -115,7 +111,7 @@ public class KUSKnowledgeBaseActivity extends BaseActivity {
         String url = getIntent().getStringExtra(KUSConstants.Keys.K_KUSTOMER_URL_KEY);
         if (url != null) {
             return url;
-        }else {
+        } else {
             KUSUserSession userSession = Kustomer.getSharedInstance().getUserSession();
             return String.format(Locale.getDefault(), "https://%s.kustomer.help/", userSession.getOrgName());
         }
@@ -124,17 +120,17 @@ public class KUSKnowledgeBaseActivity extends BaseActivity {
 
     //region Listener
     @OnClick(R2.id.flWebBack)
-    void onWebBackPressed(){
+    void onWebBackPressed() {
         wvKnowledge.goBack();
     }
 
     @OnClick(R2.id.flWebForward)
-    void onWebForwardPressed(){
+    void onWebForwardPressed() {
         wvKnowledge.goForward();
     }
 
     @OnClick(R2.id.flWebRefresh)
-    void onWebRefreshPressed(){
+    void onWebRefreshPressed() {
         wvKnowledge.reload();
     }
     //endregion
@@ -158,11 +154,10 @@ public class KUSKnowledgeBaseActivity extends BaseActivity {
         public void onPageFinished(WebView view, String url) {
             super.onPageFinished(view, url);
             progressBar.setVisibility(View.GONE);
-            getSupportActionBar().setSubtitle(url);
+            if (getSupportActionBar() != null)
+                getSupportActionBar().setSubtitle(url);
             updateButtons();
         }
     }
     //endregion
 }
-
-
