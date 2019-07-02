@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
@@ -304,7 +305,7 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
     }
 
     @Override
-    public void onAttachmentImageClicked(int position, List<String> imageURIs) {
+    public void onAttachmentImageClicked(int position, @NonNull List<String> imageURIs) {
         new KUSLargeImageViewer(getContext()).showImages(imageURIs, position);
     }
 

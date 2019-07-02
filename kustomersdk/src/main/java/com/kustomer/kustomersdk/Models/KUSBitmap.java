@@ -54,7 +54,7 @@ public class KUSBitmap {
         bitmapListeners.clear();
     }
 
-    private void notifyError(final OutOfMemoryError memoryError) {
+    private void notifyError(@NonNull final OutOfMemoryError memoryError) {
         for (KUSBitmapListener listener : bitmapListeners)
             listener.onMemoryError(memoryError);
         bitmapListeners.clear();
@@ -69,7 +69,7 @@ public class KUSBitmap {
         return uri;
     }
 
-    public void addListener(KUSBitmapListener listener) {
+    public void addListener(@NonNull KUSBitmapListener listener) {
         this.bitmapListeners.add(listener);
     }
 

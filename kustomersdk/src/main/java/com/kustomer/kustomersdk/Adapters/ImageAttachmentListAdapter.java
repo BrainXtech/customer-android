@@ -23,12 +23,14 @@ public class ImageAttachmentListAdapter extends RecyclerView.Adapter<RecyclerVie
         implements ImageAttachmentViewHolder.ImageAttachmentListener {
 
     //region Properties
+    @NonNull
     private List<KUSBitmap> imageBitmaps;
+    @NonNull
     private onItemClickListener mListener;
     //endregion
 
     //region LifeCycle
-    public ImageAttachmentListAdapter(onItemClickListener listener) {
+    public ImageAttachmentListAdapter(@NonNull onItemClickListener listener) {
         imageBitmaps = new ArrayList<>();
         mListener = listener;
     }
@@ -50,7 +52,7 @@ public class ImageAttachmentListAdapter extends RecyclerView.Adapter<RecyclerVie
         return imageBitmaps.size();
     }
 
-    public void attachImage(final KUSBitmap kusBitmap) {
+    public void attachImage(@NonNull final KUSBitmap kusBitmap) {
         imageBitmaps.add(kusBitmap);
 
         kusBitmap.addListener(new KUSBitmapListener() {
@@ -89,10 +91,12 @@ public class ImageAttachmentListAdapter extends RecyclerView.Adapter<RecyclerVie
         notifyDataSetChanged();
     }
 
+    @NonNull
     public List<KUSBitmap> getImageBitmaps() {
         return imageBitmaps;
     }
 
+    @NonNull
     private List<String> getImageUris() {
         List<String> imageUris = new ArrayList<>();
         for (KUSBitmap kusBitmap : imageBitmaps) {
@@ -122,7 +126,7 @@ public class ImageAttachmentListAdapter extends RecyclerView.Adapter<RecyclerVie
 
     //region Listener
     public interface onItemClickListener {
-        void onAttachmentImageClicked(int position, List<String> imageURIs);
+        void onAttachmentImageClicked(int position,@NonNull List<String> imageURIs);
 
         void onAttachmentImageRemoved();
     }

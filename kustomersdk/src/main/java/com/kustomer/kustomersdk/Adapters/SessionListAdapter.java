@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.Adapters;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -30,20 +31,23 @@ public class SessionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     private final int SESSION_VIEW_TYPE = 0;
     private final int DUMMY_VIEW_TYPE = 1;
 
-    private WeakReference<RecyclerView> recyclerViewWeakReference = null;
+    private WeakReference<RecyclerView> recyclerViewWeakReference;
     //endregion
 
     //region LifeCycle
-    public SessionListAdapter(RecyclerView recyclerView, KUSChatSessionsDataSource chatSessionsDataSource,
-                              KUSUserSession userSession, onItemClickListener listener) {
+    public SessionListAdapter(@NonNull RecyclerView recyclerView,
+                              @NonNull KUSChatSessionsDataSource chatSessionsDataSource,
+                              @NonNull KUSUserSession userSession,
+                              @NonNull onItemClickListener listener) {
         mChatSessionsDataSource = chatSessionsDataSource;
         mUserSession = userSession;
         mListener = listener;
         recyclerViewWeakReference = new WeakReference<>(recyclerView);
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
         if (viewType == SESSION_VIEW_TYPE)
             return new SessionViewHolder(LayoutInflater.from(parent.getContext())
@@ -71,7 +75,7 @@ public class SessionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
     }
 
     @Override
-    public void onViewDetachedFromWindow(RecyclerView.ViewHolder holder) {
+    public void onViewDetachedFromWindow(@NonNull RecyclerView.ViewHolder holder) {
         super.onViewDetachedFromWindow(holder);
 
         // No need to call onDetach for dummy items
@@ -96,15 +100,17 @@ public class SessionListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHo
 
     private void updateMinimumRowCount() {
 
-        float visibleRecyclerViewHeight = recyclerViewWeakReference.get().getHeight() - recyclerViewWeakReference.get().getPaddingBottom();
-        float rowCountThatFitsHeight = visibleRecyclerViewHeight / KUSUtils.dipToPixels(recyclerViewWeakReference.get().getContext(), 75);
+        float visibleRecyclerViewHeight =
+                recyclerViewWeakReference.get().getHeight() - recyclerViewWeakReference.get().getPaddingBottom();
+        float rowCountThatFitsHeight =
+                visibleRecyclerViewHeight / KUSUtils.dipToPixels(recyclerViewWeakReference.get().getContext(), 75);
         minimumRowCount = (int) Math.floor(rowCountThatFitsHeight);
     }
     //endregion
 
     //region Listener
     public interface onItemClickListener {
-        void onSessionItemClicked(KUSChatSession chatSession);
+        void onSessionItemClicked(@Nullable KUSChatSession chatSession);
     }
     //endregion
 }

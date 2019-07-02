@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.Adapters;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -8,15 +9,15 @@ import android.view.ViewGroup;
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.DataSources.KUSChatMessagesDataSource;
 import com.kustomer.kustomersdk.DataSources.KUSPaginatedDataSource;
-import com.kustomer.kustomersdk.Models.KUSCSatisfactionResponse;
 import com.kustomer.kustomersdk.Enums.KUSTypingStatus;
+import com.kustomer.kustomersdk.Models.KUSCSatisfactionResponse;
 import com.kustomer.kustomersdk.Models.KUSChatMessage;
 import com.kustomer.kustomersdk.Models.KUSChatSession;
 import com.kustomer.kustomersdk.Models.KUSTypingIndicator;
 import com.kustomer.kustomersdk.R;
 import com.kustomer.kustomersdk.ViewHolders.AgentMessageViewHolder;
-import com.kustomer.kustomersdk.ViewHolders.CSatisfactionFormViewHolder;
 import com.kustomer.kustomersdk.ViewHolders.AgentTypingViewHolder;
+import com.kustomer.kustomersdk.ViewHolders.CSatisfactionFormViewHolder;
 import com.kustomer.kustomersdk.ViewHolders.DummyViewHolder;
 import com.kustomer.kustomersdk.ViewHolders.UserMessageViewHolder;
 
@@ -36,20 +37,25 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     private static final int TYPING_VIEW = 3;
     private static final int SATISFACTION_FORM_VIEW = 4;
 
+    @NonNull
     private KUSPaginatedDataSource mPaginatedDataSource;
+    @NonNull
     private KUSUserSession mUserSession;
+    @NonNull
     private KUSChatMessagesDataSource mChatMessagesDataSource;
+    @NonNull
     private ChatMessageItemListener mListener;
+    @Nullable
     private KUSTypingIndicator typingIndicator;
 
     private boolean isSatisfactionFormEditing;
     //endregion
 
     //region LifeCycle
-    public MessageListAdapter(KUSPaginatedDataSource paginatedDataSource,
-                              KUSUserSession userSession,
-                              KUSChatMessagesDataSource chatMessagesDataSource,
-                              ChatMessageItemListener listener) {
+    public MessageListAdapter(@NonNull KUSPaginatedDataSource paginatedDataSource,
+                              @NonNull KUSUserSession userSession,
+                              @NonNull KUSChatMessagesDataSource chatMessagesDataSource,
+                              @NonNull ChatMessageItemListener listener) {
         mPaginatedDataSource = paginatedDataSource;
         mUserSession = userSession;
         mChatMessagesDataSource = chatMessagesDataSource;
@@ -95,7 +101,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         if (holder.getItemViewType() == SATISFACTION_FORM_VIEW) {
             KUSCSatisfactionResponse response = null;
 
-            if( mChatMessagesDataSource.getSatisfactionResponseDataSource() != null)
+            if (mChatMessagesDataSource.getSatisfactionResponseDataSource() != null)
                 response = (KUSCSatisfactionResponse) mChatMessagesDataSource
                         .getSatisfactionResponseDataSource().getObject();
 
@@ -189,12 +195,8 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     //region public Methods
 
-    public void setTypingIndicator(KUSTypingIndicator typingIndicator) {
+    public void setTypingIndicator(@Nullable KUSTypingIndicator typingIndicator) {
         this.typingIndicator = typingIndicator;
-    }
-
-    public KUSTypingIndicator getTypingIndicator() {
-        return typingIndicator;
     }
 
     //endregion
@@ -228,9 +230,9 @@ public class MessageListAdapter extends RecyclerView.Adapter {
 
     //region Interface
     public interface ChatMessageItemListener {
-        void onChatMessageImageClicked(KUSChatMessage chatMessage);
+        void onChatMessageImageClicked(@Nullable KUSChatMessage chatMessage);
 
-        void onChatMessageErrorClicked(KUSChatMessage chatMessage);
+        void onChatMessageErrorClicked(@Nullable KUSChatMessage chatMessage);
 
         void onSatisfactionFormRated(int rating);
 

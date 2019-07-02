@@ -674,6 +674,9 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     private void setupAdapter() {
+        if (chatMessagesDataSource == null || userSession == null)
+            return;
+
         adapter = new MessageListAdapter(chatMessagesDataSource, userSession, chatMessagesDataSource,
                 this);
         rvMessages.setAdapter(adapter);
@@ -1168,7 +1171,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     @Override
-    public void onChatMessageImageClicked(KUSChatMessage chatMessage) {
+    public void onChatMessageImageClicked(@Nullable KUSChatMessage chatMessage) {
         int startingIndex = 0;
 
         List<String> imageURIs = new ArrayList<>();
@@ -1185,7 +1188,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             }
         }
 
-        if (chatMessage.getImageUrl() != null) {
+        if (chatMessage != null && chatMessage.getImageUrl() != null) {
             startingIndex = imageURIs.indexOf(chatMessage.getImageUrl().toString());
         }
 
@@ -1193,7 +1196,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     @Override
-    public void onChatMessageErrorClicked(final KUSChatMessage chatMessage) {
+    public void onChatMessageErrorClicked(@Nullable final KUSChatMessage chatMessage) {
         new Thread(new Runnable() {
             @Override
             public void run() {

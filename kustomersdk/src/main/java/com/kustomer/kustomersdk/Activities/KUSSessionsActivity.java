@@ -152,6 +152,9 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     }
 
     private void setupAdapter() {
+        if (chatSessionsDataSource == null || userSession == null)
+            return;
+
         adapter = new SessionListAdapter(rvSessions, chatSessionsDataSource, userSession, this);
         rvSessions.setAdapter(adapter);
 
@@ -313,7 +316,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     }
 
     @Override
-    public void onSessionItemClicked(KUSChatSession chatSession) {
+    public void onSessionItemClicked(@Nullable KUSChatSession chatSession) {
         Intent intent = new Intent(this, KUSChatActivity.class);
         intent.putExtra(KUSConstants.BundleName.CHAT_SESSION_BUNDLE_KEY, chatSession);
         startActivity(intent);

@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.Adapters;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
@@ -19,42 +20,47 @@ import java.util.List;
 public class KUSMLSelectedValueListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     //region Properties
+    @NonNull
     private List<KUSMLNode> selectedValuesStack;
+    @NonNull
     private KUSSelectedValueViewHolder.onItemClickListener mListener;
+    @NonNull
     private Context context;
     //endregion
 
     //region LifeCycle
-    public KUSMLSelectedValueListAdapter(Context context, KUSSelectedValueViewHolder.onItemClickListener listener) {
+    public KUSMLSelectedValueListAdapter(@NonNull Context context,
+                                         @NonNull KUSSelectedValueViewHolder.onItemClickListener listener) {
         selectedValuesStack = new ArrayList<>();
         mListener = listener;
         this.context = context;
     }
 
+    @NonNull
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new KUSSelectedValueViewHolder(LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.kus_ml_selected_value_view_holder, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        if(selectedValuesStack.size() == 0){
-            ((KUSSelectedValueViewHolder) holder).onBind( position,
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        if (selectedValuesStack.size() == 0) {
+            ((KUSSelectedValueViewHolder) holder).onBind(position,
                     context.getResources().getString(R.string.com_kustomer_please_select_an_item),
-                    true,false, mListener);
-        }else{
+                    true, false, mListener);
+        } else {
             boolean isFirst = position == 0;
             boolean isLast = position == selectedValuesStack.size();
 
-            if(isFirst){
+            if (isFirst) {
                 ((KUSSelectedValueViewHolder) holder).onBind(position,
                         context.getString(R.string.com_kustomer_home),
-                        true,false, mListener);
-            }else{
+                        true, false, mListener);
+            } else {
                 ((KUSSelectedValueViewHolder) holder).onBind(position,
-                        selectedValuesStack.get(position-1).getDisplayName(),
-                        false,isLast, mListener);
+                        selectedValuesStack.get(position - 1).getDisplayName(),
+                        false, isLast, mListener);
             }
         }
     }
@@ -66,7 +72,7 @@ public class KUSMLSelectedValueListAdapter extends RecyclerView.Adapter<Recycler
     //endregion
 
     //region Public methods
-    public void setSelectedValuesStack(List<KUSMLNode> selectedValuesStack){
+    public void setSelectedValuesStack(@NonNull List<KUSMLNode> selectedValuesStack) {
         this.selectedValuesStack = selectedValuesStack;
     }
     //endregion
