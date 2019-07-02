@@ -255,6 +255,8 @@ public class KUSCSatisfactionFormViewHolder extends RecyclerView.ViewHolder {
         String comment = etCSatComment.getText().toString();
         mListener.onSatisfactionFormCommented(comment);
         etCSatComment.setText("");
+        etCSatComment.clearFocus();
+        KUSUtils.hideKeyboard(etCSatComment);
     }
 
     @OnClick(R2.id.ivRating1)
