@@ -44,18 +44,25 @@ import java.util.regex.Pattern;
 public class KUSLargeImageViewer implements View.OnClickListener {
 
     //region Properties
+    @Nullable
     private View header;
+    @Nullable
     private ImageView ivClose;
+    @Nullable
     private ImageView ivShare;
+    @Nullable
     private TextView tvheader;
+    @Nullable
     private BxImageViewer imageViewer;
 
+    @NonNull
     private Context mContext;
+    @Nullable
     private String currentImageLink;
     //endregion
 
     //region LifeCycle
-    public KUSLargeImageViewer(Context context) {
+    public KUSLargeImageViewer(@NonNull Context context) {
         mContext = context;
 
         LayoutInflater layoutInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -69,12 +76,15 @@ public class KUSLargeImageViewer implements View.OnClickListener {
         ivShare = header.findViewById(R.id.ivShare);
         tvheader = header.findViewById(R.id.tvHeader);
 
-        ivClose.setOnClickListener(this);
-        ivShare.setOnClickListener(this);
+        if (ivClose != null)
+            ivClose.setOnClickListener(this);
+
+        if (ivShare != null)
+            ivShare.setOnClickListener(this);
     }
     //endregion
 
-    public void showImages(final List<String> imageURIs, int startingIndex) {
+    public void showImages(@NonNull final List<String> imageURIs, int startingIndex) {
 
         currentImageLink = imageURIs.get(startingIndex);
 
@@ -83,7 +93,9 @@ public class KUSLargeImageViewer implements View.OnClickListener {
                 .setImageChangeListener(new BxImageViewer.OnImageChangeListener() {
                     @Override
                     public void onImageChanged(int position) {
-                        tvheader.setText(String.format(Locale.getDefault(), "%d/%d", position + 1, imageURIs.size()));
+                        if (tvheader != null)
+                            tvheader.setText(String.format(Locale.getDefault(),
+                                    "%d/%d", position + 1, imageURIs.size()));
                         currentImageLink = imageURIs.get(position);
                     }
                 })
@@ -135,14 +147,13 @@ public class KUSLargeImageViewer implements View.OnClickListener {
                                 String path = saveBitmap(resource);
                                 shareImage(path);
                             }
-
                         }
                     });
         }
-
     }
 
-    private String saveBitmap(Bitmap resource) {
+    @Nullable
+    private String saveBitmap(@NonNull Bitmap resource) {
         String bitmapPath = null;
         try {
             File file = createImageFile();
@@ -157,25 +168,27 @@ public class KUSLargeImageViewer implements View.OnClickListener {
         return bitmapPath;
     }
 
-    private void shareImage(String imagePath) {
-        if (imagePath != null) {
-            imagePath = imagePath.replaceFirst("file://", "");
-            Uri bitmapUri = KUSUtils.getUriFromFile(mContext, new File(imagePath));
+    private void shareImage(@Nullable String imagePath) {
+        if (imagePath == null)
+            return;
 
-            if (bitmapUri != null) {
-                Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType("image/png");
-                intent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
-                mContext.startActivity(Intent.createChooser(intent,
-                        mContext.getResources().getString(R.string.com_kustomer_share_via)));
-            } else {
-                Toast.makeText(Kustomer.getContext(),
-                        Kustomer.getContext().getString(R.string.com_kustomer_unable_to_share_file),
-                        Toast.LENGTH_SHORT).show();
-            }
+        imagePath = imagePath.replaceFirst("file://", "");
+        Uri bitmapUri = KUSUtils.getUriFromFile(mContext, new File(imagePath));
+
+        if (bitmapUri != null) {
+            Intent intent = new Intent(Intent.ACTION_SEND);
+            intent.setType("image/png");
+            intent.putExtra(Intent.EXTRA_STREAM, bitmapUri);
+            mContext.startActivity(Intent.createChooser(intent,
+                    mContext.getResources().getString(R.string.com_kustomer_share_via)));
+        } else {
+            Toast.makeText(Kustomer.getContext(),
+                    Kustomer.getContext().getString(R.string.com_kustomer_unable_to_share_file),
+                    Toast.LENGTH_SHORT).show();
         }
     }
 
+    @NonNull
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());

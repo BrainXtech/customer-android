@@ -34,6 +34,7 @@ import com.kustomer.kustomersdk.R;
 import com.kustomer.kustomersdk.R2;
 import com.kustomer.kustomersdk.Utils.KUSUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -59,10 +60,14 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
     @Nullable
     KUSInputBarTextChangeListener textChangeListener;
 
+    @Nullable
     KUSInputBarViewListener listener;
+    @Nullable
     ImageAttachmentListAdapter adapter;
-    KUSUserSession userSession;
+    @Nullable
+    KUSUserSession mUserSession;
 
+    @Nullable
     Handler handler;
 
     private int imageProcessingCount = 0;
@@ -70,20 +75,20 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
     //endregion
 
     //region LifeCycle
-    public KUSInputBarView(Context context) {
+    public KUSInputBarView(@NonNull Context context) {
         super(context);
     }
 
-    public KUSInputBarView(Context context, @Nullable AttributeSet attrs) {
+    public KUSInputBarView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public KUSInputBarView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public KUSInputBarView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public KUSInputBarView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public KUSInputBarView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -139,7 +144,7 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
     }
 
     private void updatePlaceHolder() {
-        if (userSession != null && !userSession.getScheduleDataSource().isActiveBusinessHours()) {
+        if (mUserSession != null && !mUserSession.getScheduleDataSource().isActiveBusinessHours()) {
             etTypeMessage.setHint(String.format("%s%s",
                     getResources().getString(R.string.com_kustomer_leave_a_message), "…"));
         } else {
@@ -155,14 +160,16 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
     //endregion
 
     //region Public Methods
-    public void initWithUserSession(KUSUserSession userSession) {
-        this.userSession = userSession;
-        this.userSession.getChatSettingsDataSource().addListener(this);
-        this.userSession.getScheduleDataSource().addListener(this);
+    public void initWithUserSession(@Nullable KUSUserSession userSession) {
+        this.mUserSession = userSession;
+        if (userSession != null) {
+            userSession.getChatSettingsDataSource().addListener(this);
+            userSession.getScheduleDataSource().addListener(this);
+        }
         updatePlaceHolder();
     }
 
-    public void setListener(KUSInputBarViewListener listener) {
+    public void setListener(@Nullable KUSInputBarViewListener listener) {
         this.listener = listener;
     }
 
@@ -170,10 +177,11 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
         textChangeListener = listener;
     }
 
-    public void setText(String text) {
+    public void setText(@NonNull String text) {
         etTypeMessage.setText(text.trim());
     }
 
+    @NonNull
     public String getText() {
         return etTypeMessage.getText().toString().trim();
     }
@@ -190,11 +198,15 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
     }
 
     public void removeAllAttachments() {
-        adapter.removeAll();
+        if (adapter != null)
+            adapter.removeAll();
         updateSendButton();
     }
 
-    public void attachImage(String imageUri, final MemoryListener memoryListener) {
+    public void attachImage(@NonNull String imageUri, @NonNull final MemoryListener memoryListener) {
+        if (adapter == null)
+            return;
+
         imageProcessingCount++;
         updateSendButton();
 
@@ -230,8 +242,11 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
         rvImageAttachment.scrollToPosition(adapter.getItemCount() - 1);
     }
 
+    @NonNull
     public List<KUSBitmap> getKUSBitmapList() {
-        return adapter.getImageBitmaps();
+        return adapter != null ?
+                adapter.getImageBitmaps()
+                : new ArrayList<KUSBitmap>();
     }
 
     public void requestInputFocus() {
@@ -311,7 +326,7 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
 
     @Override
     public void onAttachmentImageRemoved() {
-        if (adapter.getItemCount() == 0)
+        if (adapter == null || adapter.getItemCount() == 0)
             rvImageAttachment.setVisibility(GONE);
         updateSendButton();
     }

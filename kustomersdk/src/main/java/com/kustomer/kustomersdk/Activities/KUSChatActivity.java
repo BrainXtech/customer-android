@@ -780,7 +780,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         return (settings != null && settings.getSingleSessionChat() && (openChats - proactiveChats) >= 1);
     }
 
-    private void attachImage(String path) {
+    private void attachImage(@NonNull String path) {
         kusInputBarView.attachImage(path, new KUSInputBarView.MemoryListener() {
             @Override
             public void onOutOfMemoryError(OutOfMemoryError error) {

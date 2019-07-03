@@ -42,12 +42,17 @@ import java.net.URL;
 public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSourceListener {
 
     //region Properties
+    @Nullable
     private String userId;
 
+    @Nullable
     private KUSUserSession userSession;
+    @Nullable
     private KUSUserDataSource userDataSource;
 
+    @Nullable
     ImageView staticImageView;
+    @Nullable
     ImageView remoteImageView;
 
     int strokeWidth = 0;
@@ -78,27 +83,27 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        if(userSession != null && userSession.getChatSettingsDataSource() != null)
+        if (userSession != null && userSession.getChatSettingsDataSource() != null)
             userSession.getChatSettingsDataSource().removeListener(this);
 
-        if(userDataSource != null)
+        if (userDataSource != null)
             userDataSource.removeListener(this);
     }
 
     //endregion
 
     //region Public Methods
-    public void initWithUserSession(KUSUserSession userSession){
+    public void initWithUserSession(@NonNull KUSUserSession userSession) {
         this.userSession = userSession;
         userSession.getChatSettingsDataSource().addListener(this);
 
         staticImageView = new ImageView(getContext());
         staticImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        LayoutParams params1 = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+        LayoutParams params1 = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
         //default Margin in case there is no stroke around the image.
-        if(strokeWidth == 0)
-            params1.setMargins(1,1,1,1);
+        if (strokeWidth == 0)
+            params1.setMargins(1, 1, 1, 1);
 
         staticImageView.setLayoutParams(params1);
         staticImageView.setVisibility(INVISIBLE);
@@ -106,9 +111,9 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
 
         remoteImageView = new ImageView(getContext());
         remoteImageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
-        LayoutParams params2 = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT);
+        LayoutParams params2 = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
-        if(strokeWidth > 0)
+        if (strokeWidth > 0)
             //noinspection SuspiciousNameCombination
             params2.setMargins(strokeWidth, strokeWidth, strokeWidth, strokeWidth);
 
@@ -118,62 +123,69 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
         updateAvatarImage();
     }
 
-    public void setUserId(String userId){
-        if(this.userId != null && this.userId.equals(userId))
+    public void setUserId(@Nullable String userId) {
+        if (this.userId != null && this.userId.equals(userId))
             return;
 
-        if(userDataSource != null)
+        if (userDataSource != null)
             userDataSource.removeListener(this);
 
         this.userId = userId;
-        this.userDataSource = userSession.userDataSourceForUserId(userId);
+        if (userSession != null)
+            this.userDataSource = userSession.userDataSourceForUserId(userId);
 
-        if(userDataSource != null)
+        if (userDataSource != null)
             userDataSource.addListener(this);
 
         updateAvatarImage();
     }
 
-    public void setStrokeWidth(int dp){
-        strokeWidth = (int) KUSUtils.dipToPixels(getContext(),dp);
+    public void setStrokeWidth(int dp) {
+        strokeWidth = (int) KUSUtils.dipToPixels(getContext(), dp);
     }
 
-    public void setFontSize (int fontSize){
+    public void setFontSize(int fontSize) {
         this.fontSize = fontSize;
     }
 
-    public void setDrawableSize (int dp){
+    public void setDrawableSize(int dp) {
         drawableSize = dp;
     }
     //endregion
 
     //region Private Methods
-    private void updateAvatarImage(){
+    private void updateAvatarImage() {
         try {
             TypedValue typedValue = new TypedValue();
             getContext().getTheme().resolveAttribute(R.attr.kus_company_image, typedValue, true);
             int drawableRes = typedValue.resourceId;
 
-            Drawable companyAvatarImage = null;
+            Drawable companyAvatarImage;
 
             companyAvatarImage = getContext().getResources().getDrawable(drawableRes);
-            if(this.userId == null && companyAvatarImage != null){
-                staticImageView.setImageDrawable(companyAvatarImage);
+            if (this.userId == null && companyAvatarImage != null) {
+                if (staticImageView != null)
+                    staticImageView.setImageDrawable(companyAvatarImage);
                 return;
             }
 
-        } catch (Exception e) {}
+        } catch (Exception ignored) {
+        }
 
         KUSUser user = null;
-        if(userDataSource != null) {
+        if (userDataSource != null) {
             user = (KUSUser) userDataSource.getObject();
             if (user == null && !userDataSource.isFetching()) {
                 userDataSource.fetch();
             }
         }
 
-        KUSChatSettings chatSettings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
-        if(userSession.getChatSettingsDataSource() != null && chatSettings == null && !this.userSession.getChatSettingsDataSource().isFetching()){
+        KUSChatSettings chatSettings = userSession != null ?
+                (KUSChatSettings) userSession.getChatSettingsDataSource().getObject()
+                : null;
+        if (userSession != null
+                && chatSettings == null
+                && !this.userSession.getChatSettingsDataSource().isFetching()) {
             userSession.getChatSettingsDataSource().fetch();
         }
 
@@ -183,22 +195,23 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
             name = user.getDisplayName();
         else if (chatSettings != null && chatSettings.getTeamName() != null)
             name = chatSettings.getTeamName();
-        else if (userSession.getOrganizationName() != null)
+        else if (userSession != null && userSession.getOrganizationName() != null)
             name = userSession.getOrganizationName();
 
         Bitmap placeHolderImage = KUSImage.defaultAvatarBitmapForName(getContext(),
-                new KSize((int)KUSUtils.dipToPixels(getContext(),drawableSize),
-                        (int)KUSUtils.dipToPixels(getContext(),drawableSize)),
+                new KSize((int) KUSUtils.dipToPixels(getContext(), drawableSize),
+                        (int) KUSUtils.dipToPixels(getContext(), drawableSize)),
                 name,
                 strokeWidth,
                 fontSize);
 
-        staticImageView.setImageBitmap(placeHolderImage);
+        if (staticImageView != null)
+            staticImageView.setImageBitmap(placeHolderImage);
 
-        if(chatSettings != null) {
+        if (chatSettings != null) {
             URL iconURL = user != null && user.getAvatarURL() != null ? user.getAvatarURL() : chatSettings.getTeamIconURL();
 
-            if(iconURL != null) {
+            if (iconURL != null) {
                 try {
                     Glide.with(getContext())
                             .load(iconURL.toString())
@@ -220,15 +233,15 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
                                 @Override
                                 public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
                                     staticImageView.setVisibility(VISIBLE);
-                                    remoteImageView.setImageDrawable(resource);
+                                    if (remoteImageView != null)
+                                        remoteImageView.setImageDrawable(resource);
                                 }
                             });
 
                 } catch (IllegalArgumentException ignore) {
                     staticImageView.setVisibility(VISIBLE);
                 }
-            }
-            else{
+            } else {
                 staticImageView.setVisibility(VISIBLE);
             }
 
@@ -240,7 +253,7 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
     @Override
     public void objectDataSourceOnLoad(final KUSObjectDataSource dataSource) {
 
-        if(dataSource == userSession.getChatSettingsDataSource()){
+        if (userSession != null && dataSource == userSession.getChatSettingsDataSource()) {
             Handler handler = new Handler(Looper.getMainLooper());
             Runnable runnable = new Runnable() {
                 @Override
@@ -249,7 +262,7 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
                 }
             };
             handler.post(runnable);
-        }else if(dataSource == userDataSource){
+        } else if (dataSource == userDataSource) {
             Handler handler = new Handler(Looper.getMainLooper());
             Runnable runnable = new Runnable() {
                 @Override

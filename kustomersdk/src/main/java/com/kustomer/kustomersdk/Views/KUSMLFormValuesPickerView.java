@@ -2,6 +2,7 @@ package com.kustomer.kustomersdk.Views;
 
 import android.content.Context;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.widget.LinearLayoutManager;
@@ -23,7 +24,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOptionPickerViewListener, KUSSelectedValueViewHolder.onItemClickListener {
+public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOptionPickerViewListener,
+        KUSSelectedValueViewHolder.onItemClickListener {
+
     //region Properties
     @BindView(R2.id.mlFormOptionPicker)
     KUSOptionsPickerView optionsPickerView;
@@ -32,31 +35,37 @@ public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOption
     @BindView(R2.id.rvMlSelectedValues)
     RecyclerView rvMlSelectedValues;
 
+    @Nullable
     private ArrayList<KUSMLNode> valuesTree;
+    @Nullable
     private ArrayList<KUSMLNode> currentOptionsToShow;
+    @Nullable
     private ArrayList<KUSMLNode> selectedValuesStack;
+    @Nullable
     private ArrayList<String> currentOptionsValues;
 
     private boolean isLastNodeRequired;
+    @Nullable
     private KUSMLSelectedValueListAdapter adapter;
+    @Nullable
     private KUSMLFormValuesPickerViewListener listener;
     //endregion
 
     //region LifeCycle
-    public KUSMLFormValuesPickerView(Context context) {
+    public KUSMLFormValuesPickerView(@NonNull Context context) {
         super(context);
     }
 
-    public KUSMLFormValuesPickerView(Context context, @Nullable AttributeSet attrs) {
+    public KUSMLFormValuesPickerView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public KUSMLFormValuesPickerView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public KUSMLFormValuesPickerView(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    public KUSMLFormValuesPickerView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+    public KUSMLFormValuesPickerView(@NonNull Context context,@Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
@@ -71,11 +80,11 @@ public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOption
     //endregion
 
     //region Public Methods
-    public void setOptionPickerMaxHeight(int px){
+    public void setOptionPickerMaxHeight(int px) {
         optionsPickerView.setMaxHeight(px);
     }
 
-    public void setMlFormValues(ArrayList<KUSMLNode> valuesTree, boolean isLastNodeRequired){
+    public void setMlFormValues(@NonNull ArrayList<KUSMLNode> valuesTree, boolean isLastNodeRequired) {
         this.valuesTree = new ArrayList<>(valuesTree);
         this.currentOptionsToShow = new ArrayList<>(valuesTree);
         selectedValuesStack = new ArrayList<>();
@@ -83,25 +92,25 @@ public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOption
         showCurrentOptionsAndUpdateView();
     }
 
-    public void setListener(KUSMLFormValuesPickerViewListener listener){
+    public void setListener(@Nullable KUSMLFormValuesPickerViewListener listener) {
         this.listener = listener;
     }
     //endregion
 
     //region Private Methods
     private void setupAdapter() {
-        adapter = new KUSMLSelectedValueListAdapter(getContext(),this);
+        adapter = new KUSMLSelectedValueListAdapter(getContext(), this);
         rvMlSelectedValues.setAdapter(adapter);
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
         rvMlSelectedValues.setLayoutManager(layoutManager);
     }
 
-    private void updateSendButton(){
+    private void updateSendButton() {
 
         boolean shouldEnableSend = false;
 
-        if(selectedValuesStack.size() != 0) {
+        if (selectedValuesStack != null && selectedValuesStack.size() != 0) {
             shouldEnableSend = !isLastNodeRequired
                     || selectedValuesStack.get(selectedValuesStack.size() - 1).getChildNodes().size() == 0;
         }
@@ -110,10 +119,10 @@ public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOption
         btnSendMessage.setAlpha(shouldEnableSend ? 1.0f : 0.5f);
     }
 
-    private void showCurrentOptionsAndUpdateView(){
-        if(currentOptionsToShow.size() == 0){
+    private void showCurrentOptionsAndUpdateView() {
+        if (currentOptionsToShow == null || currentOptionsToShow.size() == 0) {
             optionsPickerView.setVisibility(GONE);
-        }else{
+        } else {
             optionsPickerView.setVisibility(VISIBLE);
             currentOptionsValues = new ArrayList<>(currentOptionsToShow.size());
 
@@ -125,10 +134,12 @@ public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOption
         }
 
         updateSendButton();
-        adapter.setSelectedValuesStack(selectedValuesStack);
-        adapter.notifyDataSetChanged();
+        if (adapter != null && selectedValuesStack != null) {
+            adapter.setSelectedValuesStack(selectedValuesStack);
+            adapter.notifyDataSetChanged();
+        }
 
-        if(selectedValuesStack.size() > 0) {
+        if (selectedValuesStack != null && selectedValuesStack.size() > 0) {
             rvMlSelectedValues.smoothScrollToPosition(selectedValuesStack.size());
         }
     }
@@ -137,10 +148,10 @@ public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOption
     //region Listeners
     @OnClick(R2.id.btnSendMessage)
     void sendPressed() {
-        if(listener != null){
+        if (listener != null && selectedValuesStack != null) {
             listener.mlFormValueSelected(
-                    selectedValuesStack.get(selectedValuesStack.size()-1).getDisplayName(),
-                    selectedValuesStack.get(selectedValuesStack.size()-1).getNodeId());
+                    selectedValuesStack.get(selectedValuesStack.size() - 1).getDisplayName(),
+                    selectedValuesStack.get(selectedValuesStack.size() - 1).getNodeId());
         }
     }
     //endregion
@@ -150,14 +161,18 @@ public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOption
     public void optionPickerOnOptionSelected(String option) {
         int optionIndex = optionsPickerView.getOptions().indexOf(option);
 
-        if(optionIndex != -1 && optionIndex < currentOptionsToShow.size()){
-            selectedValuesStack.add(currentOptionsToShow.get(optionIndex));
+        if (currentOptionsToShow != null && selectedValuesStack != null) {
+            if (optionIndex != -1 && optionIndex < currentOptionsToShow.size()) {
+                selectedValuesStack.add(currentOptionsToShow.get(optionIndex));
+            }
         }
 
-        currentOptionsToShow.clear();
-        if(selectedValuesStack.size() > 0
-                && selectedValuesStack.get(selectedValuesStack.size() - 1).getChildNodes().size() > 0){
-            currentOptionsToShow = new ArrayList<>(selectedValuesStack.get(selectedValuesStack.size()-1)
+        if (currentOptionsToShow != null)
+            currentOptionsToShow.clear();
+
+        if (selectedValuesStack != null && selectedValuesStack.size() > 0
+                && selectedValuesStack.get(selectedValuesStack.size() - 1).getChildNodes().size() > 0) {
+            currentOptionsToShow = new ArrayList<>(selectedValuesStack.get(selectedValuesStack.size() - 1)
                     .getChildNodes());
         }
 
@@ -167,15 +182,16 @@ public class KUSMLFormValuesPickerView extends LinearLayout implements KUSOption
 
     @Override
     public void onSelectedValueClicked(int position) {
-        if(selectedValuesStack.size() == 0) return;
+        if (selectedValuesStack == null || selectedValuesStack.size() == 0) return;
 
         selectedValuesStack = new ArrayList<>(selectedValuesStack.subList(0,
                 position));
 
-        if(position == 0){
-            currentOptionsToShow = new ArrayList<>(valuesTree);
-        }else {
-            currentOptionsToShow = new ArrayList<>(selectedValuesStack.get(position-1).getChildNodes());
+        if (position == 0) {
+            if (valuesTree != null)
+                currentOptionsToShow = new ArrayList<>(valuesTree);
+        } else {
+            currentOptionsToShow = new ArrayList<>(selectedValuesStack.get(position - 1).getChildNodes());
         }
 
         showCurrentOptionsAndUpdateView();
