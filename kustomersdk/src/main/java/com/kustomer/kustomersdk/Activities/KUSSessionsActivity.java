@@ -170,7 +170,8 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     private void setCreateSessionBackToChatButton() {
         if (isBackToChatButton()) {
             btnNewConversation.setText(R.string.com_kustomer_back_to_chat);
-            btnNewConversation.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            btnNewConversation.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                    null, null);
         } else {
 
             if (userSession != null && userSession.getScheduleDataSource().isActiveBusinessHours()) {
@@ -186,9 +187,11 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
 
             Drawable drawable = getResources().getDrawable(attributeResourceId);
             if (KUSLocalization.getSharedInstance().isLTR())
-                btnNewConversation.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+                btnNewConversation.setCompoundDrawablesWithIntrinsicBounds(drawable, null,
+                        null, null);
             else
-                btnNewConversation.setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+                btnNewConversation.setCompoundDrawablesWithIntrinsicBounds(null, null,
+                        drawable, null);
         }
     }
 

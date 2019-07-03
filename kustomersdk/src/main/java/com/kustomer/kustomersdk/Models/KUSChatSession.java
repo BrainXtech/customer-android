@@ -162,9 +162,9 @@ public class KUSChatSession extends KUSModel implements Serializable {
     //endregion
 
     //region Accessors
-    @Nullable
+    @NonNull
     public String getPreview() {
-        return preview;
+        return preview!=null? preview : "";
     }
 
     public void setPreview(@Nullable String preview) {

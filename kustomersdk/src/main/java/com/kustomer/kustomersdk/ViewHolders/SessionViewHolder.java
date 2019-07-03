@@ -169,7 +169,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
         String subtitleText = null;
         if (latestTextMessage != null) {
             subtitleText = latestTextMessage.getBody().isEmpty() ?
-                    latestTextMessage.getBody() : mChatSession.getPreview();
+                    mChatSession.getPreview() : latestTextMessage.getBody();
         }
 
         if (subtitleText != null) {
@@ -265,7 +265,8 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     }
 
     @Override
-    public void onReceiveTypingUpdate(@NonNull KUSChatMessagesDataSource source, @Nullable KUSTypingIndicator typingIndicator) {
+    public void onReceiveTypingUpdate(@NonNull KUSChatMessagesDataSource source,
+                                      @Nullable KUSTypingIndicator typingIndicator) {
         //No need to do anything here
     }
 

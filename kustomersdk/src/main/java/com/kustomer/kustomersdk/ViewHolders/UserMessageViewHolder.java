@@ -145,7 +145,8 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
                     .error(R.drawable.kus_ic_error_outline_red_33dp)
                     .listener(new RequestListener<Drawable>() {
                         @Override
-                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                    Target<Drawable> target, boolean isFirstResource) {
                             imageLoadedSuccessfully = false;
                             ivAttachmentImage.setScaleType(ImageView.ScaleType.CENTER);
                             progressBarImage.setVisibility(View.GONE);
@@ -153,7 +154,9 @@ public class UserMessageViewHolder extends RecyclerView.ViewHolder {
                         }
 
                         @Override
-                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        public boolean onResourceReady(Drawable resource, Object model,
+                                                       Target<Drawable> target, DataSource dataSource,
+                                                       boolean isFirstResource) {
                             imageLoadedSuccessfully = true;
                             ivAttachmentImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
                             progressBarImage.setVisibility(View.GONE);

@@ -279,7 +279,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         } else if (requestCode == GALLERY_INTENT && resultCode == RESULT_OK) {
             if (data != null) {
                 String photoUri = data.getDataString();
-                attachImage(photoUri);
+                if (photoUri != null)
+                    attachImage(photoUri);
             }
         }
     }
@@ -433,8 +434,9 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
     @Nullable
     private String getValidChatSessionId() {
-        return chatSessionId == null ||
-                chatSessionId.equals(KUSConstants.ChatSession.TEMP_SESSION_ID) ? null : chatSessionId;
+        return chatSessionId == null || chatSessionId.equals(KUSConstants.ChatSession.TEMP_SESSION_ID)
+                ? null
+                : chatSessionId;
     }
 
     private void checkShouldShowCloseChatButtonView() {
@@ -729,6 +731,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         }
     }
 
+    @NonNull
     private File createImageFile() throws IOException {
         // Create an image file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());

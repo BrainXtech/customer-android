@@ -141,46 +141,47 @@ public class KUSNotificationWindow {
                 FONT_SIZE);
 
 
-        if (chatSettings != null) {
-            URL iconURL = user != null && user.getAvatarURL() != null ? user.getAvatarURL() : chatSettings.getTeamIconURL();
+        if (chatSettings == null)
+            return;
 
-            if (iconURL != null) {
-                try {
-                    Glide.with(mContext)
-                            .asBitmap()
-                            .load(iconURL.toString())
-                            .circleCrop()
-                            .dontAnimate()
-                            .listener(new RequestListener<Bitmap>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model,
-                                                            Target<Bitmap> target, boolean isFirstResource) {
-                                    displayNotification(placeHolderImage, shouldAutoDismiss);
-                                    return false;
-                                }
+        URL iconURL = user != null && user.getAvatarURL() != null ? user.getAvatarURL() : chatSettings.getTeamIconURL();
 
-                                @Override
-                                public boolean onResourceReady(Bitmap resource, Object model,
-                                                               Target<Bitmap> target, DataSource dataSource,
-                                                               boolean isFirstResource) {
-                                    displayNotification(resource, shouldAutoDismiss);
-                                    return false;
-                                }
-                            })
-                            .into(new SimpleTarget<Bitmap>() {
-                                @Override
-                                public void onResourceReady(@NonNull Bitmap resource,
-                                                            @Nullable Transition<? super Bitmap> transition) {
+        if (iconURL != null) {
+            try {
+                Glide.with(mContext)
+                        .asBitmap()
+                        .load(iconURL.toString())
+                        .circleCrop()
+                        .dontAnimate()
+                        .listener(new RequestListener<Bitmap>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                        Target<Bitmap> target, boolean isFirstResource) {
+                                displayNotification(placeHolderImage, shouldAutoDismiss);
+                                return false;
+                            }
 
-                                }
-                            });
+                            @Override
+                            public boolean onResourceReady(Bitmap resource, Object model,
+                                                           Target<Bitmap> target, DataSource dataSource,
+                                                           boolean isFirstResource) {
+                                displayNotification(resource, shouldAutoDismiss);
+                                return false;
+                            }
+                        })
+                        .into(new SimpleTarget<Bitmap>() {
+                            @Override
+                            public void onResourceReady(@NonNull Bitmap resource,
+                                                        @Nullable Transition<? super Bitmap> transition) {
 
-                } catch (IllegalArgumentException e) {
-                    Log.d("Kustomer", e.getMessage());
-                }
-            } else {
-                displayNotification(placeHolderImage, shouldAutoDismiss);
+                            }
+                        });
+
+            } catch (IllegalArgumentException e) {
+                Log.d("Kustomer", e.getMessage());
             }
+        } else {
+            displayNotification(placeHolderImage, shouldAutoDismiss);
         }
 
     }

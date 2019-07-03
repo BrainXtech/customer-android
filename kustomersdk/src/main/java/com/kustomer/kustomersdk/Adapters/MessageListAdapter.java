@@ -202,10 +202,12 @@ public class MessageListAdapter extends RecyclerView.Adapter {
     //endregion
 
     //region Private Methods
+    @Nullable
     private KUSChatMessage messageForPosition(int position) {
         return (KUSChatMessage) mPaginatedDataSource.get(position);
     }
 
+    @Nullable
     private KUSChatMessage previousMessage(int position) {
         if (position < mChatMessagesDataSource.getSize() - 1 && position >= 0) {
             return messageForPosition(position + 1);
@@ -214,6 +216,7 @@ public class MessageListAdapter extends RecyclerView.Adapter {
         }
     }
 
+    @Nullable
     private KUSChatMessage nextMessage(int position) {
         if (position > 0 && position < mChatMessagesDataSource.getSize()) {
             return messageForPosition(position - 1);

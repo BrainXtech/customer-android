@@ -208,44 +208,51 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
         if (staticImageView != null)
             staticImageView.setImageBitmap(placeHolderImage);
 
-        if (chatSettings != null) {
-            URL iconURL = user != null && user.getAvatarURL() != null ? user.getAvatarURL() : chatSettings.getTeamIconURL();
+        if (chatSettings == null)
+            return;
 
-            if (iconURL != null) {
-                try {
-                    Glide.with(getContext())
-                            .load(iconURL.toString())
-                            .circleCrop()
-                            .dontAnimate()
-                            .listener(new RequestListener<Drawable>() {
-                                @Override
-                                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                    staticImageView.setVisibility(VISIBLE);
-                                    return false;
-                                }
+        URL iconURL = user != null && user.getAvatarURL() != null
+                ? user.getAvatarURL()
+                : chatSettings.getTeamIconURL();
 
-                                @Override
-                                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                    return false;
-                                }
-                            })
-                            .into(new SimpleTarget<Drawable>() {
-                                @Override
-                                public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
-                                    staticImageView.setVisibility(VISIBLE);
-                                    if (remoteImageView != null)
-                                        remoteImageView.setImageDrawable(resource);
-                                }
-                            });
+        if (iconURL != null) {
+            try {
+                Glide.with(getContext())
+                        .load(iconURL.toString())
+                        .circleCrop()
+                        .dontAnimate()
+                        .listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model,
+                                                        Target<Drawable> target, boolean isFirstResource) {
+                                staticImageView.setVisibility(VISIBLE);
+                                return false;
+                            }
 
-                } catch (IllegalArgumentException ignore) {
-                    staticImageView.setVisibility(VISIBLE);
-                }
-            } else {
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model,
+                                                           Target<Drawable> target, DataSource dataSource,
+                                                           boolean isFirstResource) {
+                                return false;
+                            }
+                        })
+                        .into(new SimpleTarget<Drawable>() {
+                            @Override
+                            public void onResourceReady(@NonNull Drawable resource,
+                                                        @Nullable Transition<? super Drawable> transition) {
+                                staticImageView.setVisibility(VISIBLE);
+                                if (remoteImageView != null)
+                                    remoteImageView.setImageDrawable(resource);
+                            }
+                        });
+
+            } catch (IllegalArgumentException ignore) {
                 staticImageView.setVisibility(VISIBLE);
             }
-
+        } else {
+            staticImageView.setVisibility(VISIBLE);
         }
+
     }
     //endregion
 
