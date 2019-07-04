@@ -61,9 +61,13 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
 
     @NonNull
     private KUSUserSession mUserSession;
+    @Nullable
     private KUSChatMessagesDataSource chatMessagesDataSource;
+    @Nullable
     private KUSUserDataSource userDataSource;
+    @Nullable
     private KUSChatSession mChatSession;
+    @Nullable
     private Date sessionDate = null;
     //endregion
 
@@ -120,14 +124,14 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
         avatarImageView.setDrawableSize(40);
 
         avatarImageView.initWithUserSession(mUserSession);
-        avatarImageView.setUserId(chatMessagesDataSource.getFirstOtherUserId());
+        avatarImageView.setUserId(chatMessagesDataSource != null ?
+                chatMessagesDataSource.getFirstOtherUserId() : null);
 
         FrameLayout.LayoutParams avatarLayoutParams = new FrameLayout.LayoutParams(
                 ViewGroup.LayoutParams.MATCH_PARENT,
                 ViewGroup.LayoutParams.MATCH_PARENT);
 
         avatarImageView.setLayoutParams(avatarLayoutParams);
-
 
         imageLayout.addView(avatarImageView);
     }
@@ -136,7 +140,8 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
         if (userDataSource != null)
             userDataSource.removeListener(this);
 
-        userDataSource = mUserSession.userDataSourceForUserId(chatMessagesDataSource.getFirstOtherUserId());
+        if (chatMessagesDataSource != null)
+            userDataSource = mUserSession.userDataSourceForUserId(chatMessagesDataSource.getFirstOtherUserId());
 
         if (userDataSource != null)
             userDataSource.addListener(this);
@@ -167,26 +172,30 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
         }
 
         String subtitleText = null;
-        if (latestTextMessage != null) {
-            subtitleText = latestTextMessage.getBody().isEmpty() ?
-                    mChatSession.getPreview() : latestTextMessage.getBody();
-        }
+        if (latestTextMessage != null && !latestTextMessage.getBody().isEmpty())
+            subtitleText = latestTextMessage.getBody();
+        else if (mChatSession != null)
+            subtitleText = mChatSession.getPreview();
 
         if (subtitleText != null) {
             KUSText.setMarkDownText(tvSessionSubtitle, subtitleText.trim());
             tvSessionSubtitle.setMovementMethod(null);
-        }
+        } else
+            tvSessionSubtitle.setText("");
 
         //Date text (from last message date, or session created at)
 
-        if (latestTextMessage != null) {
-            sessionDate = latestTextMessage.getCreatedAt() != null ?
-                    latestTextMessage.getCreatedAt() : mChatSession.getCreatedAt();
-        }
+        if (latestTextMessage != null && latestTextMessage.getCreatedAt() != null)
+            sessionDate = latestTextMessage.getCreatedAt();
+        else if (mChatSession != null)
+            sessionDate = mChatSession.getCreatedAt();
+
         tvSessionDate.setText(KUSDate.humanReadableTextFromDate(Kustomer.getContext(), sessionDate));
 
         //Unread count (number of messages > the lastSeenAt)
-        Date sessionLastSeenAt = mUserSession.getChatSessionsDataSource().lastSeenAtForSessionId(mChatSession.getId());
+        Date sessionLastSeenAt = null;
+        if (mChatSession != null)
+            sessionLastSeenAt = mUserSession.getChatSessionsDataSource().lastSeenAtForSessionId(mChatSession.getId());
 
         int unreadCount;
         unreadCount = chatMessagesDataSource.unreadCountAfterDate(sessionLastSeenAt);
@@ -201,7 +210,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     }
 
     private void updateClosedChatView() {
-        if (mChatSession.getLockedAt() != null) {
+        if (mChatSession != null && mChatSession.getLockedAt() != null) {
             tvSessionDate.setVisibility(View.GONE);
             closedView.setVisibility(View.VISIBLE);
             tvSessionTitle.setAlpha(0.5f);
