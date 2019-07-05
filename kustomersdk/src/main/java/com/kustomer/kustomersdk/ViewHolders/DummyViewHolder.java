@@ -1,5 +1,6 @@
 package com.kustomer.kustomersdk.ViewHolders;
 
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
@@ -9,7 +10,7 @@ import android.view.View;
 
 public class DummyViewHolder extends RecyclerView.ViewHolder {
 
-    public DummyViewHolder(View itemView) {
+    public DummyViewHolder(@NonNull View itemView) {
         super(itemView);
     }
 }

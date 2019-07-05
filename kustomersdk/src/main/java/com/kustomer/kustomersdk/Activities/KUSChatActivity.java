@@ -135,6 +135,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     @Nullable
     String chatSessionId;
 
+    @Nullable
     MessageListAdapter adapter;
     @Nullable
     KUSToolbar kusToolbar;
@@ -806,6 +807,9 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     private void setTypingIndicator(KUSTypingIndicator typingIndicator) {
+        if (adapter == null)
+            return;
+
         adapter.setTypingIndicator(typingIndicator);
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
@@ -947,7 +951,9 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             @Override
             public void run() {
                 if (dataSource == chatMessagesDataSource) {
-                    adapter.notifyDataSetChanged();
+                    if (adapter != null)
+                        adapter.notifyDataSetChanged();
+
                     checkShouldShowInputView();
                     checkShouldShowCloseChatButtonView();
 
@@ -1027,7 +1033,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             @Override
             public void run() {
                 if (dataSource == chatMessagesDataSource) {
-                    adapter.notifyDataSetChanged();
+                    if (adapter != null)
+                        adapter.notifyDataSetChanged();
                 }
             }
         };
@@ -1217,6 +1224,9 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
         chatMessagesDataSource.getSatisfactionResponseDataSource().submitRating(rating);
 
+        if (adapter == null)
+            return;
+
         if (!chatMessagesDataSource.getSatisfactionResponseDataSource().cSatFormHaveSecondaryQuestion())
             adapter.isSatisfactionFormEditing(false);
 
@@ -1230,14 +1240,18 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             return;
 
         chatMessagesDataSource.getSatisfactionResponseDataSource().submitComment(comment);
-        adapter.isSatisfactionFormEditing(false);
-        adapter.notifyItemChanged(0, false);
+        if (adapter != null) {
+            adapter.isSatisfactionFormEditing(false);
+            adapter.notifyItemChanged(0, false);
+        }
     }
 
     @Override
     public void onSatisfactionFormEditPressed() {
-        adapter.isSatisfactionFormEditing(true);
-        adapter.notifyItemChanged(0);
+        if (adapter != null) {
+            adapter.isSatisfactionFormEditing(true);
+            adapter.notifyItemChanged(0);
+        }
     }
 
     @Override

@@ -25,7 +25,7 @@ public class ImageAttachmentViewHolder extends RecyclerView.ViewHolder {
     //endregion
 
     //region Methods
-    public ImageAttachmentViewHolder(View itemView) {
+    public ImageAttachmentViewHolder(@NonNull View itemView) {
         super(itemView);
         ButterKnife.bind(this, itemView);
     }
