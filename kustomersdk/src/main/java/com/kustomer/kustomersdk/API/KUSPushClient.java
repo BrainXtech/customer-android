@@ -11,8 +11,8 @@ import com.kustomer.kustomersdk.DataSources.KUSPaginatedDataSource;
 import com.kustomer.kustomersdk.Enums.KUSRequestType;
 import com.kustomer.kustomersdk.Helpers.KUSAudio;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
-import com.kustomer.kustomersdk.Interfaces.KUSCustomerStatsListener;
 import com.kustomer.kustomersdk.Helpers.KUSLog;
+import com.kustomer.kustomersdk.Interfaces.KUSCustomerStatsListener;
 import com.kustomer.kustomersdk.Interfaces.KUSObjectDataSourceListener;
 import com.kustomer.kustomersdk.Interfaces.KUSPaginatedDataSourceListener;
 import com.kustomer.kustomersdk.Interfaces.KUSRequestCompletionListener;
@@ -67,15 +67,23 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
     private static final long ACTIVE_POLLING_TIMER_INTERVAL = 7500;
     private long currentPollingTimerInterval = 0;
 
+    @Nullable
     private Pusher pusherClient;
+    @Nullable
     private PresenceChannel pusherChannel;
+    @Nullable
     private PrivateChannel chatActivityChannel;
+    @Nullable
     private ConcurrentHashMap<String, KUSChatSession> previousChatSessions;
 
+    @NonNull
     private WeakReference<KUSUserSession> userSession;
     private boolean isSupportScreenShown = false;
+    @Nullable
     private Timer pollingTimer;
+    @Nullable
     private String pendingNotificationSessionId;
+    @Nullable
     private Handler handler;
 
     private boolean isPusherTrackingStarted;
@@ -101,7 +109,8 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
     //region Public Methods
     public void onClientActivityTick() {
         // We only need to poll for client activity changes if we are not connected to the socket
-        if (pusherClient.getConnection().getState() != ConnectionState.CONNECTED || !pusherChannel.isSubscribed()) {
+        if ((pusherClient != null && pusherClient.getConnection().getState() != ConnectionState.CONNECTED)
+                || (pusherChannel != null && !pusherChannel.isSubscribed())) {
             onPollTick();
         }
     }
@@ -143,7 +152,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
         try {
             String activityChannelName = getChatActivityChannelNameForSessionId(activeChatSessionId);
 
-            if (activityChannelName != null) {
+            if (pusherClient != null && activityChannelName != null) {
                 chatActivityChannel = pusherClient.subscribePrivate(activityChannelName);
                 chatActivityChannel.bind(KUSConstants.PusherEventNames.CHAT_ACTIVITY_TYPING_EVENT,
                         typingEventListener);
@@ -155,22 +164,28 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
 
     public void disconnectFromChatActivityChannel() {
         if (chatActivityChannel != null) {
-            pusherClient.unsubscribe(chatActivityChannel.getName());
+            if (pusherClient != null)
+                pusherClient.unsubscribe(chatActivityChannel.getName());
             chatActivityChannel = null;
         }
     }
 
-    public void sendChatActivityForSessionId(@Nullable String sessionId, @NonNull String activityData) {
-        if(sessionId == null)
+    public void sendChatActivityForSessionId(@Nullable String sessionId,
+                                             @NonNull String activityData) {
+        if (sessionId == null)
             return;
 
         String activityChannelName = getChatActivityChannelNameForSessionId(sessionId);
 
         try {
-            if (chatActivityChannel == null || !chatActivityChannel.getName().equals(activityChannelName))
-                chatActivityChannel = pusherClient.subscribePrivate(activityChannelName);
+            if (pusherClient != null) {
+                if (chatActivityChannel == null
+                        || !chatActivityChannel.getName().equals(activityChannelName))
+                    chatActivityChannel = pusherClient.subscribePrivate(activityChannelName);
 
-            chatActivityChannel.trigger(KUSConstants.PusherEventNames.CHAT_ACTIVITY_TYPING_EVENT, activityData);
+                chatActivityChannel.trigger(KUSConstants.PusherEventNames.CHAT_ACTIVITY_TYPING_EVENT,
+                        activityData);
+            }
         } catch (IllegalStateException ignore) {
         } catch (IllegalArgumentException ignore) {
         }

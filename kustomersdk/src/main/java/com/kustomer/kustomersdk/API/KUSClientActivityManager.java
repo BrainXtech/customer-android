@@ -2,6 +2,8 @@ package com.kustomer.kustomersdk.API;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.DataSources.KUSClientActivityDataSource;
 import com.kustomer.kustomersdk.DataSources.KUSObjectDataSource;
@@ -10,7 +12,6 @@ import com.kustomer.kustomersdk.Models.KUSChatSettings;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,16 +19,20 @@ import java.util.TimerTask;
 public class KUSClientActivityManager implements KUSObjectDataSourceListener {
 
     //region Properties
+    @Nullable
     private String currentPageName;
+    @NonNull
     private WeakReference<KUSUserSession> userSession;
+    @Nullable
     private String previousPageName;
-    private double currentPageStartTime;
+    @Nullable
     private List<Timer> timers = new ArrayList<>();
+    @Nullable
     private KUSClientActivityDataSource activityDataSource;
     //endregion
 
     //region LifeCycle
-    public KUSClientActivityManager(KUSUserSession userSession) {
+    public KUSClientActivityManager(@NonNull KUSUserSession userSession) {
         this.userSession = new WeakReference<>(userSession);
     }
     //endregion
@@ -49,7 +54,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
     }
 
     private void updateTimers() {
-        if (activityDataSource.getObject() == null) {
+        if (activityDataSource != null && activityDataSource.getObject() == null) {
             cancelTimers();
             return;
         }
@@ -77,10 +82,6 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
         this.timers = timers;
     }
 
-    private void requestClientActivity() {
-        requestClientActivityWithCurrentPageSeconds(timeOnCurrentPage());
-    }
-
     private void requestClientActivityWithCurrentPageSeconds(double currentPageSeconds) {
 
         activityDataSource = new KUSClientActivityDataSource(userSession.get(),
@@ -92,19 +93,13 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
         activityDataSource.fetch();
     }
 
-    private double timeOnCurrentPage() {
-        long currentTime = Calendar.getInstance().getTimeInMillis() / 1000;
-        return (double) Math.round(currentTime - currentPageStartTime);
-    }
-
-
     private void onActivityTimer(double interval) {
         requestClientActivityWithCurrentPageSeconds(interval);
     }
     //endregion
 
     //region Public Methods
-    public void setCurrentPageName(String currentPageName) {
+    public void setCurrentPageName(@Nullable String currentPageName) {
 
         if (this.currentPageName != null && this.currentPageName.equals(currentPageName))
             return;
@@ -127,14 +122,12 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
             return;
 
         // Check that settings is fetched and no history is not enabled
-        if (userSession.get().getChatSettingsDataSource() != null &&
-                userSession.get().getChatSettingsDataSource().isFetched()) {
+        if (userSession.get().getChatSettingsDataSource().isFetched()) {
             KUSChatSettings settings = (KUSChatSettings) userSession.get()
                     .getChatSettingsDataSource()
                     .getObject();
 
             if (settings == null || !settings.getNoHistory()) {
-                currentPageStartTime = (double) Calendar.getInstance().getTimeInMillis() / 1000;
                 requestClientActivityWithCurrentPageSeconds(0.0);
             }
         } else {
@@ -143,6 +136,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
         }
     }
 
+    @Nullable
     public String getCurrentPageName() {
         return currentPageName;
     }
@@ -167,13 +161,12 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
                             .getChatSettingsDataSource()
                             .getObject();
                     if (settings == null || !settings.getNoHistory()) {
-                        currentPageStartTime = (double) Calendar.getInstance().getTimeInMillis() / 1000;
                         requestClientActivityWithCurrentPageSeconds(0.0);
                     }
                     return;
                 }
                 if (dataSource == activityDataSource) {
-                    if (activityDataSource.getCurrentPageSeconds() > 0) {
+                    if (activityDataSource != null && activityDataSource.getCurrentPageSeconds() > 0) {
                         // Tell the push client to perform a sessions list pull to check for automated messages
                         // We delay a bit here to avoid a race in message creation delay
 

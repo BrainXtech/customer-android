@@ -3,6 +3,7 @@ package com.kustomer.kustomersdk.API;
 
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.os.LocaleListCompat;
 
 import com.kustomer.kustomersdk.BuildConfig;
@@ -52,19 +53,26 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
 
 
     //region Properties
+    @Nullable
     private static OkHttpClient requestClient;
+    @Nullable
     private static OkHttpClient uploadClient;
 
+    @NonNull
     private String baseUrlString;
+    @NonNull
     private WeakReference<KUSUserSession> userSession;
 
-    HashMap<String, String> genericHTTPHeaderValues = null;
+    @NonNull
+    HashMap<String, String> genericHTTPHeaderValues;
+    @Nullable
     private List<KUSTrackingTokenListener> pendingTrackingTokenListeners = null;
+    @NonNull
     private final Object pendingTrackingTokenLock = new Object();
     //endregion
 
     //region LifeCycle
-    public KUSRequestManager(KUSUserSession userSession) {
+    public KUSRequestManager(@NonNull KUSUserSession userSession) {
         this.userSession = new WeakReference<>(userSession);
 
         baseUrlString = String.format("https://%s.api.%s", userSession.getOrgName(), Kustomer.hostDomain());
@@ -83,7 +91,11 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     //endregion
 
     //region URL Methods
-    public URL urlForEndpoint(String endpoint) {
+    @Nullable
+    public URL urlForEndpoint(@Nullable String endpoint) {
+        if (endpoint == null)
+            return null;
+
         String endpointUrlString = String.format("%s%s", baseUrlString, endpoint);
         try {
             return new URL(endpointUrlString);
@@ -95,7 +107,9 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     //endregion
 
     //region Request Methods
-    public void getEndpoint(String endpoint, boolean authenticated, KUSRequestCompletionListener listener) {
+    public void getEndpoint(@Nullable String endpoint,
+                            boolean authenticated,
+                            @Nullable KUSRequestCompletionListener listener) {
         performRequestType(KUSRequestType.KUS_REQUEST_TYPE_GET,
                 endpoint,
                 null,
@@ -103,10 +117,11 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
                 listener);
     }
 
-    public void performRequestType(KUSRequestType type, String endpoint,
-                                   Map<String, Object> params, boolean authenticated,
-                                   KUSRequestCompletionListener listener) {
-
+    public void performRequestType(@NonNull KUSRequestType type,
+                                   @Nullable String endpoint,
+                                   @Nullable Map<String, Object> params,
+                                   boolean authenticated,
+                                   @Nullable KUSRequestCompletionListener listener) {
         performRequestType(type,
                 urlForEndpoint(endpoint),
                 params,
@@ -114,11 +129,11 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
                 listener);
     }
 
-    public void performRequestType(KUSRequestType type, URL url,
-                                   Map<String, Object> params,
+    public void performRequestType(@NonNull KUSRequestType type,
+                                   @Nullable URL url,
+                                   @Nullable Map<String, Object> params,
                                    boolean authenticated,
-                                   KUSRequestCompletionListener listener) {
-
+                                   @Nullable KUSRequestCompletionListener listener) {
         performRequestType(type,
                 url,
                 params,
@@ -128,11 +143,12 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
 
     }
 
-    public void performRequestType(KUSRequestType type, URL url,
-                                   Map<String, Object> params,
+    public void performRequestType(@NonNull KUSRequestType type,
+                                   @Nullable URL url,
+                                   @Nullable Map<String, Object> params,
                                    boolean authenticated,
-                                   HashMap additionalHeaders,
-                                   KUSRequestCompletionListener listener) {
+                                   @Nullable HashMap additionalHeaders,
+                                   @Nullable KUSRequestCompletionListener listener) {
         performRequestType(type,
                 url,
                 params,
@@ -143,13 +159,17 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
 
     }
 
-    public void performRequestType(final KUSRequestType type,
-                                   final URL url,
-                                   final Map<String, Object> params,
-                                   final byte[] bodyData,
+    public void performRequestType(@NonNull final KUSRequestType type,
+                                   @Nullable final URL url,
+                                   @Nullable final Map<String, Object> params,
+                                   @Nullable final byte[] bodyData,
                                    final boolean authenticated,
-                                   final HashMap additionalHeaders,
-                                   final KUSRequestCompletionListener completionListener) {
+                                   @Nullable final HashMap additionalHeaders,
+                                   @Nullable final KUSRequestCompletionListener completionListener) {
+        if (url == null) {
+            safeComplete(completionListener, new Error("Url is null"), null);
+            return;
+        }
 
         if (authenticated) {
             dispenseTrackingToken(new KUSTrackingTokenListener() {
@@ -159,23 +179,27 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
                         safeComplete(completionListener, error, null);
                     } else {
                         performRequestWithTrackingToken(type, trackingToken, url, params, bodyData,
-                                authenticated, additionalHeaders, completionListener);
+                                true, additionalHeaders, completionListener);
                     }
                 }
             });
+
         } else {
             performRequestWithTrackingToken(type, null, url, params, bodyData,
-                    authenticated, additionalHeaders, completionListener);
+                    false, additionalHeaders, completionListener);
         }
-
     }
 
-    public void uploadImageOnS3(URL url, String filename, byte[] imageBytes,
-                                HashMap<String, String> uploadFields,
-                                final KUSRequestCompletionListener completionListener) {
+    public void uploadImageOnS3(@NonNull URL url, @NonNull String filename,
+                                @NonNull byte[] imageBytes,
+                                @Nullable HashMap<String, String> uploadFields,
+                                @Nullable final KUSRequestCompletionListener completionListener) {
 
-        String[] fieldArrays = new String[uploadFields.keySet().size()];
-        fieldArrays = uploadFields.keySet().toArray(fieldArrays);
+        String[] fieldArrays = new String[0];
+        if (uploadFields != null) {
+            fieldArrays = new String[uploadFields.keySet().size()];
+            fieldArrays = uploadFields.keySet().toArray(fieldArrays);
+        }
 
         List<String> fieldKeys = new ArrayList<>(Arrays.asList(fieldArrays));
         if (fieldKeys.contains("key")) {
@@ -187,9 +211,14 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
                 .setType(MultipartBody.FORM);
 
         for (String field : fieldKeys) {
-            String value = uploadFields.get(field);
+            String value = null;
+            if (uploadFields != null) {
+                value = uploadFields.get(field);
+            }
 
-            builder.addFormDataPart(field, value);
+            if (value != null) {
+                builder.addFormDataPart(field, value);
+            }
         }
 
         builder.addFormDataPart("file", filename, RequestBody.create(MediaType.parse("image/jpeg"), imageBytes));
@@ -201,22 +230,23 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
         getUploadClient().newCall(request).enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                completionListener.onCompletion(new Error(e.getMessage()), null);
+                if (completionListener != null)
+                    completionListener.onCompletion(new Error(e.getMessage()), null);
             }
 
             @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+            public void onResponse(@NonNull Call call, @NonNull Response response) {
 
-                if(response.isSuccessful()){
+                if (response.isSuccessful()) {
                     if (completionListener != null) {
                         safeComplete(completionListener, null, null);
                     }
-                }else {
+                } else {
                     if (completionListener != null)
                         safeComplete(completionListener, new Error("Something went wrong"), null);
                 }
 
-                if(response.body() != null)
+                if (response.body() != null)
                     response.body().close();
 
             }
@@ -225,6 +255,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     //endregion
 
     //region Private Methods
+    @NonNull
     private OkHttpClient getRequestClient() {
         if (requestClient == null) {
             requestClient = new OkHttpClient.Builder()
@@ -233,8 +264,9 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
         return requestClient;
     }
 
+    @NonNull
     private OkHttpClient getUploadClient() {
-        if(uploadClient == null) {
+        if (uploadClient == null) {
             uploadClient = new OkHttpClient.Builder()
                     .connectTimeout(10, TimeUnit.SECONDS)
                     .writeTimeout(180, TimeUnit.SECONDS)
@@ -244,18 +276,18 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
         return uploadClient;
     }
 
-    private void performRequestWithTrackingToken(KUSRequestType type,
-                                                 String trackingToken,
-                                                 URL url,
-                                                 Map<String, Object> params,
+    private void performRequestWithTrackingToken(@NonNull KUSRequestType type,
+                                                 @Nullable String trackingToken,
+                                                 @NonNull URL url,
+                                                 @Nullable Map<String, Object> params,
                                                  byte[] bodyData,
                                                  boolean authenticated,
-                                                 HashMap additionalHeaders,
-                                                 final KUSRequestCompletionListener completionListener) {
+                                                 @Nullable HashMap additionalHeaders,
+                                                 @Nullable final KUSRequestCompletionListener completionListener) {
 
         HttpUrl httpUrl = HttpUrl.parse(url.toString());
-        HttpUrl.Builder httpBuilder = null;
-        Request request = null;
+        HttpUrl.Builder httpBuilder;
+        Request request;
 
         if (httpUrl != null) {
             httpBuilder = httpUrl.newBuilder();
@@ -304,7 +336,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
                     }
                 }
 
-                RequestBody reqbody = null;
+                RequestBody reqbody;
                 requestBuilder.addHeader("Content-Type", "application/json");
                 //Tracking token can be null but we need to define the request type
                 if (bytes != null) {
@@ -338,7 +370,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
 
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         if (response.body() != null) {
                             String body = response.body().string();
                             try {
@@ -350,30 +382,28 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
                                 safeComplete(completionListener, new Error(errorMessage),
                                         null);
                             }
-                        }else {
+                        } else {
                             safeComplete(completionListener, null, null);
                         }
-                    }else {
+                    } else {
                         String errorMessage = response.body() != null ? response.body().string()
                                 : Kustomer.getContext().getString(R.string.com_kustomer_something_went_wrong);
                         safeComplete(completionListener, new Error(errorMessage), null);
                     }
                 }
             });
-
         }
-
     }
 
-
-
-    private void safeComplete(final KUSRequestCompletionListener completionListener, final Error error,
-                              final JSONObject jsonObject) {
-        completionListener.onCompletion(error, jsonObject);
+    private void safeComplete(@Nullable final KUSRequestCompletionListener completionListener,
+                              @Nullable final Error error,
+                              @Nullable final JSONObject jsonObject) {
+        if (completionListener != null)
+            completionListener.onCompletion(error, jsonObject);
     }
 
-     private void dispenseTrackingToken(final KUSTrackingTokenListener listener) {
-        if(userSession.get() == null) {
+    private void dispenseTrackingToken(@NonNull final KUSTrackingTokenListener listener) {
+        if (userSession.get() == null) {
             listener.onCompletion(new Error(), null);
             return;
         }
@@ -389,17 +419,18 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
         }
     }
 
-     private void firePendingTokenCompletionsWithToken(final String token, final Error error) {
+    private void firePendingTokenCompletionsWithToken(@Nullable final String token,
+                                                      @Nullable final Error error) {
         synchronized (pendingTrackingTokenLock) {
             for (KUSTrackingTokenListener trackingTokenListener : getPendingTrackingTokenListeners()) {
-                if(trackingTokenListener != null)
+                if (trackingTokenListener != null)
                     trackingTokenListener.onCompletion(error, token);
             }
             getPendingTrackingTokenListeners().clear();
         }
     }
 
-
+    @NonNull
     private static String KUSAcceptLanguageHeaderValue() {
         StringBuilder output = new StringBuilder();
         LocaleListCompat localeList = LocaleListCompat.getDefault();
@@ -414,6 +445,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
         return output.toString();
     }
 
+    @NonNull
     private static String KUSUserAgentHeaderValue() {
 
         return String.format(Locale.getDefault(), "%s/%s (%s; android %s;)",
@@ -423,6 +455,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
                 Build.VERSION.RELEASE);
     }
 
+    @NonNull
     synchronized private List<KUSTrackingTokenListener> getPendingTrackingTokenListeners() {
         if (pendingTrackingTokenListeners == null)
             pendingTrackingTokenListeners = new CopyOnWriteArrayList<>();
