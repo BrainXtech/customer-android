@@ -417,7 +417,8 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
         for (KUSModel model : getList()) {
             chatSession = (KUSChatSession) model;
             KUSChatMessagesDataSource chatDataSource = getUserSession().chatMessageDataSourceForSessionId(chatSession.getId());
-            if (chatSession.getLockedAt() == null && !chatDataSource.isAnyMessageByCurrentUser()) {
+            if (chatSession.getLockedAt() == null && chatDataSource != null
+                    && !chatDataSource.isAnyMessageByCurrentUser()) {
                 count += 1;
             }
         }
@@ -536,7 +537,8 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
             KUSChatMessagesDataSource chatDataSource =
                     getUserSession().chatMessageDataSourceForSessionId(chatSession.getId());
 
-            if (chatSession.getLockedAt() == null && chatDataSource.isAnyMessageByCurrentUser()) {
+            if (chatSession.getLockedAt() == null && chatDataSource != null
+                    && chatDataSource.isAnyMessageByCurrentUser()) {
 
                 if (mostRecentMessageAt == null) {
                     mostRecentMessageAt = chatSession.getLastMessageAt();
@@ -583,7 +585,11 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
 
             KUSChatMessagesDataSource messagesDataSource = getUserSession().chatMessageDataSourceForSessionId(sessionId);
             Date sessionLastSeenAt = lastSeenAtForSessionId(sessionId);
-            int unreadCountForSession = messagesDataSource.unreadCountAfterDate(sessionLastSeenAt);
+
+            int unreadCountForSession = messagesDataSource != null
+                    ? messagesDataSource.unreadCountAfterDate(sessionLastSeenAt)
+                    : 0;
+
             count += unreadCountForSession;
         }
 
@@ -605,13 +611,15 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
     @Override
     public void onContentChange(KUSPaginatedDataSource dataSource) {
         if (getUserSession() != null && dataSource == this) {
-            getUserSession().getSharedPreferences().setOpenChatSessionsCount(getOpenChatSessionsCount());
+            if (getUserSession().getSharedPreferences() != null)
+                getUserSession().getSharedPreferences().setOpenChatSessionsCount(getOpenChatSessionsCount());
 
             for (KUSModel model : getList()) {
                 KUSChatSession chatSession = (KUSChatSession) model;
                 KUSChatMessagesDataSource messagesDataSource = getUserSession()
                         .chatMessageDataSourceForSessionId(chatSession.getId());
-                messagesDataSource.addListener(this);
+                if (messagesDataSource != null)
+                    messagesDataSource.addListener(this);
             }
 
         } else if (dataSource.getClass().equals(KUSChatMessagesDataSource.class)) {

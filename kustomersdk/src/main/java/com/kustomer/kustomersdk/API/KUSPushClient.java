@@ -702,7 +702,8 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
             if (previousChatSessions != null)
                 previousChatSession = previousChatSessions.get(chatSession.getId());
 
-            KUSChatMessagesDataSource messagesDataSource = userSession.get().chatMessageDataSourceForSessionId(chatSession.getId());
+            KUSChatMessagesDataSource messagesDataSource = userSession.get()
+                    .chatMessageDataSourceForSessionId(chatSession.getId());
             if (previousChatSession != null) {
 
                 try {
@@ -714,18 +715,20 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
                             && !chatSession.getLockedAt().equals(previousChatSession.getLockedAt());
 
                     // Check that new message arrived or not
-                    if (isUpdatedSession && messagesDataSource.isLatestMessageAfterLastSeen()) {
+                    if (isUpdatedSession && messagesDataSource != null
+                            && messagesDataSource.isLatestMessageAfterLastSeen()) {
                         updatedSessionId = chatSession.getId();
                         messagesDataSource.addListener(KUSPushClient.this);
                         messagesDataSource.fetchLatest();
 
                     } else if (chatSessionSetToLock) { // Check that session lock state changed
-                        messagesDataSource.fetchLatest();
+                        if (messagesDataSource != null)
+                            messagesDataSource.fetchLatest();
                     }
                 } catch (Exception ignore) {
                 }
 
-            } else if (previousChatSessions != null) {
+            } else if (previousChatSessions != null && messagesDataSource != null) {
                 if (messagesDataSource.isLatestMessageAfterLastSeen())
                     updatedSessionId = chatSession.getId();
 

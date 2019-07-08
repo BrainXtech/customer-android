@@ -37,17 +37,19 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
 
     //region Subclass Methods
     public void performRequest(@NonNull KUSRequestCompletionListener listener) {
-        if(getUserSession() == null) {
+        if (getUserSession() == null) {
             listener.onCompletion(new Error(), null);
             return;
         }
 
         KUSChatSettings chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
 
-        String formId = getUserSession().getSharedPreferences().getFormId();
+        String formId = getUserSession().getSharedPreferences() != null ?
+                getUserSession().getSharedPreferences().getFormId()
+                : null;
         if (formId == null && chatSettings != null)
             formId = chatSettings.getActiveFormId();
-        
+
         getUserSession().getRequestManager().getEndpoint(
                 String.format(KUSConstants.URL.FORMS_ENDPOINT, formId),
                 true,
@@ -55,7 +57,7 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
     }
 
     public void fetch() {
-        if(getUserSession() == null)
+        if (getUserSession() == null)
             return;
 
         if (!getUserSession().getChatSettingsDataSource().isFetched()) {
@@ -79,7 +81,7 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
     public boolean isFetched() {
         KUSChatSettings chatSettings = null;
 
-        if(getUserSession() != null)
+        if (getUserSession() != null)
             chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
 
         if (chatSettings != null && chatSettings.getActiveFormId() == null)

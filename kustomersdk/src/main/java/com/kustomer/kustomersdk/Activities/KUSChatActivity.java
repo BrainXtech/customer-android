@@ -339,15 +339,19 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
         if (message != null) {
             shouldShowBackButton = false;
-            chatMessagesDataSource.sendMessageWithText(message, null);
+            if (chatMessagesDataSource != null)
+                chatMessagesDataSource.sendMessageWithText(message, null);
             userSession.getChatSessionsDataSource().setMessageToCreateNewChatSession(null);
         }
 
-        chatMessagesDataSource.addListener(this);
-        chatMessagesDataSource.fetchLatest();
-        if (!chatMessagesDataSource.isFetched()) {
-            if (progressDialog != null)
-                progressDialog.show();
+        if (chatMessagesDataSource != null) {
+            chatMessagesDataSource.addListener(this);
+            chatMessagesDataSource.fetchLatest();
+
+            if (!chatMessagesDataSource.isFetched()) {
+                if (progressDialog != null)
+                    progressDialog.show();
+            }
         }
     }
 
@@ -608,7 +612,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             tvClosedChat.setVisibility(View.GONE);
 
 
-            if (userSession.getSharedPreferences().getShouldHideConversationButton())
+            if (userSession.getSharedPreferences() != null
+                    && userSession.getSharedPreferences().getShouldHideConversationButton())
                 tvStartANewConversation.setVisibility(View.GONE);
             else
                 tvStartANewConversation.setVisibility(View.VISIBLE);

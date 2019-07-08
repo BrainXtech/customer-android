@@ -100,10 +100,10 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener,
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        if (mUserSession != null && mUserSession.getChatSettingsDataSource() != null)
+        if (mUserSession != null)
             mUserSession.getChatSettingsDataSource().removeListener(this);
 
-        if (mUserSession != null && mUserSession.getChatSessionsDataSource() != null)
+        if (mUserSession != null)
             mUserSession.getChatSessionsDataSource().removeListener(this);
 
         if (userDataSource != null)
@@ -489,8 +489,10 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener,
 
                 if (mUserSession != null) {
                     chatMessagesDataSource = mUserSession.chatMessageDataSourceForSessionId(sessionId);
-                    chatMessagesDataSource.addListener(KUSToolbar.this);
-                    kusMultipleAvatarsView.setUserIds(chatMessagesDataSource.getOtherUserIds());
+                    if (chatMessagesDataSource != null) {
+                        chatMessagesDataSource.addListener(KUSToolbar.this);
+                        kusMultipleAvatarsView.setUserIds(chatMessagesDataSource.getOtherUserIds());
+                    }
                 }
 
                 updateTextLabel();
@@ -499,8 +501,6 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener,
             }
         };
         handler.post(runnable);
-
-
     }
 
     @Override

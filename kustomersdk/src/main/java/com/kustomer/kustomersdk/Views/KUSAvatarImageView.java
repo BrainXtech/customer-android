@@ -83,7 +83,7 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
 
-        if (userSession != null && userSession.getChatSettingsDataSource() != null)
+        if (userSession != null)
             userSession.getChatSettingsDataSource().removeListener(this);
 
         if (userDataSource != null)

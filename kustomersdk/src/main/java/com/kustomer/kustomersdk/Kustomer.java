@@ -367,15 +367,19 @@ public class Kustomer {
     }
 
     private void mSetFormId(@NonNull String formId) {
-        userSession.getSharedPreferences().setFormId(formId);
+        if (getUserSession().getSharedPreferences() != null)
+            getUserSession().getSharedPreferences().setFormId(formId);
     }
 
     private int mGetOpenConversationsCount() {
-        return getUserSession().getSharedPreferences().getOpenChatSessionsCount();
+        if (getUserSession().getSharedPreferences() != null)
+            return getUserSession().getSharedPreferences().getOpenChatSessionsCount();
+        return 0;
     }
 
     private void mHideNewConversationButtonInClosedChat(Boolean status) {
-        getUserSession().getSharedPreferences().setShouldHideConversationButton(status);
+        if (getUserSession().getSharedPreferences() != null)
+            getUserSession().getSharedPreferences().setShouldHideConversationButton(status);
     }
 
     private void mShowSupportWithMessage(Activity activity, String message, JSONObject customAttributes) {

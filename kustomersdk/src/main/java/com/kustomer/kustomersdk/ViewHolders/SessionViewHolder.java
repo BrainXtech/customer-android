@@ -105,8 +105,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     }
 
     public void onDetached() {
-        if (mUserSession.getChatSettingsDataSource() != null)
-            mUserSession.getChatSettingsDataSource().removeListener(this);
+        mUserSession.getChatSettingsDataSource().removeListener(this);
 
         if (userDataSource != null)
             userDataSource.removeListener(this);

@@ -413,7 +413,8 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                 creatingSession = false;
 
                 // Create queue polling manager for volume control form
-                sessionQueuePollingManager = new KUSSessionQueuePollingManager(getUserSession(), sessionId);
+                if (getUserSession() != null)
+                    sessionQueuePollingManager = new KUSSessionQueuePollingManager(getUserSession(), sessionId);
 
                 //Insert the current messages data source into the userSession's lookup table
                 if (getUserSession() != null)
@@ -1426,8 +1427,10 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                             return;
 
                         // If the form contained an email prompt, mark the local session as having submitted email
-                        if (form != null && form.containsEmailQuestion())
-                            getUserSession().getSharedPreferences().setDidCaptureEmail(true);
+                        if (form != null && form.containsEmailQuestion()) {
+                            if (getUserSession().getSharedPreferences() != null)
+                                getUserSession().getSharedPreferences().setDidCaptureEmail(true);
+                        }
 
                         // Set variable for business hours
                         if (!getUserSession().getScheduleDataSource().isActiveBusinessHours()
