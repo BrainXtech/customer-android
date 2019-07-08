@@ -1023,13 +1023,13 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         final Date createdAt = new Date(lastMessage.getCreatedAt().getTime() + KUS_CHAT_AUTO_REPLY_DELAY);
         final String questionId = String.format("question_%s", formQuestion.getId());
 
-        final JSONObject attributesJson = JsonHelper.jsonObjectFromHashMap(new HashMap<String, Object>() {{
+        final JSONObject attributesJson = KUSJsonHelper.jsonObjectFromHashMap(new HashMap<String, Object>() {{
             put("body", formQuestion.getPrompt());
             put("direction", "out");
             put("createdAt", KUSDate.stringFromDate(createdAt));
         }});
 
-        JSONObject messageJson = JsonHelper.jsonObjectFromHashMap(new HashMap<String, Object>() {{
+        JSONObject messageJson = KUSJsonHelper.jsonObjectFromHashMap(new HashMap<String, Object>() {{
             put("type", "chat_message");
             put("id", questionId);
             put("attributes", attributesJson);
