@@ -60,7 +60,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
         localLastSeenAtBySessionId = new HashMap<>();
         addListener(this);
 
-        if(getUserSession() != null)
+        if (getUserSession() != null)
             getUserSession().getChatSettingsDataSource().addListener(this);
     }
 
@@ -170,7 +170,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
 
     public void updateLastSeenAtForSessionId(String sessionId, final KUSChatSessionCompletionListener listener) {
         if (getUserSession() == null) {
-            if(listener != null)
+            if (listener != null)
                 listener.onComplete(new Error(), null);
             return;
         }
@@ -196,6 +196,10 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
         boolean isLocalSession = sessionId.equals(KUSConstants.ChatSession.TEMP_SESSION_ID);
         if (isLocalSession) {
             KUSChatSession session = (KUSChatSession) findById(sessionId);
+
+            if (session == null)
+                return;
+
             removeAll(Collections.singletonList((KUSModel) session));
             session.setLastSeenAt(lastSeenAtDate);
             upsertAll(Collections.singletonList((KUSModel) session));
@@ -251,7 +255,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
 
     public void submitFormMessages(final JSONArray messages, String formId, final KUSFormCompletionListener listener) {
         if (getUserSession() == null) {
-            if(listener != null)
+            if (listener != null)
                 listener.onComplete(new Error(), null, null);
             return;
         }
@@ -627,6 +631,11 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
 
     @Override
     public void onCreateSessionId(KUSChatMessagesDataSource source, String sessionId) {
+
+    }
+
+    @Override
+    public void onChatSessionEnded(@NonNull KUSChatMessagesDataSource dataSource) {
 
     }
 

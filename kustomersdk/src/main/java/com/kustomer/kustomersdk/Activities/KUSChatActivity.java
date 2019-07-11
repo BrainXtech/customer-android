@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
-import android.os.PersistableBundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -58,6 +57,7 @@ import com.kustomer.kustomersdk.Models.KUSChatMessage;
 import com.kustomer.kustomersdk.Models.KUSChatSession;
 import com.kustomer.kustomersdk.Models.KUSChatSettings;
 import com.kustomer.kustomersdk.Models.KUSFormQuestion;
+import com.kustomer.kustomersdk.Models.KUSMLFormValue;
 import com.kustomer.kustomersdk.Models.KUSModel;
 import com.kustomer.kustomersdk.Models.KUSTeam;
 import com.kustomer.kustomersdk.Models.KUSTypingIndicator;
@@ -84,6 +84,8 @@ import java.util.Locale;
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.kustomer.kustomersdk.Enums.KUSFormQuestionProperty.*;
+import static com.kustomer.kustomersdk.Models.KUSFormQuestion.KUSFormQuestionRequiresResponse;
 import static com.kustomer.kustomersdk.Utils.KUSConstants.BundleName.CHAT_SCREEN_RESTARTED_KEY;
 
 public class KUSChatActivity extends BaseActivity implements KUSChatMessagesDataSourceListener,
@@ -150,7 +152,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        if(savedInstanceState != null && savedInstanceState.getBoolean(CHAT_SCREEN_RESTARTED_KEY))
+        if (savedInstanceState != null && savedInstanceState.getBoolean(CHAT_SCREEN_RESTARTED_KEY))
             finish();
 
         initData();
@@ -244,7 +246,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         super.onConfigurationChanged(newConfig);
 
         checkShouldShowEmailInput();
-        checkShouldShowInputView();
+        checkShouldUpdateInputView();
         checkShouldShowCloseChatButtonView();
 
         updateOptionPickerHeight();
@@ -333,6 +335,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
         chatMessagesDataSource.addListener(this);
         chatMessagesDataSource.fetchLatest();
+        chatMessagesDataSource.fetchSatisfactionResponseIfNecessary();
         if (!chatMessagesDataSource.isFetched()) {
             progressDialog.show();
         }
@@ -347,7 +350,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         mlFormValuesPickerView.setListener(this);
         updateOptionPickerHeight();
         setupToolbar();
-        checkShouldShowInputView();
+        checkShouldUpdateInputView();
         showNonBusinessHoursImageIfNeeded();
         showKustomerBrandingFooterIfNeeded();
 
@@ -417,6 +420,12 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
                 chatSessionId.equals(KUSConstants.ChatSession.TEMP_SESSION_ID) ? null : chatSessionId;
     }
 
+    private void hideInputBarView() {
+        kusInputBarView.setVisibility(View.GONE);
+        kusInputBarView.clearInputFocus();
+        kusInputBarView.setText("");
+    }
+
     private void checkShouldShowCloseChatButtonView() {
         KUSChatSettings settings = (KUSChatSettings) userSession.getChatSettingsDataSource().getObject();
 
@@ -456,7 +465,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             boolean isChatCloseable = settings != null && settings.getClosableChat();
 
             boolean shouldShowEmailInput = userSession.isShouldCaptureEmail()
-                    && getValidChatSessionId() != null && !isChatCloseable;
+                    && getValidChatSessionId() != null
+                    && !isChatCloseable;
 
             appBarLayout.setLayoutTransition(new LayoutTransition());
 
@@ -469,129 +479,63 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         }
     }
 
-    private void checkShouldShowOptionPicker() {
-        KUSChatSession session = (KUSChatSession) userSession
-                .getChatSessionsDataSource().findById(getValidChatSessionId());
-        if (session != null && session.getLockedAt() != null) {
-            return;
-        }
+    private void showMLFormValuePickerWithValue(@NonNull KUSMLFormValue mlFormValue) {
+        kusOptionPickerView.setVisibility(View.GONE);
+        tvClosedChat.setVisibility(View.GONE);
+        hideInputBarView();
 
-        if (chatMessagesDataSource.isChatClosed() && chatMessagesDataSource.getOtherUserIds().size() == 0) {
-            return;
-        }
+        mlFormValuesPickerView.setMlFormValues(mlFormValue.getMlNodes(), mlFormValue.getLastNodeRequired());
+        mlFormValuesPickerView.setVisibility(View.VISIBLE);
+    }
 
-        KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource.volumeControlCurrentQuestion();
+    private void showOptionPickerView() {
+        tvClosedChat.setVisibility(View.GONE);
+        mlFormValuesPickerView.setVisibility(View.GONE);
+        hideInputBarView();
 
-        boolean wantsOptionPicker = (vcCurrentQuestion != null &&
-                vcCurrentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_CUSTOMER_FOLLOW_UP_CHANNEL);
+        kusOptionPickerView.setVisibility(View.VISIBLE);
+        updateOptionsPickerOptions();
+    }
 
-        if (wantsOptionPicker) {
-            kusInputBarView.setVisibility(View.GONE);
-            kusInputBarView.clearInputFocus();
-            kusInputBarView.setText("");
+    private void showSessionButton() {
+        hideInputBarView();
+        kusOptionPickerView.setVisibility(View.GONE);
+        tvClosedChat.setVisibility(View.GONE);
+        mlFormValuesPickerView.setVisibility(View.GONE);
 
-            if (vcCurrentQuestion.getValues() != null && vcCurrentQuestion.getValues().size() > 0) {
-                kusOptionPickerView.setVisibility(View.VISIBLE);
-                updateOptionsPickerOptions();
-            }
-            return;
-        }
-
-        KUSFormQuestion currentQuestion = chatMessagesDataSource.currentQuestion();
-
-        boolean wantMultiLevelValuesPicker = (currentQuestion != null
-                && currentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_MLV);
-
-        if (wantMultiLevelValuesPicker) {
-            kusInputBarView.setVisibility(View.GONE);
-            kusInputBarView.clearInputFocus();
-
-            if (currentQuestion.getMlFormValues() != null
-                    && currentQuestion.getMlFormValues().getMlNodes() != null) {
-                if (currentQuestion.getMlFormValues().getMlNodes().size() > 0
-                        && mlFormValuesPickerView.getVisibility() == View.GONE) {
-
-                    mlFormValuesPickerView.setMlFormValues(currentQuestion.getMlFormValues().getMlNodes(),
-                            currentQuestion.getMlFormValues().getLastNodeRequired());
-                    mlFormValuesPickerView.setVisibility(View.VISIBLE);
-                }
-            }
-
-            return;
-        }
-
-        wantsOptionPicker = (currentQuestion != null
-                && currentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_VALUES
-                && currentQuestion.getValues() != null && currentQuestion.getValues().size() > 0);
-
-        if (wantsOptionPicker) {
-            kusInputBarView.setVisibility(View.GONE);
-            kusInputBarView.clearInputFocus();
-            kusInputBarView.setText("");
-            kusOptionPickerView.setVisibility(View.VISIBLE);
-            updateOptionsPickerOptions();
-            return;
-        }
-
-        wantsOptionPicker = (currentQuestion != null
-                && currentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_CONVERSATION_TEAM
-                && currentQuestion.getValues() != null && currentQuestion.getValues().size() > 0);
-
-        boolean teamOptionsDidFail = teamOptionsDatasource != null && (teamOptionsDatasource.getError() != null
-                || (teamOptionsDatasource.isFetched() && teamOptionsDatasource.getSize() == 0));
-        if (wantsOptionPicker && !teamOptionsDidFail) {
-            kusInputBarView.setVisibility(View.GONE);
-            kusInputBarView.clearInputFocus();
-            kusInputBarView.setText("");
-
-            List<String> teamIds = currentQuestion.getValues();
-            if (teamOptionsDatasource == null || !teamOptionsDatasource.getTeamIds().equals(teamIds)) {
-                teamOptionsDatasource = new KUSTeamsDataSource(userSession, teamIds);
-                teamOptionsDatasource.addListener(this);
-                teamOptionsDatasource.fetchLatest();
-            }
-
-            kusOptionPickerView.setVisibility(View.VISIBLE);
-            updateOptionsPickerOptions();
-        } else {
-            teamOptionsDatasource = null;
-
-            kusInputBarView.setVisibility(View.VISIBLE);
-            kusOptionPickerView.setVisibility(View.GONE);
-            tvClosedChat.setVisibility(View.GONE);
+        if (userSession.getSharedPreferences().getShouldHideConversationButton())
             tvStartANewConversation.setVisibility(View.GONE);
-            mlFormValuesPickerView.setVisibility(View.GONE);
+        else
+            tvStartANewConversation.setVisibility(View.VISIBLE);
+
+        if (isBackToChatButton()) {
+            tvStartANewConversation.setText(R.string.com_kustomer_back_to_chat);
+
+        } else {
+            if (userSession.getScheduleDataSource().isActiveBusinessHours()) {
+                tvStartANewConversation.setText(R.string.com_kustomer_start_a_new_conversation);
+
+            } else {
+                tvStartANewConversation.setText(R.string.com_kustomer_leave_a_message);
+            }
         }
     }
 
-    private void checkShouldShowInputView() {
+    private void showClosedChatView() {
+        hideInputBarView();
+        kusOptionPickerView.setVisibility(View.GONE);
+        mlFormValuesPickerView.setVisibility(View.GONE);
+
+        tvClosedChat.setVisibility(View.VISIBLE);
+    }
+
+    private void checkShouldUpdateInputView() {
         KUSChatSession session = (KUSChatSession) userSession
                 .getChatSessionsDataSource().findById(getValidChatSessionId());
 
-        if (session != null && session.getLockedAt() != null) {
-            kusInputBarView.setVisibility(View.GONE);
-            kusInputBarView.clearInputFocus();
-            kusInputBarView.setText("");
-            kusInputBarView.removeAllAttachments();
-            kusOptionPickerView.setVisibility(View.GONE);
-            tvClosedChat.setVisibility(View.GONE);
-
-
-            if (userSession.getSharedPreferences().getShouldHideConversationButton())
-                tvStartANewConversation.setVisibility(View.GONE);
-            else
-                tvStartANewConversation.setVisibility(View.VISIBLE);
-
-            if (isBackToChatButton()) {
-                tvStartANewConversation.setText(R.string.com_kustomer_back_to_chat);
-            } else {
-                if (userSession.getScheduleDataSource().isActiveBusinessHours()) {
-                    tvStartANewConversation.setText(R.string.com_kustomer_start_a_new_conversation);
-                } else {
-                    tvStartANewConversation.setText(R.string.com_kustomer_leave_a_message);
-                }
-            }
-
+        boolean isSessionLocked = session != null && session.getLockedAt() != null;
+        if (isSessionLocked) {
+            showSessionButton();
             return;
         }
 
@@ -599,21 +543,88 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
                 chatMessagesDataSource.isChatClosed() &&
                 chatMessagesDataSource.getOtherUserIds().size() == 0;
         if (wantsClosedView) {
-            kusInputBarView.setVisibility(View.GONE);
-            kusInputBarView.clearInputFocus();
-            kusOptionPickerView.setVisibility(View.GONE);
-            tvClosedChat.setVisibility(View.VISIBLE);
-
+            showClosedChatView();
             return;
         }
 
-        checkShouldShowOptionPicker();
+        if (isCurrentFormQuestionInserted()) {
+            KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource != null ?
+                    chatMessagesDataSource.volumeControlCurrentQuestion() : null;
+
+            KUSFormQuestion currentQuestion = chatMessagesDataSource != null ?
+                    chatMessagesDataSource.currentQuestion() : null;
+
+            boolean isFollowupChannelQuestion = (vcCurrentQuestion != null
+                    && vcCurrentQuestion.getProperty() == KUS_FORM_QUESTION_PROPERTY_CUSTOMER_FOLLOW_UP_CHANNEL
+                    && vcCurrentQuestion.getValues() != null
+                    && vcCurrentQuestion.getValues().size() > 0);
+
+            boolean isPropertyValueQuestion = (currentQuestion != null
+                    && currentQuestion.getProperty() == KUS_FORM_QUESTION_PROPERTY_VALUES
+                    && currentQuestion.getValues() != null
+                    && currentQuestion.getValues().size() > 0);
+
+            boolean isConversationTeamQuestion = (currentQuestion != null
+                    && currentQuestion.getProperty() == KUS_FORM_QUESTION_PROPERTY_CONVERSATION_TEAM
+                    && currentQuestion.getValues() != null
+                    && currentQuestion.getValues().size() > 0);
+
+            boolean teamOptionsDidFail = false;
+
+            if (isConversationTeamQuestion) {
+                teamOptionsDidFail = teamOptionsDatasource == null
+                        || teamOptionsDatasource.getError() != null
+                        || (teamOptionsDatasource.isFetched() && teamOptionsDatasource.getSize() == 0);
+
+                if (!teamOptionsDidFail) {
+                    List<String> teamIds = currentQuestion.getValues();
+
+                    if (teamOptionsDatasource == null || !teamOptionsDatasource.getTeamIds().equals(teamIds)) {
+                        teamOptionsDatasource = new KUSTeamsDataSource(userSession, teamIds);
+                        teamOptionsDatasource.addListener(this);
+                        teamOptionsDatasource.fetchLatest();
+                    }
+                }
+            }
+
+            boolean wantsOptionPicker = isFollowupChannelQuestion
+                    || isPropertyValueQuestion
+                    || (isConversationTeamQuestion && !teamOptionsDidFail);
+
+            if (wantsOptionPicker) {
+                showOptionPickerView();
+                return;
+            }
+
+            boolean isMLVPropertyFormQuestion = (currentQuestion != null
+                    && currentQuestion.getProperty() == KUS_FORM_QUESTION_PROPERTY_MLV);
+
+            boolean hasMLFormValues = currentQuestion != null
+                    && currentQuestion.getMlFormValues() != null
+                    && currentQuestion.getMlFormValues().getMlNodes() != null
+                    && currentQuestion.getMlFormValues().getMlNodes().size() > 0;
+
+            boolean wantsMultiLevelValuesPicker = isMLVPropertyFormQuestion && hasMLFormValues;
+
+            if (wantsMultiLevelValuesPicker) {
+                showMLFormValuePickerWithValue(currentQuestion.getMlFormValues());
+                return;
+            }
+        }
+        teamOptionsDatasource = null;
+
+        kusInputBarView.setVisibility(View.VISIBLE);
+
+        kusOptionPickerView.setVisibility(View.GONE);
+        tvClosedChat.setVisibility(View.GONE);
+        tvStartANewConversation.setVisibility(View.GONE);
+        mlFormValuesPickerView.setVisibility(View.GONE);
     }
 
     private void updateOptionsPickerOptions() {
         KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource.volumeControlCurrentQuestion();
         boolean wantsOptionPicker = (vcCurrentQuestion != null
-                && vcCurrentQuestion.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_CUSTOMER_FOLLOW_UP_CHANNEL
+                && vcCurrentQuestion.getProperty() == KUS_FORM_QUESTION_PROPERTY_CUSTOMER_FOLLOW_UP_CHANNEL
                 && vcCurrentQuestion.getValues() != null && vcCurrentQuestion.getValues().size() > 0);
         if (wantsOptionPicker) {
             kusOptionPickerView.setOptions(vcCurrentQuestion.getValues());
@@ -772,6 +783,27 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
         handler.post(runnable);
     }
 
+    private boolean isCurrentFormQuestionInserted() {
+        KUSChatMessage latestMessage = chatMessagesDataSource != null ?
+                chatMessagesDataSource.getLatestMessage() : null;
+        KUSFormQuestion vcCurrentQuestion = chatMessagesDataSource != null ?
+                chatMessagesDataSource.volumeControlCurrentQuestion() : null;
+
+        if (vcCurrentQuestion != null) {
+            return latestMessage != null && vcCurrentQuestion.getId().equals(latestMessage.getId());
+        }
+
+        KUSFormQuestion currentQuestion = chatMessagesDataSource != null ?
+                chatMessagesDataSource.currentQuestion() : null;
+
+        if (currentQuestion != null) {
+            String questionId = String.format("question_%s", currentQuestion.getId());
+            return latestMessage != null && questionId.equals(latestMessage.getId());
+        }
+
+        return false;
+    }
+
     //endregion
 
     //region Listeners
@@ -825,7 +857,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
         checkShouldShowEmailInput();
         checkShouldShowCloseChatButtonView();
-        checkShouldShowInputView();
+        checkShouldUpdateInputView();
 
         kusToolbar.setExtraLargeSize(chatMessagesDataSource.getSize() == 0);
     }
@@ -878,7 +910,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             Runnable runnable = new Runnable() {
                 @Override
                 public void run() {
-                    checkShouldShowInputView();
+                    checkShouldUpdateInputView();
                 }
             };
             handler.post(runnable);
@@ -893,15 +925,8 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
             public void run() {
                 if (dataSource == chatMessagesDataSource) {
                     adapter.notifyDataSetChanged();
-                    checkShouldShowInputView();
+                    checkShouldUpdateInputView();
                     checkShouldShowCloseChatButtonView();
-
-                    KUSChatSession session = (KUSChatSession) userSession
-                            .getChatSessionsDataSource().findById(getValidChatSessionId());
-
-                    if (session != null && session.getLockedAt() != null) {
-                        chatMessagesDataSource.stopListeningForTypingUpdate();
-                    }
 
                     if (dataSource.getSize() >= 1)
                         setupToolbar();
@@ -915,7 +940,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
                     shouldShowNonBusinessHoursImage = false;
                     ivNonBusinessHours.setVisibility(View.GONE);
                 } else if (dataSource == teamOptionsDatasource) {
-                    checkShouldShowInputView();
+                    checkShouldUpdateInputView();
                     updateOptionsPickerOptions();
                 }
             }
@@ -943,6 +968,23 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
                 setupToolbar();
                 checkShouldShowEmailInput();
                 chatMessagesDataSource.startListeningForTypingUpdate();
+            }
+        };
+        handler.post(runnable);
+    }
+
+    @Override
+    public void onChatSessionEnded(@NonNull final KUSChatMessagesDataSource dataSource) {
+        Handler handler = new Handler(Looper.getMainLooper());
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                if (dataSource == chatMessagesDataSource) {
+                    adapter.notifyDataSetChanged();
+                    checkShouldUpdateInputView();
+                    checkShouldShowCloseChatButtonView();
+                    chatMessagesDataSource.stopListeningForTypingUpdate();
+                }
             }
         };
         handler.post(runnable);
@@ -1058,9 +1100,14 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     public boolean inputBarShouldEnableSend() {
         KUSFormQuestion question = chatMessagesDataSource.volumeControlCurrentQuestion();
 
-        if (question == null)
+        if (question == null) {
             question = chatMessagesDataSource.currentQuestion();
 
+            if (question != null && !KUSFormQuestionRequiresResponse(question)) {
+                return false;
+            }
+
+        }
         if (question != null) {
 
             if (question.getProperty() == KUSFormQuestionProperty.KUS_FORM_QUESTION_PROPERTY_CUSTOMER_EMAIL) {
