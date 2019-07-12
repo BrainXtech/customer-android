@@ -138,7 +138,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
                 params, true, new KUSRequestCompletionListener() {
                     @Override
                     public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
-                        if (error != null) {
+                        if (response == null || error != null) {
                             if (listener != null)
                                 listener.onComplete(error, null);
 
@@ -213,8 +213,9 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
                 new KUSRequestCompletionListener() {
                     @Override
                     public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
-                        if (error != null && listener != null) {
-                            listener.onComplete(error, null);
+                        if (response == null || error != null) {
+                            if (listener != null)
+                                listener.onComplete(error, null);
                             return;
                         }
 

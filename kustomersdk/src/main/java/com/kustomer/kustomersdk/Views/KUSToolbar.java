@@ -461,7 +461,7 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener,
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                if (dataSource == chatMessagesDataSource && chatMessagesDataSource != null) {
+                if (dataSource == chatMessagesDataSource) {
                     kusMultipleAvatarsView.setUserIds(chatMessagesDataSource.getOtherUserIds());
                     updateTextLabel();
                 } else if (mUserSession != null && dataSource == mUserSession.getChatSessionsDataSource()) {

@@ -68,8 +68,10 @@ public class KUSObjectDataSource {
 
                 KUSModel model = null;
                 try {
-                    model = objectFromJson(JsonHelper.jsonObjectFromKeyPath(response,"data"));
-                    model.addIncludedWithJSON(JsonHelper.jsonArrayFromKeyPath(response,"included"));
+                    if (response != null) {
+                        model = objectFromJson(JsonHelper.jsonObjectFromKeyPath(response,"data"));
+                        model.addIncludedWithJSON(JsonHelper.jsonArrayFromKeyPath(response,"included"));
+                    }
                 } catch (KUSInvalidJsonException ignore) { }
 
                 fetching = false;

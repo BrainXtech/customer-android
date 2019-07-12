@@ -39,7 +39,7 @@ public class KUSTeam extends KUSModel {
 
                 String [] unicodes = icon.split("-");
                 StringBuilder text = new StringBuilder();
-                byte [] bytes = null;
+                byte [] bytes;
 
                 long emojiInt = Long.parseLong(unicodes[0], 16);
                 ByteBuffer b = ByteBuffer.allocate(8);

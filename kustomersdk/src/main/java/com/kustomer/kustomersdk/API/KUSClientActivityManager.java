@@ -166,7 +166,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
                     return;
                 }
                 if (dataSource == activityDataSource) {
-                    if (activityDataSource != null && activityDataSource.getCurrentPageSeconds() > 0) {
+                    if (activityDataSource.getCurrentPageSeconds() > 0) {
                         // Tell the push client to perform a sessions list pull to check for automated messages
                         // We delay a bit here to avoid a race in message creation delay
 

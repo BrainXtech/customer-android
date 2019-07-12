@@ -3,12 +3,9 @@ package com.kustomer.kustomersdk.Models;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import com.kustomer.kustomersdk.API.KUSUserSession;
-import com.kustomer.kustomersdk.DataSources.KUSChatMessagesDataSource;
 import com.kustomer.kustomersdk.Helpers.KUSDate;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
 import com.kustomer.kustomersdk.Helpers.KUSLog;
-import com.kustomer.kustomersdk.Kustomer;
 
 import org.json.JSONException;
 import org.json.JSONObject;

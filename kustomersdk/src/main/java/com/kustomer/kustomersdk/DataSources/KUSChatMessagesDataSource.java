@@ -942,7 +942,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                 if (getUserSession() == null)
                     return;
 
-                if (error != null) {
+                if (attachments == null || error != null) {
                     insertMessagesWithState(KUSChatMessageState.KUS_CHAT_MESSAGE_STATE_FAILED, temporaryMessages);
                     return;
                 }
@@ -967,7 +967,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                                 if (getUserSession() == null)
                                     return;
 
-                                if (error != null) {
+                                if (response == null || error != null) {
                                     insertMessagesWithState(KUSChatMessageState.KUS_CHAT_MESSAGE_STATE_FAILED,
                                             temporaryMessages);
                                     return;

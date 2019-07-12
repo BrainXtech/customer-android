@@ -117,7 +117,7 @@ public class Kustomer {
      * Returns the identification status in listener on background thread.
      *
      * @param externalToken A valid JWT web token to identify user
-     * @param listener The callback which will receive identification status.
+     * @param listener      The callback which will receive identification status.
      */
     public static void identify(@NonNull String externalToken, @Nullable KUSIdentifyListener listener) {
         getSharedInstance().mIdentify(externalToken, listener);
@@ -205,21 +205,23 @@ public class Kustomer {
     private OkHttpClient getOkHttpClientForFresco() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
+                    @NonNull
                     @Override
-                    public Response intercept(Interceptor.Chain chain) throws IOException {
+                    public Response intercept(@NonNull Interceptor.Chain chain) throws IOException {
                         Request originalRequest = chain.request(); //Current Request
 
                         //tracking token
                         String trackingToken = Kustomer.getSharedInstance().getUserSession()
                                 .getTrackingTokenDataSource().getCurrentTrackingToken();
 
-                        Request requestWithToken = null; //The request with the access token which we will use if we have one instead of the original
+                        Request requestWithToken; //The request with the access token which we will use if we have one instead of the original
                         requestWithToken = originalRequest.newBuilder()
                                 .addHeader(KUSConstants.Keys.K_KUSTOMER_TRACKING_TOKEN_HEADER_KEY,
                                         trackingToken != null ? trackingToken : "")
                                 .build();
-                        Response response = chain.proceed((requestWithToken != null ? requestWithToken : originalRequest)); //proceed with the request and get the response
-                        if (response != null && response.code() != HttpURLConnection.HTTP_OK) {
+                        Response response = chain.proceed(requestWithToken); //proceed with the request and get the response
+
+                        if (response.body() != null && response.code() != HttpURLConnection.HTTP_OK) {
                             response.body().close();
                         }
                         return response;
@@ -262,8 +264,8 @@ public class Kustomer {
             throw new AssertionError("Kustomer expects externalToken to be non-null");
         }
 
-        if(externalToken.isEmpty()){
-            if(listener != null)
+        if (externalToken.isEmpty()) {
+            if (listener != null)
                 listener.onComplete(false);
 
             return;
@@ -336,7 +338,7 @@ public class Kustomer {
         if (apiKeyParts.length <= 2)
             throw new AssertionError("Kustomer API key has unexpected format");
 
-        JSONObject tokenPayload = null;
+        JSONObject tokenPayload;
         try {
             tokenPayload = jsonFromBase64EncodedJsonString(apiKeyParts[1]);
             this.apiKey = apiKey;

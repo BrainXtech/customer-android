@@ -1261,7 +1261,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
     @Override
     public void mlFormValueSelected(@Nullable String option, @Nullable String optionId) {
-        if (chatMessagesDataSource != null)
+        if (chatMessagesDataSource != null && option != null)
             chatMessagesDataSource.sendMessageWithText(option, null, optionId);
         kusInputBarView.setText("");
         kusInputBarView.removeAllAttachments();

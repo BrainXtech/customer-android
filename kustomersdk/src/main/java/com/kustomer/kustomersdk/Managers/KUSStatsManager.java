@@ -50,7 +50,7 @@ public class KUSStatsManager {
                         if (userSession.get() == null)
                             return;
 
-                        if (error != null) {
+                        if (response == null || error != null) {
                             listener.onCompletion(false);
                             return;
                         }

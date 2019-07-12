@@ -36,7 +36,7 @@ public class KUSUpload {
 
     //region LifeCycle
 
-    public KUSUpload(){
+    public KUSUpload() {
         attachments = new ArrayList<>();
     }
 
@@ -72,8 +72,8 @@ public class KUSUpload {
     //endregion
 
     //region Private Method
-    private void uploadCompleted(int index,@Nullable Error error,@Nullable KUSChatAttachment attachment,
-                                 @NonNull KUSImageUploadListener listener,@NonNull List<Bitmap> images) {
+    private void uploadCompleted(int index, @Nullable Error error, @Nullable KUSChatAttachment attachment,
+                                 @NonNull KUSImageUploadListener listener, @NonNull List<Bitmap> images) {
         if (error != null) {
             if (!sendingComplete) {
                 sendingComplete = true;
@@ -117,7 +117,7 @@ public class KUSUpload {
                     @Override
                     public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
 
-                        if (error != null) {
+                        if (response == null || error != null) {
                             listener.onUploadComplete(error, null);
                             return;
                         }
