@@ -7,9 +7,9 @@ import android.support.annotation.Nullable;
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Enums.KUSRequestType;
 import com.kustomer.kustomersdk.Helpers.KUSInvalidJsonException;
+import com.kustomer.kustomersdk.Helpers.KUSLocalization;
 import com.kustomer.kustomersdk.Helpers.KUSLog;
 import com.kustomer.kustomersdk.Interfaces.KUSChatAvailableListener;
-import com.kustomer.kustomersdk.Helpers.KUSLocalization;
 import com.kustomer.kustomersdk.Interfaces.KUSRequestCompletionListener;
 import com.kustomer.kustomersdk.Models.KUSChatSettings;
 import com.kustomer.kustomersdk.Models.KUSModel;
@@ -47,9 +47,9 @@ public class KUSChatSettingsDataSource extends KUSObjectDataSource implements Se
         getUserSession().getRequestManager().performRequestType(KUSRequestType.KUS_REQUEST_TYPE_GET,
                 KUSConstants.URL.SETTINGS_ENDPOINT,
                 new HashMap<String, Object>() {{
-                        put(KUSConstants.HeaderKeys.K_KUSTOMER_LANGUAGE_KEY,
-                                locale != null ? locale.getLanguage() : "");
-                    }},
+                    put(KUSConstants.HeaderKeys.K_KUSTOMER_LANGUAGE_KEY,
+                            locale != null ? locale.getLanguage() : "");
+                }},
                 true,
                 completionListener);
     }
@@ -60,7 +60,7 @@ public class KUSChatSettingsDataSource extends KUSObjectDataSource implements Se
         return new KUSChatSettings(jsonObject);
     }
 
-    public void isChatAvailable(@NonNull final KUSChatAvailableListener listener) {
+    public void isChatAvailable(@Nullable final KUSChatAvailableListener listener) {
 
         performRequest(new KUSRequestCompletionListener() {
             @Override
@@ -77,10 +77,12 @@ public class KUSChatSettingsDataSource extends KUSObjectDataSource implements Se
                     KUSLog.kusLogError(e.getMessage());
                 }
 
-                if (error == null && settings != null)
-                    listener.onSuccess(settings.getEnabled());
-                else
-                    listener.onFailure();
+                if (listener != null) {
+                    if (error == null && settings != null)
+                        listener.onSuccess(settings.getEnabled());
+                    else
+                        listener.onFailure();
+                }
             }
         });
 

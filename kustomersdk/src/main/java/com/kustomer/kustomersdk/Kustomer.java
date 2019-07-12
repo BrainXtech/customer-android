@@ -50,21 +50,30 @@ import okhttp3.Response;
 public class Kustomer {
 
     //region Properties
+    @NonNull
     private static Context mContext;
+    @Nullable
     private static Kustomer sharedInstance = null;
 
+    @Nullable
     private KUSUserSession userSession;
 
+    @Nullable
     private String apiKey;
+    @Nullable
     private String orgId;
+    @Nullable
     private String orgName;
 
+    @Nullable
     private static String hostDomainOverride = null;
     private static int logOptions = KUSLogOptions.KUSLogOptionInfo | KUSLogOptions.KUSLogOptionErrors;
+    @Nullable
     KUSKustomerListener mListener;
     //endregion
 
     //region LifeCycle
+    @NonNull
     public static Kustomer getSharedInstance() {
         if (sharedInstance == null)
             sharedInstance = new Kustomer();
@@ -75,7 +84,7 @@ public class Kustomer {
 
     //region Class Methods
 
-    public static void init(Context context, String apiKey) throws AssertionError {
+    public static void init(@NonNull Context context, @NonNull String apiKey) throws AssertionError {
         mContext = context.getApplicationContext();
 
         EmojiCompat.Config emojiConfig = new BundledEmojiCompatConfig(mContext);
@@ -97,19 +106,19 @@ public class Kustomer {
         }
     }
 
-    public static void setListener(KUSKustomerListener listener) {
+    public static void setListener(@NonNull KUSKustomerListener listener) {
         getSharedInstance().mSetListener(listener);
     }
 
-    public static void describeConversation(JSONObject customAttributes) {
+    public static void describeConversation(@NonNull JSONObject customAttributes) {
         getSharedInstance().mDescribeConversation(customAttributes);
     }
 
-    public static void describeNextConversation(JSONObject customAttributes) {
+    public static void describeNextConversation(@NonNull JSONObject customAttributes) {
         getSharedInstance().mDescribeNextConversation(customAttributes);
     }
 
-    public static void describeCustomer(KUSCustomerDescription customerDescription) {
+    public static void describeCustomer(@NonNull KUSCustomerDescription customerDescription) {
         getSharedInstance().mDescribeCustomer(customerDescription);
     }
 
@@ -127,7 +136,7 @@ public class Kustomer {
         getSharedInstance().mResetTracking();
     }
 
-    public static void setCurrentPageName(String currentPageName) {
+    public static void setCurrentPageName(@NonNull String currentPageName) {
         getSharedInstance().mSetCurrentPageName(currentPageName);
     }
 
@@ -140,20 +149,17 @@ public class Kustomer {
      *
      * @param listener The callback which will receive chat status.
      */
-    public static void isChatAvailable(KUSChatAvailableListener listener) {
+    public static void isChatAvailable(@NonNull KUSChatAvailableListener listener) {
         getSharedInstance().mIsChatAvailable(listener);
     }
 
-    public static void showSupport(Activity activity) {
-
-        if (activity != null) {
-            Intent intent = new Intent(activity, KUSSessionsActivity.class);
-            activity.startActivity(intent);
-            activity.overridePendingTransition(R.anim.kus_slide_up, R.anim.kus_stay);
-        }
+    public static void showSupport(@NonNull Activity activity) {
+        Intent intent = new Intent(activity, KUSSessionsActivity.class);
+        activity.startActivity(intent);
+        activity.overridePendingTransition(R.anim.kus_slide_up, R.anim.kus_stay);
     }
 
-    public static void presentKnowledgeBase(Activity activity) {
+    public static void presentKnowledgeBase(@NonNull Activity activity) {
         Intent intent = new Intent(activity, KUSKnowledgeBaseActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
@@ -163,7 +169,7 @@ public class Kustomer {
             activity.overridePendingTransition(R.anim.kus_slide_left_rtl, R.anim.kus_stay);
     }
 
-    public static void presentCustomWebPage(Activity activity, String url) {
+    public static void presentCustomWebPage(@NonNull Activity activity, @NonNull String url) {
         Intent intent = new Intent(activity, KUSKnowledgeBaseActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(KUSConstants.Keys.K_KUSTOMER_URL_KEY, url);
@@ -172,10 +178,11 @@ public class Kustomer {
         activity.overridePendingTransition(R.anim.kus_slide_left, R.anim.kus_stay);
     }
 
-    public static void setLocale(Locale locale) {
+    public static void setLocale(@NonNull Locale locale) {
         getSharedInstance().mSetLocale(locale);
     }
 
+    @NonNull
     public static String getLocalizedString(@NonNull String key) {
         return getSharedInstance().mGetString(key);
     }
@@ -202,6 +209,7 @@ public class Kustomer {
     //endregion
 
     //region Private Methods
+    @NonNull
     private OkHttpClient getOkHttpClientForFresco() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new Interceptor() {
@@ -230,41 +238,43 @@ public class Kustomer {
                 .build();
     }
 
-    private void mSetListener(KUSKustomerListener listener) {
+    private void mSetListener(@Nullable KUSKustomerListener listener) {
         mListener = listener;
-        userSession.getDelegateProxy().setListener(listener);
+        if (userSession != null)
+            userSession.getDelegateProxy().setListener(listener);
     }
 
-    private void mDescribeConversation(JSONObject customAttributes) {
+    private void mDescribeConversation(@Nullable JSONObject customAttributes) {
         if (customAttributes == null)
             throw new AssertionError("Attempted to describe a conversation with no attributes set");
 
-        if (!customAttributes.keys().hasNext())
+        if (!customAttributes.keys().hasNext() || userSession == null)
             return;
 
         userSession.getChatSessionsDataSource().describeActiveConversation(customAttributes);
     }
 
-    private void mDescribeNextConversation(JSONObject customAttributes) {
+    private void mDescribeNextConversation(@Nullable JSONObject customAttributes) {
         if (customAttributes == null)
             throw new AssertionError("Attempted to describe a conversation with no attributes set");
 
-        if (!customAttributes.keys().hasNext())
+        if (!customAttributes.keys().hasNext() || userSession == null)
             return;
 
         userSession.getChatSessionsDataSource().describeNextConversation(customAttributes);
     }
 
-    private void mDescribeCustomer(KUSCustomerDescription customerDescription) {
-        userSession.describeCustomer(customerDescription, null);
+    private void mDescribeCustomer(@Nullable KUSCustomerDescription customerDescription) {
+        if (userSession != null)
+            userSession.describeCustomer(customerDescription, null);
     }
 
-    private void mIdentify(final String externalToken, @Nullable final KUSIdentifyListener listener) {
+    private void mIdentify(@Nullable final String externalToken, @Nullable final KUSIdentifyListener listener) {
         if (externalToken == null) {
             throw new AssertionError("Kustomer expects externalToken to be non-null");
         }
 
-        if (externalToken.isEmpty()) {
+        if (externalToken.isEmpty() || userSession == null) {
             if (listener != null)
                 listener.onComplete(false);
 
@@ -294,7 +304,9 @@ public class Kustomer {
     }
 
     private void mResetTracking() {
-        String currentPage = userSession.getActivityManager().getCurrentPageName();
+        String currentPage = userSession != null ?
+                userSession.getActivityManager().getCurrentPageName()
+                : null;
 
         // Create a new userSession and release the previous one
         if (userSession != null) {
@@ -310,21 +322,29 @@ public class Kustomer {
     }
 
     private void mSetCurrentPageName(String currentPageName) {
-        userSession.getActivityManager().setCurrentPageName(currentPageName);
+        if (userSession != null)
+            userSession.getActivityManager().setCurrentPageName(currentPageName);
     }
 
     private int mGetUnreadMessageCount() {
-        return userSession.getChatSessionsDataSource().totalUnreadCountExcludingSessionId(null);
+        return userSession != null ?
+                userSession.getChatSessionsDataSource().totalUnreadCountExcludingSessionId(null)
+                : 0;
     }
 
-    private void mIsChatAvailable(KUSChatAvailableListener listener) {
+    private void mIsChatAvailable(@Nullable KUSChatAvailableListener listener) {
 
         // Get latest settings from server
-        userSession.getChatSettingsDataSource().fetch();
-        userSession.getChatSettingsDataSource().isChatAvailable(listener);
+        if (userSession != null) {
+            userSession.getChatSettingsDataSource().fetch();
+            userSession.getChatSettingsDataSource().isChatAvailable(listener);
+        } else {
+            if (listener != null)
+                listener.onFailure();
+        }
     }
 
-    private void setApiKey(String apiKey) {
+    private void setApiKey(@Nullable String apiKey) {
         if (apiKey == null) {
             throw new AssertionError("Kustomer requires a valid API key");
         }
@@ -352,18 +372,19 @@ public class Kustomer {
             userSession.getDelegateProxy().setListener(mListener);
         } catch (JSONException ignore) {
         }
-
     }
 
-    private JSONObject jsonFromBase64EncodedJsonString(String base64EncodedJson) throws JSONException {
+    @NonNull
+    private JSONObject jsonFromBase64EncodedJsonString(@NonNull String base64EncodedJson) throws JSONException {
         byte[] array = Base64.decode(base64EncodedJson, Base64.NO_PADDING);
         return new JSONObject(new String(array));
     }
 
-    private void mSetLocale(Locale locale) {
+    private void mSetLocale(@Nullable Locale locale) {
         KUSLocalization.getSharedInstance().setUserLocale(locale);
     }
 
+    @NonNull
     private String mGetString(@NonNull String key) {
         return KUSLocalization.getSharedInstance().localizedString(mContext, key);
     }
@@ -379,12 +400,14 @@ public class Kustomer {
         return 0;
     }
 
-    private void mHideNewConversationButtonInClosedChat(Boolean status) {
+    private void mHideNewConversationButtonInClosedChat(boolean status) {
         if (getUserSession().getSharedPreferences() != null)
             getUserSession().getSharedPreferences().setShouldHideConversationButton(status);
     }
 
-    private void mShowSupportWithMessage(Activity activity, String message, JSONObject customAttributes) {
+    private void mShowSupportWithMessage(@NonNull Activity activity,
+                                         @Nullable String message,
+                                         @Nullable JSONObject customAttributes) {
         if (TextUtils.isEmpty(message))
             throw new AssertionError("Requires a valid message to create chat session.");
 
@@ -398,10 +421,12 @@ public class Kustomer {
     //endregion
 
     //region Public Methods
+    @NonNull
     public static String sdkVersion() {
         return BuildConfig.VERSION_NAME;
     }
 
+    @NonNull
     public static String hostDomain() {
         return hostDomainOverride != null ? hostDomainOverride : KUSConstants.URL.HOST_NAME;
     }
@@ -418,10 +443,12 @@ public class Kustomer {
         hostDomainOverride = hostDomain;
     }
 
+    @NonNull
     public static Context getContext() {
         return mContext;
     }
 
+    @NonNull
     public KUSUserSession getUserSession() {
         if (userSession == null)
             throw new AssertionError("Kustomer needs to be initialized before use");
