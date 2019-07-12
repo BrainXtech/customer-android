@@ -107,7 +107,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     //endregion
 
     //region Request Methods
-    public void getEndpoint(@Nullable String endpoint,
+    public void getEndpoint(@NonNull String endpoint,
                             boolean authenticated,
                             @Nullable KUSRequestCompletionListener listener) {
         performRequestType(KUSRequestType.KUS_REQUEST_TYPE_GET,
@@ -118,7 +118,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     }
 
     public void performRequestType(@NonNull KUSRequestType type,
-                                   @Nullable String endpoint,
+                                   @NonNull String endpoint,
                                    @Nullable Map<String, Object> params,
                                    boolean authenticated,
                                    @Nullable KUSRequestCompletionListener listener) {

@@ -94,7 +94,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
     //endregion
 
     //region LifeCycle
-    KUSPushClient(KUSUserSession userSession) {
+    KUSPushClient(@NonNull KUSUserSession userSession) {
         this.userSession = new WeakReference<>(userSession);
         isPusherTrackingStarted = false;
 
@@ -163,11 +163,9 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
     }
 
     public void disconnectFromChatActivityChannel() {
-        if (chatActivityChannel != null) {
-            if (pusherClient != null)
-                pusherClient.unsubscribe(chatActivityChannel.getName());
-            chatActivityChannel = null;
-        }
+        if (chatActivityChannel != null && pusherClient != null)
+            pusherClient.unsubscribe(chatActivityChannel.getName());
+        chatActivityChannel = null;
     }
 
     public void sendChatActivityForSessionId(@Nullable String sessionId,
@@ -194,6 +192,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
     //endregion
 
     //region Private Methods
+    @Nullable
     private URL getPusherAuthURL() {
         return userSession.get().getRequestManager().urlForEndpoint(KUSConstants.URL.PUSHER_AUTH);
     }
@@ -233,8 +232,12 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
                     userSession.get().getTrackingTokenDataSource().getCurrentTrackingToken());
             headers.putAll(userSession.get().getRequestManager().genericHTTPHeaderValues);
 
-            HttpAuthorizer authorizer = new HttpAuthorizer(getPusherAuthURL().toString());
-            authorizer.setHeaders(headers);
+            URL pusherUrl = getPusherAuthURL();
+            HttpAuthorizer authorizer = null;
+            if (pusherUrl != null) {
+                authorizer = new HttpAuthorizer(pusherUrl.toString());
+                authorizer.setHeaders(headers);
+            }
 
             PusherOptions options = new PusherOptions().setEncrypted(true).setAuthorizer(authorizer);
             pusherClient = new Pusher(chatSettings.getPusherAccessKey(), options);
@@ -357,7 +360,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
         });
     }
 
-    private void notifyForUpdatedChatSession(String sessionId) {
+    private void notifyForUpdatedChatSession(@Nullable String sessionId) {
 
         if (isSupportScreenShown()) {
             KUSAudio.playMessageReceivedSound();
@@ -542,7 +545,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
         }
     }
 
-    private void onPusherChatMessageSend(String data) {
+    private void onPusherChatMessageSend(@NonNull String data) {
         JSONObject jsonObject = JsonHelper.stringToJson(data);
 
         if (jsonObject == null)
@@ -568,7 +571,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
         }
     }
 
-    private void onPusherChatSessionEnd(String data) {
+    private void onPusherChatSessionEnd(@NonNull String data) {
         JSONObject jsonObject = JsonHelper.stringToJson(data);
 
         if (jsonObject == null)

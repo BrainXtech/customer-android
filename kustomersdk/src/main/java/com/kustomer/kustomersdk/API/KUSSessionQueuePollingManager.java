@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.API;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.DataSources.KUSObjectDataSource;
 import com.kustomer.kustomersdk.DataSources.KUSSessionQueueDataSource;
@@ -31,6 +32,7 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
     @NonNull
     private KUSSessionQueueDataSource sessionQueueDataSource;
 
+    @Nullable
     private Timer timer;
     //endregion
 
@@ -106,7 +108,7 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
         }
     }
 
-    private void notifyAnnouncersOnPollingUpdated(KUSSessionQueue sessionQueue) {
+    private void notifyAnnouncersOnPollingUpdated(@NonNull KUSSessionQueue sessionQueue) {
         for (KUSSessionQueuePollingListener listener : new ArrayList<>(listeners)) {
             if (listener != null)
                 listener.onSessionQueueUpdated(this, sessionQueue);
@@ -129,12 +131,12 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
     //endregion
 
     //region Public Methods
-    public void addListener(KUSSessionQueuePollingListener listener) {
+    public void addListener(@NonNull KUSSessionQueuePollingListener listener) {
         if (!listeners.contains(listener))
             listeners.add(listener);
     }
 
-    public void removeListener(KUSSessionQueuePollingListener listener) {
+    public void removeListener(@NonNull KUSSessionQueuePollingListener listener) {
         listeners.remove(listener);
     }
 
@@ -152,6 +154,7 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
         }
     }
 
+    @Nullable
     public KUSSessionQueue getSessionQueue() {
         return (KUSSessionQueue) sessionQueueDataSource.getObject();
     }
