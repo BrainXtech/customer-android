@@ -99,12 +99,12 @@ public class KUSFormDataSource extends KUSObjectDataSource implements KUSObjectD
 
     //region Listener
     @Override
-    public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull KUSObjectDataSource dataSource) {
         fetch();
     }
 
     @Override
-    public void objectDataSourceOnError(final KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull final KUSObjectDataSource dataSource, @Nullable Error error) {
         if (!dataSource.isFetched()) {
             Handler handler = new Handler(Looper.getMainLooper());
             Runnable runnable = new Runnable() {

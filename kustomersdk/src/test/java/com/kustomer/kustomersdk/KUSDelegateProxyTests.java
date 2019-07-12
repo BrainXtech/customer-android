@@ -2,6 +2,7 @@ package com.kustomer.kustomersdk;
 
 import android.app.PendingIntent;
 import android.content.Context;
+import android.support.annotation.NonNull;
 
 import com.kustomer.kustomersdk.DataSources.KUSDelegateProxy;
 import com.kustomer.kustomersdk.Helpers.KUSDate;
@@ -71,8 +72,9 @@ public class KUSDelegateProxyTests implements KUSKustomerListener {
         return shouldDisplayInAppNotification;
     }
 
+    @NonNull
     @Override
-    public PendingIntent getPendingIntent(Context context) {
+    public PendingIntent getPendingIntent(@NonNull Context context) {
         pendingIntentRequested = true;
         return null;
     }

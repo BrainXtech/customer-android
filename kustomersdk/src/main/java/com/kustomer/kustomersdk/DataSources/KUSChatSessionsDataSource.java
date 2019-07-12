@@ -137,7 +137,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
                 KUSConstants.URL.CHAT_SESSIONS_ENDPOINT,
                 params, true, new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
                         if (error != null) {
                             if (listener != null)
                                 listener.onComplete(error, null);
@@ -212,7 +212,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
                         if (error != null && listener != null) {
                             listener.onComplete(error, null);
                             return;
@@ -266,7 +266,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
                         if (error != null) {
                             if (listener != null)
                                 listener.onComplete(error, null, null);
@@ -485,7 +485,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
                         if (getUserSession() == null)
                             return;
 
@@ -599,17 +599,17 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
 
     //region Listener
     @Override
-    public void onLoad(KUSPaginatedDataSource dataSource) {
+    public void onLoad(@NonNull KUSPaginatedDataSource dataSource) {
 
     }
 
     @Override
-    public void onError(KUSPaginatedDataSource dataSource, Error error) {
+    public void onError(@NonNull KUSPaginatedDataSource dataSource, @Nullable Error error) {
 
     }
 
     @Override
-    public void onContentChange(KUSPaginatedDataSource dataSource) {
+    public void onContentChange(@NonNull KUSPaginatedDataSource dataSource) {
         if (getUserSession() != null && dataSource == this) {
             if (getUserSession().getSharedPreferences() != null)
                 getUserSession().getSharedPreferences().setOpenChatSessionsCount(getOpenChatSessionsCount());
@@ -629,7 +629,7 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
     }
 
     @Override
-    public void onCreateSessionId(KUSChatMessagesDataSource source, String sessionId) {
+    public void onCreateSessionId(@NonNull KUSChatMessagesDataSource source, @NonNull String sessionId) {
 
     }
 
@@ -645,12 +645,12 @@ public class KUSChatSessionsDataSource extends KUSPaginatedDataSource
     }
 
     @Override
-    public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull KUSObjectDataSource dataSource) {
         fetchLatest();
     }
 
     @Override
-    public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull KUSObjectDataSource dataSource, @Nullable Error error) {
         if (!dataSource.isFetched()) {
             notifyAnnouncersOnError(error);
         }

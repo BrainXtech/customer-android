@@ -64,7 +64,7 @@ public class KUSChatSettingsDataSource extends KUSObjectDataSource implements Se
 
         performRequest(new KUSRequestCompletionListener() {
             @Override
-            public void onCompletion(final Error error, JSONObject response) {
+            public void onCompletion(@Nullable final Error error, @Nullable JSONObject response) {
 
                 KUSChatSettings settings = null;
                 try {

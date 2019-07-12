@@ -227,7 +227,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
 
     //region Listener
     @Override
-    public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull KUSObjectDataSource dataSource) {
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
@@ -239,22 +239,22 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     }
 
     @Override
-    public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull KUSObjectDataSource dataSource, @Nullable Error error) {
 
     }
 
     @Override
-    public void onLoad(KUSPaginatedDataSource dataSource) {
+    public void onLoad(@NonNull KUSPaginatedDataSource dataSource) {
 
     }
 
     @Override
-    public void onError(KUSPaginatedDataSource dataSource, Error error) {
+    public void onError(@NonNull KUSPaginatedDataSource dataSource, @Nullable Error error) {
 
     }
 
     @Override
-    public void onContentChange(KUSPaginatedDataSource dataSource) {
+    public void onContentChange(@NonNull KUSPaginatedDataSource dataSource) {
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
@@ -268,7 +268,7 @@ public class SessionViewHolder extends RecyclerView.ViewHolder implements KUSObj
     }
 
     @Override
-    public void onCreateSessionId(KUSChatMessagesDataSource source, String sessionId) {
+    public void onCreateSessionId(@NonNull KUSChatMessagesDataSource source, @NonNull String sessionId) {
 
     }
 

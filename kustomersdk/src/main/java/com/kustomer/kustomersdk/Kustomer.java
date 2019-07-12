@@ -281,7 +281,7 @@ public class Kustomer {
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(final Error error, JSONObject response) {
+                    public void onCompletion(@Nullable final Error error, @Nullable JSONObject response) {
                         instance.get().getTrackingTokenDataSource().fetch();
                         if (listener != null) {
                             listener.onComplete(error == null);

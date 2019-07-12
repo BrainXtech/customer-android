@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Interfaces;
 
+import android.support.annotation.Nullable;
+
 public interface KUSMLFormValuesPickerViewListener {
-    void mlFormValueSelected(String option, String optionId);
+    void mlFormValueSelected(@Nullable String option,@Nullable String optionId);
 }

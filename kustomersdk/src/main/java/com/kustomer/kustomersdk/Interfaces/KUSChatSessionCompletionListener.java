@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Interfaces;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Models.KUSChatSession;
 
 /**
@@ -7,5 +9,5 @@ import com.kustomer.kustomersdk.Models.KUSChatSession;
  */
 
 public interface KUSChatSessionCompletionListener {
-    void onComplete(Error error, KUSChatSession session);
+    void onComplete(@Nullable Error error,@Nullable KUSChatSession session);
 }

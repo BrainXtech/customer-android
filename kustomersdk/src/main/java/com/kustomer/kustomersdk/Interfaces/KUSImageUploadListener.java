@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Interfaces;
 
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.Models.KUSChatAttachment;
 
 import java.util.List;
@@ -9,5 +11,6 @@ import java.util.List;
  */
 
 public interface KUSImageUploadListener {
-    void onCompletion(Error error, List<KUSChatAttachment> attachments);
+    void onCompletion(@Nullable Error error,
+                      @Nullable List<KUSChatAttachment> attachments);
 }

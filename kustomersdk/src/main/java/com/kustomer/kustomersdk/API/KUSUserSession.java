@@ -217,7 +217,7 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
                         if (listener != null)
                             listener.onComplete(error == null, error);
                     }
@@ -381,7 +381,7 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
 
     //region Callback
     @Override
-    public void onLoad(KUSPaginatedDataSource dataSource) {
+    public void onLoad(@NonNull KUSPaginatedDataSource dataSource) {
         if (dataSource == chatSessionsDataSource) {
             dataSource.removeListener(this);
 
@@ -399,12 +399,12 @@ public class KUSUserSession implements Serializable, KUSPaginatedDataSourceListe
     }
 
     @Override
-    public void onError(KUSPaginatedDataSource dataSource, Error error) {
+    public void onError(@NonNull KUSPaginatedDataSource dataSource, @Nullable Error error) {
 
     }
 
     @Override
-    public void onContentChange(KUSPaginatedDataSource dataSource) {
+    public void onContentChange(@NonNull KUSPaginatedDataSource dataSource) {
 
     }
 

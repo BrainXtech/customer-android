@@ -258,7 +258,7 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
 
     //region Listener
     @Override
-    public void objectDataSourceOnLoad(final KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull final KUSObjectDataSource dataSource) {
 
         if (userSession != null && dataSource == userSession.getChatSettingsDataSource()) {
             Handler handler = new Handler(Looper.getMainLooper());
@@ -284,7 +284,7 @@ public class KUSAvatarImageView extends FrameLayout implements KUSObjectDataSour
     }
 
     @Override
-    public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull KUSObjectDataSource dataSource, @Nullable Error error) {
 
     }
     //endregion

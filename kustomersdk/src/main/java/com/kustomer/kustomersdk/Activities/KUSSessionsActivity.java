@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.LinearLayoutManager;
@@ -274,7 +275,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     }
 
     @Override
-    public void onLoad(KUSPaginatedDataSource dataSource) {
+    public void onLoad(@NonNull KUSPaginatedDataSource dataSource) {
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
@@ -289,7 +290,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     }
 
     @Override
-    public void onError(KUSPaginatedDataSource dataSource, Error error) {
+    public void onError(@NonNull KUSPaginatedDataSource dataSource, @Nullable Error error) {
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
@@ -305,7 +306,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     }
 
     @Override
-    public void onContentChange(final KUSPaginatedDataSource dataSource) {
+    public void onContentChange(@NonNull final KUSPaginatedDataSource dataSource) {
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
@@ -341,7 +342,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     }
 
     @Override
-    public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull KUSObjectDataSource dataSource) {
         if (userSession == null || dataSource != userSession.getChatSettingsDataSource())
             return;
 
@@ -364,7 +365,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     }
 
     @Override
-    public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull KUSObjectDataSource dataSource, @Nullable Error error) {
 
     }
 

@@ -2,6 +2,7 @@ package com.kustomer.kustomersdk.Managers;
 
 import android.content.IntentFilter;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.DataSources.KUSChatMessagesDataSource;
@@ -116,7 +117,7 @@ public class KUSNetworkStateManager implements NetworkStateReceiver.NetworkState
     }
 
     @Override
-    public void onLoad(KUSPaginatedDataSource dataSource) {
+    public void onLoad(@NonNull KUSPaginatedDataSource dataSource) {
         KUSUserSession userSession = Kustomer.getSharedInstance().getUserSession();
         if (userSession == null)
             return;
@@ -129,7 +130,7 @@ public class KUSNetworkStateManager implements NetworkStateReceiver.NetworkState
     }
 
     @Override
-    public void onError(final KUSPaginatedDataSource dataSource, Error error) {
+    public void onError(@NonNull final KUSPaginatedDataSource dataSource, @Nullable Error error) {
         final KUSUserSession userSession = Kustomer.getSharedInstance().getUserSession();
 
         if (userSession == null)
@@ -149,7 +150,7 @@ public class KUSNetworkStateManager implements NetworkStateReceiver.NetworkState
     }
 
     @Override
-    public void onContentChange(KUSPaginatedDataSource dataSource) {
+    public void onContentChange(@NonNull KUSPaginatedDataSource dataSource) {
         KUSUserSession userSession = Kustomer.getSharedInstance().getUserSession();
 
         if (userSession == null)

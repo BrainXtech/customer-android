@@ -122,7 +122,7 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
         }
     }
 
-    private void notifyAnnouncersOnFailure(Error error) {
+    private void notifyAnnouncersOnFailure(@Nullable Error error) {
         for (KUSSessionQueuePollingListener listener : new ArrayList<>(listeners)) {
             if (listener != null)
                 listener.onFailure(error, this);
@@ -162,7 +162,7 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
 
     //region Callback Listeners
     @Override
-    public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull KUSObjectDataSource dataSource) {
         if (isPollingCanceled) return;
 
         KUSSessionQueue sessionQueue = (KUSSessionQueue) dataSource.getObject();
@@ -184,7 +184,7 @@ public class KUSSessionQueuePollingManager implements KUSObjectDataSourceListene
     }
 
     @Override
-    public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull KUSObjectDataSource dataSource, @Nullable Error error) {
         notifyAnnouncersOnFailure(error);
     }
     //endregion

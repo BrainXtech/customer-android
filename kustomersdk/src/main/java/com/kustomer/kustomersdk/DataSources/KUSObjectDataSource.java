@@ -60,7 +60,7 @@ public class KUSObjectDataSource {
         final WeakReference<KUSObjectDataSource> weakInstance = new WeakReference<>(this);
         performRequest(new KUSRequestCompletionListener() {
             @Override
-            public void onCompletion(Error errorObject, JSONObject response) {
+            public void onCompletion(@Nullable Error errorObject, @Nullable JSONObject response) {
                 if(weakInstance.get().requestMarker != requestMarker)
                     return;
 

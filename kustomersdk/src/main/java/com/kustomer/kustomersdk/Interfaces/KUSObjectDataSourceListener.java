@@ -1,5 +1,8 @@
 package com.kustomer.kustomersdk.Interfaces;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.DataSources.KUSObjectDataSource;
 
 /**
@@ -7,6 +10,6 @@ import com.kustomer.kustomersdk.DataSources.KUSObjectDataSource;
  */
 
 public interface KUSObjectDataSourceListener {
-    void objectDataSourceOnLoad(KUSObjectDataSource dataSource);
-    void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error);
+    void objectDataSourceOnLoad(@NonNull KUSObjectDataSource dataSource);
+    void objectDataSourceOnError(@NonNull KUSObjectDataSource dataSource,@Nullable Error error);
 }

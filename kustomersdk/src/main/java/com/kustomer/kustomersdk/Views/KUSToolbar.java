@@ -428,7 +428,7 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener,
 
     //region Listeners
     @Override
-    public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull KUSObjectDataSource dataSource) {
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
@@ -440,22 +440,22 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener,
     }
 
     @Override
-    public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull KUSObjectDataSource dataSource, @Nullable Error error) {
 
     }
 
     @Override
-    public void onLoad(KUSPaginatedDataSource dataSource) {
+    public void onLoad(@NonNull KUSPaginatedDataSource dataSource) {
 
     }
 
     @Override
-    public void onError(KUSPaginatedDataSource dataSource, Error error) {
+    public void onError(@NonNull KUSPaginatedDataSource dataSource, @Nullable Error error) {
 
     }
 
     @Override
-    public void onContentChange(final KUSPaginatedDataSource dataSource) {
+    public void onContentChange(@NonNull final KUSPaginatedDataSource dataSource) {
 
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
@@ -473,7 +473,7 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener,
     }
 
     @Override
-    public void onCreateSessionId(KUSChatMessagesDataSource source, final String mSessionId) {
+    public void onCreateSessionId(@NonNull KUSChatMessagesDataSource source, @NonNull final String mSessionId) {
 
 
         Handler handler = new Handler(Looper.getMainLooper());
@@ -515,12 +515,12 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener,
     }
 
     @Override
-    public void onPollingStarted(KUSSessionQueuePollingManager manager) {
+    public void onPollingStarted(@NonNull KUSSessionQueuePollingManager manager) {
 
     }
 
     @Override
-    public void onSessionQueueUpdated(KUSSessionQueuePollingManager manager, KUSSessionQueue sessionQueue) {
+    public void onSessionQueueUpdated(@NonNull KUSSessionQueuePollingManager manager, @NonNull KUSSessionQueue sessionQueue) {
         waitingMessage = KUSDate.humanReadableUpfrontVCWaitingTimeFromSeconds(
                 getContext(), sessionQueue.getEstimatedWaitTimeSeconds());
 
@@ -536,11 +536,11 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener,
     }
 
     @Override
-    public void onPollingEnd(KUSSessionQueuePollingManager manager) {
+    public void onPollingEnd(@NonNull KUSSessionQueuePollingManager manager) {
     }
 
     @Override
-    public void onPollingCanceled(KUSSessionQueuePollingManager manager) {
+    public void onPollingCanceled(@NonNull KUSSessionQueuePollingManager manager) {
         waitingMessage = null;
 
         Handler handler = new Handler(Looper.getMainLooper());
@@ -555,7 +555,7 @@ public class KUSToolbar extends Toolbar implements KUSObjectDataSourceListener,
     }
 
     @Override
-    public void onFailure(Error error, KUSSessionQueuePollingManager manager) {
+    public void onFailure(@Nullable Error error, @NonNull KUSSessionQueuePollingManager manager) {
 
     }
     //endregion

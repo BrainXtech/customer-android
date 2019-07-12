@@ -115,7 +115,7 @@ public class KUSTrackingTokenDataSource extends KUSObjectDataSource implements K
 
     //region Listener
     @Override
-    public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull KUSObjectDataSource dataSource) {
         wantsReset = false;
 
         String currentTrackingToken = getCurrentTrackingToken();
@@ -125,7 +125,7 @@ public class KUSTrackingTokenDataSource extends KUSObjectDataSource implements K
     }
 
     @Override
-    public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull KUSObjectDataSource dataSource, @Nullable Error error) {
 
     }
     //endregion

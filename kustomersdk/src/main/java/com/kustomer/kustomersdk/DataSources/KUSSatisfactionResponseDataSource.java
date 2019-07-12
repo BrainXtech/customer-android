@@ -109,7 +109,7 @@ public class KUSSatisfactionResponseDataSource extends KUSObjectDataSource {
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
                         // No need to do anything here
                     }
                 });
@@ -150,7 +150,7 @@ public class KUSSatisfactionResponseDataSource extends KUSObjectDataSource {
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
 
                         // Check if the response is empty
                         //TODO: Improve this by sending request code in listener

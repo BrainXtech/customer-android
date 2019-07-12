@@ -466,7 +466,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
 
     //region Callbacks
     @Override
-    public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull KUSObjectDataSource dataSource) {
         if (userSession.get() != null && dataSource == userSession.get().getTrackingTokenDataSource()) {
             String trackingToken = userSession.get().getTrackingTokenDataSource().getCurrentTrackingToken();
             firePendingTokenCompletionsWithToken(trackingToken, null);
@@ -474,7 +474,7 @@ public class KUSRequestManager implements Serializable, KUSObjectDataSourceListe
     }
 
     @Override
-    public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull KUSObjectDataSource dataSource, @Nullable Error error) {
         firePendingTokenCompletionsWithToken(null, error);
     }
     //endregion

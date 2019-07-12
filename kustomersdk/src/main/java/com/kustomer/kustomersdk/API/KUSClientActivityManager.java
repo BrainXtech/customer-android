@@ -145,7 +145,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
 
     //region Callbacks
     @Override
-    public void objectDataSourceOnLoad(final KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull final KUSObjectDataSource dataSource) {
 
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
@@ -190,7 +190,7 @@ public class KUSClientActivityManager implements KUSObjectDataSourceListener {
     }
 
     @Override
-    public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull KUSObjectDataSource dataSource, @Nullable Error error) {
 
     }
     //endregion

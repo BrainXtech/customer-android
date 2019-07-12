@@ -167,7 +167,7 @@ public class KUSPaginatedDataSource {
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(final Error error, final JSONObject response) {
+                    public void onCompletion(@Nullable final Error error, @Nullable final JSONObject response) {
 
                         try {
                             final KUSPaginatedResponse pageResponse = new KUSPaginatedResponse(response, dataSource);
@@ -214,7 +214,7 @@ public class KUSPaginatedDataSource {
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(final Error error, JSONObject json) {
+                    public void onCompletion(@Nullable final Error error, @Nullable JSONObject json) {
                         try {
                             final KUSPaginatedResponse response = new KUSPaginatedResponse(json, dataSource);
                             if (requestMarker != KUSPaginatedDataSource.this.requestMarker)

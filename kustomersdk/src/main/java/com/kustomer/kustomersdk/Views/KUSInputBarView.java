@@ -223,7 +223,7 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
             }
 
             @Override
-            public void onMemoryError(final OutOfMemoryError memoryError) {
+            public void onMemoryError(@NonNull final OutOfMemoryError memoryError) {
                 imageProcessingCount--;
                 memoryListener.onOutOfMemoryError(memoryError);
                 new Handler(Looper.getMainLooper()).post(new Runnable() {
@@ -332,7 +332,7 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
     }
 
     @Override
-    public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull KUSObjectDataSource dataSource) {
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
@@ -344,7 +344,7 @@ public class KUSInputBarView extends LinearLayout implements TextWatcher, TextVi
     }
 
     @Override
-    public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull KUSObjectDataSource dataSource, @Nullable Error error) {
 
     }
     //endregion

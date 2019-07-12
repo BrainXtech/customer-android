@@ -1,5 +1,8 @@
 package com.kustomer.kustomersdk.Interfaces;
 
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+
 import com.kustomer.kustomersdk.DataSources.KUSPaginatedDataSource;
 
 /**
@@ -7,7 +10,7 @@ import com.kustomer.kustomersdk.DataSources.KUSPaginatedDataSource;
  */
 
 public interface KUSPaginatedDataSourceListener {
-    void onLoad(KUSPaginatedDataSource dataSource);
-    void onError(KUSPaginatedDataSource dataSource, Error error);
-    void onContentChange(KUSPaginatedDataSource dataSource);
+    void onLoad(@NonNull KUSPaginatedDataSource dataSource);
+    void onError(@NonNull KUSPaginatedDataSource dataSource,@Nullable Error error);
+    void onContentChange(@NonNull KUSPaginatedDataSource dataSource);
 }

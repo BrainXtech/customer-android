@@ -68,7 +68,7 @@ public class ImageAttachmentListAdapter extends RecyclerView.Adapter<RecyclerVie
             }
 
             @Override
-            public void onMemoryError(OutOfMemoryError memoryError) {
+            public void onMemoryError(@NonNull OutOfMemoryError memoryError) {
                 for (KUSBitmap kusBitmap : imageBitmaps) {
                     if (kusBitmap.getBitmap() != null) {
                         kusBitmap.getBitmap().recycle();

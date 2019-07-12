@@ -115,7 +115,7 @@ public class KUSUpload {
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
 
                         if (error != null) {
                             listener.onUploadComplete(error, null);
@@ -140,7 +140,7 @@ public class KUSUpload {
                                     uploadFields,
                                     new KUSRequestCompletionListener() {
                                         @Override
-                                        public void onCompletion(Error error, JSONObject response) {
+                                        public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
 
                                             if (error != null) {
                                                 listener.onUploadComplete(error, null);

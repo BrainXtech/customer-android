@@ -418,7 +418,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(final Error error, final JSONObject response) {
+                    public void onCompletion(@Nullable final Error error, @Nullable final JSONObject response) {
 
                         if (error != null) {
                             handler = new Handler();
@@ -453,7 +453,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(final Error error, final JSONObject response) {
+                    public void onCompletion(@Nullable final Error error, @Nullable final JSONObject response) {
 
                         if (error != null) {
                             handler = new Handler();
@@ -607,7 +607,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
 
     //region Callbacks
     @Override
-    public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull KUSObjectDataSource dataSource) {
         if (!userSession.get().getChatSessionsDataSource().isFetched())
             userSession.get().getChatSessionsDataSource().fetchLatest();
 
@@ -623,12 +623,12 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
     }
 
     @Override
-    public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull KUSObjectDataSource dataSource, @Nullable Error error) {
 
     }
 
     @Override
-    public void onLoad(KUSPaginatedDataSource dataSource) {
+    public void onLoad(@NonNull KUSPaginatedDataSource dataSource) {
         updatePreviousChatSessions();
 
         if (dataSource instanceof KUSChatMessagesDataSource) {
@@ -658,7 +658,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
     }
 
     @Override
-    public void onError(KUSPaginatedDataSource dataSource, Error error) {
+    public void onError(@NonNull KUSPaginatedDataSource dataSource, @Nullable Error error) {
         if (dataSource instanceof KUSChatMessagesDataSource) {
             KUSChatMessagesDataSource chatMessagesDataSource = (KUSChatMessagesDataSource) dataSource;
             if (Objects.equals(chatMessagesDataSource.getSessionId(), pendingNotificationSessionId)) {
@@ -683,7 +683,7 @@ public class KUSPushClient implements Serializable, KUSObjectDataSourceListener,
     }
 
     @Override
-    public void onContentChange(final KUSPaginatedDataSource dataSource) {
+    public void onContentChange(@NonNull final KUSPaginatedDataSource dataSource) {
         if (userSession.get() == null || dataSource != userSession.get().getChatSessionsDataSource())
             return;
 

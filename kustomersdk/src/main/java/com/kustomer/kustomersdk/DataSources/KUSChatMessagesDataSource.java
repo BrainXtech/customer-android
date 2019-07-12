@@ -395,7 +395,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
         creatingSession = true;
         getUserSession().getChatSessionsDataSource().createSessionWithTitle(title, new KUSChatSessionCompletionListener() {
             @Override
-            public void onComplete(Error error, KUSChatSession session) {
+            public void onComplete(@Nullable Error error, @Nullable KUSChatSession session) {
                 ArrayList<onCreateSessionListener> callbacks = new ArrayList<>(onCreateSessionListeners);
                 onCreateSessionListeners = null;
 
@@ -541,7 +541,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
                         if (getUserSession() == null) {
                             if (onEndChatListener != null)
                                 onEndChatListener.onComplete(false);
@@ -938,7 +938,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
         new KUSUpload().uploadImages(imageAttachments, getUserSession(), new KUSImageUploadListener() {
             @Override
-            public void onCompletion(Error error, final List<KUSChatAttachment> attachments) {
+            public void onCompletion(@Nullable Error error, @Nullable final List<KUSChatAttachment> attachments) {
                 if (getUserSession() == null)
                     return;
 
@@ -963,7 +963,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                         true,
                         new KUSRequestCompletionListener() {
                             @Override
-                            public void onCompletion(Error error, JSONObject response) {
+                            public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
                                 if (getUserSession() == null)
                                     return;
 
@@ -1271,7 +1271,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                 true,
                 new KUSRequestCompletionListener() {
                     @Override
-                    public void onCompletion(Error error, JSONObject response) {
+                    public void onCompletion(@Nullable Error error, @Nullable JSONObject response) {
                         if (getUserSession() == null
                                 || error != null)
                             return;
@@ -1416,7 +1416,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
                 formId,
                 new KUSFormCompletionListener() {
                     @Override
-                    public void onComplete(Error error, KUSChatSession chatSession, List<KUSModel> chatMessages) {
+                    public void onComplete(@Nullable Error error, @Nullable KUSChatSession chatSession, @Nullable List<KUSModel> chatMessages) {
 
                         if (error != null) {
                             handleError(lastUserChatMessage);
@@ -1829,7 +1829,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
 
     //region Listener
     @Override
-    public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull KUSObjectDataSource dataSource) {
         if (dataSource == satisfactionResponseDataSource) {
             for (KUSPaginatedDataSourceListener listener : listeners) {
                 if (listener instanceof KUSChatMessagesDataSourceListener) {
@@ -1847,7 +1847,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     @Override
-    public void objectDataSourceOnError(final KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull final KUSObjectDataSource dataSource, @Nullable Error error) {
         if (dataSource instanceof KUSSatisfactionResponseDataSource)
             return;
 
@@ -1863,7 +1863,7 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     @Override
-    public void onCreateSessionId(KUSChatMessagesDataSource source, String sessionId) {
+    public void onCreateSessionId(@NonNull KUSChatMessagesDataSource source, @NonNull String sessionId) {
         startVolumeControlTracking();
         closeProactiveCampaignIfNecessary();
     }
@@ -1880,28 +1880,28 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     @Override
-    public void onLoad(KUSPaginatedDataSource dataSource) {
+    public void onLoad(@NonNull KUSPaginatedDataSource dataSource) {
 
     }
 
     @Override
-    public void onError(KUSPaginatedDataSource dataSource, Error error) {
+    public void onError(@NonNull KUSPaginatedDataSource dataSource, @Nullable Error error) {
     }
 
     @Override
-    public void onContentChange(KUSPaginatedDataSource dataSource) {
+    public void onContentChange(@NonNull KUSPaginatedDataSource dataSource) {
         insertFormMessageIfNecessary();
         insertVolumeControlFormMessageIfNecessary();
         fetchSatisfactionResponseIfNecessary();
     }
 
     @Override
-    public void onPollingStarted(KUSSessionQueuePollingManager manager) {
+    public void onPollingStarted(@NonNull KUSSessionQueuePollingManager manager) {
 
     }
 
     @Override
-    public void onSessionQueueUpdated(KUSSessionQueuePollingManager manager, KUSSessionQueue sessionQueue) {
+    public void onSessionQueueUpdated(@NonNull KUSSessionQueuePollingManager manager, @NonNull KUSSessionQueue sessionQueue) {
         if (getUserSession() == null)
             return;
 
@@ -1925,17 +1925,17 @@ public class KUSChatMessagesDataSource extends KUSPaginatedDataSource
     }
 
     @Override
-    public void onPollingEnd(KUSSessionQueuePollingManager manager) {
+    public void onPollingEnd(@NonNull KUSSessionQueuePollingManager manager) {
 
     }
 
     @Override
-    public void onPollingCanceled(KUSSessionQueuePollingManager manager) {
+    public void onPollingCanceled(@NonNull KUSSessionQueuePollingManager manager) {
 
     }
 
     @Override
-    public void onFailure(Error error, KUSSessionQueuePollingManager manager) {
+    public void onFailure(@Nullable Error error, @NonNull KUSSessionQueuePollingManager manager) {
 
     }
 

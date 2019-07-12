@@ -1,5 +1,7 @@
 package com.kustomer.kustomersdk.Interfaces;
 
+import android.support.annotation.Nullable;
+
 import org.json.JSONObject;
 
 /**
@@ -7,5 +9,5 @@ import org.json.JSONObject;
  */
 
 public interface KUSRequestCompletionListener{
-    void onCompletion(Error error, JSONObject response);
+    void onCompletion(@Nullable Error error,@Nullable JSONObject response);
 }

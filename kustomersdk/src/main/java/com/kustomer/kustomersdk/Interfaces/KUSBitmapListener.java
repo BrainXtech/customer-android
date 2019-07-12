@@ -1,7 +1,9 @@
 package com.kustomer.kustomersdk.Interfaces;
 
+import android.support.annotation.NonNull;
+
 public interface KUSBitmapListener {
     void onBitmapCreated();
 
-    void onMemoryError(OutOfMemoryError memoryError);
+    void onMemoryError(@NonNull OutOfMemoryError memoryError);
 }

@@ -894,7 +894,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     @Override
-    public void onLoad(final KUSPaginatedDataSource dataSource) {
+    public void onLoad(@NonNull final KUSPaginatedDataSource dataSource) {
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
@@ -924,7 +924,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     @Override
-    public void onError(@NonNull KUSPaginatedDataSource dataSource, Error error) {
+    public void onError(@NonNull KUSPaginatedDataSource dataSource, @Nullable Error error) {
         if (dataSource == chatMessagesDataSource && !chatMessagesDataSource.isFetched()) {
             final WeakReference<KUSChatActivity> weakReference = new WeakReference<>(this);
             Handler handler = new Handler(Looper.getMainLooper());
@@ -950,7 +950,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     @Override
-    public void onContentChange(final KUSPaginatedDataSource dataSource) {
+    public void onContentChange(@NonNull final KUSPaginatedDataSource dataSource) {
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
@@ -993,7 +993,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     @Override
-    public void onCreateSessionId(final KUSChatMessagesDataSource source, final String sessionId) {
+    public void onCreateSessionId(@NonNull final KUSChatMessagesDataSource source, @NonNull final String sessionId) {
         Handler handler = new Handler(Looper.getMainLooper());
         Runnable runnable = new Runnable() {
             @Override
@@ -1059,7 +1059,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
 
 
     @Override
-    public void onSubmitEmail(String email) {
+    public void onSubmitEmail(@NonNull String email) {
         if (userSession != null) {
             userSession.submitEmail(email);
         }
@@ -1260,7 +1260,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     @Override
-    public void mlFormValueSelected(String option, String optionId) {
+    public void mlFormValueSelected(@Nullable String option, @Nullable String optionId) {
         if (chatMessagesDataSource != null)
             chatMessagesDataSource.sendMessageWithText(option, null, optionId);
         kusInputBarView.setText("");
@@ -1268,7 +1268,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     @Override
-    public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+    public void objectDataSourceOnLoad(@NonNull KUSObjectDataSource dataSource) {
         if (userSession == null || dataSource != userSession.getChatSettingsDataSource())
             return;
 
@@ -1288,7 +1288,7 @@ public class KUSChatActivity extends BaseActivity implements KUSChatMessagesData
     }
 
     @Override
-    public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
+    public void objectDataSourceOnError(@NonNull KUSObjectDataSource dataSource, @Nullable Error error) {
 
     }
 
