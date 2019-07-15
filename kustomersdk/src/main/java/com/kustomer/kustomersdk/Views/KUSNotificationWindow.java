@@ -100,7 +100,11 @@ public class KUSNotificationWindow {
         //Updating language configuration
         KUSLocalization.getSharedInstance().updateConfig(mContext);
 
-        mUserSession = Kustomer.getSharedInstance().getUserSession();
+        try {
+            mUserSession = Kustomer.getSharedInstance().getUserSession();
+        } catch (AssertionError ignored) {
+        }
+
         chatMessagesDataSource = mUserSession != null ?
                 mUserSession.chatMessageDataSourceForSessionId(chatSession.getId())
                 : null;

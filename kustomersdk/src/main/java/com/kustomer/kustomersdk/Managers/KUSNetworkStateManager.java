@@ -71,7 +71,12 @@ public class KUSNetworkStateManager implements NetworkStateReceiver.NetworkState
     //region Private Methods
 
     private void updatePreviousChatSessions() {
-        KUSUserSession userSession = Kustomer.getSharedInstance().getUserSession();
+        KUSUserSession userSession = null;
+        try {
+            userSession = Kustomer.getSharedInstance().getUserSession();
+        } catch (AssertionError ignored) {
+        }
+
         if (userSession == null)
             return;
 
@@ -88,27 +93,28 @@ public class KUSNetworkStateManager implements NetworkStateReceiver.NetworkState
 
     @Override
     public void networkAvailable() {
+        KUSUserSession userSession = null;
         try {
-            final KUSUserSession userSession = Kustomer.getSharedInstance().getUserSession();
-
-            if(userSession == null)
-                return;
-
-            userSession.getStatsManager().updateStats(new KUSCustomerStatsListener() {
-                @Override
-                public void onCompletion(boolean sessionUpdated) {
-                    if (sessionUpdated) {
-                        userSession.getChatSessionsDataSource().addListener(KUSNetworkStateManager.this);
-                        updatePreviousChatSessions();
-                        userSession.getChatSessionsDataSource().fetchLatest();
-                    } else {
-                        KUSVolumeControlTimerManager.getSharedInstance().resumeVcTimers();
-                    }
-                }
-            });
+            userSession = Kustomer.getSharedInstance().getUserSession();
         } catch (AssertionError ignored) {
-
         }
+
+        if (userSession == null)
+            return;
+
+        final KUSUserSession finalUserSession = userSession;
+        userSession.getStatsManager().updateStats(new KUSCustomerStatsListener() {
+            @Override
+            public void onCompletion(boolean sessionUpdated) {
+                if (sessionUpdated) {
+                    finalUserSession.getChatSessionsDataSource().addListener(KUSNetworkStateManager.this);
+                    updatePreviousChatSessions();
+                    finalUserSession.getChatSessionsDataSource().fetchLatest();
+                } else {
+                    KUSVolumeControlTimerManager.getSharedInstance().resumeVcTimers();
+                }
+            }
+        });
     }
 
     @Override
@@ -118,7 +124,12 @@ public class KUSNetworkStateManager implements NetworkStateReceiver.NetworkState
 
     @Override
     public void onLoad(@NonNull KUSPaginatedDataSource dataSource) {
-        KUSUserSession userSession = Kustomer.getSharedInstance().getUserSession();
+        KUSUserSession userSession = null;
+        try {
+            userSession = Kustomer.getSharedInstance().getUserSession();
+        } catch (AssertionError ignored) {
+        }
+
         if (userSession == null)
             return;
 
@@ -131,7 +142,11 @@ public class KUSNetworkStateManager implements NetworkStateReceiver.NetworkState
 
     @Override
     public void onError(@NonNull final KUSPaginatedDataSource dataSource, @Nullable Error error) {
-        final KUSUserSession userSession = Kustomer.getSharedInstance().getUserSession();
+        KUSUserSession userSession = null;
+        try {
+            userSession = Kustomer.getSharedInstance().getUserSession();
+        } catch (AssertionError ignored) {
+        }
 
         if (userSession == null)
             return;
@@ -140,18 +155,23 @@ public class KUSNetworkStateManager implements NetworkStateReceiver.NetworkState
             return;
         userSession.getChatSessionsDataSource().removeListener(KUSNetworkStateManager.this);
 
+        final KUSUserSession finalUserSession = userSession;
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {
-                userSession.getChatSessionsDataSource().addListener(KUSNetworkStateManager.this);
-                userSession.getChatSessionsDataSource().fetchLatest();
+                finalUserSession.getChatSessionsDataSource().addListener(KUSNetworkStateManager.this);
+                finalUserSession.getChatSessionsDataSource().fetchLatest();
             }
         }, KUS_RETRY_DELAY);
     }
 
     @Override
     public void onContentChange(@NonNull KUSPaginatedDataSource dataSource) {
-        KUSUserSession userSession = Kustomer.getSharedInstance().getUserSession();
+        KUSUserSession userSession = null;
+        try {
+            userSession = Kustomer.getSharedInstance().getUserSession();
+        } catch (AssertionError ignored) {
+        }
 
         if (userSession == null)
             return;
@@ -179,7 +199,7 @@ public class KUSNetworkStateManager implements NetworkStateReceiver.NetworkState
                         && !chatSession.getLockedAt().equals(prevChatSession.getLockedAt());
 
                 // Check that new message arrived or not
-                if (isUpdatedSession && messagesDataSource!=null
+                if (isUpdatedSession && messagesDataSource != null
                         && messagesDataSource.isLatestMessageAfterLastSeen()) {
                     messagesDataSource.fetchLatest();
 

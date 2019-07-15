@@ -128,7 +128,8 @@ public class Kustomer {
      * @param externalToken A valid JWT web token to identify user
      * @param listener      The callback which will receive identification status.
      */
-    public static void identify(@NonNull String externalToken, @Nullable KUSIdentifyListener listener) {
+    public static void identify(@NonNull String externalToken,
+                                @Nullable KUSIdentifyListener listener) {
         getSharedInstance().mIdentify(externalToken, listener);
     }
 
@@ -169,7 +170,8 @@ public class Kustomer {
             activity.overridePendingTransition(R.anim.kus_slide_left_rtl, R.anim.kus_stay);
     }
 
-    public static void presentCustomWebPage(@NonNull Activity activity, @NonNull String url) {
+    public static void presentCustomWebPage(@NonNull Activity activity,
+                                            @NonNull String url) {
         Intent intent = new Intent(activity, KUSKnowledgeBaseActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         intent.putExtra(KUSConstants.Keys.K_KUSTOMER_URL_KEY, url);
@@ -195,15 +197,18 @@ public class Kustomer {
         return getSharedInstance().mGetOpenConversationsCount();
     }
 
-    public static void hideNewConversationButtonInClosedChat(Boolean status) {
+    public static void hideNewConversationButtonInClosedChat(boolean status) {
         getSharedInstance().mHideNewConversationButtonInClosedChat(status);
     }
 
-    public static void showSupportWithMessage(Activity activity, String message, JSONObject customAttributes) {
+    public static void showSupportWithMessage(@NonNull Activity activity,
+                                              @NonNull String message,
+                                              @Nullable JSONObject customAttributes) {
         getSharedInstance().mShowSupportWithMessage(activity, message, customAttributes);
     }
 
-    public static void showSupportWithMessage(Activity activity, String message) {
+    public static void showSupportWithMessage(@NonNull Activity activity,
+                                              @NonNull String message) {
         getSharedInstance().mShowSupportWithMessage(activity, message, null);
     }
     //endregion
@@ -269,7 +274,8 @@ public class Kustomer {
             userSession.describeCustomer(customerDescription, null);
     }
 
-    private void mIdentify(@Nullable final String externalToken, @Nullable final KUSIdentifyListener listener) {
+    private void mIdentify(@Nullable final String externalToken,
+                           @Nullable final KUSIdentifyListener listener) {
         if (externalToken == null) {
             throw new AssertionError("Kustomer expects externalToken to be non-null");
         }
@@ -321,7 +327,7 @@ public class Kustomer {
         userSession.getActivityManager().setCurrentPageName(currentPage);
     }
 
-    private void mSetCurrentPageName(String currentPageName) {
+    private void mSetCurrentPageName(@Nullable String currentPageName) {
         if (userSession != null)
             userSession.getActivityManager().setCurrentPageName(currentPageName);
     }
@@ -439,7 +445,7 @@ public class Kustomer {
         logOptions = kusLogOptions;
     }
 
-    public static void setHostDomain(String hostDomain) {
+    public static void setHostDomain(@NonNull String hostDomain) {
         hostDomainOverride = hostDomain;
     }
 
@@ -449,7 +455,7 @@ public class Kustomer {
     }
 
     @NonNull
-    public KUSUserSession getUserSession() {
+    public KUSUserSession getUserSession() throws AssertionError {
         if (userSession == null)
             throw new AssertionError("Kustomer needs to be initialized before use");
 
