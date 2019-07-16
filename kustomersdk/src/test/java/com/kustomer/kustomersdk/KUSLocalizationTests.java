@@ -15,43 +15,45 @@ import org.robolectric.annotation.Config;
 import java.util.Locale;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricTestRunner.class)
-@Config(manifest= Config.NONE)
+@Config(manifest = Config.NONE)
 public class KUSLocalizationTests {
 
     private Context mContext;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         mContext = RuntimeEnvironment.application.getApplicationContext();
     }
 
     @Test
-    public void testRTL(){
+    public void testRTL() {
 
-        boolean systemIsLRT= KUSLocalization.getSharedInstance().isLTR();
+        boolean systemIsLRT = KUSLocalization.getSharedInstance().isLTR();
         KUSLocalization.getSharedInstance().setUserLocale(null);
         KUSLocalization.getSharedInstance().updateKustomerLocaleWithFallback(mContext);
         KUSLocalization.getSharedInstance().updateConfig(mContext);
         assertEquals(systemIsLRT, KUSLocalization.getSharedInstance().isLTR());
 
-        KUSLocalization.getSharedInstance().setUserLocale( new Locale("en"));
+        KUSLocalization.getSharedInstance().setUserLocale(new Locale("en"));
         KUSLocalization.getSharedInstance().updateKustomerLocaleWithFallback(mContext);
         KUSLocalization.getSharedInstance().updateConfig(mContext);
-        assertEquals(true, KUSLocalization.getSharedInstance().isLTR());
+        assertTrue(KUSLocalization.getSharedInstance().isLTR());
 
     }
 
     /* We have to use qualifiers in roboelectric as urdu is not supported directly in testing*/
-    @Config(qualifiers="ur")
+    @Config(qualifiers = "ur")
     @Test
-    public void testUrduRTL(){
-        assertEquals(false, KUSLocalization.getSharedInstance().isLTR());
+    public void testUrduRTL() {
+        assertFalse(KUSLocalization.getSharedInstance().isLTR());
     }
 
     @Test
-    public void testLocale(){
+    public void testLocale() {
 
         Locale expectedLocale = Locale.getDefault();
         KUSLocalization.getSharedInstance().setUserLocale(null);
@@ -59,7 +61,7 @@ public class KUSLocalizationTests {
         KUSLocalization.getSharedInstance().updateConfig(mContext);
         assertEquals(expectedLocale, Locale.getDefault());
 
-        expectedLocale =new Locale("en");
+        expectedLocale = new Locale("en");
         KUSLocalization.getSharedInstance().setUserLocale(expectedLocale);
         KUSLocalization.getSharedInstance().updateKustomerLocaleWithFallback(mContext);
         KUSLocalization.getSharedInstance().updateConfig(mContext);
@@ -67,48 +69,65 @@ public class KUSLocalizationTests {
     }
 
     /* We have to use qualifiers in roboelectric as urdu is not supported directly in testing*/
-    @Config(qualifiers="ur")
+    @Config(qualifiers = "ur")
     @Test
-    public void testUrduLocale(){
+    public void testUrduLocale() {
         Locale expectedLocale = new Locale("ur");
         assertEquals(expectedLocale, Locale.getDefault());
     }
 
 
     @Test
-    public void testLocalizedString(){
+    public void testLocalizedString() {
 
-        KUSLocalization.getSharedInstance().setUserLocale(null);
-        KUSLocalization.getSharedInstance().updateKustomerLocaleWithFallback(mContext);
-        KUSLocalization.getSharedInstance().updateConfig(mContext);
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext, "attachment"), "Attachment");
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"just_now"), "Just now");
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"gallery"), "Gallery");
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"cancel"), "Cancel");
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"camera"), "Camera");
+        KUSLocalization instance = KUSLocalization.getSharedInstance();
 
-        KUSLocalization.getSharedInstance().setUserLocale(new Locale("en"));
-        KUSLocalization.getSharedInstance().updateKustomerLocaleWithFallback(mContext);
-        KUSLocalization.getSharedInstance().updateConfig(mContext);
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"attachment"), "Attachment");
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"just_now"), "Just now");
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"gallery"), "Gallery");
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"cancel"), "Cancel");
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"camera"), "Camera");
+        instance.setUserLocale(null);
+        instance.updateKustomerLocaleWithFallback(mContext);
+        instance.updateConfig(mContext);
 
+        assertEquals(instance.localizedString(mContext, "com_kustomer_attachment"),
+                "Attachment");
+        assertEquals(instance.localizedString(mContext, "com_kustomer_just_now"),
+                "Just now");
+        assertEquals(instance.localizedString(mContext, "com_kustomer_gallery"),
+                "Gallery");
+        assertEquals(instance.localizedString(mContext, "com_kustomer_cancel"),
+                "Cancel");
+        assertEquals(instance.localizedString(mContext, "com_kustomer_camera"),
+                "Camera");
+
+        instance.setUserLocale(new Locale("en"));
+        instance.updateKustomerLocaleWithFallback(mContext);
+        instance.updateConfig(mContext);
+
+        assertEquals(instance.localizedString(mContext, "com_kustomer_attachment"),
+                "Attachment");
+        assertEquals(instance.localizedString(mContext, "com_kustomer_just_now"),
+                "Just now");
+        assertEquals(instance.localizedString(mContext, "com_kustomer_gallery"),
+                "Gallery");
+        assertEquals(instance.localizedString(mContext, "com_kustomer_cancel"),
+                "Cancel");
+        assertEquals(instance.localizedString(mContext, "com_kustomer_camera"),
+                "Camera");
     }
 
     /* We have to use qualifiers in roboelectric as urdu is not supported directly in testing*/
-    @Config(qualifiers="ur")
+    @Config(qualifiers = "ur")
     @Test
-    public void testLocalizedUrduString(){
+    public void testLocalizedUrduString() {
+        KUSLocalization instance = KUSLocalization.getSharedInstance();
 
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"cancel"), "منسوخ کریں");
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"attachment"), "منسلکہ");
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"just_now"), "ابھی ابھی");
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"camera"), "کیمرے");
-        assertEquals(KUSLocalization.getSharedInstance().localizedString(mContext,"gallery"), "نگارخانہ");
-
+        assertEquals(instance.localizedString(mContext, "com_kustomer_cancel"),
+                "منسوخ کریں");
+        assertEquals(instance.localizedString(mContext, "com_kustomer_attachment"),
+                "منسلکہ");
+        assertEquals(instance.localizedString(mContext, "com_kustomer_just_now"),
+                "ابھی ابھی");
+        assertEquals(instance.localizedString(mContext, "com_kustomer_camera"),
+                "کیمرے");
+        assertEquals(instance.localizedString(mContext, "com_kustomer_gallery"),
+                "نگارخانہ");
     }
-
 }
