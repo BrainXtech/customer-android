@@ -27,7 +27,7 @@ public class KUSDelegateProxy {
         return true;
     }
 
-    @NonNull
+    @Nullable
     public PendingIntent getPendingIntent(@NonNull Context context){
         if(listener != null)
             return listener.getPendingIntent(context);
