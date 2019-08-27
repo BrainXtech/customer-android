@@ -80,9 +80,10 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
             }
         }
 
-        boolean shouldCreateNewSessionWithMessage = chatSessionsDataSource.getMessageToCreateNewChatSession() != null;
+        userSession.getScheduleDataSource().addListener(this);
+        userSession.getScheduleDataSource().fetch();
 
-        if (chatSessionsDataSource.isFetched() || shouldCreateNewSessionWithMessage) {
+        if (shouldHandleFirstLoad()) {
             handleFirstLoadIfNecessary();
         } else {
             rvSessions.setVisibility(View.INVISIBLE);
@@ -120,6 +121,15 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     //endregion
 
     //region Initializer
+
+    private boolean shouldHandleFirstLoad() {
+
+        boolean shouldCreateNewSessionWithMessage = chatSessionsDataSource.getMessageToCreateNewChatSession() != null;
+        boolean scheduleFetched = userSession.getScheduleDataSource().isFetched();
+        boolean chatSessionFetched = chatSessionsDataSource.isFetched();
+
+        return scheduleFetched && (chatSessionFetched || shouldCreateNewSessionWithMessage);
+    }
 
     private void showKustomerBrandingFooterIfNeeded() {
         if (userSession.getChatSettingsDataSource().isFetched()) {
@@ -189,7 +199,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
         if (didHandleFirstLoad || !userSession.getChatSettingsDataSource().isFetched())
             return;
 
-        if(!chatSessionsDataSource.isFetched() &&
+        if (!chatSessionsDataSource.isFetched() &&
                 chatSessionsDataSource.getMessageToCreateNewChatSession() == null)
             return;
 
@@ -255,10 +265,13 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
-                hideProgressBar();
-                handleFirstLoadIfNecessary();
-                rvSessions.setVisibility(View.VISIBLE);
-                btnNewConversation.setVisibility(View.VISIBLE);
+
+                if (shouldHandleFirstLoad()) {
+                    hideProgressBar();
+                    handleFirstLoadIfNecessary();
+                    rvSessions.setVisibility(View.VISIBLE);
+                    btnNewConversation.setVisibility(View.VISIBLE);
+                }
             }
         };
         handler.post(runnable);
@@ -317,6 +330,17 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
 
     @Override
     public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
+        if (dataSource == userSession.getScheduleDataSource()) {
+            if (shouldHandleFirstLoad()) {
+                hideProgressBar();
+                handleFirstLoadIfNecessary();
+                rvSessions.setVisibility(View.VISIBLE);
+                btnNewConversation.setVisibility(View.VISIBLE);
+            }
+
+            return;
+        }
+
         if (dataSource != userSession.getChatSettingsDataSource())
             return;
 
@@ -340,7 +364,12 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
 
     @Override
     public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
-
+        if (dataSource == userSession.getScheduleDataSource()) {
+            String errorText = getString(R.string.com_kustomer_something_went_wrong_please_try_again);
+            showErrorWithText(errorText);
+            rvSessions.setVisibility(View.VISIBLE);
+            btnNewConversation.setVisibility(View.VISIBLE);
+        }
     }
 
     //endregion

@@ -9,6 +9,7 @@ import android.support.text.emoji.EmojiCompat;
 import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
@@ -26,6 +27,7 @@ import com.kustomer.kustomersdk.Interfaces.KUSLogOptions;
 import com.kustomer.kustomersdk.Interfaces.KUSRequestCompletionListener;
 import com.kustomer.kustomersdk.Managers.KUSNetworkStateManager;
 import com.kustomer.kustomersdk.Managers.KUSVolumeControlTimerManager;
+import com.kustomer.kustomersdk.Models.KUSChatAttributes;
 import com.kustomer.kustomersdk.Models.KUSCustomerDescription;
 import com.kustomer.kustomersdk.Utils.KUSConstants;
 
@@ -50,6 +52,12 @@ import okhttp3.Response;
 public class Kustomer {
 
     //region Properties
+
+
+    public static String KUS_MESSAGE_ATTRIBUTE = "KUSMessageAttributeKey";
+    public static String KUS_SCHEDULE_ID_ATTRIBUTE = "KUSScheduleIdAttributeKey";
+    public static String KUS_CUSTOM_ATTRIBUTEs = "KUSCustomAttributesKey";
+
     private static Context mContext;
     private static Kustomer sharedInstance = null;
 
@@ -117,7 +125,7 @@ public class Kustomer {
      * Returns the identification status in listener on background thread.
      *
      * @param externalToken A valid JWT web token to identify user
-     * @param listener The callback which will receive identification status.
+     * @param listener      The callback which will receive identification status.
      */
     public static void identify(@NonNull String externalToken, @Nullable KUSIdentifyListener listener) {
         getSharedInstance().mIdentify(externalToken, listener);
@@ -192,12 +200,22 @@ public class Kustomer {
         getSharedInstance().mHideNewConversationButtonInClosedChat(status);
     }
 
+    /**
+     * @deprecated use {@link #showSupportWithAttributes(Activity activity, KUSChatAttributes attributes)} instead.
+     */
     public static void showSupportWithMessage(Activity activity, String message, JSONObject customAttributes) {
         getSharedInstance().mShowSupportWithMessage(activity, message, customAttributes);
     }
 
+    /**
+     * @deprecated use {@link #showSupportWithAttributes(Activity activity, KUSChatAttributes attributes)} instead.
+     */
     public static void showSupportWithMessage(Activity activity, String message) {
         getSharedInstance().mShowSupportWithMessage(activity, message, null);
+    }
+
+    public static void showSupportWithAttributes(Activity activity, KUSChatAttributes attributes) {
+        getSharedInstance().mShowSupportWithAttributes(activity, attributes);
     }
     //endregion
 
@@ -256,8 +274,8 @@ public class Kustomer {
             throw new AssertionError("Kustomer expects externalToken to be non-null");
         }
 
-        if(externalToken.isEmpty()){
-            if(listener != null)
+        if (externalToken.isEmpty()) {
+            if (listener != null)
                 listener.onComplete(false);
 
             return;
@@ -380,6 +398,23 @@ public class Kustomer {
 
         if (customAttributes != null)
             mDescribeNextConversation(customAttributes);
+
+        showSupport(activity);
+    }
+
+    private void mShowSupportWithAttributes(Activity activity, KUSChatAttributes attributes) {
+
+        Object message = attributes.get(KUS_MESSAGE_ATTRIBUTE);
+        if (message instanceof String && !TextUtils.isEmpty((String) message))
+            userSession.getChatSessionsDataSource().setMessageToCreateNewChatSession((String) message);
+
+        Object scheduleId = attributes.get(KUS_SCHEDULE_ID_ATTRIBUTE);
+        if (scheduleId instanceof String && !TextUtils.isEmpty((String) scheduleId))
+            userSession.getScheduleDataSource().setScheduleId((String) scheduleId);
+
+        Object customAttributes = attributes.get(KUS_CUSTOM_ATTRIBUTEs);
+        if (customAttributes instanceof JSONObject)
+            mDescribeNextConversation((JSONObject) customAttributes);
 
         showSupport(activity);
     }

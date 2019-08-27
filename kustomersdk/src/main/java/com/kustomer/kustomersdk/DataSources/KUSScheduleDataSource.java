@@ -24,10 +24,13 @@ import java.util.Date;
 public class KUSScheduleDataSource extends KUSObjectDataSource {
     //region Properties
     private boolean isActiveBusinessHours;
+
+    private String scheduleId;
+    private String lastFetchedScheduleId;
     //endregion
 
     //region Initializer
-    public KUSScheduleDataSource(KUSUserSession userSession){
+    public KUSScheduleDataSource(KUSUserSession userSession) {
         super(userSession);
     }
     //endregion
@@ -39,79 +42,104 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
     }
 
     @Override
-    void performRequest(@NonNull KUSRequestCompletionListener completionListener){
-        if(getUserSession() == null){
+    void performRequest(@NonNull KUSRequestCompletionListener completionListener) {
+        if (getUserSession() == null) {
             completionListener.onCompletion(new Error(), null);
             return;
         }
 
+        lastFetchedScheduleId = scheduleIdToFetch();
+        scheduleId = null;
+
         getUserSession().getRequestManager().getEndpoint(
-                KUSConstants.URL.BUSINESS_SCHEDULE_ENDPOINT,
+                String.format(KUSConstants.URL.BUSINESS_SCHEDULE_ENDPOINT_WITH_ID, lastFetchedScheduleId),
                 true,
                 completionListener
         );
     }
 
-    public boolean isActiveBusinessHours(){
+    @Override
+    public void fetch() {
+        boolean shouldFetch = !isFetched() || !lastFetchedScheduleId.equals(scheduleIdToFetch());
+        if (shouldFetch) {
+            super.fetch();
+        } else {
+            scheduleId = null;
+        }
+    }
+
+    @Override
+    public boolean isFetched() {
+        if (super.isFetched()) {
+            return !isFetching();
+        }
+        return false;
+    }
+
+    private String scheduleIdToFetch() {
+        return scheduleId != null ? scheduleId : "default";
+    }
+
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
+    }
+
+    public boolean isActiveBusinessHours() {
         KUSChatSettings chatSettings = null;
 
-        if(getUserSession() != null)
+        if (getUserSession() != null)
             chatSettings = (KUSChatSettings) getUserSession().getChatSettingsDataSource().getObject();
 
-        if(chatSettings == null || chatSettings.getAvailability() ==
-                KUSBusinessHoursAvailability.KUS_BUSINESS_HOURS_AVAILABILITY_ONLINE){
+        if (chatSettings == null || chatSettings.getAvailability() ==
+                KUSBusinessHoursAvailability.KUS_BUSINESS_HOURS_AVAILABILITY_ONLINE) {
             return true;
         }
 
         KUSSchedule businessHours = (KUSSchedule) getObject();
-        if(businessHours != null && businessHours.getEnabled()){
-            // Check that current date is not in holiday date and time
-            Date now = Calendar.getInstance().getTime();
-            for (KUSHoliday holiday : businessHours.getHolidays()){
-                if(holiday.getEnabled()){
+        // Check that current date is not in holiday date and time
+        Date now = Calendar.getInstance().getTime();
+        for (KUSHoliday holiday : businessHours.getHolidays()) {
+            if (holiday.getEnabled()) {
 
-                    boolean todayIsDuringOrAfterHolidayStartDate = now.equals(holiday.getStartDate())
-                            || now.after(holiday.getStartDate());
+                boolean todayIsDuringOrAfterHolidayStartDate = now.equals(holiday.getStartDate())
+                        || now.after(holiday.getStartDate());
 
-                    boolean todayIsDuringOrBeforeHolidayEndDate = now.equals(holiday.getEndDate())
-                            || now.before(holiday.getEndDate());
+                boolean todayIsDuringOrBeforeHolidayEndDate = now.equals(holiday.getEndDate())
+                        || now.before(holiday.getEndDate());
 
-                    boolean todayIsHoliday = todayIsDuringOrAfterHolidayStartDate
-                            && todayIsDuringOrBeforeHolidayEndDate;
+                boolean todayIsHoliday = todayIsDuringOrAfterHolidayStartDate
+                        && todayIsDuringOrBeforeHolidayEndDate;
 
-                    if(todayIsHoliday){
-                        return false;
-                    }
+                if (todayIsHoliday) {
+                    return false;
                 }
             }
-
-            // Get Week Day
-            Calendar calendar = Calendar.getInstance();
-            int weekDay = calendar.get(Calendar.DAY_OF_WEEK) - 1;
-            int minutes = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
-
-            JSONArray businessHoursOfCurrentDay = JsonHelper.arrayFromKeyPath(businessHours.getHours(),
-                    String.valueOf(weekDay));
-            if (businessHoursOfCurrentDay == null)
-                return false;
-
-            for (int i = 0; i < businessHoursOfCurrentDay.length(); i++) {
-                try {
-                    JSONArray businessHoursRange = businessHoursOfCurrentDay.getJSONArray(i);
-                    if (businessHoursRange != null && businessHoursRange.length() == 2
-                            && businessHoursRange.getInt(0) <= minutes
-                            && businessHoursRange.getInt(1) >= minutes) {
-                        return true;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            return false;
         }
 
-        return true;
+        // Get Week Day
+        Calendar calendar = Calendar.getInstance();
+        int weekDay = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+        int minutes = calendar.get(Calendar.HOUR_OF_DAY) * 60 + calendar.get(Calendar.MINUTE);
+
+        JSONArray businessHoursOfCurrentDay = JsonHelper.arrayFromKeyPath(businessHours.getHours(),
+                String.valueOf(weekDay));
+        if (businessHoursOfCurrentDay == null)
+            return false;
+
+        for (int i = 0; i < businessHoursOfCurrentDay.length(); i++) {
+            try {
+                JSONArray businessHoursRange = businessHoursOfCurrentDay.getJSONArray(i);
+                if (businessHoursRange != null && businessHoursRange.length() == 2
+                        && businessHoursRange.getInt(0) <= minutes
+                        && businessHoursRange.getInt(1) >= minutes) {
+                    return true;
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return false;
     }
     //endregion
 }
