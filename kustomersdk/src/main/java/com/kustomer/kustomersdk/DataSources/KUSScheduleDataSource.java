@@ -27,6 +27,7 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
 
     private String scheduleId;
     private String lastFetchedScheduleId;
+    private boolean isFetched;
     //endregion
 
     //region Initializer
@@ -42,19 +43,31 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
     }
 
     @Override
-    void performRequest(@NonNull KUSRequestCompletionListener completionListener) {
+    void performRequest(@NonNull final KUSRequestCompletionListener completionListener) {
         if (getUserSession() == null) {
             completionListener.onCompletion(new Error(), null);
             return;
         }
 
-        lastFetchedScheduleId = scheduleIdToFetch();
-        scheduleId = null;
+        final String scheduleIdToFetch = scheduleIdToFetch();
+        String endPoint = String.format(KUSConstants.URL.BUSINESS_SCHEDULE_ENDPOINT_WITH_ID, scheduleIdToFetch);
 
         getUserSession().getRequestManager().getEndpoint(
-                String.format(KUSConstants.URL.BUSINESS_SCHEDULE_ENDPOINT_WITH_ID, lastFetchedScheduleId),
+                endPoint,
                 true,
-                completionListener
+                new KUSRequestCompletionListener() {
+                    @Override
+                    public void onCompletion(Error error, JSONObject response) {
+                        if (error == null) {
+                            lastFetchedScheduleId = scheduleIdToFetch;
+                            isFetched = true;
+                        } else {
+                            isFetched = false;
+                        }
+                        scheduleId = null;
+                        completionListener.onCompletion(error, response);
+                    }
+                }
         );
     }
 
@@ -62,6 +75,7 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
     public void fetch() {
         boolean shouldFetch = !isFetched() || !lastFetchedScheduleId.equals(scheduleIdToFetch());
         if (shouldFetch) {
+            isFetched = false;
             super.fetch();
         } else {
             scheduleId = null;
@@ -71,7 +85,7 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
     @Override
     public boolean isFetched() {
         if (super.isFetched()) {
-            return !isFetching();
+            return isFetched;
         }
         return false;
     }
