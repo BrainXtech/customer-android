@@ -332,10 +332,17 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
         if (dataSource == userSession.getScheduleDataSource()) {
             if (shouldHandleFirstLoad()) {
-                hideProgressBar();
-                handleFirstLoadIfNecessary();
-                rvSessions.setVisibility(View.VISIBLE);
-                btnNewConversation.setVisibility(View.VISIBLE);
+                Handler handler = new Handler(Looper.getMainLooper());
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        hideProgressBar();
+                        handleFirstLoadIfNecessary();
+                        rvSessions.setVisibility(View.VISIBLE);
+                        btnNewConversation.setVisibility(View.VISIBLE);
+                    }
+                };
+                handler.post(runnable);
             }
 
             return;
@@ -365,10 +372,17 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     @Override
     public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
         if (dataSource == userSession.getScheduleDataSource()) {
-            String errorText = getString(R.string.com_kustomer_something_went_wrong_please_try_again);
-            showErrorWithText(errorText);
-            rvSessions.setVisibility(View.VISIBLE);
-            btnNewConversation.setVisibility(View.VISIBLE);
+            Handler handler = new Handler(Looper.getMainLooper());
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    String errorText = getString(R.string.com_kustomer_something_went_wrong_please_try_again);
+                    showErrorWithText(errorText);
+                    rvSessions.setVisibility(View.VISIBLE);
+                    btnNewConversation.setVisibility(View.VISIBLE);
+                }
+            };
+            handler.post(runnable);
         }
     }
 

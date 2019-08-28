@@ -96,6 +96,10 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
         }
 
         KUSSchedule businessHours = (KUSSchedule) getObject();
+
+        if (businessHours == null)
+            return true;
+
         // Check that current date is not in holiday date and time
         Date now = Calendar.getInstance().getTime();
         for (KUSHoliday holiday : businessHours.getHolidays()) {

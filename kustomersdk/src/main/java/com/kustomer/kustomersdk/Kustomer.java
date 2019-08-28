@@ -9,7 +9,6 @@ import android.support.text.emoji.EmojiCompat;
 import android.support.text.emoji.bundled.BundledEmojiCompatConfig;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.widget.TextView;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
 import com.facebook.imagepipeline.backends.okhttp3.OkHttpImagePipelineConfigFactory;
@@ -54,9 +53,9 @@ public class Kustomer {
     //region Properties
 
 
-    public static String KUS_MESSAGE_ATTRIBUTE = "KUSMessageAttributeKey";
-    public static String KUS_SCHEDULE_ID_ATTRIBUTE = "KUSScheduleIdAttributeKey";
-    public static String KUS_CUSTOM_ATTRIBUTEs = "KUSCustomAttributesKey";
+    public static String KUS_MESSAGE = "KUSMessageAttributeKey";
+    public static String KUS_SCHEDULE_ID = "KUSScheduleIdAttributeKey";
+    public static String KUS_CUSTOM_ATTRIBUTES = "KUSCustomAttributesKey";
 
     private static Context mContext;
     private static Kustomer sharedInstance = null;
@@ -404,15 +403,15 @@ public class Kustomer {
 
     private void mShowSupportWithAttributes(Activity activity, KUSChatAttributes attributes) {
 
-        Object message = attributes.get(KUS_MESSAGE_ATTRIBUTE);
+        Object message = attributes.get(KUS_MESSAGE);
         if (message instanceof String && !TextUtils.isEmpty((String) message))
             userSession.getChatSessionsDataSource().setMessageToCreateNewChatSession((String) message);
 
-        Object scheduleId = attributes.get(KUS_SCHEDULE_ID_ATTRIBUTE);
+        Object scheduleId = attributes.get(KUS_SCHEDULE_ID);
         if (scheduleId instanceof String && !TextUtils.isEmpty((String) scheduleId))
             userSession.getScheduleDataSource().setScheduleId((String) scheduleId);
 
-        Object customAttributes = attributes.get(KUS_CUSTOM_ATTRIBUTEs);
+        Object customAttributes = attributes.get(KUS_CUSTOM_ATTRIBUTES);
         if (customAttributes instanceof JSONObject)
             mDescribeNextConversation((JSONObject) customAttributes);
 
