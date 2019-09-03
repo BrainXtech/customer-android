@@ -240,6 +240,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     @OnClick(R2.id.btnRetry)
     void userTappedRetry() {
         chatSessionsDataSource.fetchLatest();
+        userSession.getScheduleDataSource().fetch();
         showProgressBar();
     }
 
