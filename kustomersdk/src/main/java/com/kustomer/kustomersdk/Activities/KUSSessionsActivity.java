@@ -233,6 +233,24 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
                 overridePendingTransition(0, 0);
         }
     }
+
+    private void handleSuccessfulDataLoad() {
+        if (shouldHandleFirstLoad()) {
+            Handler handler = new Handler(Looper.getMainLooper());
+            Runnable runnable = new Runnable() {
+                @Override
+                public void run() {
+                    hideProgressBar();
+                    handleFirstLoadIfNecessary();
+                    rvSessions.setVisibility(View.VISIBLE);
+                    btnNewConversation.setVisibility(View.VISIBLE);
+                }
+
+            };
+            handler.post(runnable);
+        }
+    }
+
     //endregion
 
     //region Listeners
@@ -262,20 +280,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
 
     @Override
     public void onLoad(KUSPaginatedDataSource dataSource) {
-        Handler handler = new Handler(Looper.getMainLooper());
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-
-                if (shouldHandleFirstLoad()) {
-                    hideProgressBar();
-                    handleFirstLoadIfNecessary();
-                    rvSessions.setVisibility(View.VISIBLE);
-                    btnNewConversation.setVisibility(View.VISIBLE);
-                }
-            }
-        };
-        handler.post(runnable);
+        handleSuccessfulDataLoad();
     }
 
     @Override
@@ -332,20 +337,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     @Override
     public void objectDataSourceOnLoad(KUSObjectDataSource dataSource) {
         if (dataSource == userSession.getScheduleDataSource()) {
-            if (shouldHandleFirstLoad()) {
-                Handler handler = new Handler(Looper.getMainLooper());
-                Runnable runnable = new Runnable() {
-                    @Override
-                    public void run() {
-                        hideProgressBar();
-                        handleFirstLoadIfNecessary();
-                        rvSessions.setVisibility(View.VISIBLE);
-                        btnNewConversation.setVisibility(View.VISIBLE);
-                    }
-                };
-                handler.post(runnable);
-            }
-
+            handleSuccessfulDataLoad();
             return;
         }
 
@@ -379,8 +371,8 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
                 public void run() {
                     String errorText = getString(R.string.com_kustomer_something_went_wrong_please_try_again);
                     showErrorWithText(errorText);
-                    rvSessions.setVisibility(View.VISIBLE);
-                    btnNewConversation.setVisibility(View.VISIBLE);
+                    rvSessions.setVisibility(View.INVISIBLE);
+                    btnNewConversation.setVisibility(View.INVISIBLE);
                 }
             };
             handler.post(runnable);

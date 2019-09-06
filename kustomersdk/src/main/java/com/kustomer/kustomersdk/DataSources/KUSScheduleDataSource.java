@@ -1,6 +1,7 @@
 package com.kustomer.kustomersdk.DataSources;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import com.kustomer.kustomersdk.API.KUSUserSession;
 import com.kustomer.kustomersdk.Enums.KUSBusinessHoursAvailability;
@@ -19,13 +20,16 @@ import org.json.JSONObject;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Objects;
 
 
 public class KUSScheduleDataSource extends KUSObjectDataSource {
     //region Properties
     private boolean isActiveBusinessHours;
 
+    @Nullable
     private String scheduleId;
+    @Nullable
     private String lastFetchedScheduleId;
     private boolean isFetched;
     //endregion
@@ -73,7 +77,7 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
 
     @Override
     public void fetch() {
-        boolean shouldFetch = !isFetched() || !lastFetchedScheduleId.equals(scheduleIdToFetch());
+        boolean shouldFetch = !isFetched() || !Objects.equals(lastFetchedScheduleId, scheduleIdToFetch());
         if (shouldFetch) {
             isFetched = false;
             super.fetch();
@@ -90,11 +94,12 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
         return false;
     }
 
+    @NonNull
     private String scheduleIdToFetch() {
         return scheduleId != null ? scheduleId : "default";
     }
 
-    public void setScheduleId(String scheduleId) {
+    public void setScheduleId(@Nullable String scheduleId) {
         this.scheduleId = scheduleId;
     }
 
