@@ -28,6 +28,7 @@ import com.kustomer.kustomersdk.Models.KUSChatSession;
 import com.kustomer.kustomersdk.Models.KUSChatSettings;
 import com.kustomer.kustomersdk.R;
 import com.kustomer.kustomersdk.R2;
+import com.kustomer.kustomersdk.Utils.JsonHelper;
 import com.kustomer.kustomersdk.Utils.KUSConstants;
 import com.kustomer.kustomersdk.Views.KUSToolbar;
 
@@ -365,17 +366,25 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
     @Override
     public void objectDataSourceOnError(KUSObjectDataSource dataSource, Error error) {
         if (dataSource == userSession.getScheduleDataSource()) {
-            Handler handler = new Handler(Looper.getMainLooper());
-            Runnable runnable = new Runnable() {
-                @Override
-                public void run() {
-                    String errorText = getString(R.string.com_kustomer_something_went_wrong_please_try_again);
-                    showErrorWithText(errorText);
-                    rvSessions.setVisibility(View.INVISIBLE);
-                    btnNewConversation.setVisibility(View.INVISIBLE);
-                }
-            };
-            handler.post(runnable);
+            int statusCode = JsonHelper.getErrorStatus(error);
+
+            boolean isNotFoundError = statusCode == 404;
+
+            if (isNotFoundError) {
+                handleSuccessfulDataLoad();
+            } else {
+                Handler handler = new Handler(Looper.getMainLooper());
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        String errorText = getString(R.string.com_kustomer_something_went_wrong_please_try_again);
+                        showErrorWithText(errorText);
+                        rvSessions.setVisibility(View.INVISIBLE);
+                        btnNewConversation.setVisibility(View.INVISIBLE);
+                    }
+                };
+                handler.post(runnable);
+            }
         }
     }
 

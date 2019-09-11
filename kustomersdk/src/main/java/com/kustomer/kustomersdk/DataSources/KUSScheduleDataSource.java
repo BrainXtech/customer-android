@@ -31,6 +31,7 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
     private String scheduleId;
     @Nullable
     private String lastFetchedScheduleId;
+    private boolean isScheduleNotFound;
     private boolean isFetched;
     //endregion
 
@@ -62,12 +63,17 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
                 new KUSRequestCompletionListener() {
                     @Override
                     public void onCompletion(Error error, JSONObject response) {
-                        if (error == null) {
+
+                        boolean isSuccessfullyFetched = error == null;
+
+                        int statusCode = JsonHelper.getErrorStatus(error);
+
+                        isScheduleNotFound = statusCode == 404;
+                        isFetched = isSuccessfullyFetched || isScheduleNotFound;
+
+                        if (isSuccessfullyFetched)
                             lastFetchedScheduleId = scheduleIdToFetch;
-                            isFetched = true;
-                        } else {
-                            isFetched = false;
-                        }
+
                         scheduleId = null;
                         completionListener.onCompletion(error, response);
                     }
@@ -77,7 +83,8 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
 
     @Override
     public void fetch() {
-        boolean shouldFetch = !isFetched() || !Objects.equals(lastFetchedScheduleId, scheduleIdToFetch());
+        boolean isNewSchedule = !Objects.equals(lastFetchedScheduleId, scheduleIdToFetch());
+        boolean shouldFetch = !isFetched() || isNewSchedule || isScheduleNotFound;
         if (shouldFetch) {
             isFetched = false;
             super.fetch();
@@ -88,10 +95,7 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
 
     @Override
     public boolean isFetched() {
-        if (super.isFetched()) {
-            return isFetched;
-        }
-        return false;
+        return isFetched;
     }
 
     @NonNull
@@ -113,6 +117,9 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
                 KUSBusinessHoursAvailability.KUS_BUSINESS_HOURS_AVAILABILITY_ONLINE) {
             return true;
         }
+
+        if (isScheduleNotFound)
+            return true;
 
         KUSSchedule businessHours = (KUSSchedule) getObject();
 
