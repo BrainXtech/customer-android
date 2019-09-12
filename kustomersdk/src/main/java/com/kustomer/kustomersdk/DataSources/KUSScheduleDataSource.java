@@ -68,7 +68,7 @@ public class KUSScheduleDataSource extends KUSObjectDataSource {
 
                         int statusCode = JsonHelper.getErrorStatus(error);
 
-                        isScheduleNotFound = statusCode == 404;
+                        isScheduleNotFound = statusCode == KUSConstants.ApiStatusCodes.NOT_FOUND_CODE;
                         isFetched = isSuccessfullyFetched || isScheduleNotFound;
 
                         if (isSuccessfullyFetched)

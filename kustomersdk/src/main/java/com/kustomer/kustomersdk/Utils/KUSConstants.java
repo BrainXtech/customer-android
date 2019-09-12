@@ -72,4 +72,8 @@ public class KUSConstants {
         String TEMP_SESSION_ID = "temp_session_id";
     }
 
+    public interface ApiStatusCodes{
+        int NOT_FOUND_CODE = 404;
+    }
+
 }

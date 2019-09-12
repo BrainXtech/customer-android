@@ -368,7 +368,7 @@ public class KUSSessionsActivity extends BaseActivity implements KUSPaginatedDat
         if (dataSource == userSession.getScheduleDataSource()) {
             int statusCode = JsonHelper.getErrorStatus(error);
 
-            boolean isNotFoundError = statusCode == 404;
+            boolean isNotFoundError = statusCode == KUSConstants.ApiStatusCodes.NOT_FOUND_CODE;
 
             if (isNotFoundError) {
                 handleSuccessfulDataLoad();
