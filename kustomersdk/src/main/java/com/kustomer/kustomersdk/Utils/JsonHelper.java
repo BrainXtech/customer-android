@@ -40,9 +40,9 @@ public class JsonHelper {
         if (error == null)
             return 0;
         try {
-            return (int) new JSONObject(error.getMessage()).getJSONArray("errors")
-                    .getJSONObject(0).get("status");
-        } catch (JSONException e) {
+            return new JSONObject(error.getMessage()).getJSONArray("errors")
+                    .getJSONObject(0).getInt("status");
+        } catch (Exception e) {
             return 0;
         }
     }
